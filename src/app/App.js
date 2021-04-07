@@ -1,23 +1,15 @@
-import './App.scss'
-import logo from 'assets/logo.svg'
+import './App.scss';
+import Card from 'components/Card/Card';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          <code>src/App.js</code> 문서를 수정하면 실시간 업데이트 됩니다
-        </p>
-        <a
-          className="App-link"
-          href="https://ko.reactjs.org"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          React를 배워보세요
-        </a>
-      </header>
+      <Card 
+        isQuestion={true}
+        title="제목제목제목제제목제목제목제제목제목제목제목제목제목제제목제목제목제제목제목제목제제목제목제목제제목제목제목제제목제목제목제제목제목제목제제목제목제목제제제목제목제목제"
+      >
+        안녕하세요
+      </Card>
     </div>
   )
 }
