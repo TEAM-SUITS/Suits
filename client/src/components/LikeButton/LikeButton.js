@@ -19,6 +19,9 @@ const Button = styled.button`
   &:focus:not(:focus-visible) {
     outline: none;
   }
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
 
 const ColorIcon = styled(Icon)`
@@ -33,6 +36,7 @@ export default function LikeButton({
   type = "button",
   label = "답변",
   isLiked,
+  disabled,
   iconProps,
   ...restProps
 }) {
@@ -42,10 +46,11 @@ export default function LikeButton({
       type={type}
       aria-label={displayLabel}
       title={displayLabel}
+      disabled={disabled}
       {...restProps}
     >
       <ColorIcon
-        color="red"
+        color={disabled ? "grey" : "red"}
         type={isLiked ? "heart-active" : "heart"}
         {...iconProps}
       ></ColorIcon>
