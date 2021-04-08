@@ -7,7 +7,6 @@ const Container = forwardRef((props, ref) => {
 })
 
 const PageContainer = styled(motion(Container))`
-    background-color: grey;
     display: flex;
     flex-flow: column wrap;
     align-items: center;

@@ -19,6 +19,7 @@ body *::before,
 body *::after {
   box-sizing: border-box;
   max-width: 944px;
+  font-size: 10px;
 }
 
 img {

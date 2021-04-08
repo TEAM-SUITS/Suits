@@ -1,21 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
-import { museoLarge } from 'styles/common/common.styled';
 import useDetectViewport from 'hooks/useDetectViewport';
+import { node } from 'prop-types';
+import { museoLarge } from 'styles/common/common.styled';
 
 /* ---------------------------- styled components --------------------------- */
-const MobileContainer = styled.div`
-  background-color: pink;
+const MobileContainer = styled.header`
+  position: fixed;
+  top: 0;
+  background-color: var(--color-white);
+  text-align: center;
   min-width: 375px;
   height: 45px;
-  text-align: center;
+  margin: 0;
 `;
 
-const DesktopContainer = styled.div`
-  background-color: skyblue;
+const DesktopContainer = styled.header`
+  position: fixed;
+  top: 0;
+  background-color: var(--color-white);
+  max-width: 944px;
   width: 100%;
-  min-width: 375px;
   height: 45px;
+  margin: 0;
   `;
 
 const StyledHeading = styled.h1`
@@ -26,6 +33,11 @@ const StyledHeading = styled.h1`
   display: block;
   margin: 0;
   font-weight: 700;
+
+  span {
+    ${museoLarge}
+    margin-right: 2em;
+  }
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -47,3 +59,7 @@ export default function HeaderBar({ children }) {
     </DesktopContainer>
   );
 }
+
+HeaderBar.propTypes = {
+  children: node.isRequired,
+};
