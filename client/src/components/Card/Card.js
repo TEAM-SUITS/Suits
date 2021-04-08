@@ -21,7 +21,7 @@ const CardBox = styled.div`
       left: 2em;
       top: 1em;
     }
-    &::last-child {
+    &:last-child {
       right: 2em;
       top: 2em;
     }
