@@ -1,5 +1,5 @@
 # Suits
-기술 면접을 준비하는 단정한 습관, Suits :necktie:
+<img src="https://github.com/TEAM-SUITS/Suits/blob/develop/client/public/assets/og-image.jpg?raw=true" alt="" aria-label="기술 면접을 준비하는 단정한 습관, Suits" width="700px" />
 
 ## Suits 기획 의도
 - Suits는 예비 개발자분들을 위한 **기술 면접 대비 질문, 답변 공유 애플리케이션**입니다.
