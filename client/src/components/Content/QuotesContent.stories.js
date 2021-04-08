@@ -20,6 +20,10 @@ export default {
     author: {
       description: "저자를 명시",
     },
+    textCenter: {
+      control: "boolean",
+      description: "명언 중간 정렬 여부",
+    },
     children: {
       description: "명언(내용)을 명시",
     },
@@ -32,6 +36,8 @@ export const QuoteContent = Template.bind({});
 
 QuoteContent.args = {
   cite: "N/A",
-  author: "Richard Branson",
-  children: "If your dreams dont scare you, they are too small",
+  author: "Brian Tracey",
+  textCenter: true,
+  children:
+    "There are no limits to what you can accomplish, except the limits you place on your own thinking",
 };
