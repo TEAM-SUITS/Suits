@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-/* -------------------------------------------------------------------------- */
+/* ------------------------------ common styles ----------------------------- */
 
 export const a11yHidden = css`
   overflow: hidden;
@@ -38,16 +38,18 @@ export const textShadowBlack = css`
   text-shadow: 0 1px 3px #00000025;
 `;
 
+/* ---------------------------------- font ---------------------------------- */
+
 export const museoLarge = css`
-  font: 700 24px 'Museo Moderno', serif;
+  font: 700 24px 'MuseoModerno', serif;
 `;
 
 export const museoMedium = css`
-  font: 400 18px 'Museo Moderno', serif;
+  font: 400 18px 'MuseoModerno', serif;
 `;
 
 export const museoSmall = css`
-  font: 400 14px 'Museo Moderno', serif;
+  font: 400 14px 'MuseoModerno', serif;
 `;
 
 export const spoqaLarge = css`
