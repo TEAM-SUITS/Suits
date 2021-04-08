@@ -52,6 +52,14 @@ ButtonNormal.args = {
   label: "답글",
 };
 
+export const ButtonDisabled = Template.bind({});
+ButtonDisabled.args = {
+  type: "button",
+  isLiked: true,
+  label: "답글",
+  disabled: true,
+};
+
 export const ButtonColorVariant = Template.bind({});
 ButtonColorVariant.args = {
   type: "button",

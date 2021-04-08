@@ -1,8 +1,9 @@
-import React from 'react';
-import { bool, string, node } from 'prop-types';
-import styled from 'styled-components';
-import { boxShadowBlack, textShadowBlack } from 'styles/common/common.styled';
-import Icon from 'components/Icon/Icon';
+import React from "react";
+import { bool, string, node } from "prop-types";
+import styled from "styled-components";
+import { boxShadowBlack, textShadowBlack } from "styles/common/common.styled";
+import Icon from "components/Icon/Icon";
+import Divider from "components/Divider/Divider";
 
 /* ---------------------------- styled components ---------------------------- */
 
@@ -36,21 +37,19 @@ export default function Card({ isQuestion, title, children, ...restProps }) {
   return (
     <CardBox {...restProps}>
       <CardBox.Header>
-        {isQuestion ? 
+        {isQuestion ? (
           <>
             <Icon type="quote-left" />
             <Icon type="quote-right" />
-          </> : null
-        }
+          </>
+        ) : null}
         <h2>{title}</h2>
       </CardBox.Header>
-      <div className="divider"></div>
-      <CardBox.Content>
-        {children}
-      </CardBox.Content>
+      <Divider primary />
+      <CardBox.Content>{children}</CardBox.Content>
     </CardBox>
   );
-};
+}
 
 /* --------------------------- compound components -------------------------- */
 
