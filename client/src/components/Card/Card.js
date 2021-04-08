@@ -28,12 +28,15 @@ const CardBox = styled.div`
     right: 2em;
     top: 2em;
   }
+
+  h2 {
+    color: var(--color-gray3);
+  }
 `;
 
 /* -------------------------------------------------------------------------- */
 
 export default function Card({ isQuestion, title, children, ...restProps }) {
-  console.log(children);
   return (
     <CardBox {...restProps}>
       <CardBox.Header>
