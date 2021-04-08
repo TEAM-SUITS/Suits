@@ -11,6 +11,10 @@ const QuestionList = styled.ul`
 const QuestionCard = styled(Card)`
   margin-bottom: 1em;
   text-align: center;
+
+  p {
+    margin: 0;
+  }
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -27,14 +31,18 @@ export default function TrendingQuestionContent({ ...restProps }) {
         </li>
         <li>
           <QuestionCard>
-            자바스크립트에서 재귀 호출로 인한 stack overflow를 방지하는 방법을
-            설명하세요.
+            <p>
+              자바스크립트에서 재귀 호출로 인한 stack overflow를 방지하는 방법을
+              설명하세요.
+            </p>
           </QuestionCard>
         </li>
         <li>
           <QuestionCard>
-            자바스크립트 프로토타입이 무엇인지와, 그 동작방식에 대해서
-            설명해보세요.
+            <p>
+              자바스크립트 프로토타입이 무엇인지와, 그 동작방식에 대해서
+              설명해보세요.
+            </p>
           </QuestionCard>
         </li>
       </QuestionList>

@@ -17,4 +17,4 @@ export default {
 
 const Template = (args) => <TrendingQuestionContent {...args} />;
 
-export const TrendingContent = Template.bind({});
+export const TrendingQnAContent = Template.bind({});

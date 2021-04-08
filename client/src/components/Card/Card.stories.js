@@ -1,5 +1,6 @@
 import Card from "./Card";
 import { QuoteContent } from "../Content/QuotesContent.stories";
+import { TrendingQnAContent } from "../Content/TrendingQuestionContent.stories";
 
 /* -------------------------------------------------------------------------- */
 
@@ -32,6 +33,7 @@ const Template = (args) => <Card {...args} />;
 
 export const PrimaryCard = Template.bind({});
 export const PrimaryQuoteCard = Template.bind({});
+export const PrimaryTrendingQNACard = Template.bind({});
 
 PrimaryCard.args = {
   isQuestion: false,
@@ -42,4 +44,10 @@ PrimaryQuoteCard.args = {
   isQuestion: false,
   title: "Wisdom of the day",
   children: <QuoteContent {...QuoteContent.args} />,
+};
+
+PrimaryTrendingQNACard.args = {
+  isQuestion: false,
+  title: "Trending QnA",
+  children: <TrendingQnAContent />,
 };
