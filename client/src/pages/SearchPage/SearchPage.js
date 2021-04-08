@@ -6,7 +6,7 @@ import { SearchHeaderBar } from 'containers/HeaderBar/CustomHeaderBar';
 
 /* -------------------------------------------------------------------------- */
 
-export default function PageNotFound() {
+export default function SearchPage() {
   return (
     <PageContainer variants={pageEffect} initial="hidden" animate="visible">
       <SearchHeaderBar isSearching={false} />

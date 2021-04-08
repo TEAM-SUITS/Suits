@@ -5,7 +5,7 @@ import { pageEffect } from "styles/motions/variants";
 
 /* -------------------------------------------------------------------------- */
 
-export default function PageNotFound() {
+export default function ProfilePage() {
   return (
     <PageContainer variants={pageEffect} initial="hidden" animate="visible">
     </PageContainer>
