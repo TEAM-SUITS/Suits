@@ -1,7 +1,11 @@
 import React from "react";
 import { bool, string, node } from "prop-types";
 import styled from "styled-components";
-import { boxShadowBlack, textShadowBlack } from "styles/common/common.styled";
+import {
+  boxShadowBlack,
+  textShadowBlack,
+  museoMedium,
+} from "styles/common/common.styled";
 import Icon from "components/Icon/Icon";
 import Divider from "components/Divider/Divider";
 
@@ -28,12 +32,16 @@ const CardBox = styled.div`
     right: 2em;
     top: 2em;
   }
+
+  h2 {
+    ${museoMedium};
+    color: var(--color-gray3);
+  }
 `;
 
 /* -------------------------------------------------------------------------- */
 
 export default function Card({ isQuestion, title, children, ...restProps }) {
-  console.log(children);
   return (
     <CardBox {...restProps}>
       <CardBox.Header>
