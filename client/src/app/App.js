@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { GlobalStyle } from "styles/pages/theme.styled";
-import './App.scss';
+import "./App.scss";
 import {
   HomePage,
   SearchPage,
@@ -30,7 +30,7 @@ function App() {
         <Redirect to="/page-not-found" />
       </Switch>
     </div>
-  )
+  );
 }
 
 export default App;
