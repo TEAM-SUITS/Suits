@@ -41,33 +41,33 @@ export const textShadowBlack = css`
 /* ---------------------------------- font ---------------------------------- */
 
 export const museoLarge = css`
-  font: 700 24px 'MuseoModerno', serif;
+  font: 700 2.4em 'MuseoModerno', serif;
 `;
 
 export const museoMedium = css`
-  font: 400 18px 'MuseoModerno', serif;
+  font: 400 1.8em 'MuseoModerno', serif;
 `;
 
 export const museoSmall = css`
-  font: 400 14px 'MuseoModerno', serif;
+  font: 400 1.4em 'MuseoModerno', serif;
 `;
 
 export const spoqaLarge = css`
-  font: 400 20px 'Spoqa Han Sans', sans-serif;
+  font: 400 2em 'Spoqa Han Sans', sans-serif;
 `;
 
 export const spoqaMedium = css`
-  font: 400 16px 'Spoqa Han Sans', sans-serif;
+  font: 400 1.6em 'Spoqa Han Sans', sans-serif;
 `;
 
 export const spoqaMediumLight = css`
-  font: 200 16px 'Spoqa Han Sans', sans-serif;
+  font: 200 1.6em 'Spoqa Han Sans', sans-serif;
 `;
 
 export const spoqaSmall = css`
-  font: 400 14px 'Spoqa Han Sans', sans-serif;
+  font: 400 1.4em 'Spoqa Han Sans', sans-serif;
 `;
 
 export const spoqaSmallBold = css`
-  font: 700 14px 'Spoqa Han Sans', sans-serif;
+  font: 700 1.4em 'Spoqa Han Sans', sans-serif;
 `;

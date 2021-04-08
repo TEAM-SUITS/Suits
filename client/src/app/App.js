@@ -10,17 +10,15 @@ import {
   PageNotFound,
 } from "pages/Pages";
 
-import LikeButton from "components/LikeButton/LikeButton";
+import HeaderBar from 'containers/HeaderBar/HeaderBar';
 
 /* -------------------------------------------------------------------------- */
 
 function App() {
   return (
     <div className="App">
-      <LikeButton disabled />
       <GlobalStyle />
-      {/* <HomeLogoLink />
-      <Navigation /> */}
+      <HeaderBar />
       {/* <SignInDialog visible={!userName} /> */}
       <Switch>
         <Route path="/" exact component={HomePage} />
