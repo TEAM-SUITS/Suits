@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { string } from "prop-types";
 
 const HorizontalLine = styled.hr`
   height: ${({ height }) => (height ? height : "1px")};
@@ -7,6 +8,8 @@ const HorizontalLine = styled.hr`
   background-color: ${({ color }) => (color ? color : "var(--color-gray2)")};
   margin: ${({ margin }) => (margin ? margin : "1em 0")};
 `;
+
+/* -------------------------------------------------------------------------- */
 
 export default function Divider({
   primary,
@@ -26,3 +29,12 @@ export default function Divider({
     />
   );
 }
+
+/* -------------------------------- proptypes ------------------------------- */
+
+HorizontalLine.propTypes = {
+  height: string,
+  width: string,
+  color: string,
+  margin: string,
+};

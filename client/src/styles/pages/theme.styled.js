@@ -1,9 +1,8 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 /* 전역 스타일--------------------------------------------------------- */
 
 export const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@200;400;700&display=swap');
 
   body {
     font-family: 'MuseoModerno', "Spoqa Han Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
