@@ -1,9 +1,9 @@
-import React from 'react';
-import { bool, string, node } from 'prop-types';
-import styled from 'styled-components';
-import { boxShadowBlack, textShadowBlack } from 'styles/common/common.styled';
-import Icon from 'components/Icon/Icon';
-import Divider from 'components/Divider/Divider';
+import React from "react";
+import { bool, string, node } from "prop-types";
+import styled from "styled-components";
+import { boxShadowBlack, textShadowBlack } from "styles/common/common.styled";
+import Icon from "components/Icon/Icon";
+import Divider from "components/Divider/Divider";
 
 /* ---------------------------- styled components ---------------------------- */
 
@@ -37,16 +37,20 @@ const CardBox = styled.div`
 export default function Card({ isQuestion, title, children, ...restProps }) {
   return (
     <CardBox {...restProps}>
-      <CardBox.Header>
-        {isQuestion ? (
-          <>
-            <Icon type="quote-left" />
-            <Icon type="quote-right" />
-          </>
-        ) : null}
-        <h2>{title}</h2>
-      </CardBox.Header>
-      <Divider primary />
+      {title && (
+        <>
+          <CardBox.Header>
+            {isQuestion ? (
+              <>
+                <Icon type="quote-left" />
+                <Icon type="quote-right" />
+              </>
+            ) : null}
+            <h2>{title}</h2>
+          </CardBox.Header>
+          <Divider primary />
+        </>
+      )}
       <CardBox.Content>{children}</CardBox.Content>
     </CardBox>
   );
@@ -74,6 +78,6 @@ CardBox.Content = styled.div`
 
 Card.propTypes = {
   isQuestion: bool,
-  title: string.isRequired,
+  title: string,
   children: node,
 };
