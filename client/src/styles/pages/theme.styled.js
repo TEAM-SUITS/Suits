@@ -8,6 +8,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'MuseoModerno', "Spoqa Han Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans";
+    margin: 0 auto;
   }
 
   html {
