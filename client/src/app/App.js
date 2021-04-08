@@ -10,18 +10,12 @@ import {
   PageNotFound,
 } from "pages/Pages";
 
-import TrendingQuestionContent from "components/Content/TrendingQuestionContent";
-import Card from "components/Card/Card";
-
 /* -------------------------------------------------------------------------- */
 
 function App() {
   return (
     <div className="App">
       <GlobalStyle />
-      <Card title="Trending QnA">
-        <TrendingQuestionContent />
-      </Card>
       {/* <SignInDialog visible={!userName} /> */}
       <Switch>
         <Route path="/" exact component={HomePage} />
