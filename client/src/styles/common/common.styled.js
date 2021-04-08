@@ -41,15 +41,15 @@ export const textShadowBlack = css`
 /* ---------------------------------- font ---------------------------------- */
 
 export const museoLarge = css`
-  font: 700 24px 'Museo Moderno', serif;
+  font: 700 24px 'MuseoModerno', serif;
 `;
 
 export const museoMedium = css`
-  font: 400 18px 'Museo Moderno', serif;
+  font: 400 18px 'MuseoModerno', serif;
 `;
 
 export const museoSmall = css`
-  font: 400 14px 'Museo Moderno', serif;
+  font: 400 14px 'MuseoModerno', serif;
 `;
 
 export const spoqaLarge = css`
