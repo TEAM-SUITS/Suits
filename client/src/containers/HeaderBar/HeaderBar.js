@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import useDetectViewport from 'hooks/useDetectViewport';
 import { node } from 'prop-types';
-import { museoLarge } from 'styles/common/common.styled';
+import { museoLarge, museoMedium } from 'styles/common/common.styled';
+import { boxShadowBlack } from 'styles/common/common.styled';
 
 /* ---------------------------- styled components --------------------------- */
 const MobileContainer = styled.header`
@@ -10,9 +11,25 @@ const MobileContainer = styled.header`
   top: 0;
   background-color: var(--color-white);
   text-align: center;
+  width: 100%;
   min-width: 375px;
   height: 45px;
   margin: 0;
+
+  span {
+    display: inline-block;
+    height: 100%;
+  }
+
+  .bold {
+    ${museoLarge}
+    font-weight: 700;
+  }
+
+  .light {
+    ${museoMedium}
+    font-weight: 400;
+  }
 `;
 
 const DesktopContainer = styled.header`
@@ -23,7 +40,21 @@ const DesktopContainer = styled.header`
   width: 100%;
   height: 45px;
   margin: 0;
-  `;
+
+  span {
+    margin-left: 2em;
+  }
+
+  .bold {
+    ${museoLarge}
+    font-weight: 700;
+  }
+
+  .light {
+    ${museoMedium}
+    font-weight: 400;
+  }
+`;
 
 const StyledHeading = styled.h1`
   height: 45px;
@@ -32,11 +63,20 @@ const StyledHeading = styled.h1`
   user-select: none;
   display: block;
   margin: 0;
-  font-weight: 700;
+  ${boxShadowBlack}
 
   span {
-    ${museoLarge}
-    margin-right: 2em;
+    display: inline-block;
+    padding-top: .1em;
+    height: 100%;
+  }
+
+  .light {
+    padding-top: .4em;
+  }
+
+  a {
+    color: var(--color-black);
   }
 `;
 

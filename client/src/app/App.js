@@ -20,7 +20,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/search" component={SearchPage} />
-        <Route path="/post" component={LikedPage} />
+        <Route path="/liked" component={LikedPage} />
         <Route path="/profile" component={ProfilePage} />
         <Route path="/info" component={InfoPage} />
         <Route path="/page-not-found" component={PageNotFound} />

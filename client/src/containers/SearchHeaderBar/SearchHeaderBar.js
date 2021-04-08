@@ -75,7 +75,6 @@ const CancelButton = styled.button.attrs(() => ({
 `;
 
 /* -------------------------------------------------------------------------- */
-
 function SearchHeaderBar() {
   const [isSearching, setIsSearching] = useState(false);
   const [keyword, setKeyword] = useState('');
