@@ -4,37 +4,46 @@ import { museoLarge } from 'styles/common/common.styled';
 import useDetectViewport from 'hooks/useDetectViewport';
 
 /* ---------------------------- styled components --------------------------- */
-const HeadingContainer = styled.div`
+const MobileContainer = styled.div`
   background-color: pink;
+  min-width: 375px;
+  height: 45px;
+  text-align: center;
 `;
 
+const DesktopContainer = styled.div`
+  background-color: skyblue;
+  width: 100%;
+  min-width: 375px;
+  height: 45px;
+  `;
+
 const StyledHeading = styled.h1`
+  height: 45px;
+  line-height: 45px;
   cursor: default;
   user-select: none;
-  ${museoLarge}
   display: block;
-  font-weight: 700;
   margin: 0;
-  text-align: center;
-  padding: .3em 0;
+  font-weight: 700;
 `;
 
 /* -------------------------------------------------------------------------- */
-export default function HeaderBar() {
+export default function HeaderBar({ children }) {
 
   const { isMobile } = useDetectViewport();
 
   if (isMobile) {
     return (
-      <HeadingContainer>
-        <StyledHeading>SUITS</StyledHeading>
-      </HeadingContainer>
+      <MobileContainer>
+        <StyledHeading>{children}</StyledHeading>
+      </MobileContainer>
     );
   }
 
   return (
-    <HeadingContainer>
-      <StyledHeading>제대로 작동 중!?</StyledHeading>
-    </HeadingContainer>
+    <DesktopContainer>
+      <StyledHeading>{children}</StyledHeading>
+    </DesktopContainer>
   );
 }

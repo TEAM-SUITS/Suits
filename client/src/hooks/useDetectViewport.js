@@ -62,7 +62,7 @@ export default function useDetectViewport(viewports = initialViewports) {
     return () => { // clean up function
       window.removeEventListener('resize', _.throttle(detectionViewport, 500));
     }
-  }, [dispatch, lg, sm]);
+  }, [dispatch, sm, lg]);
 
   return state;
 }

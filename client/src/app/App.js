@@ -10,15 +10,12 @@ import {
   PageNotFound,
 } from "pages/Pages";
 
-import HeaderBar from 'containers/HeaderBar/HeaderBar';
-
 /* -------------------------------------------------------------------------- */
 
 function App() {
   return (
     <div className="App">
       <GlobalStyle />
-      <HeaderBar />
       {/* <SignInDialog visible={!userName} /> */}
       <Switch>
         <Route path="/" exact component={HomePage} />

@@ -7,6 +7,7 @@ const Container = forwardRef((props, ref) => {
 })
 
 const PageContainer = styled(motion(Container))`
+    background-color: grey;
     display: flex;
     flex-flow: column wrap;
     align-items: center;
@@ -14,7 +15,7 @@ const PageContainer = styled(motion(Container))`
     ${({ ismobile }) =>
         ismobile &&
         css`
-            margin: 0;
+            margin: 0 auto;
             width: 100%;
         `}
 `
