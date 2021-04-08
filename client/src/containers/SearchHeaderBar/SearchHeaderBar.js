@@ -75,7 +75,6 @@ const CancelButton = styled.button.attrs(() => ({
 `;
 
 /* -------------------------------------------------------------------------- */
-
 function SearchHeaderBar() {
   const [isSearching, setIsSearching] = useState(false);
   const [keyword, setKeyword] = useState('');
@@ -96,6 +95,13 @@ function SearchHeaderBar() {
   // Search Header Bar 클릭 후 input 포커스
   useEffect(() => {
     if (ref.current) ref.current.focus();
+
+    const inputNode = ref.current;
+
+    return () => {
+      if (inputNode) inputNode.blur();
+      // focus() 한 것은 blur()로 clean up 해줘야 함. (성능 이슈)
+    };
   }, [isSearching]);
 
   if (!isSearching) {
