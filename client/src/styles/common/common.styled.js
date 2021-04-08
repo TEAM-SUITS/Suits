@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-/* -------------------------------------------------------------------------- */
+/* ------------------------------ common styles ----------------------------- */
 
 export const a11yHidden = css`
   overflow: hidden;
@@ -37,6 +37,8 @@ export const boxShadowWhite = css`
 export const textShadowBlack = css`
   text-shadow: 0 1px 3px #00000025;
 `;
+
+/* ---------------------------------- font ---------------------------------- */
 
 export const museoLarge = css`
   font: 700 24px 'Museo Moderno', serif;
