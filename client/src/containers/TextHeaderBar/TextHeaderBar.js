@@ -1,5 +1,6 @@
 import HeaderBar from '../HeaderBar/HeaderBar';
 import { Link } from 'react-router-dom';
+import { string } from 'prop-types';
 
 /* -------------------------------------------------------------------------- */
 export default function TextHeaderBar({ page }) {
@@ -37,3 +38,9 @@ export default function TextHeaderBar({ page }) {
       );
   }
 }
+
+/* -------------------------------------------------------------------------- */
+
+TextHeaderBar.propTypes = {
+  page: string,
+};
