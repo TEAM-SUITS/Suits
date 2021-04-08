@@ -1,7 +1,6 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { GlobalStyle } from "styles/pages/theme.styled";
-import "./App.scss";
 import {
   HomePage,
   SearchPage,
