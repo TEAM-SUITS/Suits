@@ -1,11 +1,7 @@
 import React from "react";
 import { bool, string, node } from "prop-types";
 import styled from "styled-components";
-import {
-  boxShadowBlack,
-  textShadowBlack,
-  museoMedium,
-} from "styles/common/common.styled";
+import { boxShadowBlack, textShadowBlack } from "styles/common/common.styled";
 import Icon from "components/Icon/Icon";
 import Divider from "components/Divider/Divider";
 
@@ -34,7 +30,6 @@ const CardBox = styled.div`
   }
 
   h2 {
-    ${museoMedium};
     color: var(--color-gray3);
   }
 `;
