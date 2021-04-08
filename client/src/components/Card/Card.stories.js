@@ -1,4 +1,5 @@
 import Card from "./Card";
+import { QuoteContent } from "../Content/QuotesContent.stories";
 
 /* -------------------------------------------------------------------------- */
 
@@ -30,7 +31,15 @@ export default {
 const Template = (args) => <Card {...args} />;
 
 export const PrimaryCard = Template.bind({});
+export const PrimaryQuoteCard = Template.bind({});
+
 PrimaryCard.args = {
   isQuestion: false,
   title: "제목",
+};
+
+PrimaryQuoteCard.args = {
+  isQuestion: false,
+  title: "Wisdom of the day",
+  children: <QuoteContent {...QuoteContent.args} />,
 };
