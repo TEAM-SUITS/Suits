@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Icon from 'components/Icon/Icon';
 import { bool, string, node, oneOfType } from 'prop-types';
 
 /* ---------------------------- styled components --------------------------- */
@@ -21,6 +22,22 @@ const DialogContainer = styled.div.attrs(props => ({
 
   @media screen and (min-width: 480px) {
     min-width: 400px;
+  }
+`;
+
+const CloseButton = styled.button.attrs(() => ({
+  type: "button",
+  'aria-label': "닫기"
+}))`
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  padding: .5em;
+  background-color: transparent;
+  border: none;
+
+  line {
+    stroke: var(--color-gray1);
   }
 `;
 
@@ -118,6 +135,13 @@ export default function Dialog({
           ref={dialogRef}
           label={label}
         >
+          <CloseButton>
+            <Icon
+              type="close"
+              title="닫기"
+              height="1.8em"
+            />
+          </CloseButton>
           <Header>{infoText}</Header>
           {children}
         </DialogContainer>
