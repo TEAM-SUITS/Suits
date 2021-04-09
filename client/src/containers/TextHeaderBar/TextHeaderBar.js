@@ -1,6 +1,19 @@
 import HeaderBar from '../HeaderBar/HeaderBar';
 import { Link } from 'react-router-dom';
 import { string } from 'prop-types';
+import styled from 'styled-components';
+import { museoLarge, museoMedium } from 'styles/common/common.styled';
+
+/* ---------------------------- styled components --------------------------- */
+const BoldSpan = styled.span`
+  ${museoLarge}
+  font-weight: 700;
+`;
+
+const LightSpan = styled.span`
+  ${museoMedium}
+  font-weight: 400;
+`;
 
 /* -------------------------------------------------------------------------- */
 export default function TextHeaderBar({ page }) {
@@ -9,7 +22,7 @@ export default function TextHeaderBar({ page }) {
       return (
         <HeaderBar>
           <Link to="/">
-            <span className="bold">SUITS</span>
+            <BoldSpan>SUITS</BoldSpan>
           </Link>
         </HeaderBar>
       );
@@ -17,14 +30,14 @@ export default function TextHeaderBar({ page }) {
     case 'liked':
       return (
         <HeaderBar>
-          <span className="light">Following</span>
+          <LightSpan>Following</LightSpan>
         </HeaderBar>
       );
 
     case 'profile':
       return (
         <HeaderBar>
-          <span className="light">Profile</span>
+          <LightSpan>Profile</LightSpan>
         </HeaderBar>
       );
 
@@ -32,7 +45,7 @@ export default function TextHeaderBar({ page }) {
       return (
         <HeaderBar>
           <Link to="/">
-            <span className="bold">SUITS</span>
+          <BoldSpan>SUITS</BoldSpan>
           </Link>
         </HeaderBar>
       );

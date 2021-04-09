@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import useDetectViewport from 'hooks/useDetectViewport';
 import { node } from 'prop-types';
-import { museoLarge, museoMedium } from 'styles/common/common.styled';
 import { boxShadowBlack } from 'styles/common/common.styled';
 
 /* ---------------------------- styled components --------------------------- */
@@ -20,16 +19,6 @@ const MobileContainer = styled.header`
     display: inline-block;
     height: 100%;
   }
-
-  .bold {
-    ${museoLarge}
-    font-weight: 700;
-  }
-
-  .light {
-    ${museoMedium}
-    font-weight: 400;
-  }
 `;
 
 const DesktopContainer = styled.header`
@@ -43,16 +32,6 @@ const DesktopContainer = styled.header`
 
   span {
     margin-left: 2em;
-  }
-
-  .bold {
-    ${museoLarge}
-    font-weight: 700;
-  }
-
-  .light {
-    ${museoMedium}
-    font-weight: 400;
   }
 `;
 
