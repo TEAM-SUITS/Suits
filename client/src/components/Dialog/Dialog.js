@@ -24,9 +24,9 @@ const DialogContainer = styled.div.attrs(props => ({
 
 const Header = styled.h1`
   display: block;
-  margin: 1em 0;
+  margin: 0;
   padding: 0;
-  font-size: 1em;
+  font-size: 2em;
 `;
 
 const Modal = styled.div.attrs(() => ({
@@ -104,7 +104,8 @@ export default function Dialog({
     }
   }, [visible]);
 
-  // 사용하실 때는 Portal 컴포넌트로 감싸주세요!
+  // 사용하실 때는 아래와 같이
+  // 이 컴포넌트를 Portal 컴포넌트로 감싸주세요!
   return (
     <>
     {/* <Portal id={'dialog-container'}> */}
