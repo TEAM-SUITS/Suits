@@ -16,7 +16,8 @@ import ProfileDialog from 'containers/ProfileDialog/ProfileDialog';
 /* -------------------------------------------------------------------------- */
 function App() {
 
-  const [checkingProfile, isCheckingProfile] = useState(true);
+  // 임시 state for Dialog
+  const [checkingProfile, isCheckingProfile] = useState(false);
 
   return (
     <div className="App">

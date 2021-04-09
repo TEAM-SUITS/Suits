@@ -110,8 +110,6 @@ export default function Dialog({
           e.preventDefault();
           firstFocusNode.focus();
         }
-
-        console.log(e.target);
       };
 
       window.addEventListener('keydown', handleFocusTrap);
