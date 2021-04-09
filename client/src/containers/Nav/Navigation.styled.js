@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { resetBoxModel } from "styles/common/common.styled";
 import { bool, node } from 'prop-types';
 
-/* -------------------------------------------------------------------------- */
+/* --------------------------------- router --------------------------------- */
 const Link = ({ children, to, ...restProps }) => {
   return (
     <li>
@@ -84,7 +84,6 @@ Navbar.ItemLink = styled(Link)`
 `;
 
 /* -------------------------------- proptypes ------------------------------- */
-
 Navbar.propTypes = {
   ismobile: bool,
   children: node,
