@@ -41,6 +41,13 @@ export default function TextHeaderBar({ page }) {
         </HeaderBar>
       );
 
+    case 'search':
+      return (
+        <HeaderBar>
+          <LightSpan>Search</LightSpan>
+        </HeaderBar>
+      );
+
     default:
       return (
         <HeaderBar>

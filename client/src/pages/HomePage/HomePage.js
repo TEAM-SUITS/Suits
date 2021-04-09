@@ -9,9 +9,11 @@ import Navigation from "containers/Nav/Navigation";
 
 export default function HomePage() {
   return (
-    <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+    <>
       <TextHeaderBar page="home" />
       <Navigation />
-    </PageContainer>
+      <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+      </PageContainer>
+    </>
   );
 }

@@ -9,9 +9,11 @@ import Navigation from "containers/Nav/Navigation";
 
 export default function InfoPage() {
   return (
-    <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+    <>
       <TextHeaderBar />
       <Navigation />
-    </PageContainer>
+      <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+      </PageContainer>
+    </>
   );
 }

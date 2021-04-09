@@ -18,7 +18,7 @@ export default {
     page: {
       description: "헤더바가 어느 페이지에서 쓰일 것인지 지정",
       type: "select",
-      options: ["home", "liked", "profile", "info"],
+      options: ["home", "liked", "profile", "info", "search"],
     },
   },
 };

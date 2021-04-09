@@ -8,8 +8,10 @@ import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 
 export default function PageNotFound() {
   return (
-    <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+    <>
       <TextHeaderBar page="home" />
-    </PageContainer>
+      <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+      </PageContainer>
+    </>
   );
 }
