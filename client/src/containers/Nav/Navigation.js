@@ -14,19 +14,19 @@ const Navigation = () => {
   return (
     <Navbar ismobile={isMobile}>
       <Navbar.ItemLink exact to="/">
-        <Icon type={pathname === "/" ? "home-active" : "home"} />
+        <Icon title="메인" type={pathname === "/" ? "home-active" : "home"} />
       </Navbar.ItemLink>
       <Navbar.ItemLink to="/search">
-        <Icon type={pathname === "/search" ? "search-active" : "search"} />
+        <Icon title="검색" type={pathname === "/search" ? "search-active" : "search"} />
       </Navbar.ItemLink>
       <Navbar.ItemLink to="/liked">
-        <Icon type={pathname === "/liked" ? "heart-active" : "heart"} />
+        <Icon title="팔로잉 해시태그" type={pathname === "/liked" ? "heart-active" : "heart"} />
       </Navbar.ItemLink>
       <Navbar.ItemLink to="/profile">
-        <Icon type={pathname === "/profile" ? "profile-active" : "profile"} />
+        <Icon title="프로필" type={pathname === "/profile" ? "profile-active" : "profile"} />
       </Navbar.ItemLink>
       <Navbar.ItemLink to="/info">
-        <Icon type={pathname === "/info" ? "info-active" : "info"} />
+        <Icon title="더보기 메뉴" type={pathname === "/info" ? "info-active" : "info"} />
       </Navbar.ItemLink>
     </Navbar>
   );

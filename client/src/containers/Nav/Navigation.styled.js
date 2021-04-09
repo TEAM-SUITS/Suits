@@ -1,7 +1,9 @@
 import styled, { css } from "styled-components";
 import { NavLink } from "react-router-dom";
 import { resetBoxModel } from "styles/common/common.styled";
+import { bool, node } from 'prop-types';
 
+/* -------------------------------------------------------------------------- */
 const Link = ({ children, to, ...restProps }) => {
   return (
     <li>
@@ -35,6 +37,9 @@ const StyledNav = styled.ul`
   display: flex;
   list-style: none;
   align-items: center;
+  padding: 25px 15px;
+  height: 45px;
+  margin: 0;
 
   // desktop
   ${({ ismobile }) =>
@@ -44,11 +49,6 @@ const StyledNav = styled.ul`
       top: 0;
       right: 0;
       width: 315px;
-      padding: 25px 15px;
-      justify-content: space-around;
-      height: 45px;
-      border-top: 1px solid var(--color-gray);
-      margin: 0;
       background-color: transparent;
     `}
 
@@ -63,12 +63,9 @@ const StyledNav = styled.ul`
       width: 100vw;
       min-width: 375px;
       flex: 1;
-      padding: 25px 15px;
       justify-content: space-around;
-      height: 45px;
-      border-top: 1px solid var(--color-gray);
-      margin: 0;
-      background-color: #fff;
+      border-top: 1px solid var(--color-gray1);
+      background-color: var(--color-white);
     `}
 `;
 
@@ -85,3 +82,10 @@ Navbar.ItemLink = styled(Link)`
   ${resetBoxModel}
   padding: 10px 15px;
 `;
+
+/* -------------------------------- proptypes ------------------------------- */
+
+Navbar.propTypes = {
+  ismobile: bool,
+  children: node,
+};
