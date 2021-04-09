@@ -8,10 +8,13 @@ export const initialViewports = {
   lg: 1024,
 };
 
+const desktop = () => window.innerWidth >= initialViewports.sm;
+// true -> desktop
+
 const initialState = {
   type: '',
-  isMobile: false,
-  isDesktop: false,
+  isMobile: !desktop(),
+  isDesktop: desktop(),
 };
 
 // 리듀서
@@ -35,6 +38,8 @@ export default function useDetectViewport(viewports = initialViewports) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
+    let mounted = true;
+
     const updateState = (newState) => dispatch(updateAction(newState));
 
     const detectionViewport = () => {
@@ -57,10 +62,17 @@ export default function useDetectViewport(viewports = initialViewports) {
       }
     };
 
-    window.addEventListener('resize', _.throttle(detectionViewport, 500));
+    const throttledDetection = _.throttle(detectionViewport, 500);
+
+    if (mounted) {
+      window.addEventListener('DOMContentLoaded', throttledDetection);
+      window.addEventListener('resize', throttledDetection);
+    }
 
     return () => { // clean up function
-      window.removeEventListener('resize', _.throttle(detectionViewport, 500));
+      mounted = false;
+      window.removeEventListener('DOMContentLoaded', throttledDetection);
+      window.removeEventListener('resize', throttledDetection);
     }
   }, [dispatch, sm, lg]);
 

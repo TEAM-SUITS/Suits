@@ -8,8 +8,10 @@ import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
 
 export default function InfoPage() {
   return (
-    <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+    <>
       <TextHeaderBar />
-    </PageContainer>
+      <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+      </PageContainer>
+    </>
   );
 }

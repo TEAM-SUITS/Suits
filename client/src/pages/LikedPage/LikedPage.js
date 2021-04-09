@@ -8,8 +8,10 @@ import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 
 export default function LikedPage() {
   return (
-    <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+    <>
       <TextHeaderBar page="liked" />
-    </PageContainer>
+      <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+      </PageContainer>
+    </>
   );
 }

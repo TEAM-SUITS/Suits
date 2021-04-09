@@ -15,7 +15,7 @@ export default {
   },
   argTypes: {
     children: {
-      description: "Header 영역에 표시될 컨텐츠(검색 페이지 외에는 모두 span 요소)",
+      description: "Header 영역에 표시될 컨텐츠",
     },
   },
 };

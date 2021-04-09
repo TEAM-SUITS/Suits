@@ -9,6 +9,7 @@ import {
   InfoPage,
   PageNotFound,
 } from "pages/Pages";
+import Navigation from "containers/Nav/Navigation";
 
 /* -------------------------------------------------------------------------- */
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/page-not-found" component={PageNotFound} />
         <Redirect to="/page-not-found" />
       </Switch>
+      <Navigation />
     </div>
   );
 }

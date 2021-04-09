@@ -8,8 +8,10 @@ import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 
 export default function ProfilePage() {
   return (
-    <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+    <>
       <TextHeaderBar page="profile" />
-    </PageContainer>
+      <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+      </PageContainer>
+    </>
   );
 }
