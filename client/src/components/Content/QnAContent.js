@@ -2,28 +2,37 @@ import LikeButton from "components/LikeButton/LikeButton";
 import MiniProfile from "components/MiniProfile/MiniProfile";
 import React from "react";
 import styled from "styled-components";
+import { a11yHidden, museoMedium } from "styles/common/common.styled";
 
-const Container = styled.div`
+const QnAContainer = styled.div`
   display: flex;
-  justify-content: center;
+  flex-flow: column wrap;
   align-items: center;
 `;
 
-export default function QnAContent() {
+const AnswerInfo = styled.div`
+  display: flex;
+  align-items: center;
+  span {
+    ${a11yHidden}
+  }
+`;
+
+const AnswerDetail = styled.p`
+  margin: 0;
+  font-size: 16px;
+`;
+
+export default function QnAContent({ answer }) {
   return (
-    <article>
-      <Container>
-        <MiniProfile
-          user={{
-            id: "12312312",
-            img: "https://avatars.githubusercontent.com/u/40879385?v=4",
-            tier: 3,
-            username: "minki607",
-          }}
-        />
+    <QnAContainer>
+      <AnswerInfo>
+        <MiniProfile user={answer.author} />
         <LikeButton />
-        <span>42</span>
-      </Container>
-    </article>
+        <span>좋아요 수</span>
+        {answer.liked}
+      </AnswerInfo>
+      <AnswerDetail>{answer.content}</AnswerDetail>
+    </QnAContainer>
   );
 }
