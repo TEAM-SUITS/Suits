@@ -12,14 +12,14 @@ import {
 const StyledProfile = styled.div`
   display: flex;
   position: relative;
-  padding: 16px 16px 50px;
+  padding: 1.6em 1.6em 5em;
   max-width: 768px;
 
   img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    margin-right: 16px;
+    margin-right: 1.6em;
     @media screen and (min-width: 480px) {
       width: 150px;
       height: 150px;
@@ -40,10 +40,10 @@ const StyledProfile = styled.div`
     svg {
       width: 100px;
       height: 18px;
-      margin-right: 10px;
+      margin-right: 1em;
     }
     span {
-      font-size: 16px;
+      font-size: 1em;
     }
   }
   a {
@@ -52,7 +52,7 @@ const StyledProfile = styled.div`
     ${spoqaSmall}
   }
   p {
-    margin: 8px 0 0;
+    margin: .8em 0 0;
     ${spoqaMediumLight}
   }
   .hashtags {
@@ -62,7 +62,7 @@ const StyledProfile = styled.div`
     bottom: 10px;
     width: 100%;
     * {
-      margin-right: 50px;
+      margin-right: 5%;
       &:last-child {
         margin-right: 0;
       }
@@ -89,7 +89,7 @@ export default function Profile({ user }) {
       </div>
       <div className="hashtags">
         {hashtag.map((tag) => (
-          <Hashtag type={tag} />
+          <Hashtag key={tag} type={tag} />
         ))}
       </div>
     </StyledProfile>

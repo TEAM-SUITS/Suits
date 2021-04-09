@@ -16,12 +16,12 @@ import ProfileDialog from 'containers/ProfileDialog/ProfileDialog';
 /* -------------------------------------------------------------------------- */
 function App() {
 
-  const [CheckingProfile, isCheckingProfile] = useState(true);
+  const [checkingProfile, isCheckingProfile] = useState(true);
 
   return (
     <div className="App">
       <GlobalStyle />
-      <ProfileDialog isVisible={isCheckingProfile} />
+      <ProfileDialog isVisible={checkingProfile} />
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/search" component={SearchPage} />

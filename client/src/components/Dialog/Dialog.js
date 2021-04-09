@@ -16,13 +16,17 @@ const DialogContainer = styled.div.attrs(props => ({
   top: 50%;
   transform: translate(-50%, -50%);
   width: 60vw;
-  min-width: 225px;
+  min-width: 305px;
   border-radius: 10px;
-  text-align: center;
   padding: 2em;
+
+  @media screen and (min-width: 480px) {
+    min-width: 400px;
+  }
 `;
 
 const Header = styled.h1`
+  text-align: center;
   display: block;
   margin: 0;
   padding: 0;
