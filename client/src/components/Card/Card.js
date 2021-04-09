@@ -56,7 +56,6 @@ CardBox.Header = styled.div`
     font-size: 1.4em;
     padding: 0 2em;
   }
-
   & > svg {
     position: absolute;
     &:first-child {

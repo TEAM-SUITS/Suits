@@ -3,10 +3,8 @@ import styled from "styled-components";
 import PageContainer from "containers/PageContainer/PageContainer.styled";
 import { pageEffect } from "styles/motions/variants";
 import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
-import Navigation from "containers/Nav/Navigation";
 
 /* -------------------------------------------------------------------------- */
-
 export default function HomePage() {
   return (
     <>
