@@ -51,10 +51,6 @@ const StyledHeading = styled.h1`
     height: 100%;
   }
 
-  .light {
-    padding-top: .4em;
-  }
-
   a {
     color: var(--color-black);
   }
