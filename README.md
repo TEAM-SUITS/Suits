@@ -20,7 +20,7 @@ ___
 - Suits 팀은 이번 프로젝트에서 애자일 방법론 중 하나인 스크럼 규칙에 따라서 협업하기로 했습니다. 스크럼 진행 방식 및 프로젝트 과정에 대한 기록은 [Suits Wiki!](https://github.com/TEAM-SUITS/Suits/wiki)에서 확인하실 수 있습니다.
 
 ## 사용 기술 스택
-<img src="https://user-images.githubusercontent.com/54733637/113973829-e4aceb80-9877-11eb-8e51-97bff073244a.png" alt="stack" width="700px" />
+<img src="https://user-images.githubusercontent.com/54733637/114058788-bc9ca700-98ce-11eb-8c30-ac59494683e6.png" alt="stack" width="700px" />
 
 ### 프론트엔드
 - 언어: **JS(ES6)**
@@ -37,9 +37,9 @@ ___
 - 프로젝트 일정 공유 및 관리: **Google Calendar**
 
 ### 백엔드
-- 서버 :
-- DB :
-- 배포 :
+- 서버: **NodeJS (Express 프레임워크)**
+- DB: **MongoDB Atlas**
+- 배포: **Amazon EC2 (Nginx)**
 
 ## 프로젝트 사용 방법
 > 프로젝트 완성 후 추가할 예정입니다.
