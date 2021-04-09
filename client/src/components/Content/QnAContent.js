@@ -1,8 +1,11 @@
+import React from "react";
 import LikeButton from "components/LikeButton/LikeButton";
 import MiniProfile from "components/MiniProfile/MiniProfile";
-import React from "react";
 import styled from "styled-components";
 import { a11yHidden, ellipsis, museoSmall } from "styles/common/common.styled";
+import { object } from "prop-types";
+
+/* ---------------------------- styled component ---------------------------- */
 
 const QnAContainer = styled.div`
   display: flex;
@@ -26,6 +29,8 @@ const ScreenReaderSpan = styled.span`
   ${a11yHidden}
 `;
 
+/* -------------------------------------------------------------------------- */
+
 export default function QnAContent({ answer }) {
   return (
     <QnAContainer>
@@ -39,3 +44,9 @@ export default function QnAContent({ answer }) {
     </QnAContainer>
   );
 }
+
+/* -------------------------------- propTypes ------------------------------- */
+
+QnAContent.propTypes = {
+  answer: object.isRequired,
+};

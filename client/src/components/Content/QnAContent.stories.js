@@ -24,9 +24,8 @@ QNAContent.args = {
   answer: {
     author: {
       id: "user1",
-      username: "Frontendkid",
-      img:
-        "https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg",
+      username: "Minki607",
+      img: "https://avatars.githubusercontent.com/u/40879385?v=4",
       tier: 6,
     },
     content:
