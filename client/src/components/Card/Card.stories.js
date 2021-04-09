@@ -1,12 +1,14 @@
 import Card from "./Card";
 import { QuoteContent } from "../Content/QuotesContent.stories";
 import { TrendingQnAContent } from "../Content/TrendingQuestionContent.stories";
+import { QNAContent } from "../Content/QnAContent.stories";
 
 /* -------------------------------------------------------------------------- */
 
 export default {
   title: "Components/Card",
   component: Card,
+
   parameters: {
     docs: {
       description: {
@@ -34,6 +36,7 @@ const Template = (args) => <Card {...args} />;
 export const PrimaryCard = Template.bind({});
 export const PrimaryQuoteCard = Template.bind({});
 export const PrimaryTrendingQNACard = Template.bind({});
+export const PrimaryQNACard = Template.bind({});
 
 PrimaryCard.args = {
   isQuestion: false,
@@ -50,4 +53,10 @@ PrimaryTrendingQNACard.args = {
   isQuestion: false,
   title: "Trending QnA",
   children: <TrendingQnAContent />,
+};
+
+PrimaryQNACard.args = {
+  isQuestion: true,
+  title: "객체 리터럴 생성 방식에 대해 설명해보시오",
+  children: <QNAContent {...QNAContent.args} />,
 };

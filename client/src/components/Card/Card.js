@@ -1,9 +1,9 @@
-import React from 'react';
-import { bool, string, node } from 'prop-types';
-import styled from 'styled-components';
-import { boxShadowBlack, textShadowBlack } from 'styles/common/common.styled';
-import Icon from 'components/Icon/Icon';
-import Divider from 'components/Divider/Divider';
+import React from "react";
+import { bool, string, node } from "prop-types";
+import styled from "styled-components";
+import { boxShadowBlack, textShadowBlack } from "styles/common/common.styled";
+import Icon from "components/Icon/Icon";
+import Divider from "components/Divider/Divider";
 
 /* ---------------------------- styled components ---------------------------- */
 
@@ -14,6 +14,10 @@ const CardBox = styled.div`
   border-radius: 10px;
   background-color: var(--color-lightgray);
   padding: 1em 2em 1.4em;
+
+  & > h2 {
+    color: var(--color-gray3);
+  }
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -24,12 +28,12 @@ export default function Card({ isQuestion, title, children, ...restProps }) {
       {title && (
         <>
           <CardBox.Header>
-            {isQuestion ? (
+            {isQuestion && (
               <>
                 <Icon type="quote-left" />
                 <Icon type="quote-right" />
               </>
-            ) : null}
+            )}
             <h2>{title}</h2>
           </CardBox.Header>
           <Divider primary />
@@ -52,13 +56,13 @@ CardBox.Header = styled.div`
     font-size: 1.4em;
     padding: 0 2em;
   }
-  svg {
+  & > svg {
     position: absolute;
-    &:first-of-type {
+    &:first-child {
       left: 2em;
       top: 1em;
     }
-    &:last-of-type {
+    &:nth-child(2) {
       right: 2em;
       top: 2em;
     }
