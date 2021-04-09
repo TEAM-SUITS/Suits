@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const passport = require("passport");
 const morgan = require("morgan");
+require("./service/passport");
 
 /* ------------------------ env 파일의 환경변수들을 사용할수 있도록 설정 ------------------------ */
 
@@ -41,30 +42,15 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/auth/github", passport.authenticate("github"));
-
-app.get(
-  "/auth/github/callback",
-  passport.authenticate("github", { failureRedirect: "/login" }),
-  function (req, res) {
-    res.redirect("http://localhost:4000");
-  }
-);
-
 app.get("/", (req, res) => {
   res.send("Suits Server Home");
 });
 
-app.get("/auth/getuser", (req, res) => {
-  res.send(req.user);
-});
+/* ----------------------------------- 라우트 ---------------------------------- */
 
-app.get("/auth/logout", (req, res) => {
-  if (req.user) {
-    req.logout();
-    res.send("done");
-  }
-});
+require("./routes/authRoutes")(app);
+
+/* ----------------------------------- 서버 시작 ---------------------------------- */
 
 app.listen(process.env.PORT || 4000, () => {
   console.log("Server Started");

@@ -1,6 +1,9 @@
 const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
-const User = require("./model/User");
+const User = require("../model/user");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 passport.serializeUser((user, done) => {
   return done(null, user._id);
