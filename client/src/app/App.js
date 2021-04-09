@@ -19,10 +19,6 @@ function App() {
   return (
     <div className="App">
       <GlobalStyle />
-      <Card title="자바스크립트 객체 생성 방법 세가지를 설명" isQuestion={true}>
-        <QnAContent />
-      </Card>
-
       {/* <SignInDialog visible={!userName} /> */}
       <Switch>
         <Route path="/" exact component={HomePage} />

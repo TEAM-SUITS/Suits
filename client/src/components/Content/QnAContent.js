@@ -11,12 +11,13 @@ const QnAContainer = styled.div`
 `;
 
 const AnswerInfo = styled.div`
+  margin-top: 1em;
   display: flex;
   align-items: center;
 `;
 
 const AnswerDetail = styled.p`
-  margin: 0;
+  margin: 1em;
   ${museoSmall}
   ${ellipsis}
 `;
