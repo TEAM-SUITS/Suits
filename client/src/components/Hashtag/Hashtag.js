@@ -21,7 +21,10 @@ const StyledHashtag = styled.button`
     transform: scale(1.05);
   }
   &:focus {
-    outline: none;
+    /* outline: none; */
+    // focus outline을 그냥 없애는 것은 접근성 위반이에요 ㅠ,ㅠ
+    // (참고: https://www.a11yproject.com/posts/2013-01-25-never-remove-css-outlines/)
+    // 딱히 버튼의 역할을 하지 않는다면 다른 요소로 마크업하시는 것 권장
   }
 `;
 

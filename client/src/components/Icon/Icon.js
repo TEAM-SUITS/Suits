@@ -12,6 +12,7 @@ import { ReactComponent as Info } from "./images/info.svg";
 import { ReactComponent as InfoActive } from "./images/info-active.svg";
 import { ReactComponent as QuoteLeft } from "./images/quoteLeft.svg";
 import { ReactComponent as QuoteRight } from "./images/quoteRight.svg";
+import { ReactComponent as Close } from "./images/close.svg";
 
 /* -------------------------------------------------------------------------- */
 
@@ -54,6 +55,9 @@ export default function  Icon({ type, title = type, height = "25px", ...restProp
     case "quote-right":
       COMP = QuoteRight;
       break;
+    case "close":
+      COMP = Close;
+      break;
     default:
       throw new Error("아이콘을 찾을수없습니다");
   }
@@ -75,5 +79,6 @@ Icon.propTypes = {
     "search-active",
     "quote-left",
     "quote-right",
+    "close"
   ]).isRequired,
 };
