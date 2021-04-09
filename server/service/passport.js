@@ -30,7 +30,9 @@ passport.use(
         if (!doc) {
           const newUser = new User({
             githubId: profile.id,
+            avatar: profile._json.avatar_url,
             username: profile.username,
+            githubRepo: profile._json.html_url,
           });
           await newUser.save();
           cb(null, newUser);
