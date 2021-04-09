@@ -11,7 +11,6 @@ export default function HomePage() {
   return (
     <>
       <TextHeaderBar page="home" />
-      <Navigation />
       <PageContainer variants={pageEffect} initial="hidden" animate="visible">
       </PageContainer>
     </>
