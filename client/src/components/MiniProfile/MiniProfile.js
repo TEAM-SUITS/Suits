@@ -44,7 +44,7 @@ export default function MiniProfile({ user }) {
       <img src={img} alt={username} />
       <div>
         <span>{username}</span>
-        <Tier tier={tier} height="12px" />
+        <Tier tier={tier} height={12} />
       </div>
       {/* </Link> */}
     </StyledMiniProfile>

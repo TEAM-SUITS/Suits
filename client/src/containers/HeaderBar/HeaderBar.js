@@ -19,7 +19,7 @@ const Container = styled.header`
     }
   }
 
-  @media screen and (max-width: 480px) { // mobile
+  @media screen and (max-width: 479px) { // mobile
     position: fixed;
     top: 0;
     background-color: var(--color-white);
