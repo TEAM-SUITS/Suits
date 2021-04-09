@@ -15,18 +15,6 @@ const CardBox = styled.div`
   background-color: var(--color-lightgray);
   padding: 1em 2em 1.4em;
 
-  & > svg {
-    position: absolute;
-    &:first-child {
-      left: 2em;
-      top: 1em;
-    }
-    &:last-child {
-      right: 2em;
-      top: 2em;
-    }
-  }
-
   & > h2 {
     color: var(--color-gray3);
   }
@@ -40,12 +28,12 @@ export default function Card({ isQuestion, title, children, ...restProps }) {
       {title && (
         <>
           <CardBox.Header>
-            {isQuestion ? (
+            {isQuestion && (
               <>
                 <Icon type="quote-left" />
                 <Icon type="quote-right" />
               </>
-            ) : null}
+            )}
             <h2>{title}</h2>
           </CardBox.Header>
           <Divider primary />
@@ -67,6 +55,17 @@ CardBox.Header = styled.div`
     ${textShadowBlack}
     font-size: 1.4em;
     padding: 0 2em;
+  }
+  & > svg {
+    position: absolute;
+    &:first-child {
+      left: 2em;
+      top: 1em;
+    }
+    &:nth-child(2) {
+      right: 2em;
+      top: 2em;
+    }
   }
 `;
 

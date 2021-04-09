@@ -10,6 +10,8 @@ import {
   PageNotFound,
 } from "pages/Pages";
 import Navigation from "containers/Nav/Navigation";
+import QnAContent from "components/Content/QnAContent";
+import Card from "components/Card/Card";
 
 /* -------------------------------------------------------------------------- */
 
