@@ -1,5 +1,4 @@
 import React from 'react';
-import Portal from 'components/Portal/Portal';
 import styled from 'styled-components';
 import { bool, string, node, oneOfType } from 'prop-types';
 
@@ -108,7 +107,7 @@ export default function Dialog({
     }
   }, [visible]);
 
-  // 사용하실 때는 아래와 같이
+  // 🔴 사용하실 때는 아래와 같이
   // 이 컴포넌트를 Portal 컴포넌트로 감싸주세요!
   return (
     <>
