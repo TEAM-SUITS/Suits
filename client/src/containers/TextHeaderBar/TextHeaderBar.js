@@ -13,6 +13,7 @@ const BoldSpan = styled.span`
 const LightSpan = styled.span`
   ${museoMedium}
   font-weight: 400;
+  line-height: 45px;
 `;
 
 /* -------------------------------------------------------------------------- */

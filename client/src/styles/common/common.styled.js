@@ -26,6 +26,16 @@ export const resetList = css`
   list-style-type: none;
 `;
 
+export const ellipsis = css`
+  display:-webkit-box; 
+  word-wrap:break-word; 
+  -webkit-line-clamp:3; 
+  -webkit-box-orient:vertical; 
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  /* height: 3.2em; */
+`;
+
 export const boxShadowBlack = css`
   box-shadow: 0 1px 3px #00000025;
 `;
