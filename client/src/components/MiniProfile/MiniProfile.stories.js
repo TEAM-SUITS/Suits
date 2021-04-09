@@ -8,7 +8,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        componrnt: 'MiniProfile은 QnA 답변란에 표시되는 작성자의 정보입니다.',
+        component: 'MiniProfile은 QnA 답변란에 표시되는 작성자의 정보입니다.',
       },
     },
   },
