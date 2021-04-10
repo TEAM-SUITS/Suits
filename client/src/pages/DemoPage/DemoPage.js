@@ -1,18 +1,14 @@
 import React from "react";
 import PageContainer from "containers/PageContainer/PageContainer.styled";
 import { pageEffect } from "styles/motions/variants";
-import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 
 /* -------------------------------------------------------------------------- */
-export default function HomePage() {
+export default function DemoPage() {
   return (
     <>
-      <TextHeaderBar page="home" />
-      <PageContainer
-        variants={pageEffect}
-        initial="hidden"
-        animate="visible"
-      ></PageContainer>
+      <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+        <a href="/auth/github">Sign In With Github</a>
+      </PageContainer>
     </>
   );
 }
