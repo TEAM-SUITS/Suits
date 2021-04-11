@@ -21,6 +21,7 @@ passport.use(
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_SECRET_ID,
       callbackURL: "/auth/github/callback",
+      proxy: true,
     },
     function (_, _, profile, cb) {
       console.log(profile);

@@ -13,7 +13,11 @@ export default {
       },
     },
   },
-  argTypes: {},
+  argTypes: {
+    answer: {
+      description: '답변에 대한 정보가 담겨있는 객체',
+    },
+  },
 };
 
 const Template = (args) => <QnAContent {...args} />;
