@@ -8,6 +8,7 @@ import {
   spoqaMediumLight,
   spoqaSmall,
 } from 'styles/common/common.styled';
+import Icon from 'components/Icon/Icon';
 
 const StyledProfile = styled.div`
   display: flex;
@@ -37,13 +38,20 @@ const StyledProfile = styled.div`
   .tierContainer {
     display: flex;
     align-items: center;
-    svg {
+    svg:first-child {
       width: 100px;
       height: 18px;
       margin-right: 1em;
     }
+    svg:last-of-type {
+      width: 2em;
+      margin-right: 0.5em;
+      path {
+        fill: var(--color-red);
+      }
+    }
     span {
-      font-size: 1em;
+      font-size: 1.8em;
     }
   }
   a {
@@ -52,7 +60,7 @@ const StyledProfile = styled.div`
     ${spoqaSmall}
   }
   p {
-    margin: .8em 0 0;
+    margin: 0.8em 0 0;
     ${spoqaMediumLight}
   }
   .hashtags {
@@ -82,6 +90,7 @@ export default function Profile({ user }) {
         <h2>{username}</h2>
         <div className="tierContainer">
           <Tier tier={tier} />
+          <Icon type="heart-active" title="likes" />
           <span>{like}</span>
         </div>
         <a href={github}>{github}</a>
