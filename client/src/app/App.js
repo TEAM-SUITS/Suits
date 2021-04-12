@@ -7,6 +7,7 @@ import {
   LikedPage,
   ProfilePage,
   InfoPage,
+  UserPage,
   PageNotFound,
 } from "pages/Pages";
 import Navigation from "containers/Nav/Navigation";
@@ -32,6 +33,7 @@ function App() {
         <Route path="/liked" component={LikedPage} />
         <Route path="/profile" component={ProfilePage} />
         <Route path="/info" component={InfoPage} />
+        <Route path="user/my-info" component={UserPage} />
         <Route path="/page-not-found" component={PageNotFound} />
         <Redirect to="/page-not-found" />
       </Switch>
