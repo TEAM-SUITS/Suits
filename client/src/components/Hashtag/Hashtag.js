@@ -15,7 +15,6 @@ const StyledHashtag = styled.div`
   align-items: center;
   border: none;
   border-radius: 20px;
-  cursor: ${(props) => props.isButton && 'pointer'};
 `;
 
 /* ---------------------------- styled components --------------------------- */
