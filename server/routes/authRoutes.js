@@ -13,7 +13,7 @@ module.exports = (app) => {
     }
   );
 
-  app.get("/auth/getuser", (req, res) => {
+  app.get("/auth/user", (req, res) => {
     if (req.user) {
       res.send({ user: req.user });
     } else {

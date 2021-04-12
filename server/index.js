@@ -26,7 +26,6 @@ try {
   console.error("Could not Connect to Suits DB", error);
 }
 
-
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: process.env.CLIENT_ADDRESS, credentials: true }));
@@ -50,6 +49,8 @@ app.get("/", (req, res) => {
 
 require("./routes/authRoutes")(app);
 require("./routes/questionRoutes")(app);
+require("./routes/answerRoutes")(app);
+require("./routes/userRoutes")(app);
 
 /* ----------------------------------- 서버 시작 ---------------------------------- */
 
