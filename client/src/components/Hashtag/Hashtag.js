@@ -3,34 +3,24 @@ import styled from 'styled-components';
 import { bool, oneOf } from 'prop-types';
 import { boxShadowBlack, spoqaSmallBold } from 'styles/common/common.styled';
 
-const StyledHashtag = styled.button`
+const StyledHashtag = styled.div`
   ${boxShadowBlack}
   ${spoqaSmallBold}
   background-color: var(${(props) =>
     props.isSelected ? '--color-gray1' : props.theme});
-  min-width: 5rem;
+  width: 6rem;
   padding: 3px 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
   border-radius: 20px;
-  cursor: default;
-  transition: transform 0.3s;
-  &:hover {
-    transform: scale(1.05);
-  }
-  &:focus {
-    /* outline: none; */
-    // focus outline을 그냥 없애는 것은 접근성 위반이에요 ㅠ,ㅠ
-    // (참고: https://www.a11yproject.com/posts/2013-01-25-never-remove-css-outlines/)
-    // 딱히 버튼의 역할을 하지 않는다면 다른 요소로 마크업하시는 것 권장
-  }
+  cursor: ${(props) => props.isButton && 'pointer'};
 `;
 
 /* ---------------------------- styled components --------------------------- */
 
-export default function Hashtag({ type, isSelected = false }) {
+export default function Hashtag({ type, isSelected, isButton }) {
   let theme = '';
 
   switch (type) {
@@ -59,7 +49,12 @@ export default function Hashtag({ type, isSelected = false }) {
       break;
   }
   return (
-    <StyledHashtag isSelected={isSelected} theme={theme}>
+    <StyledHashtag
+      isSelected={isSelected}
+      theme={theme}
+      role={isButton && 'button'}
+      style={isButton ? { cursor: 'pointer' } : null}
+    >
       {type}
     </StyledHashtag>
   );
@@ -78,4 +73,5 @@ Hashtag.propTypes = {
     'Back-End',
   ]),
   isSelected: bool,
+  isButton: bool,
 };
