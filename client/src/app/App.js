@@ -33,7 +33,7 @@ function App() {
         <Route path="/profile" component={ProfilePage} />
         <Route path="/info" component={InfoPage} />
         <Route path="/page-not-found" component={PageNotFound} />
-        {/* <Redirect to="/page-not-found" /> */}
+        <Redirect to="/page-not-found" />
       </Switch>
       <Navigation />
     </div>
