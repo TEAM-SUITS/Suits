@@ -1,5 +1,5 @@
 const express = require("express");
-const session = require("express-session");
+const cookieSession = require("cookie-session");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -26,16 +26,16 @@ try {
   console.error("Could not Connect to Suits DB", error);
 }
 
+
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: process.env.CLIENT_ADDRESS, credentials: true }));
 app.use(morgan("tiny"));
 
 app.use(
-  session({
-    secret: "secretcode",
-    resave: true,
-    saveUninitialized: true,
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30일
+    keys: [process.env.COOKIE_KEY],
   })
 );
 
@@ -49,6 +49,7 @@ app.get("/", (req, res) => {
 /* ----------------------------------- 라우트 ---------------------------------- */
 
 require("./routes/authRoutes")(app);
+require("./routes/questionRoutes")(app);
 
 /* ----------------------------------- 서버 시작 ---------------------------------- */
 
