@@ -5,15 +5,15 @@ module.exports = (app) => {
   app.get(
     "/auth/github/callback",
     passport.authenticate("github", {
-      failureRedirect: "http://localhost:3000/",
-      successRedirect: "http://localhost:3000/",
+      failureRedirect: "http://localhost:3000/login",
+      successRedirect: "http://localhost:3000/login",
     }),
     function (req, res) {
       res.sendStatus(200);
     }
   );
 
-  app.get("/auth/getuser", (req, res) => {
+  app.get("/auth/user", (req, res) => {
     if (req.user) {
       res.send({ user: req.user });
     } else {
