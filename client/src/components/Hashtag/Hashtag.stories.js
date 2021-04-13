@@ -16,10 +16,12 @@ export default {
     type: {
       control: 'select',
       option: [
+        'All',
         'CSS',
         'JavaScript',
-        'Algorithm',
+        // 'Algorithm',
         'Database',
+        'OS',
         'Network',
         'Front-End',
         'Back-End',
@@ -59,13 +61,13 @@ JavaScriptSelected.args = {
   isSelected: true,
 };
 
-export const Algorithm = Template.bind({});
-Algorithm.args = {
-  type: 'Algorithm',
+export const OS = Template.bind({});
+OS.args = {
+  type: 'OS',
 };
-export const AlgorithmSelected = Template.bind({});
-AlgorithmSelected.args = {
-  type: 'Algorithm',
+export const OSSelected = Template.bind({});
+OSSelected.args = {
+  type: 'OS',
   isSelected: true,
 };
 
