@@ -1,9 +1,9 @@
-import React from "react";
-import { bool, string, node } from "prop-types";
-import styled from "styled-components";
-import { boxShadowBlack, textShadowBlack } from "styles/common/common.styled";
-import Icon from "components/Icon/Icon";
-import Divider from "components/Divider/Divider";
+import React from 'react';
+import { bool, string, node } from 'prop-types';
+import styled from 'styled-components';
+import { boxShadowBlack, textShadowBlack } from 'styles/common/common.styled';
+import Icon from 'components/Icon/Icon';
+import Divider from 'components/Divider/Divider';
 
 /* ---------------------------- styled components ---------------------------- */
 
@@ -14,8 +14,8 @@ const CardBox = styled.div`
   border-radius: 10px;
   background-color: var(--color-lightgray);
   padding: 1em 2em 1.4em;
-
-  & > h2 {
+  max-height: 60vh;
+  overflow: auto;
     color: var(--color-gray3);
   }
 `;
@@ -36,7 +36,7 @@ export default function Card({ isQuestion, title, children, ...restProps }) {
             )}
             <h2>{title}</h2>
           </CardBox.Header>
-          <Divider primary />
+          <Divider primary width="80%" />
         </>
       )}
       <CardBox.Content>{children}</CardBox.Content>
