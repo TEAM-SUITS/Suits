@@ -19,6 +19,7 @@ try {
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
     },
     () => console.log("Connected to Suits DB")
   );
@@ -26,6 +27,9 @@ try {
   console.error("Could not Connect to Suits DB", error);
 }
 
+/* ------------------------------- DB 모델 불러오기 ------------------------------- */
+
+const User = require("./model/user");
 
 const app = express();
 app.use(express.json());
@@ -50,6 +54,8 @@ app.get("/", (req, res) => {
 
 require("./routes/authRoutes")(app);
 require("./routes/questionRoutes")(app);
+require("./routes/answerRoutes")(app);
+require("./routes/userRoutes")(app);
 
 /* ----------------------------------- 서버 시작 ---------------------------------- */
 

@@ -34,6 +34,7 @@ passport.use(
             avatar: profile._json.avatar_url,
             username: profile.username,
             githubRepo: profile._json.html_url,
+            bio: profile._json.bio,
             memberSince: new Date(),
           });
           await newUser.save();
