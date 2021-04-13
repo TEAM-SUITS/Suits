@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Question = require('../model/Question');
+const requireLogin = require("../middlewares/requireLogin");
 
 /* ------------------------------ export routes ----------------------------- */
 module.exports = (app) => {
@@ -26,6 +27,29 @@ module.exports = (app) => {
       // const randomQuestion = await Question.aggregate([{ $sample: { size: 1 } }]);
 
       res.json(randomQuestion);
+    } catch(err) {
+      res.json('Error :' + err);
+    }
+  });
+
+  // Trending Question API - answers.length 값 top3인 question 가져오기
+  app.get('/api/questions/trending', async (req, res) => {
+    try {
+      const trendingQuestions = await Question.aggregate([
+        {
+          "$project": {
+            "answers": 1,
+            "hashTag": 1,
+            "_id": 1,
+            "content": 1,
+            "postedOn": 1,
+            "length": { "$size": "$answers" }
+            }
+        },
+        { "$sort": { "length": -1 } }, { "$limit": 3 }
+      ]);
+
+      res.json(trendingQuestions);
     } catch(err) {
       res.json('Error :' + err);
     }
