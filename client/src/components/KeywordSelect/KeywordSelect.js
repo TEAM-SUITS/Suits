@@ -1,4 +1,5 @@
 import Hashtag from 'components/Hashtag/Hashtag';
+import { array } from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { resetList, spoqaLarge } from 'styles/common/common.styled';
@@ -64,6 +65,8 @@ const DoneButton = styled.button`
   color: var(--color-white);
   right: 1.5em;
 `;
+
+/* ---------------------------- styled component ---------------------------- */
 
 export default function KeywordSelect({ keywordArray, userKeywords }) {
   const [selectedKeywords, setSelectedKeywords] = useState(
@@ -148,3 +151,10 @@ export default function KeywordSelect({ keywordArray, userKeywords }) {
     );
   }
 }
+
+/* ------------------------------- prop types ------------------------------- */
+
+KeywordSelect.propTypes = {
+  keywordArray: array.isRequired,
+  userKeywords: array.isRequired,
+};
