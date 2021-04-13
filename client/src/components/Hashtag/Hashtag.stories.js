@@ -19,12 +19,12 @@ export default {
         'All',
         'CSS',
         'JavaScript',
-        // 'Algorithm',
         'Database',
         'OS',
         'Network',
         'Front-End',
         'Back-End',
+        'All',
       ],
       description: '관심 키워드 지정',
     },
@@ -108,5 +108,15 @@ BackEnd.args = {
 export const BackEndSelected = Template.bind({});
 BackEndSelected.args = {
   type: 'Back-End',
+  isSelected: true,
+};
+
+export const All = Template.bind({});
+All.args = {
+  type: 'All',
+};
+export const AllSelected = Template.bind({});
+AllSelected.args = {
+  type: 'All',
   isSelected: true,
 };
