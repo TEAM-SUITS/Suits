@@ -1,9 +1,10 @@
-import React from "react";
-import LikeButton from "components/LikeButton/LikeButton";
-import MiniProfile from "components/MiniProfile/MiniProfile";
-import styled from "styled-components";
-import { a11yHidden, ellipsis, museoSmall } from "styles/common/common.styled";
-import { object } from "prop-types";
+import React from 'react';
+import LikeButton from 'components/LikeButton/LikeButton';
+import MiniProfile from 'components/MiniProfile/MiniProfile';
+import styled from 'styled-components';
+import { a11yHidden, ellipsis, museoSmall } from 'styles/common/common.styled';
+import { object } from 'prop-types';
+import { bool } from 'prop-types';
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -20,9 +21,10 @@ const AnswerInfo = styled.div`
 `;
 
 const AnswerDetail = styled.p`
+  max-width: 347px;
   margin: 1em;
   ${museoSmall}
-  ${ellipsis}
+  ${(props) => props.isEllipsis && ellipsis}
 `;
 
 const ScreenReaderSpan = styled.span`
@@ -31,7 +33,7 @@ const ScreenReaderSpan = styled.span`
 
 /* -------------------------------------------------------------------------- */
 
-export default function QnAContent({ answer }) {
+export default function QnAContent({ answer, isEllipsis = true }) {
   return (
     <QnAContainer>
       <AnswerInfo>
@@ -40,7 +42,7 @@ export default function QnAContent({ answer }) {
         <ScreenReaderSpan>좋아요 수</ScreenReaderSpan>
         {answer.liked}
       </AnswerInfo>
-      <AnswerDetail>{answer.content}</AnswerDetail>
+      <AnswerDetail isEllipsis={isEllipsis}>{answer.content}</AnswerDetail>
     </QnAContainer>
   );
 }
@@ -49,4 +51,5 @@ export default function QnAContent({ answer }) {
 
 QnAContent.propTypes = {
   answer: object.isRequired,
+  isEllipsis: bool,
 };

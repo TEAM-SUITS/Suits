@@ -7,11 +7,11 @@ import { museoMedium } from 'styles/common/common.styled';
 
 const StyledMiniProfile = styled.div`
   display: flex;
-  width: 250px;
+  /* width: 180px; */
 
   img {
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     margin-right: 10px;
   }
@@ -27,9 +27,20 @@ const StyledMiniProfile = styled.div`
       margin: 5px 0;
     }
     svg {
-      width: 100px;
-      height: fit-content;
+      height: 1.4em;
+      width: 50%;
     }
+  }
+
+  @media screen and (min-width: 480px) {
+    /* width: 250px; */
+
+    img {
+      width: 80px;
+      height: 80px;
+    }
+    svg {
+      height: 2em;
   }
 `;
 
