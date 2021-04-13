@@ -29,7 +29,7 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
     case 'JavaScript':
       theme = '--color-yellow';
       break;
-    case 'Algorithm':
+    case 'OS':
       theme = '--color-green1';
       break;
     case 'Database':
@@ -43,6 +43,9 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
       break;
     case 'Back-End':
       theme = '--color-orange';
+      break;
+    case 'All':
+      theme = '--color-lightgray2';
       break;
     default:
       break;
@@ -69,11 +72,12 @@ Hashtag.propTypes = {
   type: oneOf([
     'CSS',
     'JavaScript',
-    'Algorithm',
+    'OS',
     'Database',
     'Network',
     'Front-End',
     'Back-End',
+    'All',
   ]),
   isSelected: bool,
   isButton: bool,

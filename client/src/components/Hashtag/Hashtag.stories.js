@@ -18,11 +18,12 @@ export default {
       option: [
         'CSS',
         'JavaScript',
-        'Algorithm',
+        'OS',
         'Database',
         'Network',
         'Front-End',
         'Back-End',
+        'All',
       ],
       description: '관심 키워드 지정',
     },
@@ -59,13 +60,13 @@ JavaScriptSelected.args = {
   isSelected: true,
 };
 
-export const Algorithm = Template.bind({});
-Algorithm.args = {
-  type: 'Algorithm',
+export const OS = Template.bind({});
+OS.args = {
+  type: 'OS',
 };
-export const AlgorithmSelected = Template.bind({});
-AlgorithmSelected.args = {
-  type: 'Algorithm',
+export const OSSelected = Template.bind({});
+OSSelected.args = {
+  type: 'OS',
   isSelected: true,
 };
 
@@ -106,5 +107,15 @@ BackEnd.args = {
 export const BackEndSelected = Template.bind({});
 BackEndSelected.args = {
   type: 'Back-End',
+  isSelected: true,
+};
+
+export const All = Template.bind({});
+All.args = {
+  type: 'All',
+};
+export const AllSelected = Template.bind({});
+AllSelected.args = {
+  type: 'All',
   isSelected: true,
 };

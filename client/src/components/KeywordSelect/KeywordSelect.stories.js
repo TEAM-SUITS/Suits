@@ -29,7 +29,7 @@ NoPreviousSelect.args = {
   keywordArray: [
     'CSS',
     'JavaScript',
-    'Algorithm',
+    'OS',
     'Database',
     'Network',
     'Front-End',
@@ -43,7 +43,7 @@ HasUserSelected.args = {
   keywordArray: [
     'CSS',
     'JavaScript',
-    'Algorithm',
+    'OS',
     'Database',
     'Network',
     'Front-End',
