@@ -84,6 +84,7 @@ export default function KeywordSelect({ keywordArray, userKeywords }) {
   };
 
   const submitSelectedKeywords = () => {
+    if (selectedKeywords.length === 0) return;
     console.log('user.keyword를 selectedKeyword로 교체합니다.');
   };
 
