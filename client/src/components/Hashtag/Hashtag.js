@@ -23,13 +23,16 @@ export default function Hashtag({ type, isSelected, isButton }) {
   let theme = '';
 
   switch (type) {
+    case 'All':
+      theme = '--color-gray1';
+      break;
     case 'CSS':
       theme = '--color-blue1';
       break;
     case 'JavaScript':
       theme = '--color-yellow';
       break;
-    case 'Algorithm':
+    case 'OS':
       theme = '--color-green1';
       break;
     case 'Database':
@@ -65,7 +68,7 @@ Hashtag.propTypes = {
   type: oneOf([
     'CSS',
     'JavaScript',
-    'Algorithm',
+    'OS',
     'Database',
     'Network',
     'Front-End',
