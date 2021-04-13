@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import Icon from 'components/Icon/Icon';
+import Portal from 'components/Portal/Portal';
 import { bool, string, node, oneOfType } from 'prop-types';
 
 /* ---------------------------- styled components --------------------------- */
-const DialogContainer = styled.div.attrs(props => ({
+const DialogContainer = styled.div.attrs((props) => ({
   role: 'dialog',
   ariaModal: 'true',
   ariaLable: props.label,
@@ -26,13 +27,13 @@ const DialogContainer = styled.div.attrs(props => ({
 `;
 
 const CloseButton = styled.button.attrs(() => ({
-  type: "button",
-  'aria-label': "닫기"
+  type: 'button',
+  'aria-label': '닫기',
 }))`
   position: absolute;
   top: 1em;
   right: 1em;
-  padding: .5em;
+  padding: 0.5em;
   background-color: transparent;
   border: none;
 
@@ -61,7 +62,7 @@ const Modal = styled.div.attrs(() => ({
   right: 0;
   top: 0;
   bottom: 0;
-  opacity: .3;
+  opacity: ${(props) => props.opacity};
   /* backdrop-filter: blur(20px) opacity(80%); */
 `;
 
@@ -71,6 +72,7 @@ export default function Dialog({
   infoText = '', // content of h1
   label = infoText, // aria-label
   children,
+  opacity = 0.8,
 }) {
   const dialogRef = React.useRef(null);
 
@@ -86,7 +88,7 @@ export default function Dialog({
       rootNode.setAttribute('aria-hidden', true);
       rootNode.style.userSelect = 'none';
 
-      const handleFocusTrap = e => {
+      const handleFocusTrap = (e) => {
         // 다이얼로그 노드
         // const dialogNode = dialogRef.current;
         // focusable nodes "inside" dialogNode
@@ -120,7 +122,7 @@ export default function Dialog({
         rootNode.removeAttribute('aria-hidden');
         window.removeEventListener('keydown', handleFocusTrap);
         rootNode.style.userSelect = 'auto';
-      }
+      };
     }
   }, [visible]);
 
@@ -128,25 +130,18 @@ export default function Dialog({
   // 이 컴포넌트를 Portal 컴포넌트로 감싸주세요!
   return (
     <>
-    {/* <Portal id={'dialog-container'}> */}
-      {visible ? <Modal /> : null}
-      {visible && (
-        <DialogContainer
-          ref={dialogRef}
-          label={label}
-        >
-          <CloseButton>
-            <Icon
-              type="close"
-              title="닫기"
-              height="1.8em"
-            />
-          </CloseButton>
-          <Header>{infoText}</Header>
-          {children}
-        </DialogContainer>
-      )}
-    {/* </Portal> */}
+      <Portal id={'dialog-container'}>
+        {visible ? <Modal opacity={opacity} /> : null}
+        {visible && (
+          <DialogContainer ref={dialogRef} label={label}>
+            <CloseButton>
+              <Icon type="close" title="닫기" height="1.8em" />
+            </CloseButton>
+            <Header>{infoText}</Header>
+            {children}
+          </DialogContainer>
+        )}
+      </Portal>
     </>
   );
 }
