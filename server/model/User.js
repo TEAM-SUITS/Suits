@@ -17,6 +17,7 @@ const userSchema = new Schema({
     required: true,
     type: String,
   },
+  firstLogin: { type: Boolean, default: true },
   bio: String,
   tier: { type: Number, enum: TIER, default: TIER[0] },
   hashTag: [{ type: String }],
