@@ -23,6 +23,9 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
   let theme = '';
 
   switch (type) {
+    case 'All':
+      theme = '--color-gray1';
+      break;
     case 'CSS':
       theme = '--color-blue1';
       break;

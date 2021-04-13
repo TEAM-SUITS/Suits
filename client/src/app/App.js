@@ -26,9 +26,10 @@ function App() {
     <div className="App">
       <GlobalStyle />
       <ProfileDialog isVisible={checkingProfile} />
-      <DemoPage />
+
       <Switch>
         <Route path="/" exact component={HomePage} />
+        <Route path="/login" exact component={DemoPage} />
         <Route path="/search" component={SearchPage} />
         <Route path="/liked" component={LikedPage} />
         <Route path="/profile" component={ProfilePage} />

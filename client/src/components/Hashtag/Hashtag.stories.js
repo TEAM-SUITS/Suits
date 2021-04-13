@@ -16,10 +16,11 @@ export default {
     type: {
       control: 'select',
       option: [
+        'All',
         'CSS',
         'JavaScript',
-        'OS',
         'Database',
+        'OS',
         'Network',
         'Front-End',
         'Back-End',
