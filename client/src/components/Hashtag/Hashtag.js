@@ -19,7 +19,7 @@ const StyledHashtag = styled.div`
 
 /* ---------------------------- styled components --------------------------- */
 
-export default function Hashtag({ type, isSelected, isButton }) {
+export default function Hashtag({ type, isSelected, isButton, clicked }) {
   let theme = '';
 
   switch (type) {
@@ -49,10 +49,14 @@ export default function Hashtag({ type, isSelected, isButton }) {
   }
   return (
     <StyledHashtag
+      type={type}
       isSelected={isSelected}
       theme={theme}
       role={isButton && 'button'}
       style={isButton ? { cursor: 'pointer' } : null}
+      tabIndex={isButton ? 0 : -1}
+      onClick={clicked}
+      onKeyUp={(e) => e.code === 'Space' && clicked()}
     >
       {type}
     </StyledHashtag>
