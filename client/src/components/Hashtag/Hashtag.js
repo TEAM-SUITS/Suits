@@ -24,7 +24,7 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
 
   switch (type) {
     case 'All':
-      theme = '--color-gray1';
+      theme = '--color-lightgray2';
       break;
     case 'CSS':
       theme = '--color-blue1';
@@ -77,6 +77,7 @@ Hashtag.propTypes = {
     'Network',
     'Front-End',
     'Back-End',
+    'All',
   ]),
   isSelected: bool,
   isButton: bool,
