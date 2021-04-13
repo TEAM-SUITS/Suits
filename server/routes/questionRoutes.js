@@ -22,8 +22,10 @@ module.exports = (app) => {
       const randomNumber = Math.ceil(Math.random() * (count-1));
       const randomQuestion = await Question.findOne().skip(randomNumber);
 
+      // 또는
+      // const randomQuestion = await Question.aggregate([{ $sample: { size: 1 } }]);
+
       res.json(randomQuestion);
-      console.log(randomNumber);
     } catch(err) {
       res.json('Error :' + err);
     }
