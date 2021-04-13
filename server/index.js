@@ -19,12 +19,17 @@ try {
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
     },
     () => console.log("Connected to Suits DB")
   );
 } catch (error) {
   console.error("Could not Connect to Suits DB", error);
 }
+
+/* ------------------------------- DB 모델 불러오기 ------------------------------- */
+
+const User = require("./model/user");
 
 const app = express();
 app.use(express.json());
