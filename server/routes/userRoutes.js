@@ -19,7 +19,7 @@ module.exports = (app) => {
   app.patch("/api/user-profile/hashtag", requireLogin, async (req, res) => {
     try {
       req.user.hashTag = req.body.hashTag;
-      const user = await req.user.save();
+      await req.user.save();
       res.status(200).send({ message: "성공적으로 저장" });
     } catch (err) {
       res.status(500).send({
@@ -32,7 +32,7 @@ module.exports = (app) => {
   app.patch("api/user-profile/bio", requireLogin, async (req, res) => {
     try {
       req.user.bio = req.body.bio;
-      const user = await req.user.save();
+      await req.user.save();
       res.status(200).send({ message: "성공적으로 저장" });
     } catch (err) {
       res.status(500).send({
