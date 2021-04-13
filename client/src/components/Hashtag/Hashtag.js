@@ -24,7 +24,7 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
 
   switch (type) {
     case 'All':
-      theme = '--color-gray1';
+      theme = '--color-lightgray2';
       break;
     case 'CSS':
       theme = '--color-blue1';
@@ -46,9 +46,6 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
       break;
     case 'Back-End':
       theme = '--color-orange';
-      break;
-    case 'All':
-      theme = '--color-lightgray2';
       break;
     default:
       break;
