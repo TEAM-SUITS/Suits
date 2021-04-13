@@ -11,7 +11,7 @@ const SIGN_OUT_FAILURE = "로그아웃 요청 실패";
 export const fetchUserAction = () => async (dispatch) => {
   dispatch({ type: FETCH_USER });
   try {
-    const res = await axios.get("/auth/getuser");
+    const res = await axios.get("/auth/user");
     dispatch({ type: FETCH_USER_SUCCESS, authUser: res.data.user });
   } catch (err) {
     dispatch({ type: FETCH_USER_FAILURE, msg: err.response.data });
