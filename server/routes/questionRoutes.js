@@ -67,19 +67,23 @@ module.exports = (app) => {
     }
   });
 
-  // 💥 answers field에 전달 받은 아이디 추가하기
+  // answers field에 전달 받은 아이디 추가하기
   app.patch('/api/questions/:id', async (req, res) => {
     try {
-      const questionId = mongoose.Types.ObjectId(req.params.id);
-      const question = await Question.findByIdAndUpdate(questionId, {
-        $push: { answers: req.body.answerId }
-      }, (err, result) => {
-        if (err) {
-          console.error(err);
-        } else {
-          res.json(question);
-        }
-      }).exec();
+      // const question = await Question.findByIdAndUpdate(questionId, {
+      //   $push: { answers: req.body.answerId }
+      // }, (err, result) => {
+      //   if (err) {
+      //     console.error(err);
+      //   } else {
+      //     res.json(question);
+      //   }
+      // }).exec();
+      const question = await Question.findById(req.params.id);
+      question.answers.push(req.body.answerId);
+      question.save();
+
+      res.json(question);
     } catch(err) {
       res.json('Error :' + err);
     }
