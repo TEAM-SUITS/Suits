@@ -4,12 +4,58 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
 
+/* ---------------- 사용자 정의 초기화 --------------------------------------- */
+  
+  body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #212121;
+    font-size: 10px;
+    max-width: 944px;
+    background-color: var(--color-lightgray1);
+  }
+
+  body,
+  body *,
+  body::before,
+  body::after,
+  body *::before,
+  body *::after {
+    box-sizing: border-box;
+    max-width: 944px;
+    font-size: 10px;
+  }
+
+  img {
+    vertical-align: middle;
+  }
+
+  button {
+    user-select: none;
+    cursor: pointer;
+  }
+
+  abbr[title] {
+    cursor: help;
+  }
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+  }
+
+/* ------------------------------- 사용자 정의 스타일 ------------------------------- */
+
   body {
     font-family: 'MuseoModerno', "Spoqa Han Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans";
     margin: 0 auto;
+    font-size: 10px;
+    max-width: 944px;
   }
 
+  
   html {
     /* 색상 변수 */
     --color-white: #FFF;

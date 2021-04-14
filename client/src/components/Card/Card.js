@@ -1,9 +1,9 @@
-import React from 'react';
-import { bool, string, node } from 'prop-types';
-import styled from 'styled-components';
-import { boxShadowBlack, textShadowBlack } from 'styles/common/common.styled';
-import Icon from 'components/Icon/Icon';
-import Divider from 'components/Divider/Divider';
+import React from "react";
+import { bool, string, node } from "prop-types";
+import styled from "styled-components";
+import { boxShadowBlack, textShadowBlack } from "styles/common/common.styled";
+import Icon from "components/Icon/Icon";
+import Divider from "components/Divider/Divider";
 
 /* ---------------------------- styled components ---------------------------- */
 
@@ -16,8 +16,7 @@ const CardBox = styled.div`
   padding: 1em 2em 1.4em;
   max-height: 60vh;
   overflow: auto;
-    color: var(--color-gray3);
-  }
+  color: var(--color-gray3);
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -53,7 +52,7 @@ CardBox.Header = styled.div`
     text-align: center;
     color: var(--color-gray3);
     ${textShadowBlack}
-    font-size: 1.4em;
+    font-size: 1.4rem;
     padding: 0 2em;
   }
   & > svg {
