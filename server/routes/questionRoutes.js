@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Question = require("../model/Question");
-const requireLogin = require("../middlewares/requireLogin");
 
 /* ------------------------------ export routes ----------------------------- */
 module.exports = (app) => {
@@ -8,10 +7,15 @@ module.exports = (app) => {
   app.get('/api/questions', async (req, res) => {
     try {
       // find 메서드는 조건에 맞는 document들의 목록을 가져옴.
-      const questions = await Question.find();
-
-      res.json(questions);
-    } catch(err) {
+      await Question.find({}).populate({ path: 'answers' }).exec((err, data) => {
+        if (err) {
+          res.status(500).send({
+            message: err,
+          });
+        }
+        res.json(data);
+      });
+    } catch (err) {
       res.status(500).send({
         message: err,
       });
@@ -23,13 +27,18 @@ module.exports = (app) => {
     try {
       const count = await Question.countDocuments();
       const randomNumber = Math.ceil(Math.random() * (count - 1));
-      const randomQuestion = await Question.findOne().skip(randomNumber);
+      await Question.findOne().skip(randomNumber).populate({ path: 'answers' }).exec((err, data) => {
+        if (err) {
+          res.status(500).send({
+            message: err,
+          });
+        }
+        res.json(data);
+      });
 
       // 또는
       // const randomQuestion = await Question.aggregate([{ $sample: { size: 1 } }]);
-
-      res.json(randomQuestion);
-    } catch(err) {
+    } catch (err) {
       res.status(500).send({
         message: err,
       });
@@ -52,10 +61,18 @@ module.exports = (app) => {
         },
         { $sort: { length: -1 } },
         { $limit: 3 },
+        {
+          $lookup: {
+            from: 'answers',
+            localField: 'answers',
+            foreignField: '_id',
+            as: 'answers'
+          }
+        }
       ]);
 
       res.json(trendingQuestions);
-    } catch(err) {
+    } catch (err) {
       res.status(500).send({
         message: err,
       });
@@ -66,10 +83,15 @@ module.exports = (app) => {
   app.get('/api/questions/:id', async (req, res) => {
     try {
       const questionId = mongoose.Types.ObjectId(req.params.id);
-      const question = await Question.findById(questionId);
-
-      res.json(question);
-    } catch(err) {
+      await Question.findById(questionId).populate({ path: 'answers' }).exec((err, data) => {
+        if (err) {
+          res.status(500).send({
+            message: err,
+          });
+        }
+        res.json(data);
+      });
+    } catch (err) {
       res.status(500).send({
         message: err,
       });
@@ -79,21 +101,22 @@ module.exports = (app) => {
   // answers field에 전달 받은 아이디 추가하기
   app.patch('/api/questions/:id', async (req, res) => {
     try {
-      // const question = await Question.findByIdAndUpdate(questionId, {
-      //   $push: { answers: req.body.answerId }
-      // }, (err, result) => {
-      //   if (err) {
-      //     console.error(err);
-      //   } else {
-      //     res.json(question);
-      //   }
-      // }).exec();
-      const question = await Question.findById(req.params.id);
-      question.answers.push(req.body.answerId);
-      question.save();
-
-      res.json(question);
-    } catch(err) {
+      await Question.findByIdAndUpdate(
+        { _id: req.params.id },
+        { $push: { answers: req.body.answerId } }
+      ).populate({ path: 'answers' }).exec((err, data) => {
+        if (err) {
+          res.status(500).send({
+            message: err,
+          });
+        }
+        res.json(data);
+      });
+      // const question = await Question.findById(req.params.id);
+      // question.answers.push(req.body.answerId);
+      // question.save();
+      // res.json(question);
+    } catch (err) {
       res.status(500).send({
         message: err,
       });
@@ -130,6 +153,14 @@ module.exports = (app) => {
                 // { answers: { $regex: regex } }
               ]
             }
+          },
+          {
+            $lookup: {
+              from: 'answers',
+              localField: 'answers',
+              foreignField: '_id',
+              as: 'answers'
+            }
           }
         ]
       );
@@ -143,7 +174,7 @@ module.exports = (app) => {
       //   { hashTag: { $elemMatch: { $regex: regex } } }
       // );
       res.json(questions);
-    } catch(err) {
+    } catch (err) {
       res.status(500).send({
         message: err,
       });
@@ -157,12 +188,17 @@ module.exports = (app) => {
     const regexpArray = hashtagArray.map(hashtag => new RegExp(hashtag, 'i'));
 
     try {
-      const questions = await Question.find(
+      await Question.find(
         { hashTag: { $elemMatch: { $in: regexpArray } } }
-      );
-
-      res.json(questions);
-    } catch(err) {
+      ).populate({ path: 'answers' }).exec((err, data) => {
+        if (err) {
+          res.status(500).send({
+            message: err,
+          });
+        }
+        res.json(data);
+      });
+    } catch (err) {
       res.status(500).send({
         message: err,
       });
