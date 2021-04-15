@@ -149,4 +149,22 @@ module.exports = (app) => {
       });
     }
   });
+
+  app.get('/api/questions/following/:hashtags', async (req, res) => {
+    // :hashtags -> ex) 'js-html-css'
+    const hashtagArray = req.params.hashtags.split('-');
+    const regexpArray = hashtagArray.map(hashtag => new RegExp(hashtag, 'i'));
+
+    try {
+      const questions = await Question.find(
+        { hashTag: { $elemMatch: { $in: regexpArray } } }
+      );
+
+      res.json(questions);
+    } catch(err) {
+      res.status(500).send({
+        message: err,
+      });
+    }
+  });
 };
