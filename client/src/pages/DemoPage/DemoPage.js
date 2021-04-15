@@ -36,16 +36,20 @@ export default function DemoPage() {
       content,
       questionId: '60751695af540a054f122915',
     });
-    
-    console.log(res.data._id);
 
-    const data = await axios.patch('/api/questions/60751695af540a054f122915', {
+    await axios.patch('/api/questions/60751695af540a054f122915', {
       answerId: res.data._id,
     });
 
-    // const data = await axios.get('/api/questions/60751695af540a054f122915');
+    dispatch(fetchUserAction());
+  };
 
-    console.log(data);
+  const patchAnswer = async () => {
+    const res = await axios.patch('/api/answers/60783162fc60153f9c61c958', {
+      content,
+    });
+
+    console.log(res);
 
     dispatch(fetchUserAction());
   };
@@ -66,6 +70,7 @@ export default function DemoPage() {
                 onChange={(e) => setContent(e.target.value)}
               />
               <button type="button" onClick={postAnswer}>답변 등록</button>
+              <button type="button" onClick={patchAnswer}>답변 수정</button>
             </form>
           </>
         ) : (

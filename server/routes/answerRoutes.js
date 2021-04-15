@@ -39,4 +39,21 @@ module.exports = (app) => {
       });
     }
   });
+
+  // update answer
+  app.patch('/api/answers/:id', requireLogin, async (req, res) => {
+    try {
+      const answer = await Answer.findByIdAndUpdate(
+        { _id: req.params.id },
+        { content: req.body.content },
+        { new: true }
+      ).exec();
+
+      res.json(answer);
+    } catch (err) {
+      res.status(500).send({
+        message: err
+      });
+    }
+  });
 };
