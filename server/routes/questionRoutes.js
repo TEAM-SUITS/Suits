@@ -12,7 +12,9 @@ module.exports = (app) => {
 
       res.json(questions);
     } catch(err) {
-      res.json('Error :' + err);
+      res.status(500).send({
+        message: err,
+      });
     }
   });
 
@@ -28,7 +30,9 @@ module.exports = (app) => {
 
       res.json(randomQuestion);
     } catch(err) {
-      res.json('Error :' + err);
+      res.status(500).send({
+        message: err,
+      });
     }
   });
 
@@ -51,7 +55,9 @@ module.exports = (app) => {
 
       res.json(trendingQuestions);
     } catch(err) {
-      res.json('Error :' + err);
+      res.status(500).send({
+        message: err,
+      });
     }
   });
 
@@ -63,7 +69,9 @@ module.exports = (app) => {
 
       res.json(question);
     } catch(err) {
-      res.json('Error :' + err);
+      res.status(500).send({
+        message: err,
+      });
     }
   });
 
@@ -85,7 +93,26 @@ module.exports = (app) => {
 
       res.json(question);
     } catch(err) {
-      res.json('Error :' + err);
+      res.status(500).send({
+        message: err,
+      });
+    }
+  });
+
+  // answers field에서 아이디 삭제하기
+
+  // 검색어가 포함된 question 조회
+  app.get('/api/questions/search', async (req, res) => {
+    try {
+      const questions = await Question.find(
+        { $text: { $search: `${req.body.searchWord}` } }
+      );
+
+      res.json(questions);
+    } catch(err) {
+      res.status(500).send({
+        message: err,
+      });
     }
   });
 };
