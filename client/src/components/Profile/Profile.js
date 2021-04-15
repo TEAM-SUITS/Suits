@@ -51,7 +51,7 @@ const StyledProfile = styled.div`
       }
     }
     span {
-      font-size: 1.8em;
+      font-size: 1.8rem;
     }
   }
   a {

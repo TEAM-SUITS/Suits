@@ -47,7 +47,7 @@ const Header = styled.h1`
   display: block;
   margin: 0;
   padding: 0;
-  font-size: 2em;
+  font-size: 2rem;
 `;
 
 const Modal = styled.div.attrs(() => ({

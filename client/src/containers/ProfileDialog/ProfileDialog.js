@@ -19,17 +19,17 @@ const mockUser = {
 const FontSizeContainer = styled.div`
   @media screen and (max-width: 480px) {
     h2 {
-      font-size: 1.8em;
+      font-size: 1.8rem;
     }
     a {
-      font-size: 1.2em;
+      font-size: 1.2rem;
     }
     p {
-      font-size: 1.2em;
+      font-size: 1.2rem;
       font-weight: 400;
     }
     .hashtags {
-      font-size: .8em;
+      font-size: .8rem;
       margin-left: -1.6em;
     }
   }
