@@ -9,8 +9,8 @@ const questionSchema = new Schema({
   hashTag: [{ type: String }],
 });
 
-questionSchema.index({
-  content: 'text'
-});
+// questionSchema.index({
+//   content: 'text'
+// });
 
 module.exports = mongoose.model('Question', questionSchema);
