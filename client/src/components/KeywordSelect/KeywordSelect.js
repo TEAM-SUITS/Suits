@@ -50,7 +50,7 @@ const StyledList = styled.ul`
   justify-content: space-around;
   li {
     div {
-      font-size: 1.8em;
+      font-size: 1.8rem;
       width: auto;
     }
   }

@@ -57,6 +57,7 @@ export const GlobalStyle = createGlobalStyle`
 
   
   html {
+    font-size: 10px;
     /* 색상 변수 */
     --color-white: #FFF;
     --color-black: #101010;
