@@ -12,7 +12,9 @@ module.exports = (app) => {
 
       res.json(questions);
     } catch(err) {
-      res.json('Error :' + err);
+      res.status(500).send({
+        message: err,
+      });
     }
   });
 
@@ -28,7 +30,9 @@ module.exports = (app) => {
 
       res.json(randomQuestion);
     } catch(err) {
-      res.json('Error :' + err);
+      res.status(500).send({
+        message: err,
+      });
     }
   });
 
@@ -51,7 +55,9 @@ module.exports = (app) => {
 
       res.json(trendingQuestions);
     } catch(err) {
-      res.json('Error :' + err);
+      res.status(500).send({
+        message: err,
+      });
     }
   });
 
@@ -63,7 +69,9 @@ module.exports = (app) => {
 
       res.json(question);
     } catch(err) {
-      res.json('Error :' + err);
+      res.status(500).send({
+        message: err,
+      });
     }
   });
 
@@ -85,7 +93,62 @@ module.exports = (app) => {
 
       res.json(question);
     } catch(err) {
-      res.json('Error :' + err);
+      res.status(500).send({
+        message: err,
+      });
+    }
+  });
+
+  // answers field에서 아이디 삭제하기
+
+  // 검색어가 포함된 question 조회
+  app.get('/api/questions/search/:searchWord', async (req, res) => {
+    try {
+      const regex = new RegExp(`${req.params.searchWord}+`, 'i'); // i from case insensitive
+      // const searchQuery = req.params.searchWord.replace(/[.*+?^${}()|[]\]/g, '\$&');
+      const questions = await Question.aggregate(
+        [
+          // {
+          //   $lookup: {
+          //     from: 'answers',
+          //     as: 'Answer',
+          //     let: { Answer: '$content' },
+          //     pipeline: [
+          //       {
+          //         $match: { content: { $regex: regex } }
+          //       }
+          //     ]
+          //   }
+          // },
+          {
+            $match:
+            {
+              $or: [
+                { content: { $regex: regex } },
+                { hashTag: { $elemMatch: { $regex: regex } } }
+                // { answers: { $regex: regex } }
+              ]
+            }
+          }
+        ]
+      );
+
+      // const questions = await Question.find(
+      //   // { status: new RegExp(`${searchQuery}`, 'g') },
+      //   // { $text: { $search: req.params.searchWord, $caseSensitive: false } }
+      //   { content: { $regex: regex } }
+      // );
+      // const questions = await Question.find(
+      //   { hashTag: { $elemMatch: { $regex: regex } } }
+      // );
+
+      console.log(regex);
+
+      res.json(questions);
+    } catch(err) {
+      res.status(500).send({
+        message: err,
+      });
     }
   });
 };
