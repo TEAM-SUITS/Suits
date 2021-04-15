@@ -32,8 +32,8 @@ export default {
 
 const Template = (args) => <Dialog {...args} />;
 
-export const PrimaryDivider = Template.bind({});
-PrimaryDivider.args = {
+export const Primary = Template.bind({});
+Primary.args = {
   visible: true,
   infoText: "test dialog",
   label: "테스트용 다이얼로그",
