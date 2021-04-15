@@ -104,13 +104,45 @@ module.exports = (app) => {
   // 검색어가 포함된 question 조회
   app.get('/api/questions/search/:searchWord', async (req, res) => {
     try {
-      const regex = new RegExp(`${req.params.searchWord}+`, 'i');
+      const regex = new RegExp(`${req.params.searchWord}+`, 'i'); // i from case insensitive
       // const searchQuery = req.params.searchWord.replace(/[.*+?^${}()|[]\]/g, '\$&');
-      const questions = await Question.find(
-        // { status: new RegExp(`${searchQuery}`, 'g') },
-        // { $text: { $search: req.params.searchWord, $caseSensitive: false } }
-        { content: { $regex: regex } }
+      const questions = await Question.aggregate(
+        [
+          // {
+          //   $lookup: {
+          //     from: 'answers',
+          //     as: 'Answer',
+          //     let: { Answer: '$content' },
+          //     pipeline: [
+          //       {
+          //         $match: { content: { $regex: regex } }
+          //       }
+          //     ]
+          //   }
+          // },
+          {
+            $match:
+            {
+              $or: [
+                { content: { $regex: regex } },
+                { hashTag: { $elemMatch: { $regex: regex } } }
+                // { answers: { $regex: regex } }
+              ]
+            }
+          }
+        ]
       );
+
+      // const questions = await Question.find(
+      //   // { status: new RegExp(`${searchQuery}`, 'g') },
+      //   // { $text: { $search: req.params.searchWord, $caseSensitive: false } }
+      //   { content: { $regex: regex } }
+      // );
+      // const questions = await Question.find(
+      //   { hashTag: { $elemMatch: { $regex: regex } } }
+      // );
+
+      console.log(regex);
 
       res.json(questions);
     } catch(err) {
