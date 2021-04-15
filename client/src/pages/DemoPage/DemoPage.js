@@ -54,6 +54,13 @@ export default function DemoPage() {
     dispatch(fetchUserAction());
   };
 
+  const deleteAnswer = async () => {
+    const res = await axios.delete('/api/answers/6078303db455a302743baec0');
+    dispatch(fetchUserAction());
+
+    console.log(res);
+  };
+
   return (
     <>
       <PageContainer variants={pageEffect} initial="hidden" animate="visible">
@@ -71,6 +78,7 @@ export default function DemoPage() {
               />
               <button type="button" onClick={postAnswer}>답변 등록</button>
               <button type="button" onClick={patchAnswer}>답변 수정</button>
+              <button type="button" onClick={deleteAnswer}>답변 삭제ㅋ</button>
             </form>
           </>
         ) : (

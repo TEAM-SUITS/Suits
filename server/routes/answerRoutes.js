@@ -56,4 +56,19 @@ module.exports = (app) => {
       });
     }
   });
+
+  // delete answer
+  app.delete('/api/answers/:id', requireLogin, async (req, res) => {
+    try {
+      const answer = await Answer.findByIdAndDelete(
+        { _id: req.params.id }
+      ).exec();
+
+      res.json(answer);
+    } catch (err) {
+      res.status(500).send({
+        message: err
+      });
+    }
+  });
 };
