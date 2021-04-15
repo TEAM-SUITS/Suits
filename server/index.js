@@ -56,6 +56,7 @@ require("./routes/authRoutes")(app);
 require("./routes/questionRoutes")(app);
 require("./routes/answerRoutes")(app);
 require("./routes/userRoutes")(app);
+require("./routes/quoteRoutes")(app);
 
 /* ----------------------------------- 서버 시작 ---------------------------------- */
 
