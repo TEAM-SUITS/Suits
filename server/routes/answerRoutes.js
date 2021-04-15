@@ -12,7 +12,30 @@ module.exports = (app) => {
       res.json(answers);
     } catch (err) {
       res.status(500).send({
-        message: err,
+        message: err
+      });
+    }
+  });
+
+  // answers에 새로운 답변 추가하고 answer id 반환하기
+  app.post('/api/answers', requireLogin, async (req, res) => {
+    try {
+      await new Answer({
+        content: req.body.content,
+        postedby: req.user,
+        question: mongoose.Types.ObjectId(req.body.questionId),
+        likes: []
+      }).save((err, data) => {
+        if (err) {
+          res.status(500).send({
+            message: err
+          });
+        }
+        res.json(data);
+      });
+    } catch (err) {
+      res.status(500).send({
+        message: err
       });
     }
   });

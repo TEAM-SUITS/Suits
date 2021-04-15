@@ -101,21 +101,15 @@ module.exports = (app) => {
   // answers field에 전달 받은 아이디 추가하기
   app.patch('/api/questions/:id', async (req, res) => {
     try {
-      await Question.findByIdAndUpdate(
+      const question = await Question.findByIdAndUpdate(
         { _id: req.params.id },
-        { $push: { answers: req.body.answerId } }
-      ).populate({ path: 'answers' }).exec((err, data) => {
-        if (err) {
-          res.status(500).send({
-            message: err,
-          });
-        }
-        res.json(data);
-      });
+        { $push: { answers: req.body.answerId } },
+        { new: true }
+      ).populate({ path: 'answers' }).exec();
       // const question = await Question.findById(req.params.id);
       // question.answers.push(req.body.answerId);
       // question.save();
-      // res.json(question);
+      res.json(question);
     } catch (err) {
       res.status(500).send({
         message: err,
@@ -132,34 +126,23 @@ module.exports = (app) => {
       // const searchQuery = req.params.searchWord.replace(/[.*+?^${}()|[]\]/g, '\$&');
       const questions = await Question.aggregate(
         [
-          // {
-          //   $lookup: {
-          //     from: 'answers',
-          //     as: 'Answer',
-          //     let: { Answer: '$content' },
-          //     pipeline: [
-          //       {
-          //         $match: { content: { $regex: regex } }
-          //       }
-          //     ]
-          //   }
-          // },
-          {
-            $match:
-            {
-              $or: [
-                { content: { $regex: regex } },
-                { hashTag: { $elemMatch: { $regex: regex } } }
-                // { answers: { $regex: regex } }
-              ]
-            }
-          },
           {
             $lookup: {
               from: 'answers',
               localField: 'answers',
               foreignField: '_id',
               as: 'answers'
+            }
+          },
+          {
+            $match:
+            {
+              $or: [
+                { answers: { $elemMatch: { content: { $regex: regex } } } },
+                { content: { $regex: regex } },
+                { hashTag: { $elemMatch: { $regex: regex } } }
+                // { answers: { $regex: regex } }
+              ]
             }
           }
         ]

@@ -4,11 +4,13 @@ import { pageEffect } from "styles/motions/variants";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAction, signOutAction } from "redux/storage/auth/auth";
 import axios from "axios";
+import { useState } from "react";
 
 /* ----------------------- 테스트용 페이지 ------------------------------------- */
 export default function DemoPage() {
   const { isAuthed } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const [content, setContent] = useState('');
 
   useEffect(() => {
     dispatch(fetchUserAction());
@@ -29,6 +31,25 @@ export default function DemoPage() {
     dispatch(fetchUserAction());
   };
 
+  const postAnswer = async () => {
+    const res = await axios.post("/api/answers", {
+      content,
+      questionId: '60751695af540a054f122915',
+    });
+    
+    console.log(res.data._id);
+
+    const data = await axios.patch('/api/questions/60751695af540a054f122915', {
+      answerId: res.data._id,
+    });
+
+    // const data = await axios.get('/api/questions/60751695af540a054f122915');
+
+    console.log(data);
+
+    dispatch(fetchUserAction());
+  };
+
   return (
     <>
       <PageContainer variants={pageEffect} initial="hidden" animate="visible">
@@ -38,6 +59,13 @@ export default function DemoPage() {
             <button onClick={handleDeleteUser}>회원탈퇴</button>
             <form onSubmit={submitHashtag}>
               <button type="submit">자바스크립트 해시태그 추가</button>
+            </form>
+            <form>
+              <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+              <button type="button" onClick={postAnswer}>답변 등록</button>
             </form>
           </>
         ) : (
