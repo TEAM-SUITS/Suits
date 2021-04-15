@@ -1,4 +1,4 @@
-import { css } from 'styled-components';
+import { css } from "styled-components";
 
 /* ------------------------------ common styles ----------------------------- */
 
@@ -27,12 +27,12 @@ export const resetList = css`
 `;
 
 export const ellipsis = css`
-  display:-webkit-box; 
-  word-wrap:break-word; 
-  -webkit-line-clamp:3; 
-  -webkit-box-orient:vertical; 
-  overflow:hidden; 
-  text-overflow:ellipsis;
+  display: -webkit-box;
+  word-wrap: break-word;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
   /* height: 3.2em; */
 `;
 
@@ -51,33 +51,33 @@ export const textShadowBlack = css`
 /* ---------------------------------- font ---------------------------------- */
 
 export const museoLarge = css`
-  font: 700 2.4em 'MuseoModerno', serif;
+  font: 700 2.4rem "MuseoModerno", serif;
 `;
 
 export const museoMedium = css`
-  font: 400 1.8em 'MuseoModerno', serif;
+  font: 400 1.8rem "MuseoModerno", serif;
 `;
 
 export const museoSmall = css`
-  font: 400 1.4em 'MuseoModerno', serif;
+  font: 400 1.4rem "MuseoModerno", serif;
 `;
 
 export const spoqaLarge = css`
-  font: 400 2em 'Spoqa Han Sans', sans-serif;
+  font: 400 2rem "Spoqa Han Sans", sans-serif;
 `;
 
 export const spoqaMedium = css`
-  font: 400 1.6em 'Spoqa Han Sans', sans-serif;
+  font: 400 1.6rem "Spoqa Han Sans", sans-serif;
 `;
 
 export const spoqaMediumLight = css`
-  font: 200 1.6em 'Spoqa Han Sans', sans-serif;
+  font: 200 1.6rem "Spoqa Han Sans", sans-serif;
 `;
 
 export const spoqaSmall = css`
-  font: 400 1.4em 'Spoqa Han Sans', sans-serif;
+  font: 400 1.2rem "Spoqa Han Sans", sans-serif;
 `;
 
 export const spoqaSmallBold = css`
-  font: 700 1.4em 'Spoqa Han Sans', sans-serif;
+  font: 700 1.2rem "Spoqa Han Sans", sans-serif;
 `;
