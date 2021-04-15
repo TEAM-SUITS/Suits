@@ -102,10 +102,12 @@ module.exports = (app) => {
   // answers field에서 아이디 삭제하기
 
   // 검색어가 포함된 question 조회
-  app.get('/api/questions/search', async (req, res) => {
+  app.get('/api/questions/search/:searchWord', async (req, res) => {
     try {
+      // const searchQuery = req.params.searchWord.replace(/[.*+?^${}()|[]\]/g, '\$&');
       const questions = await Question.find(
-        { $text: { $search: `${req.body.searchWord}` } }
+        // { status: new RegExp(`${searchQuery}`, 'g') },
+        { $text: { $search: req.params.searchWord, $caseSensitive: false } }
       );
 
       res.json(questions);
