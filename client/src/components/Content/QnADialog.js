@@ -40,7 +40,8 @@ const AnswerContainer = styled.div`
   }
 
   button {
-    background-color: var(--color-gray1);
+    background-color: var(--color-gray3);
+    color: var(--color-lightgray1);
     border: none;
     border-radius: 5px;
     width: 60px;
