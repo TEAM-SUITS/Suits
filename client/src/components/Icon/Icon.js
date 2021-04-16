@@ -13,10 +13,17 @@ import { ReactComponent as InfoActive } from "./images/info-active.svg";
 import { ReactComponent as QuoteLeft } from "./images/quoteLeft.svg";
 import { ReactComponent as QuoteRight } from "./images/quoteRight.svg";
 import { ReactComponent as Close } from "./images/close.svg";
+import { ReactComponent as Error } from "./images/error.svg";
+import { ReactComponent as Success } from "./images/success.svg";
 
 /* -------------------------------------------------------------------------- */
 
-export default function  Icon({ type, title = type, height = "25px", ...restProps }) {
+export default function Icon({
+  type,
+  title = type,
+  height = "25px",
+  ...restProps
+}) {
   let COMP = null;
   switch (type) {
     case "search":
@@ -58,12 +65,18 @@ export default function  Icon({ type, title = type, height = "25px", ...restProp
     case "close":
       COMP = Close;
       break;
+    case "error":
+      COMP = Error;
+      break;
+    case "success":
+      COMP = Success;
+      break;
     default:
       throw new Error("아이콘을 찾을수없습니다");
   }
 
   return <COMP title={title} height={height} {...restProps} />;
-};
+}
 
 Icon.propTypes = {
   type: oneOf([
@@ -79,6 +92,8 @@ Icon.propTypes = {
     "search-active",
     "quote-left",
     "quote-right",
-    "close"
+    "close",
+    "error",
+    "success",
   ]).isRequired,
 };
