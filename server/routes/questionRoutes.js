@@ -9,7 +9,12 @@ module.exports = (app) => {
     const options = {
       page: parseInt(page, 10) || 1,
       limit: parseInt(perPage, 10) || 10,
-      populate: "answers",
+      populate: {
+        path: "answers",
+        populate: {
+          path: "postedby",
+        },
+      },
     };
     try {
       // find 메서드는 조건에 맞는 document들의 목록을 가져옴.
@@ -250,8 +255,14 @@ module.exports = (app) => {
     const options = {
       page: parseInt(page, 10) || 1,
       limit: parseInt(perPage, 10) || 10,
-      populate: "answers",
+      populate: {
+        path: "answers",
+        populate: {
+          path: "postedby",
+        },
+      },
     };
+
     try {
       const data = await Question.paginate(
         { hashTag: { $elemMatch: { $in: regexpArray } } },
