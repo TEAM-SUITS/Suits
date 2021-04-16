@@ -15,6 +15,7 @@ import { ReactComponent as QuoteRight } from "./images/quoteRight.svg";
 import { ReactComponent as Close } from "./images/close.svg";
 import { ReactComponent as Error } from "./images/error.svg";
 import { ReactComponent as Success } from "./images/success.svg";
+import { string } from "prop-types";
 
 /* -------------------------------------------------------------------------- */
 
@@ -96,4 +97,6 @@ Icon.propTypes = {
     "error",
     "success",
   ]).isRequired,
+  title: string,
+  height: string,
 };
