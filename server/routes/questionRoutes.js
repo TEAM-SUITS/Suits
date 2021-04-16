@@ -1,30 +1,20 @@
 const mongoose = require("mongoose");
 const Question = require("../model/Question");
-const Answer = require("../model/Answer");
-// const User = require("../model/User");
 
 /* ------------------------------ export routes ----------------------------- */
 module.exports = (app) => {
   // 전체 questions 조회 API
   app.get("/api/questions", async (req, res) => {
+    const { page, perPage } = req.query;
+    const options = {
+      page: parseInt(page, 10) || 1,
+      limit: parseInt(perPage, 10) || 10,
+      populate: "answers",
+    };
     try {
       // find 메서드는 조건에 맞는 document들의 목록을 가져옴.
-      await Question.find({})
-        .populate({
-          path: "answers",
-          populate: {
-            path: "postedby",
-            model: "User"
-          }
-        })
-        .exec((err, data) => {
-          if (err) {
-            res.status(500).send({
-              message: err,
-            });
-          }
-          res.json(data);
-        });
+      const data = await Question.paginate({}, options);
+      res.json(data);
     } catch (err) {
       res.status(500).send({
         message: err,
@@ -38,7 +28,8 @@ module.exports = (app) => {
       const count = await Question.countDocuments();
       const randomNumber = Math.ceil(Math.random() * (count - 1));
       await Question.findOne()
-        .skip(randomNumber).populate({
+        .skip(randomNumber)
+        .populate({
           path: "answers",
           populate: {
             path: "postedby",
@@ -78,15 +69,13 @@ module.exports = (app) => {
             length: { $size: "$answers" },
           },
         },
-        { $sort: { length: -1 } },
-        { $limit: 3 },
         {
           $lookup: {
             from: "answers",
             localField: "answers",
             foreignField: "_id",
-            as: "answers"
-          }
+            as: "answers",
+          },
         },
         { $unwind: { path: "$answers", preserveNullAndEmptyArrays: true } },
         {
@@ -101,7 +90,7 @@ module.exports = (app) => {
           $unwind: {
             path: "$answers.postedby",
             preserveNullAndEmptyArrays: true,
-          }
+          },
         },
         {
           $group: {
@@ -109,8 +98,11 @@ module.exports = (app) => {
             content: { $first: "$content" },
             hashTag: { $first: "$hashTag" },
             answers: { $push: "$answers" },
-          }
-        }
+            length: { $first: "$length" },
+          },
+        },
+        { $sort: { length: -1 } },
+        { $limit: 3 },
       ]);
 
       res.json(trendingQuestions);
@@ -188,52 +180,50 @@ module.exports = (app) => {
     try {
       const regex = new RegExp(`${req.params.searchWord}+`, "i"); // i for case insensitive
       // const searchQuery = req.params.searchWord.replace(/[.*+?^${}()|[]\]/g, '\$&');
-      const questions = await Question.aggregate(
-        [
-          {
-            $lookup: {
-              from: "answers",
-              localField: "answers",
-              foreignField: "_id",
-              as: "answers"
-            }
+      const questions = await Question.aggregate([
+        {
+          $lookup: {
+            from: "answers",
+            localField: "answers",
+            foreignField: "_id",
+            as: "answers",
           },
-          { $unwind: { path: "$answers", preserveNullAndEmptyArrays: true } },
-          {
-            $lookup: {
-              from: "users",
-              localField: "answers.postedby",
-              foreignField: "_id",
-              as: "answers.postedby",
-            },
+        },
+        { $unwind: { path: "$answers", preserveNullAndEmptyArrays: true } },
+        {
+          $lookup: {
+            from: "users",
+            localField: "answers.postedby",
+            foreignField: "_id",
+            as: "answers.postedby",
           },
-          {
-            $unwind: {
-              path: "$answers.postedby",
-              preserveNullAndEmptyArrays: true,
-            },
+        },
+        {
+          $unwind: {
+            path: "$answers.postedby",
+            preserveNullAndEmptyArrays: true,
           },
-          {
-            $group: {
-              _id: "$_id",
-              content: { $first: "$content" },
-              hashTag: { $first: "$hashTag" },
-              answers: { $push: "$answers" },
-            },
+        },
+
+        {
+          $group: {
+            _id: "$_id",
+            content: { $first: "$content" },
+            hashTag: { $first: "$hashTag" },
+            answers: { $push: "$answers" },
           },
-          {
-            $match:
-            {
-              $or: [
-                { answers: { $elemMatch: { content: { $regex: regex } } } },
-                { content: { $regex: regex } },
-                { hashTag: { $elemMatch: { $regex: regex } } }
-                // { answers: { $regex: regex } }
-              ]
-            }
-          }
-        ]
-      );
+        },
+        {
+          $match: {
+            $or: [
+              { answers: { $elemMatch: { content: { $regex: regex } } } },
+              { content: { $regex: regex } },
+              { hashTag: { $elemMatch: { $regex: regex } } },
+              // { answers: { $regex: regex } }
+            ],
+          },
+        },
+      ]);
 
       // const questions = await Question.find(
       //   // { status: new RegExp(`${searchQuery}`, 'g') },
@@ -255,26 +245,19 @@ module.exports = (app) => {
   app.get("/api/questions/following/:hashtags", async (req, res) => {
     // :hashtags -> ex) 'javascript-html-css'
     const hashtagArray = req.params.hashtags.split("-");
-    const regexpArray = hashtagArray.map(hashtag => new RegExp(hashtag, "i"));
-
+    const regexpArray = hashtagArray.map((hashtag) => new RegExp(hashtag, "i"));
+    const { page, perPage } = req.query;
+    const options = {
+      page: parseInt(page, 10) || 1,
+      limit: parseInt(perPage, 10) || 10,
+      populate: "answers",
+    };
     try {
-      await Question.find(
-        { hashTag: { $elemMatch: { $in: regexpArray } } }
-      ).populate({
-        path: "answers",
-        populate: {
-          path: "postedby",
-          model: "User"
-        }
-      })
-        .exec((err, data) => {
-          if (err) {
-            res.status(500).send({
-              message: err,
-            });
-          }
-          res.json(data);
-        });
+      const data = await Question.paginate(
+        { hashTag: { $elemMatch: { $in: regexpArray } } },
+        options
+      );
+      res.json(data);
     } catch (err) {
       res.status(500).send({
         message: err,
