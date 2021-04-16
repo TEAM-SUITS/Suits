@@ -34,8 +34,14 @@ module.exports = (app) => {
       );
       // 변역된 text를 content, 그리고 기존의 author를 그대로 전달
       res.send({
-        content: response.data.message.result.translatedText,
-        author,
+        translated: {
+          content: response.data.message.result.translatedText,
+          author,
+        },
+        original: {
+          content: text,
+          author,
+        },
       });
     } catch (err) {
       res.status(500).send({
