@@ -50,3 +50,8 @@ HardWorkers.args = {
     },
   ],
 };
+
+export const HardWorkersLoading = Template.bind({});
+HardWorkersLoading.args = {
+  users: null,
+};
