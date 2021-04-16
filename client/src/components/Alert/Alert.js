@@ -1,7 +1,10 @@
-import Icon from "components/Icon/Icon";
 import React from "react";
+import Icon from "components/Icon/Icon";
 import styled from "styled-components";
 import { spoqaSmall } from "styles/common/common.styled";
+import { string } from "prop-types";
+
+/* ---------------------------- styled components ---------------------------- */
 
 const AlertContainer = styled.div.attrs({ role: "alert" })`
   ${spoqaSmall}
@@ -20,6 +23,8 @@ const AlertContainer = styled.div.attrs({ role: "alert" })`
   }
 `;
 
+/* -------------------------------------------------------------------------- */
+
 export default function Alert({ status, message }) {
   return (
     <AlertContainer status={status}>
@@ -28,3 +33,10 @@ export default function Alert({ status, message }) {
     </AlertContainer>
   );
 }
+
+/* -------------------------------- proptypes ------------------------------- */
+
+Alert.propTypes = {
+  status: string,
+  message: string,
+};

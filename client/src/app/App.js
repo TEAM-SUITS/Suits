@@ -11,13 +11,8 @@ import {
   PageNotFound,
 } from "pages/Pages";
 import Navigation from "containers/Nav/Navigation";
-import QnAContent from "components/Content/QnAContent";
-import Card from "components/Card/Card";
-
 import ProfileDialog from "containers/ProfileDialog/ProfileDialog";
 import DemoPage from "pages/DemoPage/DemoPage";
-import Alert from "components/Alert/Alert";
-
 /* -------------------------------------------------------------------------- */
 function App() {
   // 임시 state for Dialog
@@ -27,7 +22,6 @@ function App() {
     <div className="App">
       <GlobalStyle />
       <ProfileDialog isVisible={checkingProfile} />
-      <Alert />;
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/login" exact component={DemoPage} />
