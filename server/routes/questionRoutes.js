@@ -29,7 +29,13 @@ module.exports = (app) => {
       const randomNumber = Math.ceil(Math.random() * (count - 1));
       await Question.findOne()
         .skip(randomNumber)
-        .populate({ path: "answers" })
+        .populate({
+          path: "answers",
+          populate: {
+            path: "postedby",
+            model: "User"
+          }
+        })
         .exec((err, data) => {
           if (err) {
             res.status(500).send({
@@ -59,11 +65,10 @@ module.exports = (app) => {
             _id: 1,
             content: 1,
             postedOn: 1,
+            postedby: 1,
             length: { $size: "$answers" },
           },
         },
-        { $sort: { length: -1 } },
-        { $limit: 3 },
         {
           $lookup: {
             from: "answers",
@@ -72,6 +77,32 @@ module.exports = (app) => {
             as: "answers",
           },
         },
+        { $unwind: { path: "$answers", preserveNullAndEmptyArrays: true } },
+        {
+          $lookup: {
+            from: "users",
+            localField: "answers.postedby",
+            foreignField: "_id",
+            as: "answers.postedby",
+          },
+        },
+        {
+          $unwind: {
+            path: "$answers.postedby",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $group: {
+            _id: "$_id",
+            content: { $first: "$content" },
+            hashTag: { $first: "$hashTag" },
+            answers: { $push: "$answers" },
+            length: { $first: "$length" },
+          },
+        },
+        { $sort: { length: -1 } },
+        { $limit: 3 },
       ]);
 
       res.json(trendingQuestions);
@@ -87,7 +118,13 @@ module.exports = (app) => {
     try {
       const questionId = mongoose.Types.ObjectId(req.params.id);
       await Question.findById(questionId)
-        .populate({ path: "answers" })
+        .populate({
+          path: "answers",
+          populate: {
+            path: "postedby",
+            model: "User"
+          }
+        })
         .exec((err, data) => {
           if (err) {
             res.status(500).send({
@@ -106,17 +143,29 @@ module.exports = (app) => {
   // answers field에 전달 받은 아이디 추가하기
   app.patch("/api/questions/:id", async (req, res) => {
     try {
-      const question = await Question.findByIdAndUpdate(
+      await Question.findByIdAndUpdate(
         { _id: req.params.id },
         { $push: { answers: req.body.answerId } },
         { new: true }
-      )
-        .populate({ path: "answers" })
-        .exec();
+      ).populate({
+        path: "answers",
+        populate: {
+          path: "postedby",
+          model: "User"
+        }
+      })
+        .exec((err, data) => {
+          if (err) {
+            res.status(500).send({
+              message: err,
+            });
+          }
+          res.json(data);
+        });
       // const question = await Question.findById(req.params.id);
       // question.answers.push(req.body.answerId);
       // question.save();
-      res.json(question);
+      // res.json(question);
     } catch (err) {
       res.status(500).send({
         message: err,
