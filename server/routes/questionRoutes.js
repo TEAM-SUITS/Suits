@@ -197,18 +197,18 @@ module.exports = (app) => {
     // :hashtags -> ex) 'javascript-html-css'
     const hashtagArray = req.params.hashtags.split("-");
     const regexpArray = hashtagArray.map((hashtag) => new RegExp(hashtag, "i"));
-
+    const { page, perPage } = req.query;
+    const options = {
+      page: parseInt(page, 10) || 1,
+      limit: parseInt(perPage, 10) || 10,
+      populate: "answers",
+    };
     try {
-      await Question.find({ hashTag: { $elemMatch: { $in: regexpArray } } })
-        .populate({ path: "answers" })
-        .exec((err, data) => {
-          if (err) {
-            res.status(500).send({
-              message: err,
-            });
-          }
-          res.json(data);
-        });
+      const data = await Question.paginate(
+        { hashTag: { $elemMatch: { $in: regexpArray } } },
+        options
+      );
+      res.json(data);
     } catch (err) {
       res.status(500).send({
         message: err,
