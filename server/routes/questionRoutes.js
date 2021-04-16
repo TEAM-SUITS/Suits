@@ -134,6 +134,30 @@ module.exports = (app) => {
               as: 'answers'
             }
           },
+          { $unwind: { path: "$answers", preserveNullAndEmptyArrays: true } },
+          {
+            $lookup: {
+              from: "users",
+              localField: "answers.postedby",
+              foreignField: "_id",
+              as: "answers.postedby",
+            },
+          },
+          {
+            $unwind: {
+              path: "$answers.postedby",
+              preserveNullAndEmptyArrays: true,
+            },
+          },
+  
+          {
+            $group: {
+              _id: "$_id",
+              content: { $first: "$content" },
+              hashTag: { $first: "$hashTag" },
+              answers: { $push: "$answers" },
+            },
+          },
           {
             $match:
             {
