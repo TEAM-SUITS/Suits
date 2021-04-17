@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Answer = require("../model/Answer");
+const Answer = mongoose.model("Answer");
 const requireLogin = require("../middlewares/requireLogin");
 
 /* ------------------------------ export routes ----------------------------- */
@@ -19,7 +19,7 @@ module.exports = (app) => {
         });
     } catch (err) {
       res.status(500).send({
-        message: err
+        message: err,
       });
     }
   });
@@ -31,18 +31,18 @@ module.exports = (app) => {
         content: req.body.content,
         postedby: req.user,
         question: mongoose.Types.ObjectId(req.body.questionId),
-        likes: []
+        likes: [],
       }).save((err, data) => {
         if (err) {
           res.status(500).send({
-            message: err
+            message: err,
           });
         }
         res.json(data);
       });
     } catch (err) {
       res.status(500).send({
-        message: err
+        message: err,
       });
     }
   });
@@ -59,7 +59,7 @@ module.exports = (app) => {
       res.json(answer);
     } catch (err) {
       res.status(500).send({
-        message: err
+        message: err,
       });
     }
   });
@@ -67,14 +67,14 @@ module.exports = (app) => {
   // delete answer and return question
   app.delete("/api/answers/:id", requireLogin, async (req, res) => {
     try {
-      const answer = await Answer.findByIdAndDelete(
-        { _id: req.params.id }
-      ).exec();
+      const answer = await Answer.findByIdAndDelete({
+        _id: req.params.id,
+      }).exec();
 
       res.json(answer);
     } catch (err) {
       res.status(500).send({
-        message: err
+        message: err,
       });
     }
   });
