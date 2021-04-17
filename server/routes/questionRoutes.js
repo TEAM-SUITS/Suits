@@ -38,8 +38,8 @@ module.exports = (app) => {
           path: "answers",
           populate: {
             path: "postedby",
-            model: "User"
-          }
+            model: "User",
+          },
         })
         .exec((err, data) => {
           if (err) {
@@ -61,6 +61,8 @@ module.exports = (app) => {
 
   // Trending Question API - answers.length 값 top3인 question 가져오기
   app.get("/api/questions/trend", async (req, res) => {
+    let now = new Date();
+    let oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
     try {
       const trendingQuestions = await Question.aggregate([
         {
@@ -71,9 +73,11 @@ module.exports = (app) => {
             content: 1,
             postedOn: 1,
             postedby: 1,
+            lastUpdate: 1,
             length: { $size: "$answers" },
           },
         },
+
         {
           $lookup: {
             from: "answers",
@@ -104,12 +108,17 @@ module.exports = (app) => {
             hashTag: { $first: "$hashTag" },
             answers: { $push: "$answers" },
             length: { $first: "$length" },
+            lastUpdate: { $first: "$lastUpdate" },
+          },
+        },
+        {
+          $match: {
+            lastUpdate: { $gte: oneWeekAgo },
           },
         },
         { $sort: { length: -1 } },
         { $limit: 3 },
       ]);
-
       res.json(trendingQuestions);
     } catch (err) {
       res.status(500).send({
@@ -127,8 +136,8 @@ module.exports = (app) => {
           path: "answers",
           populate: {
             path: "postedby",
-            model: "User"
-          }
+            model: "User",
+          },
         })
         .exec((err, data) => {
           if (err) {
@@ -150,15 +159,19 @@ module.exports = (app) => {
     try {
       await Question.findByIdAndUpdate(
         { _id: req.params.id },
-        { $push: { answers: req.body.answerId } },
+        {
+          $push: { answers: req.body.answerId },
+          $set: { lastUpdate: new Date() },
+        },
         { new: true }
-      ).populate({
-        path: "answers",
-        populate: {
-          path: "postedby",
-          model: "User"
-        }
-      })
+      )
+        .populate({
+          path: "answers",
+          populate: {
+            path: "postedby",
+            model: "User",
+          },
+        })
         .exec((err, data) => {
           if (err) {
             res.status(500).send({
@@ -224,7 +237,6 @@ module.exports = (app) => {
               { answers: { $elemMatch: { content: { $regex: regex } } } },
               { content: { $regex: regex } },
               { hashTag: { $elemMatch: { $regex: regex } } },
-              // { answers: { $regex: regex } }
             ],
           },
         },
