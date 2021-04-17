@@ -30,6 +30,8 @@ try {
 /* ------------------------------- DB 모델 불러오기 ------------------------------- */
 
 const User = require("./model/user");
+const Question = require("./model/Question");
+const Answer = require("./model/Answer");
 
 const app = express();
 app.use(express.json());
@@ -58,6 +60,7 @@ require("./routes/answerRoutes")(app);
 require("./routes/qnaRoutes")(app);
 require("./routes/userRoutes")(app);
 require("./routes/quoteRoutes")(app);
+require("./routes/likeRoutes")(app);
 
 /* ----------------------------------- 서버 시작 ---------------------------------- */
 

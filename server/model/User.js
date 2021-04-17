@@ -23,6 +23,7 @@ const userSchema = new Schema({
   hashTag: [{ type: String }],
   answeredQuestions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
   memberSince: Date,
+  likeCount: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model("User", userSchema);
