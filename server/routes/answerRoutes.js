@@ -1,15 +1,22 @@
-const mongoose = require('mongoose');
-const Answer = require('../model/Answer');
-const requireLogin = require('../middlewares/requireLogin');
+const mongoose = require("mongoose");
+const Answer = require("../model/Answer");
+const requireLogin = require("../middlewares/requireLogin");
 
 /* ------------------------------ export routes ----------------------------- */
 module.exports = (app) => {
   // 전체 answers 조회 API
-  app.get('/api/answers', async (req, res) => {
+  app.get("/api/answers", async (req, res) => {
     try {
-      const answers = await Answer.find();
-
-      res.json(answers);
+      await Answer.find()
+        .populate({ path: "postedby" })
+        .exec((err, data) => {
+          if (err) {
+            res.status(500).send({
+              message: err,
+            });
+          }
+          res.json(data);
+        });
     } catch (err) {
       res.status(500).send({
         message: err
@@ -18,7 +25,7 @@ module.exports = (app) => {
   });
 
   // answers에 새로운 답변 추가하고 answer id 반환하기
-  app.post('/api/answers', requireLogin, async (req, res) => {
+  app.post("/api/answers", requireLogin, async (req, res) => {
     try {
       await new Answer({
         content: req.body.content,
@@ -40,8 +47,8 @@ module.exports = (app) => {
     }
   });
 
-  // update answer
-  app.patch('/api/answers/:id', requireLogin, async (req, res) => {
+  // update answer + answeredQuestions + question
+  app.patch("/api/answers/:id", requireLogin, async (req, res) => {
     try {
       const answer = await Answer.findByIdAndUpdate(
         { _id: req.params.id },
@@ -57,8 +64,8 @@ module.exports = (app) => {
     }
   });
 
-  // delete answer
-  app.delete('/api/answers/:id', requireLogin, async (req, res) => {
+  // delete answer and return question
+  app.delete("/api/answers/:id", requireLogin, async (req, res) => {
     try {
       const answer = await Answer.findByIdAndDelete(
         { _id: req.params.id }
@@ -71,4 +78,6 @@ module.exports = (app) => {
       });
     }
   });
+
+  // update likes field
 };

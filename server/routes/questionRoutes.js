@@ -34,7 +34,13 @@ module.exports = (app) => {
       const randomNumber = Math.ceil(Math.random() * (count - 1));
       await Question.findOne()
         .skip(randomNumber)
-        .populate({ path: "answers" })
+        .populate({
+          path: "answers",
+          populate: {
+            path: "postedby",
+            model: "User",
+          },
+        })
         .exec((err, data) => {
           if (err) {
             res.status(500).send({
@@ -126,7 +132,13 @@ module.exports = (app) => {
     try {
       const questionId = mongoose.Types.ObjectId(req.params.id);
       await Question.findById(questionId)
-        .populate({ path: "answers" })
+        .populate({
+          path: "answers",
+          populate: {
+            path: "postedby",
+            model: "User",
+          },
+        })
         .exec((err, data) => {
           if (err) {
             res.status(500).send({
@@ -145,7 +157,7 @@ module.exports = (app) => {
   // answers field에 전달 받은 아이디 추가하기
   app.patch("/api/questions/:id", async (req, res) => {
     try {
-      const question = await Question.findByIdAndUpdate(
+      await Question.findByIdAndUpdate(
         { _id: req.params.id },
         {
           $push: { answers: req.body.answerId },
@@ -153,14 +165,26 @@ module.exports = (app) => {
         },
         { new: true }
       )
-        .populate({ path: "answers" })
-        .exec();
+        .populate({
+          path: "answers",
+          populate: {
+            path: "postedby",
+            model: "User",
+          },
+        })
+        .exec((err, data) => {
+          if (err) {
+            res.status(500).send({
+              message: err,
+            });
+          }
+          res.json(data);
+        });
       // const question = await Question.findById(req.params.id);
       // question.answers.push(req.body.answerId);
       // question.save();
-      res.json(question);
+      // res.json(question);
     } catch (err) {
-      console.log(err);
       res.status(500).send({
         message: err,
       });
@@ -213,7 +237,6 @@ module.exports = (app) => {
               { answers: { $elemMatch: { content: { $regex: regex } } } },
               { content: { $regex: regex } },
               { hashTag: { $elemMatch: { $regex: regex } } },
-              // { answers: { $regex: regex } }
             ],
           },
         },
@@ -244,8 +267,14 @@ module.exports = (app) => {
     const options = {
       page: parseInt(page, 10) || 1,
       limit: parseInt(perPage, 10) || 10,
-      populate: "answers",
+      populate: {
+        path: "answers",
+        populate: {
+          path: "postedby",
+        },
+      },
     };
+
     try {
       const data = await Question.paginate(
         { hashTag: { $elemMatch: { $in: regexpArray } } },
