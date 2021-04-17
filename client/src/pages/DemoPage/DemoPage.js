@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAction, signOutAction } from "redux/storage/auth/auth";
 import axios from "axios";
 import { useState } from "react";
+import LikeButton from "components/LikeButton/LikeButton";
 
 /* ----------------------- 테스트용 페이지 ------------------------------------- */
 export default function DemoPage() {
   const { isAuthed } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
 
   useEffect(() => {
     dispatch(fetchUserAction());
@@ -34,10 +35,10 @@ export default function DemoPage() {
   const postAnswer = async () => {
     const res = await axios.post("/api/answers", {
       content,
-      questionId: '60751695af540a054f122915',
+      questionId: "607a3bf49187675cc6d6d92d",
     });
 
-    await axios.patch('/api/questions/60751695af540a054f122915', {
+    await axios.patch("/api/questions/607a3bf49187675cc6d6d92d", {
       answerId: res.data._id,
     });
 
@@ -45,7 +46,7 @@ export default function DemoPage() {
   };
 
   const patchAnswer = async () => {
-    const res = await axios.patch('/api/answers/60783162fc60153f9c61c958', {
+    const res = await axios.patch("/api/answers/60783162fc60153f9c61c958", {
       content,
     });
 
@@ -55,9 +56,21 @@ export default function DemoPage() {
   };
 
   const deleteAnswer = async () => {
-    const res = await axios.delete('/api/answers/6078303db455a302743baec0');
+    const res = await axios.delete("/api/answers/6078303db455a302743baec0");
     dispatch(fetchUserAction());
 
+    console.log(res);
+  };
+
+  const handleLike = async () => {
+    const res = await axios.put("/api/like/6078d9a9692dfa08e1606423");
+    alert("좋아요!");
+    console.log(res);
+  };
+
+  const handleUnLike = async () => {
+    const res = await axios.put("/api/unlike/6078d9a9692dfa08e1606423");
+    alert("싫어요!");
     console.log(res);
   };
 
@@ -71,14 +84,22 @@ export default function DemoPage() {
             <form onSubmit={submitHashtag}>
               <button type="submit">자바스크립트 해시태그 추가</button>
             </form>
+            <LikeButton onClick={handleLike} />
+            <LikeButton isLiked onClick={handleUnLike} />
             <form>
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
-              <button type="button" onClick={postAnswer}>답변 등록</button>
-              <button type="button" onClick={patchAnswer}>답변 수정</button>
-              <button type="button" onClick={deleteAnswer}>답변 삭제ㅋ</button>
+              <button type="button" onClick={postAnswer}>
+                답변 등록
+              </button>
+              <button type="button" onClick={patchAnswer}>
+                답변 수정
+              </button>
+              <button type="button" onClick={deleteAnswer}>
+                답변 삭제ㅋ
+              </button>
             </form>
           </>
         ) : (
