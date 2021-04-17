@@ -6,7 +6,7 @@ module.exports = (app) => {
     "/auth/github/callback",
     passport.authenticate("github", {
       failureRedirect: "http://localhost:3000/login",
-      successRedirect: "http://localhost:3000/login",
+      successRedirect: "http://localhost:3000/",
     }),
     function (req, res) {
       res.sendStatus(200);

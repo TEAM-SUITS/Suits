@@ -13,6 +13,7 @@ import {
 import Navigation from "containers/Nav/Navigation";
 import ProfileDialog from "containers/ProfileDialog/ProfileDialog";
 import DemoPage from "pages/DemoPage/DemoPage";
+import LoginPage from "pages/LoginPage/LoginPage";
 /* -------------------------------------------------------------------------- */
 function App() {
   // 임시 state for Dialog
@@ -24,12 +25,13 @@ function App() {
       <ProfileDialog isVisible={checkingProfile} />
       <Switch>
         <Route path="/" exact component={HomePage} />
-        <Route path="/login" exact component={DemoPage} />
+        <Route path="/demo" exact component={DemoPage} />
         <Route path="/search" component={SearchPage} />
         <Route path="/liked" component={LikedPage} />
         <Route path="/profile" component={ProfilePage} />
         <Route path="/info" component={InfoPage} />
         <Route path="user/my-info" component={UserPage} />
+        <Route path="/login" exact component={LoginPage} />
         <Route path="/page-not-found" component={PageNotFound} />
         <Redirect to="/page-not-found" />
       </Switch>
