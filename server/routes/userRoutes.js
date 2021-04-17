@@ -55,4 +55,9 @@ module.exports = (app) => {
       });
     });
   });
+
+  // hard workers 정보 조회
+  app.get("/api/hard-workers", (req, res) => {
+    
+  });
 };

@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 const Question = require("../model/Question");
+const Answer = require("../model/Answer");
+const requireLogin = require("../middlewares/requireLogin");
 
-/* ------------------------------ export routes ----------------------------- */
+/* -------------------------------------------------------------------------- */
+
 module.exports = app => {
   // 전체 questions 조회 API
   app.get("/api/questions", async (req, res) => {
