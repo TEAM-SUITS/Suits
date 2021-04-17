@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Question = require("../model/Question");
+const Question = mongoose.model("Question");
 
 /* ------------------------------ export routes ----------------------------- */
 module.exports = (app) => {
