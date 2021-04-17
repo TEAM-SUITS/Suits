@@ -9,7 +9,12 @@ module.exports = (app) => {
     const options = {
       page: parseInt(page, 10) || 1,
       limit: parseInt(perPage, 10) || 10,
-      populate: "answers",
+      populate: {
+        path: "answers",
+        populate: {
+          path: "postedby",
+        },
+      },
     };
     try {
       // find 메서드는 조건에 맞는 document들의 목록을 가져옴.
@@ -50,6 +55,8 @@ module.exports = (app) => {
 
   // Trending Question API - answers.length 값 top3인 question 가져오기
   app.get("/api/questions/trend", async (req, res) => {
+    let now = new Date();
+    let oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
     try {
       const trendingQuestions = await Question.aggregate([
         {
@@ -59,11 +66,12 @@ module.exports = (app) => {
             _id: 1,
             content: 1,
             postedOn: 1,
+            postedby: 1,
+            lastUpdate: 1,
             length: { $size: "$answers" },
           },
         },
-        { $sort: { length: -1 } },
-        { $limit: 3 },
+
         {
           $lookup: {
             from: "answers",
@@ -72,8 +80,39 @@ module.exports = (app) => {
             as: "answers",
           },
         },
+        { $unwind: { path: "$answers", preserveNullAndEmptyArrays: true } },
+        {
+          $lookup: {
+            from: "users",
+            localField: "answers.postedby",
+            foreignField: "_id",
+            as: "answers.postedby",
+          },
+        },
+        {
+          $unwind: {
+            path: "$answers.postedby",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $group: {
+            _id: "$_id",
+            content: { $first: "$content" },
+            hashTag: { $first: "$hashTag" },
+            answers: { $push: "$answers" },
+            length: { $first: "$length" },
+            lastUpdate: { $first: "$lastUpdate" },
+          },
+        },
+        {
+          $match: {
+            lastUpdate: { $gte: oneWeekAgo },
+          },
+        },
+        { $sort: { length: -1 } },
+        { $limit: 3 },
       ]);
-
       res.json(trendingQuestions);
     } catch (err) {
       res.status(500).send({
@@ -108,7 +147,10 @@ module.exports = (app) => {
     try {
       const question = await Question.findByIdAndUpdate(
         { _id: req.params.id },
-        { $push: { answers: req.body.answerId } },
+        {
+          $push: { answers: req.body.answerId },
+          $set: { lastUpdate: new Date() },
+        },
         { new: true }
       )
         .populate({ path: "answers" })
@@ -118,6 +160,7 @@ module.exports = (app) => {
       // question.save();
       res.json(question);
     } catch (err) {
+      console.log(err);
       res.status(500).send({
         message: err,
       });
