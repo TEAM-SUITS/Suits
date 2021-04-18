@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PageContainer from "containers/PageContainer/PageContainer.styled";
 import { pageEffect } from "styles/motions/variants";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchUserAction, signOutAction } from "redux/storage/auth/auth";
 import axios from "axios";
 import { useState } from "react";
@@ -9,28 +9,23 @@ import LikeButton from "components/LikeButton/LikeButton";
 
 /* ----------------------- 테스트용 페이지 ------------------------------------- */
 export default function DemoPage() {
-  const { isAuthed } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
   const [content, setContent] = useState("");
+  // const handleDeleteUser = async () => {
+  //   const res = await axios.delete("/api/user");
+  //   console.log(res);
+  //   dispatch(fetchUserAction());
+  // };
 
-  useEffect(() => {
-    dispatch(fetchUserAction());
-  }, [dispatch]);
-
-  const handleDeleteUser = async () => {
-    const res = await axios.delete("/api/user");
-    console.log(res);
-    dispatch(fetchUserAction());
-  };
-
-  const submitHashtag = async (e) => {
-    e.preventDefault();
-    const res = await axios.patch("/api/user-profile/hashtag", {
-      hashTag: ["Javascript"],
-    });
-    console.log(res);
-    dispatch(fetchUserAction());
-  };
+  // const submitHashtag = async (e) => {
+  //   e.preventDefault();
+  //   const res = await axios.patch("/api/user-profile/hashtag", {
+  //     hashTag: ["Javascript"],
+  //   });
+  //   console.log(res);
+  //   dispatch(fetchUserAction());
+  // };
 
   const postAnswer = async () => {
     const res = await axios.post("/api/answers", {
@@ -77,34 +72,26 @@ export default function DemoPage() {
   return (
     <>
       <PageContainer variants={pageEffect} initial="hidden" animate="visible">
-        {isAuthed ? (
-          <>
-            <button onClick={() => dispatch(signOutAction())}>LOGOUT</button>
-            <button onClick={handleDeleteUser}>회원탈퇴</button>
-            <form onSubmit={submitHashtag}>
-              <button type="submit">자바스크립트 해시태그 추가</button>
-            </form>
-            <LikeButton onClick={handleLike} />
-            <LikeButton isLiked onClick={handleUnLike} />
-            <form>
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
-              <button type="button" onClick={postAnswer}>
-                답변 등록
-              </button>
-              <button type="button" onClick={patchAnswer}>
-                답변 수정
-              </button>
-              <button type="button" onClick={deleteAnswer}>
-                답변 삭제ㅋ
-              </button>
-            </form>
-          </>
-        ) : (
-          <a href="/auth/github">Sign In With Github</a>
-        )}
+        <>
+          <LikeButton onClick={handleLike} /> 좋아요
+          <LikeButton isLiked onClick={handleUnLike} /> 좋아요 해제
+          <form>
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+            <button type="button" onClick={postAnswer}>
+              답변 등록
+            </button>
+            <button type="button" onClick={patchAnswer}>
+              답변 수정
+            </button>
+            <button type="button" onClick={deleteAnswer}>
+              답변 삭제ㅋ
+            </button>
+          </form>
+        </>
+        )
       </PageContainer>
     </>
   );

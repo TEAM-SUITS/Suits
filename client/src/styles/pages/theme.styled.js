@@ -45,6 +45,11 @@ export const GlobalStyle = createGlobalStyle`
       monospace;
   }
 
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
 /* ------------------------------- 사용자 정의 스타일 ------------------------------- */
 
   body {
