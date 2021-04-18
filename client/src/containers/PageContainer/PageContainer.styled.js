@@ -10,11 +10,21 @@ const PageContainer = styled(motion(Container))`
   display: flex;
   flex-flow: column wrap;
   align-items: center;
+  justify-content: center;
   margin: ${({ margin }) => (margin ? margin : "0px")};
   padding-top: 50px;
-  background-color: black;
+  background-color: var(--var-lightgray2);
   height: 100vh;
   width: 100vw;
+
+  // 로그인 페이지 컨텐츠 수평 정렬
+  ${({ page }) =>
+    page === "login" &&
+    css`
+      background-color: var(--color-black);
+      justify-content: center;
+    `}
+
   ${({ ismobile }) =>
     ismobile &&
     css`

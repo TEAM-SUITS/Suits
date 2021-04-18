@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { pageEffect } from "styles/motions/variants";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import IconLinkA from "components/IconLinkA/IconLinkA";
+import LinkA from "components/LinkA/LinkA";
 
 export default function LoginPage() {
   const { isAuthed } = useSelector((state) => state.auth);
@@ -15,10 +15,21 @@ export default function LoginPage() {
   }, [history, isAuthed]);
 
   return (
-    <PageContainer variants={pageEffect} initial="hidden" animate="visible">
-      <IconLinkA icon="search" outline href="/auth/github">
+    <PageContainer
+      page="login"
+      variants={pageEffect}
+      initial="hidden"
+      animate="visible"
+    >
+      <LinkA
+        icon="github"
+        outline
+        width="14em"
+        height="2.5em"
+        href="/auth/github"
+      >
         Sign In With Github
-      </IconLinkA>
+      </LinkA>
     </PageContainer>
   );
 }
