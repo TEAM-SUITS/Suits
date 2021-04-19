@@ -260,9 +260,9 @@ module.exports = app => {
 
   // 특정 hashtag(s)가 포함된 Q(s) 가져오기
   app.get("/api/questions/following/:hashtags", async (req, res) => {
-    // :hashtags -> ex) 'javascript-html-css'
-    const hashtagArray = req.params.hashtags.split("-");
-    const regexpArray = hashtagArray.map((hashtag) => new RegExp(hashtag, "i"));
+    // :hashtags -> ex) 'javascript+html+css'
+    const hashtagArray = req.params.hashtags.split("+");
+    const regexpArray = hashtagArray.map(hashtag => new RegExp(hashtag, "i"));
     const { page, perPage } = req.query;
     const options = {
       page: parseInt(page, 10) || 1,

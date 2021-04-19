@@ -23,7 +23,7 @@ passport.use(
       callbackURL: "/auth/github/callback",
       proxy: true,
     },
-    function (_, _, profile, cb) {
+    (_, __, profile, cb) => {
       console.log(profile);
       // 데이터베이스에서 검색해서 없으면 새로운 User 생성
       User.findOne({ githubId: profile.id }, async (err, doc) => {
