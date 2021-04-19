@@ -17,6 +17,7 @@ const AlertContainer = styled.div.attrs({ role: "alert" })`
   justify-content: center;
   align-items: center;
   padding: 5px;
+  width: 100%;
 
   p {
     margin-left: 5px;

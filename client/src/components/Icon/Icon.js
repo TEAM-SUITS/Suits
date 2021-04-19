@@ -15,6 +15,8 @@ import { ReactComponent as QuoteRight } from "./images/quoteRight.svg";
 import { ReactComponent as Close } from "./images/close.svg";
 import { ReactComponent as Error } from "./images/error.svg";
 import { ReactComponent as Success } from "./images/success.svg";
+import { ReactComponent as Github } from "./images/github.svg";
+import { ReactComponent as Logo } from "./images/logo.svg";
 import { string } from "prop-types";
 
 /* -------------------------------------------------------------------------- */
@@ -27,6 +29,9 @@ export default function Icon({
 }) {
   let COMP = null;
   switch (type) {
+    case "logo":
+      COMP = Logo;
+      break;
     case "search":
       COMP = Search;
       break;
@@ -72,6 +77,9 @@ export default function Icon({
     case "success":
       COMP = Success;
       break;
+    case "github":
+      COMP = Github;
+      break;
     default:
       throw new Error("아이콘을 찾을수없습니다");
   }
@@ -81,6 +89,7 @@ export default function Icon({
 
 Icon.propTypes = {
   type: oneOf([
+    "logo",
     "search",
     "home",
     "heart",
@@ -96,6 +105,7 @@ Icon.propTypes = {
     "close",
     "error",
     "success",
+    "github",
   ]).isRequired,
   title: string,
   height: string,
