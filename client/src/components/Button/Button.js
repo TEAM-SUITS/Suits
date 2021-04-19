@@ -32,8 +32,6 @@ const StyledButton = styled(motion.button)`
 /* ------------------------------------------------------------------------- */
 
 export default function Button({
-  href,
-  external,
   icon,
   outline,
   children,
@@ -44,7 +42,6 @@ export default function Button({
   ...restProps
 }) {
   return (
-    // eslint-disable-next-line react/jsx-no-target-blank
     <StyledButton
       whileHover={{ scale: 1.1 }}
       outline={outline}
