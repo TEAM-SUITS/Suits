@@ -35,7 +35,7 @@ export const GlobalStyle = createGlobalStyle`
     user-select: none;
     cursor: pointer;
   }
-
+  
   abbr[title] {
     cursor: help;
   }

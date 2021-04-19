@@ -16,6 +16,7 @@ import { ReactComponent as Close } from "./images/close.svg";
 import { ReactComponent as Error } from "./images/error.svg";
 import { ReactComponent as Success } from "./images/success.svg";
 import { ReactComponent as Github } from "./images/github.svg";
+import { ReactComponent as Logo } from "./images/logo.svg";
 import { string } from "prop-types";
 
 /* -------------------------------------------------------------------------- */
@@ -28,6 +29,9 @@ export default function Icon({
 }) {
   let COMP = null;
   switch (type) {
+    case "logo":
+      COMP = Logo;
+      break;
     case "search":
       COMP = Search;
       break;
@@ -85,6 +89,7 @@ export default function Icon({
 
 Icon.propTypes = {
   type: oneOf([
+    "logo",
     "search",
     "home",
     "heart",

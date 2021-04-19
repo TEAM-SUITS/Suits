@@ -22,7 +22,7 @@ import { fetchUserAction } from "redux/storage/auth/auth";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
-  console.log(location.pathname);
+
   useEffect(() => {
     dispatch(fetchUserAction());
   }, [dispatch]);

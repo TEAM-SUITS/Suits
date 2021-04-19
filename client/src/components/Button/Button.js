@@ -1,33 +1,37 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import Icon from "components/Icon/Icon";
-import { textShadowBlack } from "styles/common/common.styled";
+import { museoMedium, textShadowBlack } from "styles/common/common.styled";
 import { string, node, bool } from "prop-types";
+import { motion } from "framer-motion";
 
 /* ---------------------------- styled components --------------------------- */
 
-const StyledAnchor = styled.a`
+const StyledButton = styled(motion.button)`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  font-size: 1.6rem;
   text-align: center;
   width: ${({ width }) => (width ? width : "auto")};
   height: ${({ height }) => (height ? height : "auto")};
+  ${museoMedium}
   ${textShadowBlack};
-
+  border: none;
+  background-color: transparent;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   ${({ outline }) =>
     outline &&
     css`
       border-radius: 1em;
       padding: 0.625em;
-      background-color: var(--color-gray2);
-    `}
+      background-color: ${({ disabled }) =>
+        disabled ? "var(--color-white)" : "var(--color-gray2)"};
+    `};
 `;
 
 /* ------------------------------------------------------------------------- */
 
-export default function LinkA({
+export default function Button({
   href,
   external,
   icon,
@@ -35,33 +39,34 @@ export default function LinkA({
   children,
   width,
   height,
+  isLoading,
+  disabled,
   ...restProps
 }) {
   return (
     // eslint-disable-next-line react/jsx-no-target-blank
-    <StyledAnchor
-      href={href}
-      target={external ? "_blank" : null}
-      rel={external ? "noopener noreferrer" : null}
+    <StyledButton
+      whileHover={{ scale: 1.1 }}
       outline={outline}
       width={width}
       height={height}
+      disabled={disabled}
       {...restProps}
     >
       {icon && <Icon type={icon} />}
-      {children}
-    </StyledAnchor>
+      {isLoading ? "Loading..." : children}
+    </StyledButton>
   );
 }
 
 /* -------------------------------- proptypes ------------------------------- */
 
-LinkA.propTypes = {
-  href: string.isRequired,
-  external: bool,
+Button.propTypes = {
   outline: bool,
   children: node,
   icon: string,
   width: string,
   height: string,
+  isLoading: bool,
+  disabled: bool,
 };
