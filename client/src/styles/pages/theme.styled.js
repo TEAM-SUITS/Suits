@@ -35,7 +35,7 @@ export const GlobalStyle = createGlobalStyle`
     user-select: none;
     cursor: pointer;
   }
-
+  
   abbr[title] {
     cursor: help;
   }
@@ -43,6 +43,11 @@ export const GlobalStyle = createGlobalStyle`
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
   }
 
 /* ------------------------------- 사용자 정의 스타일 ------------------------------- */
