@@ -318,7 +318,7 @@ module.exports = app => {
     }
   });
 
-  // ✅ answer 수정하기(update answer)
+  // ✅ 답변 수정(update answer)
   app.patch("/api/answers/:id", requireLogin, async (req, res) => {
     try {
       // 사용자 검증
@@ -346,7 +346,7 @@ module.exports = app => {
     }
   });
 
-  // ✅ 질문 삭제(delete answer)
+  // ✅ 답변 삭제(delete answer)
   app.delete("/api/answers/:id", requireLogin, async (req, res) => {
     try {
       const answer = await Answer.findByIdAndDelete({
