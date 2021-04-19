@@ -64,8 +64,8 @@ module.exports = app => {
 
   // Trending Question API - answers.length 값 top3인 question 가져오기
   app.get("/api/questions/trend", async (req, res) => {
-    let now = new Date();
-    let oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
+    const now = new Date();
+    const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
     try {
       const trendingQuestions = await Question.aggregate([
         {
