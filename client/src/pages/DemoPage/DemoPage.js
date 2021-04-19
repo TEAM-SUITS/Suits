@@ -28,14 +28,14 @@ export default function DemoPage() {
   // };
 
   const postAnswer = async () => {
-    const res = await axios.post("/api/answers", {
+    await axios.post("/api/answers", {
       content,
       questionId: "607a3bf49187675cc6d6d92d",
     });
 
-    await axios.patch("/api/questions/607a3bf49187675cc6d6d92d", {
-      answerId: res.data._id,
-    });
+    // await axios.patch("/api/questions/607a3bf49187675cc6d6d92d", {
+    //   answerId: res.data._id,
+    // });
 
     dispatch(fetchUserAction());
   };

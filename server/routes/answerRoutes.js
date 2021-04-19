@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Answer = mongoose.model("Answer");
+const Question = require("../model/Question");
 const requireLogin = require("../middlewares/requireLogin");
 
 /* ------------------------------ export routes ----------------------------- */
@@ -24,22 +25,39 @@ module.exports = (app) => {
     }
   });
 
-  // answers에 새로운 답변 추가하고 answer id 반환하기
+  // answers에 새로운 답변 추가하고,
+  // 해당 question의 answers 배열에 새로운 답변의 id 추가하기
   app.post("/api/answers", requireLogin, async (req, res) => {
     try {
-      await new Answer({
+      const answerData = await new Answer({
         content: req.body.content,
         postedby: req.user,
         question: mongoose.Types.ObjectId(req.body.questionId),
         likes: [],
-      }).save((err, data) => {
-        if (err) {
-          res.status(500).send({
-            message: err,
-          });
-        }
-        res.json(data);
-      });
+      }).save();
+
+      Question.findByIdAndUpdate(
+        { _id: mongoose.Types.ObjectId(answerData.question) },
+        {
+          $push: { answers: answerData._id },
+          $set: { lastUpdate: new Date() },
+        },
+        { new: true }
+      ).populate({
+        path: "answers",
+        populate: {
+          path: "postedby",
+          model: "User",
+        },
+      })
+        .exec((err, data) => {
+          if (err) {
+            res.status(500).send({
+              message: err,
+            });
+          }
+          res.json(data);
+        });
     } catch (err) {
       res.status(500).send({
         message: err,

@@ -58,7 +58,7 @@ module.exports = (app) => {
   });
 
   // hard workers 정보 조회
-  app.get("/api/hard-workers", async (req, res) => {
+  app.get("/api/hard-workers", requireLogin, async (req, res) => {
     try {
       const hardWorkers = await User.aggregate([
         {
