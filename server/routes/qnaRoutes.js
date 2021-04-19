@@ -286,7 +286,7 @@ module.exports = app => {
         likes: [],
       }).save();
 
-      req.user.answeredQuestions.push(req.body.questionId);
+      req.user.answeredQuestions.push(mongoose.Types.ObjectId(req.body.questionId));
       await req.user.save();
 
       Question.findByIdAndUpdate(
