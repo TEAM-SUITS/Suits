@@ -7,7 +7,6 @@ module.exports = (app) => {
 
   app.get("/api/user-profile", requireLogin, (req, res) => {
     if (req.user) {
-      console.log(req.user);
       res.send(req.user);
     } else {
       res.send(null);

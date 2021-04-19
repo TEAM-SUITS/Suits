@@ -29,10 +29,6 @@ try {
 
 /* ------------------------------- DB 모델 불러오기 ------------------------------- */
 
-const User = require("./model/user");
-const Question = require("./model/Question");
-const Answer = require("./model/Answer");
-
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: process.env.CLIENT_ADDRESS, credentials: true }));
@@ -55,9 +51,9 @@ app.get("/", (req, res) => {
 /* ----------------------------------- 라우트 ---------------------------------- */
 
 require("./routes/authRoutes")(app);
-require("./routes/questionRoutes")(app);
-require("./routes/answerRoutes")(app);
-// require("./routes/qnaRoutes")(app);
+// require("./routes/questionRoutes")(app);
+// require("./routes/answerRoutes")(app);
+require("./routes/qnaRoutes")(app);
 require("./routes/userRoutes")(app);
 require("./routes/quoteRoutes")(app);
 require("./routes/likeRoutes")(app);
