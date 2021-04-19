@@ -17,6 +17,7 @@ import { ReactComponent as Error } from "./images/error.svg";
 import { ReactComponent as Success } from "./images/success.svg";
 import { ReactComponent as Github } from "./images/github.svg";
 import { ReactComponent as Logo } from "./images/logo.svg";
+import { ReactComponent as Swap } from "./images/swap.svg";
 import { string } from "prop-types";
 
 /* -------------------------------------------------------------------------- */
@@ -80,6 +81,9 @@ export default function Icon({
     case "github":
       COMP = Github;
       break;
+    case "swap":
+      COMP = Swap;
+      break;
     default:
       throw new Error("아이콘을 찾을수없습니다");
   }
@@ -106,6 +110,7 @@ Icon.propTypes = {
     "error",
     "success",
     "github",
+    "swap",
   ]).isRequired,
   title: string,
   height: string,

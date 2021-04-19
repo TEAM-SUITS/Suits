@@ -1,12 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { museoSmall } from "styles/common/common.styled";
+import {
+  museoMedium,
+  museoSmall,
+  spoqaMedium,
+} from "styles/common/common.styled";
 import { string, node, bool } from "prop-types";
 
 /* ---------------------------- styled component ---------------------------- */
 
 const Quote = styled.q`
-  ${museoSmall}
+  ${({ lang }) => (lang === "en" ? museoMedium : spoqaMedium)}
+  display: block;
+  max-width: 20em;
   color: var(--color-black);
   quotes: none;
   text-align: ${({ textCenter }) => (textCenter ? "center" : "left")};
@@ -22,14 +28,15 @@ const QuoteBy = styled.footer`
 
 export default function QuotesContent({
   children,
-  cite,
   author,
+  cite = author,
   textCenter = false,
+  lang,
   ...restProps
 }) {
   return (
     <article {...restProps}>
-      <Quote cite={cite} lang="en" textCenter>
+      <Quote cite={cite} textCenter lang={lang}>
         {children}
       </Quote>
       <QuoteBy>{author}</QuoteBy>
@@ -44,4 +51,5 @@ QuotesContent.propTypes = {
   cite: string,
   textCenter: bool,
   author: string,
+  lang: string,
 };

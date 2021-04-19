@@ -30,10 +30,10 @@ export default {
         "search-active",
         "quote-left",
         "quote-right",
-<<<<<<< HEAD
-        "close"
+        "close",
+        "github",
+        "swap",
       ],
-      description: "아이콘 타입을 지정",
       defaultValue: "home",
     },
     title: {
@@ -43,26 +43,10 @@ export default {
     height: {
       description: "아이콘 높이",
       defaultValue: "25px",
-=======
-        "close",
-        "error",
-        "success",
-        "github",
-      ],
-    },
-
-    title: {
-      description: "아이콘에 마우스를 올려두면 표시될 타이틀",
-    },
-
-    height: {
-      description: "아이콘 크기(높이)",
->>>>>>> bba5d847152c9a9e15acbf303487b46802dccca4
     },
   },
 };
 
-<<<<<<< HEAD
 const Template = (args) => <Icon {...args} />;
 
 export const Primary = Template.bind({});
@@ -70,15 +54,12 @@ Primary.args = {
   type: "home",
   title: "아이콘",
   height: "25px",
-=======
+};
 /* -------------------------------------------------------------------------- */
-
-const Template = (args) => <Icon {...args} />;
 
 export const IconVariants = Template.bind({});
 
 IconVariants.args = {
   type: "search",
   title: "검색",
->>>>>>> bba5d847152c9a9e15acbf303487b46802dccca4
 };

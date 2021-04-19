@@ -12,7 +12,7 @@ const CardBox = styled.div`
   position: relative;
   min-width: 305px;
   border-radius: 10px;
-  background-color: var(--color-lightgray);
+  background-color: var(--color-white);
   padding: 1em 2em 1.4em;
   max-height: 60vh;
   overflow: auto;
@@ -52,7 +52,7 @@ CardBox.Header = styled.div`
     text-align: center;
     color: var(--color-gray3);
     ${textShadowBlack}
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     padding: 0 2em;
   }
   & > svg {
@@ -70,6 +70,7 @@ CardBox.Header = styled.div`
 
 CardBox.Content = styled.div`
   margin: 0 auto;
+  font-size: 1.6em;
 `;
 
 /* -------------------------------- proptypes ------------------------------- */

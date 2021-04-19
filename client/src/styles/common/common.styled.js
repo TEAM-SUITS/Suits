@@ -55,7 +55,7 @@ export const museoLarge = css`
 `;
 
 export const museoMedium = css`
-  font: 400 1.8rem "MuseoModerno", serif;
+  font: 400 1.6rem "MuseoModerno", serif;
 `;
 
 export const museoSmall = css`
