@@ -45,7 +45,7 @@ module.exports = (app) => {
       });
 
       // 총 누적수에 따라 등급 업데이트
-      updateTier(user);
+      updateTier(req.user);
 
       res.send(answer);
     } catch (err) {
