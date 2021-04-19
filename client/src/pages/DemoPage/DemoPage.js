@@ -48,10 +48,10 @@ export default function DemoPage() {
   };
 
   const deleteAnswer = async () => {
-    const res = await axios.delete("/api/answers/607d81bc1e855115dcd9defb");
+    await axios.delete("/api/answers/607d81bc1e855115dcd9defb");
     dispatch(fetchUserAction());
 
-    console.log(res);
+    console.log('정상적으로 삭제되었습니다.');
   };
 
   const handleLike = async () => {

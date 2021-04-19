@@ -275,6 +275,7 @@ module.exports = app => {
   });
 
   // ✅ answers에 새로운 답변 추가하고,
+  // 사용자의 answeredQuestions 배열에 답변의 id 추가하고,
   // 해당 question의 answers 배열에 새로운 답변의 id 추가하기
   app.post("/api/answers", requireLogin, async (req, res) => {
     try {
@@ -284,6 +285,9 @@ module.exports = app => {
         question: mongoose.Types.ObjectId(req.body.questionId),
         likes: [],
       }).save();
+
+      req.user.answeredQuestions.push(req.body.questionId);
+      await req.user.save();
 
       Question.findByIdAndUpdate(
         { _id: mongoose.Types.ObjectId(answerData.question) },
@@ -317,6 +321,17 @@ module.exports = app => {
   // ✅ answer 수정하기(update answer)
   app.patch("/api/answers/:id", requireLogin, async (req, res) => {
     try {
+      // 사용자 검증
+      const targetAnswer = await Answer.findById(req.params.id).exec();
+      if (targetAnswer.postedby !== req.user._id) {
+        res.status(400).send({
+          message: "수정 권한이 없습니다.",
+        });
+      }
+
+      console.log(targetAnswer);
+
+      // 수정
       const answer = await Answer.findByIdAndUpdate(
         { _id: req.params.id },
         { content: req.body.content },
