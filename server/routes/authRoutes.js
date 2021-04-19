@@ -24,9 +24,7 @@ module.exports = (app) => {
   app.get("/auth/logout", (req, res) => {
     if (req.user) {
       req.logout();
-      res.send({
-        message: "성공적으로 로그아웃",
-      });
+      res.redirect("http://localhost:3000/login");
     } else {
       res.send({
         message: "로그아웃할 유저 정보를 찾을 수 없습니다",
