@@ -30,18 +30,15 @@ export default function DemoPage() {
   const postAnswer = async () => {
     await axios.post("/api/answers", {
       content,
-      questionId: "607a3bf49187675cc6d6d92d",
+      questionId: "60751f2caf540a054f122920",
     });
 
-    // await axios.patch("/api/questions/607a3bf49187675cc6d6d92d", {
-    //   answerId: res.data._id,
-    // });
-
+    // console.log(res);
     dispatch(fetchUserAction());
   };
 
   const patchAnswer = async () => {
-    const res = await axios.patch("/api/answers/60783162fc60153f9c61c958", {
+    const res = await axios.patch("/api/answers/607d802d65b6331044deab40", {
       content,
     });
 
@@ -51,10 +48,10 @@ export default function DemoPage() {
   };
 
   const deleteAnswer = async () => {
-    const res = await axios.delete("/api/answers/6078303db455a302743baec0");
+    await axios.delete("/api/answers/607d81bc1e855115dcd9defb");
     dispatch(fetchUserAction());
 
-    console.log(res);
+    console.log('정상적으로 삭제되었습니다.');
   };
 
   const handleLike = async () => {
