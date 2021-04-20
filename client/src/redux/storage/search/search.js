@@ -26,7 +26,7 @@ export const fetchSearchData = searchWord => async (dispatch) => {
 const initialState = {
   isLoading: false,
   searchWord: '',
-  data: null,
+  searchData: null,
   error: null,
 };
 
@@ -42,14 +42,14 @@ export const searchReducer = (
       return {
         ...state,
         isLoading: true,
-        searchWord: searchWord,
+        searchWord,
       };
 
     case GET_SEARCH_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        data: searchData,
+        searchData,
       };
 
 
