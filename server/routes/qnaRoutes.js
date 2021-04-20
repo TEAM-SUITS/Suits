@@ -5,7 +5,7 @@ const requireLogin = require("../middlewares/requireLogin");
 
 /* -------------------------------------------------------------------------- */
 
-module.exports = app => {
+module.exports = (app) => {
   // ✅ 전체 questions 조회 API
   app.get("/api/questions", async (req, res) => {
     const { page, perPage } = req.query;
@@ -62,7 +62,7 @@ module.exports = app => {
     }
   });
 
-  // ✅ Trending Question API - answers.length 값 top3인 question 가져오기
+  // ✅ Trending Question API - 일주일내에 answers.length 값 top3인 question 가져오기
   app.get("/api/questions/trend", async (req, res) => {
     const now = new Date();
     const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
@@ -228,7 +228,7 @@ module.exports = app => {
   app.get("/api/questions/following/:hashtags", async (req, res) => {
     // :hashtags -> ex) 'javascript+front-end+css'
     const hashtagArray = req.params.hashtags.split("+");
-    const regexpArray = hashtagArray.map(hashtag => new RegExp(hashtag, "i"));
+    const regexpArray = hashtagArray.map((hashtag) => new RegExp(hashtag, "i"));
     const { page, perPage } = req.query;
     const options = {
       page: parseInt(page, 10) || 1,
@@ -286,7 +286,9 @@ module.exports = app => {
         likes: [],
       }).save();
 
-      req.user.answeredQuestions.push(mongoose.Types.ObjectId(req.body.questionId));
+      req.user.answeredQuestions.push(
+        mongoose.Types.ObjectId(req.body.questionId)
+      );
       await req.user.save();
 
       Question.findByIdAndUpdate(
@@ -296,13 +298,14 @@ module.exports = app => {
           $set: { lastUpdate: new Date() },
         },
         { new: true }
-      ).populate({
-        path: "answers",
-        populate: {
-          path: "postedby",
-          model: "User",
-        },
-      })
+      )
+        .populate({
+          path: "answers",
+          populate: {
+            path: "postedby",
+            model: "User",
+          },
+        })
         .exec((err, data) => {
           if (err) {
             res.status(500).send({
@@ -322,21 +325,20 @@ module.exports = app => {
   app.patch("/api/answers/:id", requireLogin, async (req, res) => {
     try {
       // 사용자 검증
-      const targetAnswer = await Answer.findById(req.params.id).exec();
-      if (targetAnswer.postedby !== req.user._id) {
-        res.status(400).send({
+      const targetAnswer = await Answer.findById(req.params.id);
+      if (!targetAnswer.postedby.equals(req.user._id)) {
+        res.send({
           message: "수정 권한이 없습니다.",
         });
+        return;
       }
-
-      console.log(targetAnswer);
 
       // 수정
       const answer = await Answer.findByIdAndUpdate(
         { _id: req.params.id },
         { content: req.body.content },
         { new: true }
-      ).exec();
+      );
 
       res.json(answer); // 수정 이후의 질문을 반환함.
     } catch (err) {
@@ -351,7 +353,14 @@ module.exports = app => {
     try {
       const answer = await Answer.findByIdAndDelete({
         _id: req.params.id,
-      }).exec();
+      });
+
+      if (!answer.postedby.equals(req.user._id)) {
+        res.send({
+          message: "삭제 권한이 없습니다.",
+        });
+        return;
+      }
 
       res.json(answer); // 삭제 이전의 질문을 반환함.
     } catch (err) {

@@ -12,8 +12,8 @@ module.exports = (app) => {
           path: "answeredQuestions",
           populate: {
             path: "answers",
-            populate: "postedby"
-          }
+            populate: "postedby",
+          },
         })
         .exec((err, data) => {
           if (err) {
@@ -93,6 +93,23 @@ module.exports = (app) => {
       ]);
 
       res.json(hardWorkers);
+    } catch (err) {
+      res.status(500).send({
+        message: err,
+      });
+    }
+  });
+
+  // 타 유저 프로필을 아이디로 조회. 불필요한 정보는 반환하지않음
+  app.get("/api/user-profile/:id", requireLogin, async (req, res) => {
+    try {
+      const user = await User.find(
+        {
+          _id: req.params.id,
+        },
+        { githubId: 0, memberSince: 0, firstLogin: 0, _id: 0 }
+      );
+      res.json(user);
     } catch (err) {
       res.status(500).send({
         message: err,
