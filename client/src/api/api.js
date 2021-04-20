@@ -14,6 +14,7 @@ export default function API(
       switch (method) {
         case 'get':
           res = await axios.get(api);
+          console.log(res.data);
           break;
 
         case 'post':
@@ -32,11 +33,11 @@ export default function API(
           break;
       }
 
-      return await res.json();
+      return res.data;
     } catch (err) {
       if (err) console.error('데이터를 받아올 수 없습니다.');
     }
   };
 
-  fetchData();
+  return fetchData();
 }
