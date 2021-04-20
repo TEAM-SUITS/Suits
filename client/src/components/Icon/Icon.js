@@ -1,5 +1,5 @@
 import React from "react";
-import { oneOf } from "prop-types";
+import { oneOf, string } from "prop-types";
 import { ReactComponent as Search } from "./images/search.svg";
 import { ReactComponent as SearchActive } from "./images/search-active.svg";
 import { ReactComponent as Home } from "./images/home.svg";
@@ -17,8 +17,7 @@ import { ReactComponent as Error } from "./images/error.svg";
 import { ReactComponent as Success } from "./images/success.svg";
 import { ReactComponent as Github } from "./images/github.svg";
 import { ReactComponent as Logo } from "./images/logo.svg";
-import { ReactComponent as Swap } from "./images/swap.svg";
-import { string } from "prop-types";
+import { ReactComponent as Mail } from "./images/mail.svg";
 
 /* -------------------------------------------------------------------------- */
 
@@ -81,8 +80,8 @@ export default function Icon({
     case "github":
       COMP = Github;
       break;
-    case "swap":
-      COMP = Swap;
+    case "mail":
+      COMP = Mail;
       break;
     default:
       throw new Error("아이콘을 찾을수없습니다");
@@ -110,7 +109,7 @@ Icon.propTypes = {
     "error",
     "success",
     "github",
-    "swap",
+    "mail",
   ]).isRequired,
   title: string,
   height: string,

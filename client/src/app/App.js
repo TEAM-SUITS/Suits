@@ -34,6 +34,7 @@ function App() {
     <div className="App">
       <GlobalStyle />
       <ProfileDialog isVisible={checkingProfile} />
+      <DemoPage />
       <Switch>
         <RouteGuard path="/" exact component={HomePage} />
         <RouteGuard path="/demo" exact component={DemoPage} />

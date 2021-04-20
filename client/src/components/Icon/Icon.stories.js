@@ -33,6 +33,7 @@ export default {
         "close",
         "github",
         "swap",
+        "mail",
       ],
       defaultValue: "home",
     },
