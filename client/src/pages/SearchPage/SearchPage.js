@@ -12,6 +12,8 @@ export default function SearchPage() {
     <>
       <TextHeaderBar page="search" />
       <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+        <SearchHeaderBar />
+        <TextHeaderBar page="search" />
       </PageContainer>
     </>
   );
