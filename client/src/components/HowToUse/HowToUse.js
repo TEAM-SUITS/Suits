@@ -11,7 +11,7 @@ import {
   spoqaMediumLight,
 } from 'styles/common/common.styled';
 
-const StylesMyInfo = styled.section`
+const StylesHowToUse = styled.section`
   padding: 0 3em;
   .box {
     max-width: 500px;
@@ -115,9 +115,9 @@ const StylesMyInfo = styled.section`
   }
 `;
 
-export default function MyInfo() {
+export default function HowToUse() {
   return (
-    <StylesMyInfo>
+    <StylesHowToUse>
       <div className="box box-feature">
         <h2>주요 기능 소개</h2>
         <Divider width="40%" margin="0.5em auto" />
@@ -164,6 +164,6 @@ export default function MyInfo() {
           </div>
         </div>
       </div>
-    </StylesMyInfo>
+    </StylesHowToUse>
   );
 }
