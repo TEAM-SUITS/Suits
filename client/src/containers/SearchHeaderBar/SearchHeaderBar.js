@@ -8,12 +8,14 @@ import { museoSmall, spoqaSmallBold, spoqaSmall } from 'styles/common/common.sty
 const SearchButton = styled.button.attrs(() => ({
   type: "button",
 }))`
+  transform: translate(0, 45px);
+  margin: 0 auto;
   cursor: pointer;
   width: 100%;
   height: 100%;
   background-color: var(--color-white);
   text-align: initial;
-  border: none;
+  border: 1px solid var(--color-gray1);
   
   div {
     position: relative;
@@ -43,11 +45,14 @@ const SearchButton = styled.button.attrs(() => ({
 
 /* --------------------------------- 검색 중일 때 -------------------------------- */
 const FlexBox = styled.div`
+  transform: translate(0, 45px);
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   width: 100%;
   height: 100%;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray1);
 
   svg {
     margin: 10px;

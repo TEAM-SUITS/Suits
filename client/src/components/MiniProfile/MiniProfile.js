@@ -41,18 +41,19 @@ const StyledMiniProfile = styled.div`
     }
     svg {
       height: 2em;
+    }
   }
 `;
 
 /* ---------------------------- styled components --------------------------- */
 
 export default function MiniProfile({ user }) {
-  const { id, username, img, tier } = user;
+  const { _id, username, avatar, tier } = user;
   return (
     <StyledMiniProfile>
       {/* 해당 id를 가진 유저의 프로필 페이지로 이동 */}
       {/* <Link> */}
-      <img src={img} alt={username} />
+      <img src={avatar} alt={username} />
       <div>
         <span>{username}</span>
         <Tier tier={tier} height={12} />
