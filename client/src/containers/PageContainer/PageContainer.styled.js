@@ -15,7 +15,6 @@ const PageContainer = styled(motion(Container))`
   margin: ${({ margin }) => (margin ? margin : "7.5em 0")};
   background-color: var(--var-lightgray2);
   min-height: 100vh;
-  min-width: 100vw;
 
   ${({ page }) =>
     page === "login" &&

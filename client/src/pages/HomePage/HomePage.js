@@ -14,7 +14,7 @@ import { TrendingQnAContent } from "components/Content/TrendingQuestionContent.s
 /* ---------------------------- styled components --------------------------- */
 
 const StyledButtonGroup = styled(ToggleButtonGroup)`
-  justify-content: center;
+  justify-content: start;
   width: 100%;
   margin-top: 1.2em;
 
@@ -30,13 +30,44 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
 /* -------------------------------------------------------------------------- */
 
 export default function HomePage() {
+  // 홈페이지에서 관리될 임시 상태들 (일부 상태 제외하곤 리덕스로 처리 예정)
   const [quote, setQuote] = useState(null);
   const [quoteLanguage, setQuoteLanguage] = useState("ko");
+  const [hardWorkers, setHardWorkers] = useState(null);
+  const [trendingQ, setTrendingQ] = useState(null);
+
+  const [quoteLoading, setQuoteLoading] = useState(false);
+  const [workersLoading, setWorkersLoading] = useState(false);
+  const [trendingLoading, setTrendingLoading] = useState(false);
 
   const fetchQuote = async () => {
     try {
+      setQuoteLoading(true);
       const { data } = await axios("/api/quote");
       setQuote(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setQuoteLoading(false);
+    }
+  };
+
+  const fetchHardWorkers = async () => {
+    try {
+      setWorkersLoading(true);
+      const { data } = await axios("/api/hard-workers");
+      setHardWorkers(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setWorkersLoading(false);
+    }
+  };
+
+  const fetchTrendingQ = async () => {
+    try {
+      const { data } = await axios("/api/questions/trend");
+      setTrendingQ(data);
     } catch (err) {
       console.error(err);
     }
@@ -44,6 +75,8 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchQuote();
+    fetchHardWorkers();
+    fetchTrendingQ();
   }, []);
 
   return (
@@ -57,45 +90,47 @@ export default function HomePage() {
       >
         {/* 명언 카드 섹션 */}
         <Card title="Wisdom Of The Day">
-          {quote && (
+          {
             <QuotesContent
               textCenter
-              author={quote.author}
+              quote={quote}
               lang={quoteLanguage}
+              $isLoading={quoteLoading}
+            />
+          }
+          <StyledButtonGroup
+            exclusive
+            value={quoteLanguage}
+            onChange={(_, value) => setQuoteLanguage(value)}
+          >
+            <ToggleButton
+              value="ko"
+              aria-label="번역된 명언 보기"
+              disabled={quoteLanguage === "ko"}
             >
-              {quoteLanguage === "ko"
-                ? quote.content.translated
-                : quote.content.original}
-              <StyledButtonGroup
-                exclusive
-                value={quoteLanguage}
-                onChange={(_, value) => setQuoteLanguage(value)}
-              >
-                <ToggleButton
-                  value="ko"
-                  aria-label="번역된 명언 보기"
-                  disabled={quoteLanguage === "ko"}
-                >
-                  ko
-                </ToggleButton>
-                <ToggleButton
-                  value="en"
-                  aria-label="원문 명언 보기"
-                  disabled={quoteLanguage === "en"}
-                >
-                  en
-                </ToggleButton>
-              </StyledButtonGroup>
-            </QuotesContent>
-          )}
+              ko
+            </ToggleButton>
+            <ToggleButton
+              value="en"
+              aria-label="원문 명언 보기"
+              disabled={quoteLanguage === "en"}
+            >
+              en
+            </ToggleButton>
+          </StyledButtonGroup>
         </Card>
         {/* 누적 좋아요 순위 섹션 */}
         <Card title="Hard Workers">
-          <HardWorkersContent></HardWorkersContent>
+          <HardWorkersContent users={hardWorkers} $isLoading={workersLoading} />
         </Card>
         {/* 급상승 질문 탑3 */}
         <Card title="Trending QnA">
-          <TrendingQnAContent></TrendingQnAContent>
+          {trendingQ && (
+            <TrendingQnAContent
+              questions={trendingQ}
+              $isLoading={trendingLoading}
+            />
+          )}
         </Card>
       </PageContainer>
     </>

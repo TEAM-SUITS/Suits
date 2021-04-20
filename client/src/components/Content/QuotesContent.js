@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { museoSmall, spoqaSmall } from "styles/common/common.styled";
-import { string, node, bool } from "prop-types";
+import { string, bool, object } from "prop-types";
+import { Skeleton } from "@material-ui/lab";
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -13,31 +14,55 @@ const Quote = styled.q`
   color: var(--color-black);
   quotes: none;
   text-align: ${({ textCenter }) => (textCenter ? "center" : "left")};
+  margin: 0 auto;
 `;
 
 const QuoteBy = styled.footer`
   ${museoSmall}
-  margin-top: 1em;
   text-align: right;
   color: var(--color-gray3);
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+`;
+
+const QuoteSkeleton = styled(Skeleton)`
+  display: block;
+  max-width: 20em;
+  margin: 0 auto;
+`;
+
+const QuoteBySkeleton = styled(Skeleton)`
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+  width: 10em;
 `;
 
 /* -------------------------------------------------------------------------- */
 
 export default function QuotesContent({
-  children,
-  author,
-  cite = author,
+  quote,
   textCenter = false,
   lang,
+  $isLoading,
   ...restProps
 }) {
   return (
     <article {...restProps}>
-      <Quote cite={cite} textCenter lang={lang}>
-        {children}
-      </Quote>
-      <QuoteBy>{author}</QuoteBy>
+      {quote && !$isLoading ? (
+        <>
+          <Quote cite={quote.author} textCenter lang={lang}>
+            {lang === "ko" ? quote.content.translated : quote.content.original}
+          </Quote>
+          <QuoteBy>{quote.author}</QuoteBy>
+        </>
+      ) : (
+        <>
+          <QuoteSkeleton animation="wave" />
+          <QuoteBySkeleton animation="wave" />
+        </>
+      )}
     </article>
   );
 }
@@ -45,9 +70,9 @@ export default function QuotesContent({
 /* -------------------------------- proptypes ------------------------------- */
 
 QuotesContent.propTypes = {
-  children: node,
-  cite: string,
+  quote: object,
   textCenter: bool,
   author: string,
   lang: string,
+  $isLoading: bool,
 };
