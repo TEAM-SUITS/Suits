@@ -12,8 +12,8 @@ module.exports = (app) => {
           path: "answeredQuestions",
           populate: {
             path: "answers",
-            populate: "postedby"
-          }
+            populate: "postedby",
+          },
         })
         .exec((err, data) => {
           if (err) {
@@ -93,6 +93,20 @@ module.exports = (app) => {
       ]);
 
       res.json(hardWorkers);
+    } catch (err) {
+      res.status(500).send({
+        message: err,
+      });
+    }
+  });
+
+  // 타 유저 프로필을 아이디로 조회
+  app.get("/api/user/:id", requireLogin, async (req, res) => {
+    try {
+      const answeredQuestion = await User.find({
+        _id: req.params.id,
+      });
+      res.json(answeredQuestion);
     } catch (err) {
       res.status(500).send({
         message: err,

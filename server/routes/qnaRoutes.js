@@ -5,7 +5,7 @@ const requireLogin = require("../middlewares/requireLogin");
 
 /* -------------------------------------------------------------------------- */
 
-module.exports = app => {
+module.exports = (app) => {
   // ✅ 전체 questions 조회 API
   app.get("/api/questions", async (req, res) => {
     const { page, perPage } = req.query;
@@ -62,7 +62,7 @@ module.exports = app => {
     }
   });
 
-  // ✅ Trending Question API - answers.length 값 top3인 question 가져오기
+  // ✅ Trending Question API - 일주일내에 answers.length 값 top3인 question 가져오기
   app.get("/api/questions/trend", async (req, res) => {
     const now = new Date();
     const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
@@ -228,7 +228,7 @@ module.exports = app => {
   app.get("/api/questions/following/:hashtags", async (req, res) => {
     // :hashtags -> ex) 'javascript+front-end+css'
     const hashtagArray = req.params.hashtags.split("+");
-    const regexpArray = hashtagArray.map(hashtag => new RegExp(hashtag, "i"));
+    const regexpArray = hashtagArray.map((hashtag) => new RegExp(hashtag, "i"));
     const { page, perPage } = req.query;
     const options = {
       page: parseInt(page, 10) || 1,
@@ -286,7 +286,9 @@ module.exports = app => {
         likes: [],
       }).save();
 
-      req.user.answeredQuestions.push(mongoose.Types.ObjectId(req.body.questionId));
+      req.user.answeredQuestions.push(
+        mongoose.Types.ObjectId(req.body.questionId)
+      );
       await req.user.save();
 
       Question.findByIdAndUpdate(
@@ -296,13 +298,14 @@ module.exports = app => {
           $set: { lastUpdate: new Date() },
         },
         { new: true }
-      ).populate({
-        path: "answers",
-        populate: {
-          path: "postedby",
-          model: "User",
-        },
-      })
+      )
+        .populate({
+          path: "answers",
+          populate: {
+            path: "postedby",
+            model: "User",
+          },
+        })
         .exec((err, data) => {
           if (err) {
             res.status(500).send({
