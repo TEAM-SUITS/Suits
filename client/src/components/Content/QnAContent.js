@@ -31,16 +31,26 @@ const ScreenReaderSpan = styled.span`
   ${a11yHidden}
 `;
 
+/* -------------------------------- mockdata -------------------------------- */
+const mockdata = {
+  _id: "607d40dfc0fe755dc815f9c2",
+  username: "ahnanne",
+  avatar: "https://avatars.githubusercontent.com/u/54733637?v=4",
+  bio: "저는 천사예인입니다.",
+  githubRepo: "https://github.com/ahnanne",
+  tier: 6,
+};
+
 /* -------------------------------------------------------------------------- */
 
 export default function QnAContent({ answer, isEllipsis = true }) {
+  // answer.author, answer.liked, answer.content
   return (
     <QnAContainer>
       <AnswerInfo>
-        <MiniProfile user={answer.author} />
+        <MiniProfile user={answer.postedby || mockdata} />
         <LikeButton />
-        <ScreenReaderSpan>좋아요 수</ScreenReaderSpan>
-        {answer.liked}
+        <ScreenReaderSpan>{answer.likes.length}</ScreenReaderSpan>
       </AnswerInfo>
       <AnswerDetail isEllipsis={isEllipsis}>{answer.content}</AnswerDetail>
     </QnAContainer>
