@@ -88,7 +88,13 @@ export default function HardWorkersContent({ users, $isLoading }) {
   const userItems =
     users && !$isLoading
       ? users.map(({ _id, username, avatar, tier }) => (
-          <HardWorker key={_id} username={username} img={avatar} tier={tier} />
+          <HardWorker
+            key={_id}
+            id={_id}
+            username={username}
+            img={avatar}
+            tier={tier}
+          />
         ))
       : HardWorkersSkeleton;
 
