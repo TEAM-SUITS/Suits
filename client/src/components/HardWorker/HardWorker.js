@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { museoSmall, textShadowBlack } from 'styles/common/common.styled';
-import { string, number } from 'prop-types';
-import Tier from 'components/Tier/Tier';
+import React from "react";
+import styled from "styled-components";
+import { museoSmall, textShadowBlack } from "styles/common/common.styled";
+import { string, number } from "prop-types";
+import Tier from "components/Tier/Tier";
 
 const StyledHardWorker = styled.div`
   display: flex;
@@ -45,14 +45,13 @@ StyledHardWorker.Image = styled.div`
 StyledHardWorker.Username = styled.h3`
   margin: 3px 0;
   ${museoSmall};
-  font-size: 1.6rem;
   ${textShadowBlack};
 
   @media screen and (min-width: 480px) {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   @media screen and (min-width: 768px) {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 `;
 
@@ -60,12 +59,12 @@ StyledHardWorker.Username = styled.h3`
 
 export default function HardWorker({
   id,
-  img = 'https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg',
-  username = 'username',
+  img = "https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg",
+  username = "username",
   tier = 1,
 }) {
   const goToProfile = (id) => {
-    console.log(id + '을 아이디로 가진 유저의 프로필 페이지로 이동');
+    console.log(id + "을 아이디로 가진 유저의 프로필 페이지로 이동");
   };
 
   return (

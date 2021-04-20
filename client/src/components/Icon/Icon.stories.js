@@ -31,25 +31,31 @@ export default {
         "quote-left",
         "quote-right",
         "close",
-        "error",
-        "success",
         "github",
+        "swap",
       ],
+      defaultValue: "home",
     },
-
     title: {
-      description: "아이콘에 마우스를 올려두면 표시될 타이틀",
+      description: "마우스 오버 시 힌트로 뜰 내용",
+      defaultValue: "아이콘",
     },
-
     height: {
-      description: "아이콘 크기(높이)",
+      description: "아이콘 높이",
+      defaultValue: "25px",
     },
   },
 };
 
-/* -------------------------------------------------------------------------- */
-
 const Template = (args) => <Icon {...args} />;
+
+export const Primary = Template.bind({});
+Primary.args = {
+  type: "home",
+  title: "아이콘",
+  height: "25px",
+};
+/* -------------------------------------------------------------------------- */
 
 export const IconVariants = Template.bind({});
 

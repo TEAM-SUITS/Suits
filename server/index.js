@@ -57,6 +57,7 @@ app.get("/", (req, res) => {
 require("./routes/authRoutes")(app);
 require("./routes/questionRoutes")(app);
 require("./routes/answerRoutes")(app);
+require("./routes/qnaRoutes")(app);
 require("./routes/userRoutes")(app);
 require("./routes/quoteRoutes")(app);
 require("./routes/likeRoutes")(app);

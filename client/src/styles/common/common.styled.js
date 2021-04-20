@@ -55,7 +55,7 @@ export const museoLarge = css`
 `;
 
 export const museoMedium = css`
-  font: 400 1.8rem "MuseoModerno", serif;
+  font: 400 1.6rem "MuseoModerno", serif;
 `;
 
 export const museoSmall = css`
@@ -75,7 +75,7 @@ export const spoqaMediumLight = css`
 `;
 
 export const spoqaSmall = css`
-  font: 400 1.2rem "Spoqa Han Sans", sans-serif;
+  font: 400 1.4rem "Spoqa Han Sans", sans-serif;
 `;
 
 export const spoqaSmallBold = css`

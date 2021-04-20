@@ -7,6 +7,7 @@ module.exports = (app) => {
 
   app.get("/api/user-profile", requireLogin, (req, res) => {
     if (req.user) {
+      console.log(req.user);
       res.send(req.user);
     } else {
       res.send(null);
@@ -54,5 +55,33 @@ module.exports = (app) => {
         message: "성공적으로 삭제",
       });
     });
+  });
+
+  // hard workers 정보 조회
+  app.get("/api/hard-workers", async (req, res) => {
+    try {
+      const hardWorkers = await User.aggregate([
+        {
+          $project: {
+            githubId: 1,
+            githubRepo: 1,
+            avatar: 1,
+            username: 1,
+            bio: 1,
+            tier: 1,
+            hashTag: 1,
+            likeCount: 1,
+          },
+        },
+        { $sort: { likeCount: -1 } },
+        { $limit: 3 },
+      ]);
+
+      res.json(hardWorkers);
+    } catch (err) {
+      res.status(500).send({
+        message: err,
+      });
+    }
   });
 };
