@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { NavLink } from "react-router-dom";
 import { resetBoxModel } from "styles/common/common.styled";
-import { bool, node } from 'prop-types';
+import { bool, node } from "prop-types";
 
 /* --------------------------------- router --------------------------------- */
 const Link = ({ children, to, ...restProps }) => {
@@ -16,6 +16,7 @@ const Link = ({ children, to, ...restProps }) => {
 
 /* ---------------------------- styled components --------------------------- */
 const ParentContainer = styled.div`
+  z-index: 20;
   ${({ ismobile }) =>
     !ismobile &&
     css`
@@ -27,10 +28,10 @@ const ParentContainer = styled.div`
       margin: 0 auto;
     `}
   ${({ ismobile }) =>
-  !ismobile &&
-  css`
-    display: hidden;
-  `}
+    !ismobile &&
+    css`
+      display: hidden;
+    `}
 `;
 
 const StyledNav = styled.ul`

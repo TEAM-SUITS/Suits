@@ -12,16 +12,23 @@ const PageContainer = styled(motion(Container))`
   align-items: center;
   justify-content: center;
   min-height: 500px;
-  margin: ${({ margin }) => (margin ? margin : "0px")};
+  margin: ${({ margin }) => (margin ? margin : "7.5em 0")};
   background-color: var(--var-lightgray2);
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
 
   ${({ page }) =>
     page === "login" &&
     css`
       background-color: var(--color-black);
     `}
+
+  ${({ page }) =>
+    page === "home" &&
+    css`
+      > div {
+        margin-bottom: 3em;
+      }
+    `}  
 
   ${({ ismobile }) =>
     ismobile &&

@@ -12,11 +12,13 @@ const CardBox = styled.div`
   position: relative;
   min-width: 305px;
   border-radius: 10px;
-  background-color: var(--color-lightgray);
+  background-color: var(--color-white);
   padding: 1em 2em 1.4em;
   max-height: 60vh;
   overflow: auto;
   color: var(--color-gray3);
+  max-width: 688px;
+  width: 100%;
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -52,7 +54,7 @@ CardBox.Header = styled.div`
     text-align: center;
     color: var(--color-gray3);
     ${textShadowBlack}
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     padding: 0 2em;
   }
   & > svg {

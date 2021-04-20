@@ -14,18 +14,16 @@ export default {
     },
   },
   argTypes: {
-    cite: {
-      description: "출처를 명시하는데 사용",
-    },
-    author: {
-      description: "저자를 명시",
+    quote: {
+      description:
+        "명언 정보가 담긴 객체, 번역된 명언, 원문 명언, 저자가 필요 ",
     },
     textCenter: {
       control: "boolean",
       description: "명언 중간 정렬 여부",
     },
-    children: {
-      description: "명언(내용)을 명시",
+    lang: {
+      description: "명언 언어",
     },
   },
 };
@@ -35,9 +33,15 @@ const Template = (args) => <QuotesContent {...args} />;
 export const QuoteContent = Template.bind({});
 
 QuoteContent.args = {
-  cite: "N/A",
   author: "Brian Tracey",
+  lang: "en",
   textCenter: true,
-  children:
-    "There are no limits to what you can accomplish, except the limits you place on your own thinking",
+  quote: {
+    content: {
+      original:
+        "There are no limits to what you can accomplish, except the limits you place on your own thinking",
+      translated: "번역된 명언",
+    },
+    author: "Brian Tracey",
+  },
 };

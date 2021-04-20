@@ -39,6 +39,7 @@ export default function Button({
   height,
   isLoading,
   disabled,
+  title,
   ...restProps
 }) {
   return (
@@ -50,7 +51,7 @@ export default function Button({
       disabled={disabled}
       {...restProps}
     >
-      {icon && <Icon type={icon} />}
+      {icon && <Icon type={icon} title={title} />}
       {isLoading ? "Loading..." : children}
     </StyledButton>
   );
@@ -66,4 +67,5 @@ Button.propTypes = {
   height: string,
   isLoading: bool,
   disabled: bool,
+  title: string,
 };

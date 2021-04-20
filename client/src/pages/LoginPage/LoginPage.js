@@ -68,7 +68,6 @@ export default function LoginPage() {
           outline
           width="14em"
           height="2.5em"
-          href="/auth/github"
           isLoading={isLoading}
           disabled={disabled}
           onClick={handleGithubLogin}
