@@ -1,14 +1,15 @@
-import HardWorker from 'components/HardWorker/HardWorker';
-import React from 'react';
-import styled from 'styled-components';
-import { resetList } from 'styles/common/common.styled';
-import { array } from 'prop-types';
-import { Skeleton } from '@material-ui/lab';
+import HardWorker from "components/HardWorker/HardWorker";
+import React from "react";
+import styled from "styled-components";
+import { resetList } from "styles/common/common.styled";
+import { array, bool } from "prop-types";
+import { Skeleton } from "@material-ui/lab";
 
 const HardWorkers = styled.ul`
   ${resetList}
   display: flex;
   justify-content: space-around;
+  margin-top: 2em;
 `;
 
 /* ---------------------------- styled components --------------------------- */
@@ -83,12 +84,19 @@ const HardWorkersSkeleton = (
 
 /* ----------------------------- skeleton ---------------------------- */
 
-export default function HardWorkersContent({ users }) {
-  const userItems = users
-    ? users.map(({ id, username, img, tier }) => (
-        <HardWorker key={id} username={username} img={img} tier={tier} />
-      ))
-    : HardWorkersSkeleton;
+export default function HardWorkersContent({ users, $isLoading }) {
+  const userItems =
+    users && !$isLoading
+      ? users.map(({ _id, username, avatar, tier }) => (
+          <HardWorker
+            key={_id}
+            id={_id}
+            username={username}
+            img={avatar}
+            tier={tier}
+          />
+        ))
+      : HardWorkersSkeleton;
 
   return <HardWorkers>{userItems}</HardWorkers>;
 }
@@ -97,4 +105,5 @@ export default function HardWorkersContent({ users }) {
 
 HardWorkersContent.propTypes = {
   users: array,
+  $isLoading: bool,
 };

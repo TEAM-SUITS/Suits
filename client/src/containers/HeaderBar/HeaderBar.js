@@ -1,11 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import { node } from 'prop-types';
-import { boxShadowBlack } from 'styles/common/common.styled';
+import React from "react";
+import styled from "styled-components";
+import { node } from "prop-types";
+import { boxShadowBlack } from "styles/common/common.styled";
 
 /* ---------------------------- styled components --------------------------- */
 const Container = styled.header`
-  @media screen and (min-width: 480px) { // desktop
+  z-index: 10;
+  @media screen and (min-width: 480px) {
+    // desktop
+
     position: fixed;
     top: 0;
     background-color: var(--color-white);
@@ -19,7 +22,8 @@ const Container = styled.header`
     }
   }
 
-  @media screen and (max-width: 479px) { // mobile
+  @media screen and (max-width: 479px) {
+    // mobile
     position: fixed;
     top: 0;
     background-color: var(--color-white);
@@ -47,7 +51,7 @@ const StyledHeading = styled.h1`
 
   span {
     display: inline-block;
-    padding-top: .1em;
+    padding-top: 0.1em;
     height: 100%;
   }
 
