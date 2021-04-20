@@ -34,6 +34,7 @@ export default {
         'error',
         'success',
         'github',
+        'mail',
       ],
     },
 
