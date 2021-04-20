@@ -17,6 +17,8 @@ const CardBox = styled.div`
   max-height: 60vh;
   overflow: auto;
   color: var(--color-gray3);
+  max-width: 688px;
+  width: 100%;
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -70,7 +72,6 @@ CardBox.Header = styled.div`
 
 CardBox.Content = styled.div`
   margin: 0 auto;
-  font-size: 1.6em;
 `;
 
 /* -------------------------------- proptypes ------------------------------- */
