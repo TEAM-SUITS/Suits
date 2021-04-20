@@ -325,21 +325,20 @@ module.exports = (app) => {
   app.patch("/api/answers/:id", requireLogin, async (req, res) => {
     try {
       // 사용자 검증
-      const targetAnswer = await Answer.findById(req.params.id).exec();
-      if (targetAnswer.postedby !== req.user._id) {
-        res.status(400).send({
+      const targetAnswer = await Answer.findById(req.params.id);
+      if (!targetAnswer.postedby.equals(req.user._id)) {
+        res.send({
           message: "수정 권한이 없습니다.",
         });
+        return;
       }
-
-      console.log(targetAnswer);
 
       // 수정
       const answer = await Answer.findByIdAndUpdate(
         { _id: req.params.id },
         { content: req.body.content },
         { new: true }
-      ).exec();
+      );
 
       res.json(answer); // 수정 이후의 질문을 반환함.
     } catch (err) {
@@ -354,7 +353,14 @@ module.exports = (app) => {
     try {
       const answer = await Answer.findByIdAndDelete({
         _id: req.params.id,
-      }).exec();
+      });
+
+      if (!answer.postedby.equals(req.user._id)) {
+        res.send({
+          message: "삭제 권한이 없습니다.",
+        });
+        return;
+      }
 
       res.json(answer); // 삭제 이전의 질문을 반환함.
     } catch (err) {
