@@ -2,6 +2,7 @@ import Card from "components/Card/Card";
 import React from "react";
 import styled from "styled-components";
 import { resetList } from "styles/common/common.styled";
+import { Skeleton } from "@material-ui/lab";
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -18,6 +19,12 @@ const QuestionCard = styled(Card)`
   }
 `;
 
+const QuestionCardSkeleton = styled(Skeleton)`
+  min-width: 100%;
+  min-height: 6em;
+  width: 100%;
+`;
+
 /* -------------------------------------------------------------------------- */
 
 export default function TrendingQuestionContent({
@@ -28,15 +35,23 @@ export default function TrendingQuestionContent({
   return (
     <article {...restProps}>
       <QuestionList>
-        {questions.map(({ _id, content }) => {
-          return (
-            <li key={_id}>
-              <QuestionCard>
-                <p>{content}</p>
-              </QuestionCard>
-            </li>
-          );
-        })}
+        {questions && !$isLoading ? (
+          questions.map(({ _id, content }) => {
+            return (
+              <li key={_id}>
+                <QuestionCard>
+                  <p>{content}</p>
+                </QuestionCard>
+              </li>
+            );
+          })
+        ) : (
+          <>
+            <QuestionCardSkeleton animation="wave" />
+            <QuestionCardSkeleton animation="wave" />
+            <QuestionCardSkeleton animation="wave" />
+          </>
+        )}
       </QuestionList>
     </article>
   );

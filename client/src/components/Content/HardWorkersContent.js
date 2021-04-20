@@ -9,6 +9,7 @@ const HardWorkers = styled.ul`
   ${resetList}
   display: flex;
   justify-content: space-around;
+  margin-top: 2em;
 `;
 
 /* ---------------------------- styled components --------------------------- */

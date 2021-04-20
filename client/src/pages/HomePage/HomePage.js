@@ -125,12 +125,10 @@ export default function HomePage() {
         </Card>
         {/* 급상승 질문 탑3 */}
         <Card title="Trending QnA">
-          {trendingQ && (
-            <TrendingQnAContent
-              questions={trendingQ}
-              $isLoading={trendingLoading}
-            />
-          )}
+          <TrendingQnAContent
+            questions={trendingQ}
+            $isLoading={trendingLoading}
+          />
         </Card>
       </PageContainer>
     </>

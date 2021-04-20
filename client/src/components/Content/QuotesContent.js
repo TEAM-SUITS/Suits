@@ -19,7 +19,6 @@ const Quote = styled.q`
 
 const QuoteBy = styled.footer`
   ${museoSmall}
-  text-align: right;
   color: var(--color-gray3);
   position: absolute;
   right: 1em;
@@ -33,7 +32,7 @@ const QuoteSkeleton = styled(Skeleton)`
 `;
 
 const QuoteBySkeleton = styled(Skeleton)`
-  position: absolute;
+  position: absolute !important; // Material UI 기본 스타일 오버라이딩 때문에 사용
   right: 1em;
   bottom: 1em;
   width: 10em;
@@ -59,6 +58,7 @@ export default function QuotesContent({
         </>
       ) : (
         <>
+          <QuoteSkeleton animation="wave" />
           <QuoteSkeleton animation="wave" />
           <QuoteBySkeleton animation="wave" />
         </>
