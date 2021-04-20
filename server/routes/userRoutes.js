@@ -5,10 +5,25 @@ const User = mongoose.model("User");
 module.exports = (app) => {
   /* --------------------------------- 프로필 조회 --------------------------------- */
 
-  app.get("/api/user-profile", requireLogin, (req, res) => {
+  app.get("/api/user-profile", requireLogin, async (req, res) => {
     if (req.user) {
-      console.log(req.user);
-      res.send(req.user);
+      await User.find({ _id: req.user._id })
+        .populate({
+          path: "answeredQuestions",
+          populate: {
+            path: "answers",
+            populate: "postedby"
+          }
+        })
+        .exec((err, data) => {
+          if (err) {
+            res.status(500).send({
+              message: err,
+            });
+          }
+
+          res.json(data);
+        });
     } else {
       res.send(null);
     }
