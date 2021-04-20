@@ -101,12 +101,12 @@ module.exports = (app) => {
   });
 
   // 타 유저 프로필을 아이디로 조회
-  app.get("/api/user/:id", requireLogin, async (req, res) => {
+  app.get("/api/user-profile/:id", requireLogin, async (req, res) => {
     try {
-      const answeredQuestion = await User.find({
+      const user = await User.find({
         _id: req.params.id,
       });
-      res.json(answeredQuestion);
+      res.json(user);
     } catch (err) {
       res.status(500).send({
         message: err,
