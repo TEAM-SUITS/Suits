@@ -147,7 +147,7 @@ export default function Dialog({
 
 Dialog.propTypes = {
   visible: bool.isRequired,
-  infoText: string.isRequired,
-  label: string,
+  infoText: string,
+  label: string.isRequired,
   children: oneOfType([node, string]),
 };
