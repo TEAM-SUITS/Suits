@@ -10,6 +10,8 @@ import { fetchSearchData } from "redux/storage/search/search";
 import styled from "styled-components";
 import { spoqaMedium } from "styles/common/common.styled";
 import { array, string } from "prop-types";
+import QnADialog from "containers/QnADialog/QnADialog";
+import API from "api/api";
 
 /* ---------------------------- styled components --------------------------- */
 const InfoImg = styled.img`
@@ -30,8 +32,28 @@ const InfoMsg = styled.p`
 `;
 
 /* ---------------------------------- 검색 영역 --------------------------------- */
-function ResultsSection(result = [], word = "") {
-  if (!result || word === "") {
+function ResultsSection({ result = [], word = "" }) {
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
+  const [question, setQuestion] = useState({});
+
+  // 이벤트 핸들러(QnA 다이얼로그 제어)
+  const handleDialog = async id => {
+    const res = await API(`/api/questions/${id}`, 'get');
+    setQuestion(res);
+    setIsDialogVisible(true);
+  };
+
+  // const showDialog = async id => {
+  //   const res = await axios.get(`/api/questions/${id}`);
+  //   setQuestion(res.data);
+  // };
+
+  // useEffect(() => {
+  //   showDialog(questionId);
+  //   setIsDialogVisible(true);
+  // }, [questionId]);
+
+  if (result === null || word === "") {
     return <InfoMsg>검색하실 단어를 입력해주세요.</InfoMsg>;
   }
   // 검색 결과가 존재하지 않을 경우
@@ -44,28 +66,47 @@ function ResultsSection(result = [], word = "") {
     );
   }
 
-  // 검색 결과가 존재할 경우
-  return result.map((data) => (
-    <Card key={data._id} isQuestion={true} title={data.content}>
-      <QnAContent
-        key={data._id}
-        answer={
-          // 빈 객체일 경우 false 전달
-          data.answers[0].hasOwnProperty("likes") &&
-          data.answers.reduce(
-            (prev, curr) => {
-              if (curr.likes.length >= prev.likes.length) {
-                return curr;
-              }
-
-              return prev;
-            },
-            { likes: [] }
-          )
-        }
+  return (
+    <>
+      <QnADialog
+        isVisible={isDialogVisible}
+        onClick={() => setIsDialogVisible(false)}
+        question={question}
       />
-    </Card>
-  ));
+      {result.map((data, idx) => (
+        <>
+          {/* <QnADialog
+            isVisible={isDialogVisible}
+            onClick={() => setIsDialogVisible(false)}
+            question={data}
+          /> */}
+          <Card
+            key={data._id + 'a'}
+            isQuestion={true}
+            title={data.content}
+            onClick={() => handleDialog(data._id)}
+          >
+            <QnAContent
+              key={data._id + 'b'}
+              answer={
+                // 빈 객체일 경우 false 전달
+                data.answers[0].hasOwnProperty("likes") &&
+                data.answers.reduce(
+                  (prev, curr) => {
+                    if (curr.likes.length >= prev.likes.length) {
+                      return curr;
+                    }
+
+                    return prev;
+                  }, { likes: [] }
+                )
+              }
+            />
+          </Card>
+        </>
+        ))}
+    </>
+  );
 }
 
 /* ------------------------------- Search Page ------------------------------ */
@@ -73,16 +114,20 @@ export default function SearchPage() {
   const dispatch = useDispatch();
   const searchState = useSelector((state) => state.search);
   const [searchWord, setSearchWord] = useState(searchState.searchWord);
+  const [prevSearchWord, setPrevSearchWord] = useState(searchWord);
 
   useEffect(() => {
     if (searchWord !== "") {
-      dispatch(fetchSearchData(searchWord));
+      dispatch(fetchSearchData(searchWord, prevSearchWord));
     }
   }, [searchWord, dispatch]);
 
   const handleSearchWord = (e) => {
     // enter -> setSearchWord
-    if (e.key === "Enter") setSearchWord(e.target.value);
+    if (e.key === "Enter") {
+      setPrevSearchWord(searchWord);
+      setSearchWord(e.target.value);
+    }
   };
 
   return (
@@ -96,7 +141,7 @@ export default function SearchPage() {
       >
         <SearchHeaderBar onKeyUp={handleSearchWord} initialWord={searchWord} />
         <TextHeaderBar page="search" />
-        {ResultsSection(searchState.searchData, searchWord)}
+        <ResultsSection result={searchState.searchData} word={searchWord} />
       </PageContainer>
     </>
   );
@@ -104,6 +149,6 @@ export default function SearchPage() {
 
 /* -------------------------------- proptypes ------------------------------- */
 ResultsSection.propTypes = {
-  result: array.isRequired,
-  word: string.isRequired,
+  result: array,
+  word: string,
 };

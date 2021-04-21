@@ -1,6 +1,6 @@
 import React from "react";
 import { bool, string, node } from "prop-types";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { boxShadowBlack, textShadowBlack } from "styles/common/common.styled";
 import Icon from "components/Icon/Icon";
 import Divider from "components/Divider/Divider";
@@ -19,13 +19,33 @@ const CardBox = styled.div`
   color: var(--color-gray3);
   max-width: 688px;
   width: 100%;
+  ${props =>
+    !props.isQuestion &&
+    !props.isDialog &&
+    css`
+      cursor: pointer;
+    `
+  }
 `;
 
 /* -------------------------------------------------------------------------- */
 
-export default function Card({ isQuestion, title, children, ...restProps }) {
+export default function Card({
+  isQuestion,
+  isDialog,
+  title,
+  onClick,
+  children,
+  ...restProps
+}) {
   return (
-    <CardBox {...restProps}>
+    <CardBox
+      onClick={onClick}
+      role={isQuestion && !isDialog ? "button" : ""}
+      aria-label={isQuestion && !isDialog ? "자세히 보기" : ""}
+      title={isQuestion && !isDialog ? "자세히 보기" : ""}
+      {...restProps}
+    >
       {title && (
         <>
           <CardBox.Header>
