@@ -53,6 +53,9 @@ const PageContainer = styled(motion(Container))`
     page === "profile" &&
     css`
       margin: 4.5em 0;
+      > div {
+        margin-bottom: 3em;
+      }
     `}  
 
   ${({ ismobile }) =>

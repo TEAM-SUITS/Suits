@@ -55,7 +55,7 @@ export default function DemoPage() {
   };
 
   const handleLike = async () => {
-    const res = await axios.put("/api/like/6078d9a9692dfa08e1606423");
+    const res = await axios.put("/api/like/607fdd3abd67780695978e11");
     alert("좋아요!");
     console.log(res);
   };

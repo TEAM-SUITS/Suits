@@ -15,7 +15,6 @@ const StyledProfile = styled.div`
   display: flex;
   position: relative;
   padding: 1.6em 1.6em 5em;
-  max-width: 688px;
   width: 100%;
   justify-content: center;
   background-color: var(--color-white);
