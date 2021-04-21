@@ -14,11 +14,9 @@ const StyledHashtag = styled.div`
   border-radius: 3em;
   min-width: 7.6rem;
   font-size: ${(props) => (props.isSelected ? 'inherit' : '1rem')};
-  background-color: var(
-    ${(props) => (props.isSelected ? props.theme : '--color-gray1')}
-  );
+  background-color: ${(props) => (!props.isSelected ? `var(${props.theme})` : 'var(--color-gray1)')};
   color: ${(props) =>
-    props.isSelected ? 'var(--color-black)' : 'var(--color-gray3)'};
+    !props.isSelected ? 'var(--color-black)' : 'var(--color-gray3)'};
 `;
 
 /* ---------------------------- styled components --------------------------- */
