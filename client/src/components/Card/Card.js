@@ -9,6 +9,7 @@ import Divider from "components/Divider/Divider";
 
 const CardBox = styled.div`
   ${boxShadowBlack}
+  cursor: ${(props) => (props.isQuestion ? 'pointer' : 'initial')};
   position: relative;
   min-width: 305px;
   border-radius: 10px;
@@ -19,13 +20,6 @@ const CardBox = styled.div`
   color: var(--color-gray3);
   max-width: 688px;
   width: 100%;
-  ${props =>
-    !props.isQuestion &&
-    !props.isDialog &&
-    css`
-      cursor: pointer;
-    `
-  }
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -40,6 +34,7 @@ export default function Card({
 }) {
   return (
     <CardBox
+      isQuestion={isQuestion}
       onClick={onClick}
       role={isQuestion && !isDialog ? "button" : ""}
       aria-label={isQuestion && !isDialog ? "자세히 보기" : ""}
