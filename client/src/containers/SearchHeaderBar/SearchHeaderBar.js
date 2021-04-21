@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import Icon from 'components/Icon/Icon';
 import { museoSmall, spoqaSmallBold, spoqaSmall } from 'styles/common/common.styled';
+import { func, string } from 'prop-types';
 
 /* ------------------------------- 검색 중이 아닐 떄 ------------------------------- */
 const SearchButton = styled.button.attrs(() => ({
@@ -138,3 +139,9 @@ export default function SearchHeaderBar({ onKeyUp, initialWord }) {
     </HeaderBar>
   );
 }
+
+/* -------------------------------- proptypes ------------------------------- */
+SearchHeaderBar.propTypes = {
+  onKeyUp: func.isRequired,
+  initialWord: string.isRequired,
+};
