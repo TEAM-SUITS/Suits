@@ -7,9 +7,9 @@ import SearchHeaderBar from "containers/SearchHeaderBar/SearchHeaderBar";
 import Card from "components/Card/Card";
 import QnAContent from "components/Content/QnAContent";
 import { fetchSearchData } from "redux/storage/search/search";
-import styled from 'styled-components';
-import { spoqaMedium } from 'styles/common/common.styled';
-import { array, string } from 'prop-types';
+import styled from "styled-components";
+import { spoqaMedium } from "styles/common/common.styled";
+import { array, string } from "prop-types";
 
 /* ---------------------------- styled components --------------------------- */
 const InfoImg = styled.img`
@@ -30,11 +30,9 @@ const InfoMsg = styled.p`
 `;
 
 /* ---------------------------------- 검색 영역 --------------------------------- */
-function ResultsSection(result = [], word = '') {
-  if (!result || word === '') {
-    return (
-      <InfoMsg>검색하실 단어를 입력해주세요.</InfoMsg>
-    )
+function ResultsSection(result = [], word = "") {
+  if (!result || word === "") {
+    return <InfoMsg>검색하실 단어를 입력해주세요.</InfoMsg>;
   }
   // 검색 결과가 존재하지 않을 경우
   if (!result.length) {
@@ -43,48 +41,48 @@ function ResultsSection(result = [], word = '') {
         <InfoImg src="assets/empty.png" alt="검색 결과 없음" />
         <InfoMsg>{`"${word}"에 대한 검색 결과가 없습니다.`}</InfoMsg>
       </>
-    )
+    );
   }
 
   // 검색 결과가 존재할 경우
-  return result.map(data => (
-    <Card
-      key={data._id}
-      isQuestion={true}
-      title={data.content}
-    >
+  return result.map((data) => (
+    <Card key={data._id} isQuestion={true} title={data.content}>
       <QnAContent
         key={data._id}
         answer={
           // 빈 객체일 경우 false 전달
-          data.answers[0].hasOwnProperty('likes') &&
-          data.answers.reduce((prev, curr) => {
-            if (curr.likes.length >= prev.likes.length) {
-              return curr;
-            }
+          data.answers[0].hasOwnProperty("likes") &&
+          data.answers.reduce(
+            (prev, curr) => {
+              if (curr.likes.length >= prev.likes.length) {
+                return curr;
+              }
 
-            return prev;
-          }, { likes: [] })
-      } />
+              return prev;
+            },
+            { likes: [] }
+          )
+        }
+      />
     </Card>
-  ))
+  ));
 }
 
 /* ------------------------------- Search Page ------------------------------ */
 export default function SearchPage() {
   const dispatch = useDispatch();
-  const searchState = useSelector(state => state.search);
+  const searchState = useSelector((state) => state.search);
   const [searchWord, setSearchWord] = useState(searchState.searchWord);
 
   useEffect(() => {
-    if (searchWord !== '') {
+    if (searchWord !== "") {
       dispatch(fetchSearchData(searchWord));
     }
   }, [searchWord, dispatch]);
 
-  const handleSearchWord = e => {
+  const handleSearchWord = (e) => {
     // enter -> setSearchWord
-    if (e.key === 'Enter') setSearchWord(e.target.value);
+    if (e.key === "Enter") setSearchWord(e.target.value);
   };
 
   return (
@@ -96,10 +94,7 @@ export default function SearchPage() {
         initial="hidden"
         animate="visible"
       >
-        <SearchHeaderBar
-          onKeyUp={handleSearchWord}
-          initialWord={searchWord}
-        />
+        <SearchHeaderBar onKeyUp={handleSearchWord} initialWord={searchWord} />
         <TextHeaderBar page="search" />
         {ResultsSection(searchState.searchData, searchWord)}
       </PageContainer>
