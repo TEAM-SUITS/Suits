@@ -15,6 +15,9 @@ import {
   boxShadowBlack,
 } from 'styles/common/common.styled';
 import API from 'api/api';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { Skeleton } from '@material-ui/lab';
 
 const StyledMyInfo = styled.section`
   display: flex;
@@ -215,6 +218,55 @@ const StyledProfile = styled.div`
   }
 `;
 
+const StyledConfirmAlert = styled.div`
+  background-color: var(--color-white);
+  border: 2px solid var(--color-gray3);
+  border-radius: 10px;
+  padding: 2em 3em 1.5em;
+  ${boxShadowBlack};
+  h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin: 0;
+    color: var(--color-black);
+  }
+  p {
+    font-size: 1.6rem;
+    color: var(--color-black);
+    margin-bottom: 2em;
+  }
+  div {
+    display: flex;
+    justify-content: center;
+    button {
+      font-size: 1.4rem;
+      border: none;
+      border: 1px solid var(--color-gray3);
+      border-radius: 5px;
+      background-color: var(--color-lightgray2);
+      padding: 0.5em 2em;
+      ${boxShadowBlack}
+      &:last-child {
+        color: var(--color-red);
+        margin-left: 3em;
+        font-weight: bold;
+      }
+    }
+  }
+  @media screen and (min-width: 480px) {
+    padding: 5em 6em 4em;
+    h1 {
+      font-size: 2.5rem;
+    }
+    p {
+      font-size: 2rem;
+    }
+    button {
+      font-size: 2rem;
+    }
+  }
+`;
+
 export default function MyInfo() {
   const [user, setUser] = useState(null);
   const [isBioActive, setIsBioActive] = useState(false);
@@ -231,6 +283,10 @@ export default function MyInfo() {
 
   useEffect(() => {
     getUser();
+    return () => {
+      setUser(null);
+      setEnteredBio('');
+    };
   }, []);
 
   const handleBioChange = (e) => {
@@ -238,7 +294,8 @@ export default function MyInfo() {
   };
 
   const handleHashtagChange = () => {
-    console.log('changed hashtag!');
+    // select keyword 다이얼로그를 띄워야 함.
+    // 그 다이얼로그 안에서 user.keyword를 수정할 수 있어야 함.
   };
 
   const handleClickBioButton = () => {
@@ -257,9 +314,29 @@ export default function MyInfo() {
     dispatch(signOutAction());
   };
 
-  const handleDelete = async () => {
-    await API('/api/user', 'delete');
-    dispatch(signOutAction());
+  const handleDelete = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <StyledConfirmAlert>
+            <h1>회원 탈퇴</h1>
+            <p>정말로 Suits 계정을 삭제하시겠습니까?</p>
+            <div>
+              <button onClick={onClose}>취소</button>
+              <button
+                onClick={async () => {
+                  await API('/api/user', 'delete');
+                  dispatch(signOutAction());
+                  onClose();
+                }}
+              >
+                삭제
+              </button>
+            </div>
+          </StyledConfirmAlert>
+        );
+      },
+    });
   };
 
   if (user) {
@@ -316,5 +393,5 @@ export default function MyInfo() {
     );
   }
 
-  return <p>스켈레톤 해야되나? 킹받네</p>;
+  return <p>스켈레톤</p>;
 }
