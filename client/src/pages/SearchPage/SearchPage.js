@@ -9,6 +9,7 @@ import QnAContent from "components/Content/QnAContent";
 import { fetchSearchData } from "redux/storage/search/search";
 import styled from 'styled-components';
 import { spoqaMedium } from 'styles/common/common.styled';
+import { array, string } from 'prop-types';
 
 /* ---------------------------- styled components --------------------------- */
 const InfoImg = styled.img`
@@ -105,3 +106,9 @@ export default function SearchPage() {
     </>
   );
 }
+
+/* -------------------------------- proptypes ------------------------------- */
+ResultsSection.propTypes = {
+  result: array.isRequired,
+  word: string.isRequired,
+};
