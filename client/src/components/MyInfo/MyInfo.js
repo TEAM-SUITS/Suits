@@ -1,7 +1,9 @@
+import { Skeleton } from '@material-ui/lab';
+import axios from 'axios';
 import Hashtag from 'components/Hashtag/Hashtag';
 import Icon from 'components/Icon/Icon';
 import Tier from 'components/Tier/Tier';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   museoLarge,
@@ -16,17 +18,29 @@ const StyledMyInfo = styled.section`
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
-  padding: 0 2em;
+  max-width: 568px;
+  padding: 1em;
 
   .bio__container {
     display: flex;
     flex-flow: column nowrap;
     width: 100%;
-    max-width: 400px;
     margin-bottom: 2em;
-    h3 {
-      ${spoqaMedium}
-      margin: 0 0 .6em 0;
+    position: relative;
+    .bio__heading-container {
+      display: flex;
+      align-items: flex-end;
+      margin-bottom: 1em;
+      h3 {
+        ${spoqaMedium}
+        margin: 0 .5em 0 0;
+      }
+      button {
+        ${spoqaSmallBold};
+        color: var(--color-gray2);
+        border: 1px solid var(--color-gray2);
+        background-color: transparent;
+      }
     }
     textarea {
       resize: none;
@@ -34,6 +48,14 @@ const StyledMyInfo = styled.section`
       font-size: 1.4rem;
       padding: 0.4em;
       height: 8em;
+      letter-spacing: .5px;
+    }
+    span {
+      position: absolute;
+      bottom: 1em;
+      right: 1em;
+      ${spoqaSmall}
+      color: var(--color-gray3)
     }
   }
 
@@ -41,7 +63,6 @@ const StyledMyInfo = styled.section`
     display: flex;
     flex-flow: column nowrap;
     width: 100%;
-    max-width: 400px;
     margin-bottom: 3em;
     .hashtag__heading-container {
       display: flex;
@@ -64,28 +85,21 @@ const StyledMyInfo = styled.section`
     }
   }
 
-  @media screen and (min-width: 480px) {
-    textarea {
-      font-size: 1.6rem;
-    }
-  }
-
   .button__container {
     display: flex;
     flex-flow: column nowrap;
     width: 100%;
-    max-width: 400px;
-
     button {
       padding: 0.5em;
       ${spoqaMedium}
-      &:not(:last-child) {
-        margin-bottom: 1em;
-        color: var(--color-gray3);
+      margin-bottom: 1em;
+      color: var(--color-gray3);
+      background-color: var(--color-lightgray2);
+      border: none;
       }
-      &:not(:first-child) {
-        border: none;
+      .delete-account {
         background-color: var(--color-gray1);
+        color: var(--color-red);
       }
     }
     .update {
@@ -94,6 +108,46 @@ const StyledMyInfo = styled.section`
     }
     .delete-account {
       color: var(--color-red);
+    }
+  }
+  @media screen and (min-width: 480px) {
+    .bio__container {
+      .bio__heading-container {
+        h3 {
+          font-size: 2rem;
+        }
+        button {
+          font-size: 1.6rem;
+        }
+      }
+      textarea {
+        font-size: 2rem;
+      }
+    }
+    .hashtag__container {
+      .hashtag__heading-container {
+        h3 {
+          font-size: 2rem;
+        }
+        button {
+          font-size: 1.6rem;
+        }
+      }
+      .hashtag__hashtags {
+        justify-content: center;
+        * {
+          font-size: 2rem;
+          width: 140px;
+          &:not(:last-child) {
+            margin-right: 3rem;
+          }
+        }
+      }
+    }
+    .button__container {
+      button {
+        font-size: 2rem;
+      }
     }
   }
 `;
@@ -112,8 +166,9 @@ const StyledProfile = styled.div`
     border-radius: 50%;
     margin-right: 3em;
     @media screen and (min-width: 480px) {
-      width: 120px;
-      height: 120px;
+      width: 150px;
+      height: 150px;
+      margin-right: 5rem;
     }
   }
   .info {
@@ -124,6 +179,9 @@ const StyledProfile = styled.div`
   h2 {
     ${museoLarge};
     margin: 0;
+    @media screen and (min-width: 480px) {
+      font-size: 3rem;
+    }
   }
   .tierContainer {
     display: flex;
@@ -151,55 +209,112 @@ const StyledProfile = styled.div`
   }
 `;
 
-export default function MyInfo({ user }) {
-  const [userInfo, setUserInfo] = useState({
-    bio: user.bio,
-    hashtag: user.hashTag,
-  });
+export default function MyInfo() {
+  // 유저 더미데이터
+  // let user = {
+  //   githubId: 'boygeorge',
+  //   githubRepo: 'https://github.com/boygeorge',
+  //   avatar: 'http://www.gstatic.com/tv/thumb/persons/153450/153450_v9_bb.jpg',
+  //   username: 'George Boy',
+  //   bio:
+  //     '내가 망할 것 같애? 내가 망할 것 같애? 내가 람보르기니 조낸 많이 가지고 있는데 진짜로 망할 것 같애?',
+  //   tier: 3,
+  //   hashTag: ['CSS', 'JavaScript', 'Database'],
+  //   likeCount: 30,
+  // };
+
+  // let user = null;
+
+  // useEffect(() => {
+  //   axios.get('/api/user-profile').then((res) => {
+  //     user = res.data[0];
+  //   });
+  // }, []);
+
+  const [user, setUser] = useState(null);
+  const [enteredBio, setEnteredBio] = useState('');
+
+  const getUser = async () => {
+    const res = await axios.get('/api/user-profile');
+    const userData = res.data[0];
+    setUser(userData);
+    setEnteredBio(userData.bio);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const handleBioChange = (e) => {
-    const editedBio = e.target.value;
-    setUserInfo((prev) => ({ ...prev, bio: editedBio }));
+    setEnteredBio(e.target.value);
   };
-  return (
-    <StyledMyInfo>
-      <StyledProfile>
-        <img src={user.avatar} alt={user.username} />
-        <div className="info">
-          <h2>{user.username}</h2>
-          <div className="tierContainer">
-            <Tier tier={user.tier} />
-            <Icon type="heart-active" title="likes" />
-            <span>{user.likeCount}</span>
+
+  const handleHashtagChange = () => {
+    console.log('changed hashtag!');
+  };
+
+  const handleUpdate = () => {
+    console.log('updated!');
+  };
+
+  const handleSignOut = () => {
+    console.log('signed out!');
+  };
+
+  const handleDelete = () => {
+    console.log('deleted!');
+  };
+
+  if (user) {
+    return (
+      <StyledMyInfo>
+        <StyledProfile>
+          <img src={user.avatar} alt={user.username} />
+          <div className="info">
+            <h2>{user.username}</h2>
+            <div className="tierContainer">
+              <Tier tier={user.tier} />
+              <Icon type="heart-active" title="likes" />
+              <span>{user.likeCount}</span>
+            </div>
+            <a href={user.githubRepo}>{user.githubRepo}</a>
           </div>
-          <a href={user.githubRepo}>{user.githubRepo}</a>
+        </StyledProfile>
+        <div className="bio__container">
+          <div className="bio__heading-container">
+            <h3>자기소개</h3>
+            <button onClick={handleUpdate}>수정</button>
+          </div>
+          <textarea
+            id="bio"
+            value={enteredBio}
+            onChange={(e) => handleBioChange(e)}
+            maxLength="119"
+          />
+          <span>{enteredBio.length}/120</span>
         </div>
-      </StyledProfile>
-      <div className="bio__container">
-        <h3>자기소개 (80자 이하)</h3>
-        <textarea
-          id="bio"
-          value={userInfo.bio}
-          onChange={(e) => handleBioChange(e)}
-          maxlength="80"
-        />
-      </div>
-      <div className="hashtag__container">
-        <div className="hashtag__heading-container">
-          <h3>관심 키워드</h3>
-          <button>수정</button>
+        <div className="hashtag__container">
+          <div className="hashtag__heading-container">
+            <h3>관심 키워드</h3>
+            <button onClick={handleHashtagChange}>수정</button>
+          </div>
+          <div className="hashtag__hashtags">
+            {user.hashTag.map((ht) => {
+              return <Hashtag type={ht} />;
+            })}
+          </div>
         </div>
-        <div className="hashtag__hashtags">
-          {userInfo.hashtag.map((ht) => {
-            return <Hashtag type={ht} />;
-          })}
+        <div className="button__container">
+          <button className="signout" onClick={handleSignOut}>
+            로그아웃
+          </button>
+          <button className="delete-account" onClick={handleDelete}>
+            회원탈퇴
+          </button>
         </div>
-      </div>
-      <div className="button__container">
-        <button className="update">수정하기</button>
-        <button className="signout">로그아웃</button>
-        <button className="delete-account">회원탈퇴</button>
-      </div>
-    </StyledMyInfo>
-  );
+      </StyledMyInfo>
+    );
+  }
+
+  return <p>스켈레톤 해야되나? 킹받네</p>;
 }
