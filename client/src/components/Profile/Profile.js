@@ -1,15 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import { object } from "prop-types";
-import Tier from "components/Tier/Tier";
-import Hashtag from "components/Hashtag/Hashtag";
+import React from 'react';
+import styled from 'styled-components';
+import { object } from 'prop-types';
+import Tier from 'components/Tier/Tier';
+import Hashtag from 'components/Hashtag/Hashtag';
 import {
   museoLarge,
   spoqaMediumLight,
   spoqaSmall,
-} from "styles/common/common.styled";
-import Icon from "components/Icon/Icon";
-import { Link } from "react-router-dom";
+} from 'styles/common/common.styled';
+import Icon from 'components/Icon/Icon';
+import { Link } from 'react-router-dom';
 
 const StyledProfile = styled.div`
   display: flex;
@@ -100,7 +100,9 @@ export default function Profile({ user }) {
       </div>
       <div className="hashtags">
         {hashtag.length !== 0 ? (
-          hashtag.map((tag) => <Hashtag key={tag} type={tag} />)
+          hashtag.map((tag) => (
+            <Hashtag key={tag} type={tag} isSelected={true} />
+          ))
         ) : (
           <Link to="/info/my-info">관심 태그 등록</Link>
         )}

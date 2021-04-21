@@ -1,5 +1,5 @@
 import Hashtag from 'components/Hashtag/Hashtag';
-import { array } from 'prop-types';
+import { array, func } from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { resetList, spoqaLarge } from 'styles/common/common.styled';
@@ -13,6 +13,9 @@ const Container = styled.div`
     top: 1.5em;
     z-index: 999;
     cursor: pointer;
+    @media screen and (min-width: 480px) {
+      font-size: 2.5rem;
+    }
   }
 `;
 const Backdrop = styled.div.attrs(() => ({
@@ -51,12 +54,14 @@ const StyledList = styled.ul`
   li {
     div {
       font-size: 1.8rem;
-      width: auto;
+      @media screen and (min-width: 480px) {
+        font-size: 3rem;
+      }
     }
   }
 `;
 
-const SkipButton = styled.button`
+const CancelButton = styled.button`
   color: var(--color-gray2);
   left: 1.5em;
 `;
@@ -68,10 +73,19 @@ const DoneButton = styled.button`
 
 /* ---------------------------- styled component ---------------------------- */
 
-export default function KeywordSelect({ keywordArray, userKeywords }) {
+export default function KeywordSelect({ userKeywords, onDone, onCancel }) {
   const [selectedKeywords, setSelectedKeywords] = useState(
     userKeywords.length ? userKeywords : []
   );
+  const keywordArray = [
+    'CSS',
+    'JavaScript',
+    'OS',
+    'Database',
+    'Network',
+    'Front-End',
+    'Back-End',
+  ];
 
   const handleClick = (keyword) => {
     const isSelected = selectedKeywords.indexOf(keyword) > -1;
@@ -87,74 +101,45 @@ export default function KeywordSelect({ keywordArray, userKeywords }) {
   };
 
   const submitSelectedKeywords = () => {
-    if (selectedKeywords.length === 0) return;
-    console.log('user.keyword를 selectedKeyword로 교체합니다.');
+    onDone(selectedKeywords);
   };
 
-  const skipKeywordSelect = () => {
-    setSelectedKeywords([]);
-    console.log('관심 키워드 선택을 스킵하고 창을 닫습니다.');
+  const cancelKeywordSelect = () => {
+    setSelectedKeywords(userKeywords.length ? userKeywords : []);
+    onCancel();
   };
 
-  if (userKeywords.length) {
-    return (
-      <Container>
-        <SkipButton onClick={skipKeywordSelect}>Cancel</SkipButton>
-        <Backdrop opacity={0.8} />
-        <DialogContainer>
-          <StyledList>
-            {keywordArray.map((keyword) => {
-              return (
-                <li key={keyword.type}>
-                  <Hashtag
-                    type={keyword}
-                    isSelected={selectedKeywords.indexOf(keyword) > -1}
-                    isButton={true}
-                    clicked={() => {
-                      handleClick(keyword);
-                    }}
-                  />
-                </li>
-              );
-            })}
-          </StyledList>
-        </DialogContainer>
-        <DoneButton onClick={submitSelectedKeywords}>done</DoneButton>
-      </Container>
-    );
-  } else {
-    return (
-      <Container>
-        <SkipButton onClick={skipKeywordSelect}>Skip</SkipButton>
-        <Backdrop opacity={1} />
-        <DialogContainer>
-          <StyledList>
-            {keywordArray.map((keyword) => {
-              return (
-                <li key={keyword.type}>
-                  <Hashtag
-                    type={keyword}
-                    isSelected={selectedKeywords.indexOf(keyword) > -1}
-                    isButton={true}
-                    clicked={() => {
-                      handleClick(keyword);
-                    }}
-                  />
-                </li>
-              );
-            })}
-          </StyledList>
-        </DialogContainer>
-
-        <DoneButton onClick={submitSelectedKeywords}>Done</DoneButton>
-      </Container>
-    );
-  }
+  return (
+    <Container>
+      <CancelButton onClick={cancelKeywordSelect}>Cancel</CancelButton>
+      <Backdrop opacity={0.8} />
+      <DialogContainer>
+        <StyledList>
+          {keywordArray.map((keyword) => {
+            return (
+              <li key={keyword}>
+                <Hashtag
+                  type={keyword}
+                  isSelected={selectedKeywords.indexOf(keyword) > -1}
+                  isButton={true}
+                  clicked={() => {
+                    handleClick(keyword);
+                  }}
+                />
+              </li>
+            );
+          })}
+        </StyledList>
+      </DialogContainer>
+      <DoneButton onClick={submitSelectedKeywords}>done</DoneButton>
+    </Container>
+  );
 }
 
 /* ------------------------------- prop types ------------------------------- */
 
 KeywordSelect.propTypes = {
-  keywordArray: array.isRequired,
-  userKeywords: array.isRequired,
+  userKeywords: array,
+  onDone: func,
+  onCancel: func,
 };

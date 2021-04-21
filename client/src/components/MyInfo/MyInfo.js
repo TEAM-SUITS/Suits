@@ -17,7 +17,7 @@ import {
 import API from 'api/api';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { Skeleton } from '@material-ui/lab';
+import KeywordSelect from 'components/KeywordSelect/KeywordSelect';
 
 const StyledMyInfo = styled.section`
   display: flex;
@@ -271,6 +271,7 @@ export default function MyInfo() {
   const [user, setUser] = useState(null);
   const [isBioActive, setIsBioActive] = useState(false);
   const [enteredBio, setEnteredBio] = useState('');
+  const [isSelectingKeywords, setIsSelectingKeywords] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -293,9 +294,20 @@ export default function MyInfo() {
     setEnteredBio(e.target.value);
   };
 
-  const handleHashtagChange = () => {
-    // select keyword 다이얼로그를 띄워야 함.
-    // 그 다이얼로그 안에서 user.keyword를 수정할 수 있어야 함.
+  const handleStartHashtagChange = () => {
+    setIsSelectingKeywords(true);
+  };
+
+  const handleDoneHashtagChange = (selectedKeywords) => {
+    API('/api/user-profile/hashtag', 'patch', { hashTag: selectedKeywords });
+    setUser((prev) => {
+      return { ...prev, hashTag: selectedKeywords };
+    });
+    setIsSelectingKeywords(false);
+  };
+
+  const handleCancelHashtagChange = () => {
+    setIsSelectingKeywords(false);
   };
 
   const handleClickBioButton = () => {
@@ -341,55 +353,64 @@ export default function MyInfo() {
 
   if (user) {
     return (
-      <StyledMyInfo>
-        <StyledProfile>
-          <img src={user.avatar} alt={user.username} />
-          <div className="info">
-            <h2>{user.username}</h2>
-            <div className="tierContainer">
-              <Tier tier={user.tier} />
-              <Icon type="heart-active" title="likes" />
-              <span>{user.likeCount}</span>
+      <>
+        {isSelectingKeywords && (
+          <KeywordSelect
+            userKeywords={user.hashTag}
+            onDone={handleDoneHashtagChange}
+            onCancel={handleCancelHashtagChange}
+          />
+        )}
+        <StyledMyInfo>
+          <StyledProfile>
+            <img src={user.avatar} alt={user.username} />
+            <div className="info">
+              <h2>{user.username}</h2>
+              <div className="tierContainer">
+                <Tier tier={user.tier} />
+                <Icon type="heart-active" title="likes" />
+                <span>{user.likeCount}</span>
+              </div>
+              <a href={user.githubRepo}>{user.githubRepo}</a>
             </div>
-            <a href={user.githubRepo}>{user.githubRepo}</a>
+          </StyledProfile>
+          <div className="bio__container">
+            <div className="bio__heading-container">
+              <h3>자기소개</h3>
+              <button onClick={handleClickBioButton}>
+                {isBioActive ? '완료' : '수정'}
+              </button>
+            </div>
+            <textarea
+              disabled={!isBioActive}
+              id="bio"
+              value={enteredBio}
+              onChange={(e) => handleBioChange(e)}
+              maxLength="119"
+            />
+            <span>{enteredBio.length}/120</span>
           </div>
-        </StyledProfile>
-        <div className="bio__container">
-          <div className="bio__heading-container">
-            <h3>자기소개</h3>
-            <button onClick={handleClickBioButton}>
-              {isBioActive ? '완료' : '수정'}
+          <div className="hashtag__container">
+            <div className="hashtag__heading-container">
+              <h3>관심 키워드</h3>
+              <button onClick={handleStartHashtagChange}>수정</button>
+            </div>
+            <div className="hashtag__hashtags">
+              {user.hashTag.map((ht) => {
+                return <Hashtag key={ht} type={ht} isSelected={true} />;
+              })}
+            </div>
+          </div>
+          <div className="button__container">
+            <button className="signout" onClick={handleSignOut}>
+              로그아웃
+            </button>
+            <button className="delete-account" onClick={handleDelete}>
+              회원탈퇴
             </button>
           </div>
-          <textarea
-            disabled={!isBioActive}
-            id="bio"
-            value={enteredBio}
-            onChange={(e) => handleBioChange(e)}
-            maxLength="119"
-          />
-          <span>{enteredBio.length}/120</span>
-        </div>
-        <div className="hashtag__container">
-          <div className="hashtag__heading-container">
-            <h3>관심 키워드</h3>
-            <button onClick={handleHashtagChange}>수정</button>
-          </div>
-          <div className="hashtag__hashtags">
-            {user.hashTag.map((ht) => {
-              return <Hashtag type={ht} />;
-            })}
-          </div>
-        </div>
-        <div className="button__container">
-          <button className="signout" onClick={handleSignOut}>
-            로그아웃
-          </button>
-          <button className="delete-account" onClick={handleDelete}>
-            회원탈퇴
-          </button>
-        </div>
-      </StyledMyInfo>
+        </StyledMyInfo>
+      </>
     );
   }
 
