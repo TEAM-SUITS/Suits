@@ -23,10 +23,9 @@ const StyledMyInfo = styled.section`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  justify-content: center;
   max-width: 568px;
   padding: 1em;
-  min-height: 100vh;
+  margin-top: 130px;
 
   .bio__container {
     display: flex;
@@ -55,8 +54,11 @@ const StyledMyInfo = styled.section`
       font-size: 1.4rem;
       padding: 0.4em;
       height: 8em;
-      letter-spacing: .5px;
+      letter-spacing: 0.5px;
       ${boxShadowBlack};
+      &:disabled {
+        background-color: var(--color-lightgray2);
+      }
     }
     span {
       position: absolute;
@@ -100,26 +102,23 @@ const StyledMyInfo = styled.section`
     button {
       padding: 0.5em;
       ${spoqaMedium}
-      margin-bottom: 1em;
-      color: var(--color-gray3);
-      background-color: var(--color-lightgray2);
       border: none;
       ${boxShadowBlack};
-      }
-      .delete-account {
-        background-color: var(--color-gray1);
-        color: var(--color-red);
-      }
     }
-    .update {
-      border: 2px solid var(--color-gray1);
-      background-color: transparent;
+    .signout {
+      color: var(--color-gray3);
+      background-color: var(--color-lightgray2);
+      margin-bottom: 1em;
     }
     .delete-account {
+      background-color: var(--color-gray1);
       color: var(--color-red);
     }
   }
+
   @media screen and (min-width: 480px) {
+    margin-top: 160px;
+
     .bio__container {
       .bio__heading-container {
         h3 {
@@ -133,6 +132,7 @@ const StyledMyInfo = styled.section`
         font-size: 2rem;
       }
     }
+
     .hashtag__container {
       .hashtag__heading-container {
         h3 {
@@ -146,18 +146,23 @@ const StyledMyInfo = styled.section`
         justify-content: center;
         * {
           font-size: 2rem;
-          width: 140px;
+          width: 160px;
           &:not(:last-child) {
             margin-right: 3rem;
           }
         }
       }
     }
+
     .button__container {
       button {
         font-size: 2rem;
       }
     }
+  }
+
+  @media screen and (max-height: 667px) {
+    margin-top: 100px;
   }
 `;
 
@@ -388,7 +393,7 @@ export default function MyInfo() {
               onChange={(e) => handleBioChange(e)}
               maxLength="119"
             />
-            <span>{enteredBio.length}/120</span>
+            {isBioActive && <span>{enteredBio.length}/120</span>}
           </div>
           <div className="hashtag__container">
             <div className="hashtag__heading-container">
