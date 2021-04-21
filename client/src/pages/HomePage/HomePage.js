@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import PageContainer from "containers/PageContainer/PageContainer.styled";
+import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchHardWorkersData } from "redux/storage/hardWorkers/hardWorkers";
+import { fetchTrendingData } from "redux/storage/trendingQ/trendingQ";
+import { fetchRandomQuoteData } from "redux/storage/quote/quote";
 import { pageEffect } from "styles/motions/variants";
 import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 import Card from "components/Card/Card";
@@ -8,12 +12,10 @@ import QuotesContent from "components/Content/QuotesContent";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import HardWorkersContent from "components/Content/HardWorkersContent";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { fetchHardWorkersData } from "redux/storage/hardWorkers/hardWorkers";
-import { fetchTrendingData } from "redux/storage/trendingQ/trendingQ";
-import { fetchRandomQuote } from "redux/storage/quote/quote";
 import TrendingQuestionContent from "components/Content/TrendingQuestionContent";
+import { fetchRandomQData } from "redux/storage/randomQ/randomQ";
+import QnAContent from "components/Content/QnAContent";
+import Button from "components/Button/Button";
 
 /* ---------------------------- styled components --------------------------- */
 
@@ -27,7 +29,17 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
   }
   button:disabled {
     font-weight: 700;
-    color: #eb5022;
+    color: var(--color-orange);
+  }
+`;
+
+const StyledRefreshButton = styled(Button)`
+  position: absolute;
+  bottom: 1em;
+  background-color: transparent;
+  border: 1px solid #0000001f;
+  svg path {
+    fill: var(--color-orange);
   }
 `;
 
@@ -36,6 +48,12 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
 export default function HomePage() {
   const [quoteLanguage, setQuoteLanguage] = useState("ko");
   const dispatch = useDispatch();
+
+  const {
+    randomQData,
+    isLoading: isRandomQLoading,
+    error: randomQError,
+  } = useSelector((state) => state.randomQ);
 
   const {
     quoteData,
@@ -56,10 +74,11 @@ export default function HomePage() {
   } = useSelector((state) => state.trendingQ);
 
   useEffect(() => {
-    if (!quoteData) dispatch(fetchRandomQuote());
-    if (!workersData) dispatch(fetchTrendingData());
-    if (!trendingQData) dispatch(fetchHardWorkersData());
-  }, [quoteData, workersData, trendingQData, dispatch]);
+    dispatch(fetchRandomQData());
+    dispatch(fetchRandomQuoteData());
+    dispatch(fetchTrendingData());
+    dispatch(fetchHardWorkersData());
+  }, [dispatch]);
 
   return (
     <>
@@ -70,6 +89,22 @@ export default function HomePage() {
         initial="hidden"
         animate="visible"
       >
+        {/* 랜덤 QnA 카드 섹션 */}
+        {randomQData && (
+          <Card
+            isQuestion={true}
+            title={randomQData && randomQData.content}
+            $isLoading={isRandomQLoading}
+          >
+            <QnAContent key={randomQData._id} answer={randomQData.answers[0]} />
+            <StyledRefreshButton
+              outline
+              icon="refresh"
+              onClick={() => dispatch(fetchRandomQData())}
+              aria-label="새로고침"
+            />
+          </Card>
+        )}
         {/* 명언 카드 섹션 */}
         <Card title="Wisdom Of The Day">
           {

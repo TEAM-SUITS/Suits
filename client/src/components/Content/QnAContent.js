@@ -56,7 +56,7 @@ export default function QnAContent({ answer, isEllipsis = true }) {
       <AnswerInfo>
         <MiniProfile user={answer.postedby || mockdata} />
         <LikeButton />
-        <ScreenReaderSpan>{answer.likes.length}</ScreenReaderSpan>
+        {answer.likes.length}
       </AnswerInfo>
       <AnswerDetail isEllipsis={isEllipsis}>{answer.content}</AnswerDetail>
     </QnAContainer>
@@ -66,6 +66,6 @@ export default function QnAContent({ answer, isEllipsis = true }) {
 /* -------------------------------- propTypes ------------------------------- */
 
 QnAContent.propTypes = {
-  answer: oneOfType([object, bool]).isRequired,
+  answer: oneOfType([object, bool]),
   isEllipsis: bool,
 };

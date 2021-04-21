@@ -34,6 +34,7 @@ export default {
         "github",
         "swap",
         "mail",
+        "refresh",
       ],
       defaultValue: "home",
     },

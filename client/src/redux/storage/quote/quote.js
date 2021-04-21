@@ -8,7 +8,7 @@ const GET_RANDOM_QUOTE_SUCCESS = "랜덤 명언 정보 요청 성공";
 const GET_RANDOM_QUOTE_FAILURE = "랜덤 명언 정보 요청 실패";
 
 /* ----------------------------- thunk ---------------------------- */
-export const fetchRandomQuote = () => async (dispatch) => {
+export const fetchRandomQuoteData = () => async (dispatch) => {
   // 요청 시작
   dispatch({ type: GET_RANDOM_QUOTE });
   // API 호출
