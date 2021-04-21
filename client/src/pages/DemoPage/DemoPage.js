@@ -38,7 +38,7 @@ export default function DemoPage() {
   };
 
   const patchAnswer = async () => {
-    const res = await axios.patch("/api/answers/607d802d65b6331044deab40", {
+    const res = await axios.patch("/api/answers/607ec399a77cc076bd1e7e45", {
       content,
     });
 
@@ -48,14 +48,14 @@ export default function DemoPage() {
   };
 
   const deleteAnswer = async () => {
-    await axios.delete("/api/answers/607d81bc1e855115dcd9defb");
+    await axios.delete("/api/answers/607ec399a77cc076bd1e7e45");
     dispatch(fetchUserAction());
 
-    console.log('정상적으로 삭제되었습니다.');
+    console.log("정상적으로 삭제되었습니다.");
   };
 
   const handleLike = async () => {
-    const res = await axios.put("/api/like/6078d9a9692dfa08e1606423");
+    const res = await axios.put("/api/like/607fdd3abd67780695978e11");
     alert("좋아요!");
     console.log(res);
   };

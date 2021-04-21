@@ -13,6 +13,11 @@ import {
 
 const StylesHowToUse = styled.section`
   padding: 0 3em;
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
   .box {
     max-width: 500px;
     margin: 0;
