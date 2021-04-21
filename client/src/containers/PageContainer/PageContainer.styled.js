@@ -11,20 +11,48 @@ const PageContainer = styled(motion(Container))`
   flex-flow: column wrap;
   align-items: center;
   justify-content: center;
-  min-height: 500px;
-  margin: ${({ margin }) => (margin ? margin : "7.5em 0")};
+  margin: ${({ margin }) =>
+    margin ? margin : "7.5em 0"}; //4.5em(네비게이션) + 3em 마진(기본)
   background-color: var(--var-lightgray2);
-  min-height: 100vh;
 
   ${({ page }) =>
     page === "login" &&
     css`
+      margin: 0;
       background-color: var(--color-black);
+      min-height: 100vh;
     `}
 
   ${({ page }) =>
     page === "home" &&
     css`
+      > div {
+        margin-bottom: 3em;
+      }
+    `}
+
+  ${({ page }) =>
+    page === "search" &&
+    css`
+      margin: ${({ margin }) => (margin ? margin : "120px 0")};
+      justify-content: flex-start;
+
+      > div {
+        margin-top: 3em;
+      }
+
+      // mobile
+      @media screen and (max-width: 480px) {
+        > div {
+          max-width: 350px;
+        }
+      }
+    `}
+
+    ${({ page }) =>
+    page === "profile" &&
+    css`
+      margin: 4.5em 0;
       > div {
         margin-bottom: 3em;
       }

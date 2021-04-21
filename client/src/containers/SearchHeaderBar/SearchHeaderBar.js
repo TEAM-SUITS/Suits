@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useSelector } from 'react';
 import styled from 'styled-components';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import Icon from 'components/Icon/Icon';
 import { museoSmall, spoqaSmallBold, spoqaSmall } from 'styles/common/common.styled';
+import { func, string } from 'prop-types';
 
 /* ------------------------------- 검색 중이 아닐 떄 ------------------------------- */
 const SearchButton = styled.button.attrs(() => ({
@@ -80,9 +81,9 @@ const CancelButton = styled.button.attrs(() => ({
 `;
 
 /* -------------------------------------------------------------------------- */
-function SearchHeaderBar() {
+export default function SearchHeaderBar({ onKeyUp, initialWord }) {
   const [isSearching, setIsSearching] = useState(false);
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState(initialWord);
   const ref = useRef(null);
 
   const handleInput = e => {
@@ -131,6 +132,7 @@ function SearchHeaderBar() {
           onChange={handleInput}
           ref={ref}
           value={keyword}
+          onKeyUp={onKeyUp}
           />
         <CancelButton onClick={resetInput}>CANCEL</CancelButton>
       </FlexBox>
@@ -138,4 +140,8 @@ function SearchHeaderBar() {
   );
 }
 
-export default React.memo(SearchHeaderBar);
+/* -------------------------------- proptypes ------------------------------- */
+SearchHeaderBar.propTypes = {
+  onKeyUp: func.isRequired,
+  initialWord: string.isRequired,
+};

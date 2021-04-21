@@ -39,9 +39,7 @@ export default function useFetchState(
             break;
         }
 
-        const json = await res.json();
-
-        setData(json);
+        setData(res);
         setIsLoading(false);
       } catch (err) {
         if (err) setHasError(true);
