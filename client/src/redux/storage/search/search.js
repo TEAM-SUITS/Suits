@@ -8,8 +8,15 @@ const GET_SEARCH_FAILURE = '검색 요청 실패';
 
 /* ----------------------------- thunk ---------------------------- */
 export const fetchSearchData = (searchWord, prevSearchWord) => async (dispatch) => {
+  // 현재 검색어와 이전 검색어가 동일할 경우
   if (searchWord === prevSearchWord) {
     dispatch({ type: READ_SEARCH_RESULT });
+    return;
+  }
+
+  // 빈 문자열일 경우
+  if (searchWord === '') {
+    dispatch({ type: GET_SEARCH_RESULT, searchWord });
     return;
   }
 

@@ -117,9 +117,7 @@ export default function SearchPage() {
   const [prevSearchWord, setPrevSearchWord] = useState(searchWord);
 
   useEffect(() => {
-    if (searchWord !== "") {
       dispatch(fetchSearchData(searchWord, prevSearchWord));
-    }
   }, [searchWord, dispatch]);
 
   const handleSearchWord = (e) => {
@@ -128,6 +126,11 @@ export default function SearchPage() {
       setPrevSearchWord(searchWord);
       setSearchWord(e.target.value);
     }
+  };
+
+  const handleCancelButton = () => {
+    setPrevSearchWord(searchWord);
+    setSearchWord("");
   };
 
   return (
@@ -139,9 +142,16 @@ export default function SearchPage() {
         initial="hidden"
         animate="visible"
       >
-        <SearchHeaderBar onKeyUp={handleSearchWord} initialWord={searchWord} />
+        <SearchHeaderBar
+          onKeyUp={handleSearchWord}
+          onClick={handleCancelButton}
+          initialWord={searchWord}
+        />
         <TextHeaderBar page="search" />
-        <ResultsSection result={searchState.searchData} word={searchWord} />
+        <ResultsSection
+          result={searchState.searchData}
+          word={searchWord}
+        />
       </PageContainer>
     </>
   );
