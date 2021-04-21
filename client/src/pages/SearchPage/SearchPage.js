@@ -13,7 +13,7 @@ import { fetchSearchData } from "redux/storage/search/search";
 export default function SearchPage() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.search);
-  const [searchWord, setSearchWord] = useState("잘");
+  const [searchWord, setSearchWord] = useState("javascript");
   // e.target.value였다가 엔터 입력하면 setSearchWord
 
   useEffect(() => {
@@ -25,16 +25,22 @@ export default function SearchPage() {
   return (
     <>
       <TextHeaderBar page="search" />
-      <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+      <PageContainer
+        page="search"
+        variants={pageEffect}
+        initial="hidden"
+        animate="visible"
+      >
         <SearchHeaderBar />
         <TextHeaderBar page="search" />
-        {data.searchData &&
+        {data.searchData && // 검색 결과가 없을 경우에 대한 처리 필요
           data.searchData.map((data) => (
             <Card key={data._id} isQuestion={true} title={data.content}>
               <QnAContent
                 key={data._id}
                 answer={
-                  data.answers &&
+                  // 빈 객체일 경우 false 전달
+                  data.answers[0].hasOwnProperty("likes") &&
                   data.answers.reduce(
                     (prev, curr) => {
                       if (curr.likes.length >= prev.likes.length) {
