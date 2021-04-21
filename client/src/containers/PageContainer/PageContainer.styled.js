@@ -28,7 +28,25 @@ const PageContainer = styled(motion(Container))`
       > div {
         margin-bottom: 3em;
       }
-    `}  
+    `}
+
+  ${({ page }) =>
+    page === "search" &&
+    css`
+      margin: ${({ margin }) => (margin ? margin : "120px 0")};
+      justify-content: flex-start;
+
+      > div {
+        margin-top: 3em;
+      }
+
+      // mobile
+      @media screen and (max-width: 480px) {
+        > div {
+          max-width: 350px;
+        }
+      }
+    `}
 
   ${({ ismobile }) =>
     ismobile &&
