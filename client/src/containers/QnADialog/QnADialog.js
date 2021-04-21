@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Portal from 'components/Portal/Portal';
 import Dialog from 'components/Dialog/Dialog';
 import Card from 'components/Card/Card';
@@ -64,7 +65,7 @@ const AnswerContainer = styled.div`
 `;
 
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
-const Answers = (answersList = []) => {
+const Answers = ({ answersList = [] }) => {
   if (!answersList.length) {
     return (
       <QnAContent
@@ -75,15 +76,17 @@ const Answers = (answersList = []) => {
   }
 
   return (
+    answersList !== [] &&
     answersList.map((answer) => {
       return (
         <>
           <QnAContent
-            key={answer._id}
+            key={answer._id + 1}
             answer={answer}
             isEllipsis={false}
           />
           <Divider
+            key={answer._id + 2}
             primary={false}
             color="gray"
             height="1px"
@@ -95,8 +98,8 @@ const Answers = (answersList = []) => {
   );
 };
 
-const InputArea = answered => {
-  if (answered) return null;
+const InputArea = ({ isAnswered }) => {
+  if (isAnswered) return null;
 
   return (
     <AnswerContainer>
@@ -106,34 +109,46 @@ const InputArea = answered => {
   );
 };
 
-const getIsAnswered = async questionId => {
-  const userData = await API('/api/user-profile', 'get');
-  let isAnswered = false;
-
-  userData[0].answeredQuestions.forEach(({ _id }) => {
-    if (_id === questionId) isAnswered = true;
-  });
-
-  return isAnswered;
-};
-
 /* ------------------------------- QnA Dialog ------------------------------- */
-export default function QnADialog({ isVisible, question = {} }) {
+export default function QnADialog({
+  isVisible,
+  question = {},
+  onClick, // 닫기 버튼 제어
+}) {
+  const [isAnswered, setIsAnswered] = useState(false);
+
+  useEffect(() => {
+    const getIsAnswered = async questionId => {
+      const userData = await API('/api/user-profile', 'get');
+
+      userData[0].answeredQuestions.forEach(({ _id }) => {
+        if (_id === questionId) setIsAnswered(true);
+      });
+    };
+
+    if (question._id) {
+      getIsAnswered(question._id);
+    }
+  }, [question._id]);
+
+  if (!Object.keys(question).length) return null;
+
   return (
     <Portal id={'dialog-container'}>
       <Dialog
         visible={isVisible} // 상위 컴포넌트의 state로 handle
         label="QnA 상세 내용"
+        onClick={onClick}
       >
         <CardContainer>
-        <Card isQuestion title={question.content}>
+        <Card isDialog isQuestion title={question.content}>
           <HashtagContainer>
             {question.hashTag.map((keyword, idx) => {
               return <Hashtag key={idx} type={keyword} />
             })}
           </HashtagContainer>
           <Answers answersList={question.answers} />
-          <InputArea answered={getIsAnswered(question._id)} />
+          <InputArea isAnswered={isAnswered} />
         </Card>
         </CardContainer>
       </Dialog>
@@ -144,6 +159,6 @@ export default function QnADialog({ isVisible, question = {} }) {
 /* ------------------------------- prop types ------------------------------- */
 
 QnADialog.propTypes = {
-  isVisible: bool,
-  question: object,
+  isVisible: bool.isRequired,
+  question: object.isRequired,
 };

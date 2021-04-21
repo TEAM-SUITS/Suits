@@ -7,7 +7,12 @@ const GET_SEARCH_SUCCESS  = '검색 요청 성공';
 const GET_SEARCH_FAILURE = '검색 요청 실패';
 
 /* ----------------------------- thunk ---------------------------- */
-export const fetchSearchData = searchWord => async (dispatch) => {
+export const fetchSearchData = (searchWord, prevSearchWord) => async (dispatch) => {
+  if (searchWord === prevSearchWord) {
+    dispatch({ type: READ_SEARCH_RESULT });
+    return;
+  }
+
   // 요청 시작
   dispatch({ type: GET_SEARCH_RESULT, searchWord });
 
