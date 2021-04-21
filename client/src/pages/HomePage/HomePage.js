@@ -66,10 +66,13 @@ export default function HomePage() {
 
   const fetchTrendingQ = async () => {
     try {
+      setTrendingLoading(true);
       const { data } = await axios("/api/questions/trend");
       setTrendingQ(data);
     } catch (err) {
       console.error(err);
+    } finally {
+      setTrendingLoading(false);
     }
   };
 
@@ -77,6 +80,11 @@ export default function HomePage() {
     fetchQuote();
     fetchHardWorkers();
     fetchTrendingQ();
+    return () => {
+      setQuoteLoading(false);
+      setWorkersLoading(false);
+      setTrendingLoading(false);
+    };
   }, []);
 
   return (

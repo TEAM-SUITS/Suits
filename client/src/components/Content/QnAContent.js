@@ -1,9 +1,9 @@
-import React from 'react';
-import LikeButton from 'components/LikeButton/LikeButton';
-import MiniProfile from 'components/MiniProfile/MiniProfile';
-import styled from 'styled-components';
-import { a11yHidden, ellipsis, spoqaSmall } from 'styles/common/common.styled';
-import { object, bool, oneOfType } from 'prop-types';
+import React from "react";
+import LikeButton from "components/LikeButton/LikeButton";
+import MiniProfile from "components/MiniProfile/MiniProfile";
+import styled from "styled-components";
+import { a11yHidden, ellipsis, spoqaSmall } from "styles/common/common.styled";
+import { object, bool, oneOfType } from "prop-types";
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -48,7 +48,7 @@ export default function QnAContent({ answer, isEllipsis = true }) {
       <QnAContainer>
         <AnswerDetail>아직 등록된 답변이 없습니다.</AnswerDetail>
       </QnAContainer>
-    )
+    );
   }
 
   return (
