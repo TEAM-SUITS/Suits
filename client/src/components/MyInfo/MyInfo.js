@@ -1,9 +1,10 @@
-import { Skeleton } from '@material-ui/lab';
 import axios from 'axios';
 import Hashtag from 'components/Hashtag/Hashtag';
 import Icon from 'components/Icon/Icon';
 import Tier from 'components/Tier/Tier';
 import React, { useState, useEffect } from 'react';
+import { signOutAction } from 'redux/storage/auth/auth';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import {
   museoLarge,
@@ -11,7 +12,9 @@ import {
   spoqaMediumLight,
   spoqaSmall,
   spoqaSmallBold,
+  boxShadowBlack,
 } from 'styles/common/common.styled';
+import API from 'api/api';
 
 const StyledMyInfo = styled.section`
   display: flex;
@@ -20,6 +23,7 @@ const StyledMyInfo = styled.section`
   justify-content: center;
   max-width: 568px;
   padding: 1em;
+  min-height: 100vh;
 
   .bio__container {
     display: flex;
@@ -49,6 +53,7 @@ const StyledMyInfo = styled.section`
       padding: 0.4em;
       height: 8em;
       letter-spacing: .5px;
+      ${boxShadowBlack};
     }
     span {
       position: absolute;
@@ -96,6 +101,7 @@ const StyledMyInfo = styled.section`
       color: var(--color-gray3);
       background-color: var(--color-lightgray2);
       border: none;
+      ${boxShadowBlack};
       }
       .delete-account {
         background-color: var(--color-gray1);
@@ -210,29 +216,11 @@ const StyledProfile = styled.div`
 `;
 
 export default function MyInfo() {
-  // 유저 더미데이터
-  // let user = {
-  //   githubId: 'boygeorge',
-  //   githubRepo: 'https://github.com/boygeorge',
-  //   avatar: 'http://www.gstatic.com/tv/thumb/persons/153450/153450_v9_bb.jpg',
-  //   username: 'George Boy',
-  //   bio:
-  //     '내가 망할 것 같애? 내가 망할 것 같애? 내가 람보르기니 조낸 많이 가지고 있는데 진짜로 망할 것 같애?',
-  //   tier: 3,
-  //   hashTag: ['CSS', 'JavaScript', 'Database'],
-  //   likeCount: 30,
-  // };
-
-  // let user = null;
-
-  // useEffect(() => {
-  //   axios.get('/api/user-profile').then((res) => {
-  //     user = res.data[0];
-  //   });
-  // }, []);
-
   const [user, setUser] = useState(null);
+  const [isBioActive, setIsBioActive] = useState(false);
   const [enteredBio, setEnteredBio] = useState('');
+
+  const dispatch = useDispatch();
 
   const getUser = async () => {
     const res = await axios.get('/api/user-profile');
@@ -253,16 +241,25 @@ export default function MyInfo() {
     console.log('changed hashtag!');
   };
 
-  const handleUpdate = () => {
-    console.log('updated!');
+  const handleClickBioButton = () => {
+    if (isBioActive) {
+      if (enteredBio === user.bio) {
+        setIsBioActive(!isBioActive);
+        return;
+      }
+
+      API('/api/user-profile/bio', 'patch', { bio: enteredBio });
+    }
+    setIsBioActive(!isBioActive);
   };
 
   const handleSignOut = () => {
-    console.log('signed out!');
+    dispatch(signOutAction());
   };
 
-  const handleDelete = () => {
-    console.log('deleted!');
+  const handleDelete = async () => {
+    await API('/api/user', 'delete');
+    dispatch(signOutAction());
   };
 
   if (user) {
@@ -283,9 +280,12 @@ export default function MyInfo() {
         <div className="bio__container">
           <div className="bio__heading-container">
             <h3>자기소개</h3>
-            <button onClick={handleUpdate}>수정</button>
+            <button onClick={handleClickBioButton}>
+              {isBioActive ? '완료' : '수정'}
+            </button>
           </div>
           <textarea
+            disabled={!isBioActive}
             id="bio"
             value={enteredBio}
             onChange={(e) => handleBioChange(e)}

@@ -22,7 +22,7 @@ const StyledNavLink = styled(NavLink)`
     props.active ? '2px solid var(--color-gray3)' : null};
   font-weight: ${(props) => (props.active ? 700 : 400)};
   @media screen and (min-width: 480px) {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 `;
 
@@ -34,16 +34,19 @@ export default function InfoNav() {
     <StyledNav>
       <StyledNavLink
         to={'/info/suits'}
-        active={pathname === '/info/suits' || pathname === '/info'}
+        active={pathname === '/info/suits' || pathname === '/info' ? 1 : 0}
       >
         Suits
       </StyledNavLink>
-      <StyledNavLink to={'/info/my-info'} active={pathname === '/info/my-info'}>
+      <StyledNavLink
+        to={'/info/my-info'}
+        active={pathname === '/info/my-info' ? 1 : 0}
+      >
         나의 정보
       </StyledNavLink>
       <StyledNavLink
         to={'/info/how-to-use'}
-        active={pathname === '/info/how-to-use'}
+        active={pathname === '/info/how-to-use' ? 1 : 0}
       >
         이용 안내
       </StyledNavLink>
