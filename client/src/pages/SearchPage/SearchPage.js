@@ -12,43 +12,43 @@ import { fetchSearchData } from "redux/storage/search/search";
 
 export default function SearchPage() {
   const dispatch = useDispatch();
-  const data = useSelector(state => state.search);
-  const [searchWord, setSearchWord] = useState('잘');
+  const data = useSelector((state) => state.search);
+  const [searchWord, setSearchWord] = useState("잘");
   // e.target.value였다가 엔터 입력하면 setSearchWord
 
   useEffect(() => {
-    if (searchWord !== '') {
+    if (searchWord !== "") {
       dispatch(fetchSearchData(searchWord));
     }
   }, [searchWord, dispatch]);
-
+  console.log(data);
   return (
     <>
       <TextHeaderBar page="search" />
       <PageContainer variants={pageEffect} initial="hidden" animate="visible">
         <SearchHeaderBar />
         <TextHeaderBar page="search" />
-        { data.searchData &&
-          data.searchData.map(data => (
-            <Card
-              key={data._id}
-              isQuestion={true}
-              title={data.content}
-            >
+        {data.searchData &&
+          data.searchData.map((data) => (
+            <Card key={data._id} isQuestion={true} title={data.content}>
               <QnAContent
                 key={data._id}
                 answer={
-                  data.answers.reduce((prev, curr) => {
-                    if (curr.likes.length >= prev.likes.length) {
-                      return curr;
-                    }
+                  data.answers &&
+                  data.answers.reduce(
+                    (prev, curr) => {
+                      if (curr.likes.length >= prev.likes.length) {
+                        return curr;
+                      }
 
-                    return prev;
-                  }, { likes: [] })
-              } />
+                      return prev;
+                    },
+                    { likes: [] }
+                  )
+                }
+              />
             </Card>
-          ))
-        }
+          ))}
       </PageContainer>
     </>
   );

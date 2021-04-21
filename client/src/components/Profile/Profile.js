@@ -1,20 +1,24 @@
-import React from 'react';
-import styled from 'styled-components';
-import { object } from 'prop-types';
-import Tier from 'components/Tier/Tier';
-import Hashtag from 'components/Hashtag/Hashtag';
+import React from "react";
+import styled from "styled-components";
+import { object } from "prop-types";
+import Tier from "components/Tier/Tier";
+import Hashtag from "components/Hashtag/Hashtag";
 import {
   museoLarge,
   spoqaMediumLight,
   spoqaSmall,
-} from 'styles/common/common.styled';
-import Icon from 'components/Icon/Icon';
+} from "styles/common/common.styled";
+import Icon from "components/Icon/Icon";
+import { Link } from "react-router-dom";
 
 const StyledProfile = styled.div`
   display: flex;
   position: relative;
   padding: 1.6em 1.6em 5em;
-  max-width: 768px;
+  max-width: 688px;
+  width: 100%;
+  justify-content: center;
+  background-color: var(--color-white);
 
   img {
     width: 100px;
@@ -60,14 +64,14 @@ const StyledProfile = styled.div`
     ${spoqaSmall}
   }
   p {
-    margin: 0.8em 0 0;
+    margin: 0.8em 0;
     ${spoqaMediumLight}
   }
   .hashtags {
     display: flex;
     justify-content: center;
     position: absolute;
-    bottom: 10px;
+    bottom: 2em;
     width: 100%;
     * {
       margin-right: 5%;
@@ -82,7 +86,6 @@ const StyledProfile = styled.div`
 
 export default function Profile({ user }) {
   const { username, img, tier, hashtag, github, bio, like } = user;
-
   return (
     <StyledProfile>
       <img src={img} alt={username} />
@@ -94,12 +97,14 @@ export default function Profile({ user }) {
           <span>{like}</span>
         </div>
         <a href={github}>{github}</a>
-        <p>{bio}</p>
+        {bio ? <p>{bio}</p> : <Link to="/info/my-info">소개말 등록</Link>}
       </div>
       <div className="hashtags">
-        {hashtag.map((tag) => (
-          <Hashtag key={tag} type={tag} />
-        ))}
+        {hashtag.length !== 0 ? (
+          hashtag.map((tag) => <Hashtag key={tag} type={tag} />)
+        ) : (
+          <Link to="/info/my-info">관심 태그 등록</Link>
+        )}
       </div>
     </StyledProfile>
   );
