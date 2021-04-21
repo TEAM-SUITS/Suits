@@ -23,6 +23,7 @@ const StyledMyInfo = styled.section`
   justify-content: center;
   max-width: 568px;
   padding: 1em;
+  min-height: 100vh;
 
   .bio__container {
     display: flex;

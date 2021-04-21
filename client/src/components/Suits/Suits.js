@@ -18,6 +18,7 @@ const StylesSuits = styled.section`
   justify-content: center;
   align-items: center;
   padding-top: 5em;
+  min-height: 100vh;
 
   .logo {
     width: 100px;
