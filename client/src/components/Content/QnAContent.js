@@ -2,9 +2,8 @@ import React from 'react';
 import LikeButton from 'components/LikeButton/LikeButton';
 import MiniProfile from 'components/MiniProfile/MiniProfile';
 import styled from 'styled-components';
-import { a11yHidden, ellipsis, museoSmall } from 'styles/common/common.styled';
-import { object } from 'prop-types';
-import { bool } from 'prop-types';
+import { a11yHidden, ellipsis, spoqaSmall } from 'styles/common/common.styled';
+import { object, bool, oneOfType } from 'prop-types';
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -23,8 +22,8 @@ const AnswerInfo = styled.div`
 const AnswerDetail = styled.p`
   max-width: 347px;
   margin: 1em;
-  ${museoSmall}
   ${(props) => props.isEllipsis && ellipsis}
+  ${spoqaSmall}
 `;
 
 const ScreenReaderSpan = styled.span`
@@ -44,7 +43,14 @@ const mockdata = {
 /* -------------------------------------------------------------------------- */
 
 export default function QnAContent({ answer, isEllipsis = true }) {
-  // answer.author, answer.liked, answer.content
+  if (!answer) {
+    return (
+      <QnAContainer>
+        <AnswerDetail>아직 등록된 답변이 없습니다.</AnswerDetail>
+      </QnAContainer>
+    )
+  }
+
   return (
     <QnAContainer>
       <AnswerInfo>
@@ -60,6 +66,6 @@ export default function QnAContent({ answer, isEllipsis = true }) {
 /* -------------------------------- propTypes ------------------------------- */
 
 QnAContent.propTypes = {
-  answer: object.isRequired,
+  answer: oneOfType([object, bool]).isRequired,
   isEllipsis: bool,
 };
