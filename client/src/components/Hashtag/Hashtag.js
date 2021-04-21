@@ -6,15 +6,19 @@ import { boxShadowBlack, spoqaSmallBold } from 'styles/common/common.styled';
 const StyledHashtag = styled.div`
   ${boxShadowBlack}
   ${spoqaSmallBold}
-  background-color: var(${(props) =>
-    props.isSelected ? '--color-gray1' : props.theme});
-  width: 8.4rem;
-  padding: 3px 10px;
+  padding: 0.3em 1em;
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
-  border-radius: 20px;
+  border-radius: 3em;
+  min-width: 7.6rem;
+  font-size: ${(props) => (props.isSelected ? 'inherit' : '1rem')};
+  background-color: var(
+    ${(props) => (props.isSelected ? props.theme : '--color-gray1')}
+  );
+  color: ${(props) =>
+    props.isSelected ? 'var(--color-black)' : 'var(--color-gray3)'};
 `;
 
 /* ---------------------------- styled components --------------------------- */
