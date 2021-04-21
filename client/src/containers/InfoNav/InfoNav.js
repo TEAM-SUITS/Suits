@@ -21,6 +21,9 @@ const StyledNavLink = styled(NavLink)`
   border-bottom: ${(props) =>
     props.active ? '2px solid var(--color-gray3)' : null};
   font-weight: ${(props) => (props.active ? 700 : 400)};
+  @media screen and (min-width: 480px) {
+    font-size: 2rem;
+  }
 `;
 
 export default function InfoNav() {
