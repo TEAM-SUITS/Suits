@@ -91,9 +91,6 @@ export default function SearchHeaderBar({
   const [isSearching, setIsSearching] = useState(false);
   const [keyword, setKeyword] = useState(initialWord);
   const ref = useRef(null);
-  const dispatch = useDispatch();
-  const searchState = useSelector(state => state.search);
-  const [word, setWord] = useState(searchState.searchWord);
 
   const handleInput = e => {
     setKeyword(e.target.value);
@@ -101,12 +98,6 @@ export default function SearchHeaderBar({
 
   const handleSearching = () => {
     setIsSearching(true);
-  };
-
-  const resetInput = async () => {
-    setKeyword('');
-    setWord('');
-    await dispatch(fetchSearchData(word));
   };
 
   // Search Header Bar 클릭 후 input 포커스

@@ -20,6 +20,12 @@ export const fetchSearchData = (searchWord, prevSearchWord) => async (dispatch) 
     return;
   }
 
+  // 하나 이상의 공백으로만 작성한 경우
+  if (/\s/.test(searchWord) || /\s{2,}/.test(searchWord)) {
+    console.error('공백은 검색할 수 없습니다.');
+    return;
+  }
+
   // 요청 시작
   dispatch({ type: GET_SEARCH_RESULT, searchWord });
 

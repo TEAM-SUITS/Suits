@@ -129,6 +129,10 @@ export default function QnADialog({
     if (question._id) {
       getIsAnswered(question._id);
     }
+
+    return () => {
+      isVisible = false;
+    };
   }, [question._id]);
 
   if (!Object.keys(question).length) return null;

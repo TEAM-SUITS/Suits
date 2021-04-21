@@ -123,8 +123,16 @@ export default function SearchPage() {
   const handleSearchWord = (e) => {
     // enter -> setSearchWord
     if (e.key === "Enter") {
+
+      const v = e.target.value;
+
+      // if (/\s/.test(v) || /\s{2,}/.test(v)) {
+      //   console.error('공백은 검색할 수 없습니다.');
+      //   return;
+      // }
+
       setPrevSearchWord(searchWord);
-      setSearchWord(e.target.value);
+      setSearchWord(v);
     }
   };
 
