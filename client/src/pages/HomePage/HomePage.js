@@ -5,11 +5,15 @@ import { pageEffect } from "styles/motions/variants";
 import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 import Card from "components/Card/Card";
 import QuotesContent from "components/Content/QuotesContent";
-import axios from "axios";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import HardWorkersContent from "components/Content/HardWorkersContent";
-import { TrendingQnAContent } from "components/Content/TrendingQuestionContent.stories";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { fetchHardWorkersData } from "redux/storage/hardWorkers/hardWorkers";
+import { fetchTrendingData } from "redux/storage/trendingQ/trendingQ";
+import { fetchRandomQuote } from "redux/storage/quote/quote";
+import TrendingQuestionContent from "components/Content/TrendingQuestionContent";
 
 /* ---------------------------- styled components --------------------------- */
 
@@ -30,62 +34,32 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
 /* -------------------------------------------------------------------------- */
 
 export default function HomePage() {
-  // 홈페이지에서 관리될 임시 상태들 (일부 상태 제외하곤 리덕스로 처리 예정)
-  const [quote, setQuote] = useState(null);
   const [quoteLanguage, setQuoteLanguage] = useState("ko");
-  const [hardWorkers, setHardWorkers] = useState(null);
-  const [trendingQ, setTrendingQ] = useState(null);
+  const dispatch = useDispatch();
 
-  const [quoteLoading, setQuoteLoading] = useState(false);
-  const [workersLoading, setWorkersLoading] = useState(false);
-  const [trendingLoading, setTrendingLoading] = useState(false);
+  const {
+    quoteData,
+    isLoading: isQuoteLoading,
+    error: quoteError,
+  } = useSelector((state) => state.quote);
 
-  const fetchQuote = async () => {
-    try {
-      setQuoteLoading(true);
-      const { data } = await axios("/api/quote");
-      setQuote(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setQuoteLoading(false);
-    }
-  };
+  const {
+    workersData,
+    isLoading: isWorkerLoading,
+    error: workerError,
+  } = useSelector((state) => state.hardWorkers);
 
-  const fetchHardWorkers = async () => {
-    try {
-      setWorkersLoading(true);
-      const { data } = await axios("/api/hard-workers");
-      setHardWorkers(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setWorkersLoading(false);
-    }
-  };
-
-  const fetchTrendingQ = async () => {
-    try {
-      setTrendingLoading(true);
-      const { data } = await axios("/api/questions/trend");
-      setTrendingQ(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setTrendingLoading(false);
-    }
-  };
+  const {
+    trendingQData,
+    isLoading: isTrendingLoading,
+    error: trendingError,
+  } = useSelector((state) => state.trendingQ);
 
   useEffect(() => {
-    fetchQuote();
-    fetchHardWorkers();
-    fetchTrendingQ();
-    return () => {
-      setQuoteLoading(false);
-      setWorkersLoading(false);
-      setTrendingLoading(false);
-    };
-  }, []);
+    if (!quoteData) dispatch(fetchRandomQuote());
+    if (!workersData) dispatch(fetchTrendingData());
+    if (!trendingQData) dispatch(fetchHardWorkersData());
+  }, [quoteData, workersData, trendingQData, dispatch]);
 
   return (
     <>
@@ -101,9 +75,9 @@ export default function HomePage() {
           {
             <QuotesContent
               textCenter
-              quote={quote}
+              quote={quoteData}
               lang={quoteLanguage}
-              $isLoading={quoteLoading}
+              $isLoading={isQuoteLoading}
             />
           }
           <StyledButtonGroup
@@ -129,13 +103,16 @@ export default function HomePage() {
         </Card>
         {/* 누적 좋아요 순위 섹션 */}
         <Card title="Hard Workers">
-          <HardWorkersContent users={hardWorkers} $isLoading={workersLoading} />
+          <HardWorkersContent
+            users={workersData}
+            $isLoading={isWorkerLoading}
+          />
         </Card>
         {/* 급상승 질문 탑3 */}
         <Card title="Trending QnA">
-          <TrendingQnAContent
-            questions={trendingQ}
-            $isLoading={trendingLoading}
+          <TrendingQuestionContent
+            questions={trendingQData}
+            $isLoading={isTrendingLoading}
           />
         </Card>
       </PageContainer>
