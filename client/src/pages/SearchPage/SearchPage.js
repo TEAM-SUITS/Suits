@@ -33,9 +33,9 @@ function ResultsSection({ result = [], word = "" }) {
   const [question, setQuestion] = useState({});
   // 이벤트 핸들러(QnA 다이얼로그 제어)
   const handleDialog = async (id) => {
+    setIsDialogVisible(true);
     const res = await API(`/api/questions/${id}`, "get");
     setQuestion(res);
-    setIsDialogVisible(true);
   };
   // const showDialog = async id => {
   //   const res = await axios.get(`/api/questions/${id}`);
@@ -65,29 +65,29 @@ function ResultsSection({ result = [], word = "" }) {
         question={question}
       />
       {result.map((data, idx) => (
-          <Card
-            key={data._id}
-            isQuestion={true}
-            title={data.content}
-            tags={data.hashTag}
-            onClick={() => handleDialog(data._id)}
-          >
-            <QnAContent
-              answer={
-                // 빈 객체일 경우 false 전달
-                data.answers[0].hasOwnProperty("likes") &&
-                data.answers.reduce(
-                  (prev, curr) => {
-                    if (curr.likes.length >= prev.likes.length) {
-                      return curr;
-                    }
-                    return prev;
-                  },
-                  { likes: [] }
-                )
-              }
-            />
-          </Card>
+        <Card
+          key={data._id}
+          isQuestion={true}
+          title={data.content}
+          tags={data.hashTag}
+          onClick={() => handleDialog(data._id)}
+        >
+          <QnAContent
+            answer={
+              // 빈 객체일 경우 false 전달
+              data.answers[0].hasOwnProperty("likes") &&
+              data.answers.reduce(
+                (prev, curr) => {
+                  if (curr.likes.length >= prev.likes.length) {
+                    return curr;
+                  }
+                  return prev;
+                },
+                { likes: [] }
+              )
+            }
+          />
+        </Card>
       ))}
     </>
   );

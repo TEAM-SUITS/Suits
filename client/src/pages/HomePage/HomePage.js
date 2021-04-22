@@ -83,10 +83,10 @@ export default function HomePage() {
   } = useSelector((state) => state.trendingQ);
 
   useEffect(() => {
-    dispatch(fetchRandomQData());
-    dispatch(fetchRandomQuoteData());
-    dispatch(fetchTrendingData());
-    dispatch(fetchHardWorkersData());
+    dispatch(fetchRandomQData("init"));
+    dispatch(fetchRandomQuoteData("init"));
+    dispatch(fetchTrendingData("init"));
+    dispatch(fetchHardWorkersData("init"));
   }, [dispatch]);
 
   return (

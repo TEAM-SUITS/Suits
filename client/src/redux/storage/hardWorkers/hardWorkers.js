@@ -8,16 +8,25 @@ const GET_HARD_WORKERS_SUCCESS = "명예의 전당 정보 요청 성공";
 const GET_HARD_WORKERS_FAILURE = "명예의 전당 정보 요청 실패";
 
 /* ----------------------------- thunk ---------------------------- */
-export const fetchHardWorkersData = () => async (dispatch) => {
-  // 요청 시작
-  dispatch({ type: GET_HARD_WORKERS });
-  // API 호출
-  try {
-    const workersData = await API(`/api/hard-workers`, "get");
-    dispatch({ type: GET_HARD_WORKERS_SUCCESS, workersData });
-  } catch (error) {
-    // 실패했을 때
-    dispatch({ type: GET_HARD_WORKERS_FAILURE, error });
+export const fetchHardWorkersData = (mode) => async (dispatch, prevState) => {
+  const dispatchAction = async () => {
+    dispatch({ type: GET_HARD_WORKERS });
+    // API 호출
+    try {
+      const workersData = await API(`/api/hard-workers`, "get");
+      dispatch({ type: GET_HARD_WORKERS_SUCCESS, workersData });
+    } catch (error) {
+      // 실패했을 때
+      dispatch({ type: GET_HARD_WORKERS_FAILURE, error });
+    }
+  };
+
+  if (mode === "init") {
+    const { hardWorkers } = prevState();
+    if (hardWorkers.workersData) return;
+    dispatchAction();
+  } else {
+    dispatchAction();
   }
 };
 
