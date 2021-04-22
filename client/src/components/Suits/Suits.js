@@ -54,7 +54,7 @@ const StylesSuits = styled.section`
       display: flex;
       justify-content: center;
       figure {
-        width: 100px;
+        width: 110px;
         margin: 0;
         text-align: center;
         img {

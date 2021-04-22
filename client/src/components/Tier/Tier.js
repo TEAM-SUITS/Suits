@@ -1,42 +1,41 @@
 import React from 'react';
-import { number, oneOf } from 'prop-types';
-import { ReactComponent as Tier1 } from './images/tier1.svg';
-import { ReactComponent as Tier2 } from './images/tier2.svg';
-import { ReactComponent as Tier3 } from './images/tier3.svg';
-import { ReactComponent as Tier4 } from './images/tier4.svg';
-import { ReactComponent as Tier5 } from './images/tier5.svg';
-import { ReactComponent as Tier6 } from './images/tier6.svg';
+import { oneOf } from 'prop-types';
+import tier1 from './images/tier1.png';
+import tier2 from './images/tier2.png';
+import tier3 from './images/tier3.png';
+import tier4 from './images/tier4.png';
+import tier5 from './images/tier5.png';
+import tier6 from './images/tier6.png';
 
-export default function Tier({ tier = 1, height = 10 }) {
-  let COMP = null;
+export default function Tier({ tier = 1 }) {
+  let src = null;
   switch (tier) {
     case 1:
-      COMP = Tier1;
+      src = tier1;
       break;
     case 2:
-      COMP = Tier2;
+      src = tier2;
       break;
     case 3:
-      COMP = Tier3;
+      src = tier3;
       break;
     case 4:
-      COMP = Tier4;
+      src = tier4;
       break;
     case 5:
-      COMP = Tier5;
+      src = tier5;
       break;
     case 6:
-      COMP = Tier6;
+      src = tier6;
       break;
     default:
       return;
   }
-  return <COMP height={`${height}px`} />;
+  return <img src={src} alt={'tier' + tier} />;
 }
 
 /* -------------------------------- proptypes ------------------------------- */
 
 Tier.propTypes = {
   tier: oneOf([1, 2, 3, 4, 5, 6]),
-  height: number,
 };

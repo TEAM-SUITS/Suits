@@ -9,7 +9,7 @@ const StyledMiniProfile = styled.div`
   display: flex;
   /* width: 180px; */
 
-  img {
+  & > img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -26,21 +26,22 @@ const StyledMiniProfile = styled.div`
       ${museoMedium}
       margin: 5px 0;
     }
-    svg {
-      height: 1.4em;
-      width: 50%;
+    img {
+      width: 60px;
     }
   }
 
   @media screen and (min-width: 480px) {
     /* width: 250px; */
 
-    img {
+    & > img {
       width: 80px;
       height: 80px;
     }
-    svg {
-      height: 2em;
+    div {
+      img {
+        width: 100px;
+      }
     }
   }
 `;

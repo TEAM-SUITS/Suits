@@ -19,7 +19,7 @@ const StyledProfile = styled.div`
   justify-content: center;
   background-color: var(--color-white);
 
-  img {
+  & > img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -41,12 +41,11 @@ const StyledProfile = styled.div`
   .tierContainer {
     display: flex;
     align-items: center;
-    svg:first-child {
+    img {
       width: 100px;
-      height: 18px;
       margin-right: 1em;
     }
-    svg:last-of-type {
+    svg {
       width: 2em;
       margin-right: 0.5em;
       path {

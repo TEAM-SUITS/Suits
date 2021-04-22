@@ -10,15 +10,14 @@ const StyledHardWorker = styled.div`
   align-items: center;
   justify-content: center;
 
-  svg {
-    height: 10px;
-    max-width: 80px;
+  img {
+    width: 80px;
     @media screen and (min-width: 480px) {
-      height: 15px;
+      width: 100px;
     }
 
     @media screen and (min-width: 768px) {
-      height: 20px;
+      width: 120px;
     }
   }
 `;
