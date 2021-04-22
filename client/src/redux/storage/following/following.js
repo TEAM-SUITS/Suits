@@ -13,8 +13,6 @@ export const fetchFollowingData = (
   prevTag = '',
   init
 ) => async dispatch => {
-  const interests = hashtags.join('+');
-
   // 최초 요청 시, 팔로잉 중인 키워드가 없는 경우
   if (!hashtags.length) {
     return;
@@ -28,6 +26,8 @@ export const fetchFollowingData = (
   
   // 요청 시작
   dispatch({ type: GET_FOLLOWING_DATA, currentTag });
+
+  const interests = currentTag === 'All' ? hashtags.join('+') : currentTag;
 
   try {
     // API 호출
