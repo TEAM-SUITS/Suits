@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { resetList, spoqaMedium, spoqaLarge } from "styles/common/common.styled";
+import { Link } from "react-router-dom";
 import PageContainer from "containers/PageContainer/PageContainer.styled";
 import { pageEffect } from "styles/motions/variants";
 import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
@@ -23,11 +24,11 @@ const StyledList = styled.ul`
   }
 `;
 
-const ImageSection = styled.div`
-  background: url("assets/suity.png") no-repeat center;
-  background-size: contain;
+const ImageSection = styled.img.attrs(() => ({
+  src: "assets/suity.png",
+  alt: "관심 키워드 설정 안내하는 슈티"
+}))`
   width: 300px;
-  height: 340px;
 
   // 모바일
   @media screen and (max-width: 480px) {
@@ -43,6 +44,14 @@ const InfoText = styled.p`
   > span {
     ${spoqaMedium}
     display: block;
+  }
+
+  > a {
+    ${spoqaMedium}
+    display: block;
+    margin-top: 4rem;
+    text-decoration: underline;
+    color: var(--color-orange);
   }
 
   // 데스크탑
@@ -69,6 +78,7 @@ function CardSection({
         <InfoText>
           <span>관심 키워드를 설정하시면</span>
           분야별 질문을 보여드려요!
+          <Link to="/info/my-info">관심 키워드 설정하러 가기</Link>
         </InfoText>
       </>
     );
@@ -126,7 +136,7 @@ export default function FollowingPage() {
 
   return (
     <>
-      <TextHeaderBar page="liked" />
+      <TextHeaderBar page="follow" />
       <PageContainer variants={pageEffect} initial="hidden" animate="visible">
         <CardSection
           currentTag={currentTag}

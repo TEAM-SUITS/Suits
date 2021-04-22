@@ -28,7 +28,7 @@ export default function TextHeaderBar({ page }) {
         </HeaderBar>
       );
 
-    case "liked":
+    case "follow":
       return (
         <HeaderBar>
           <LightSpan>Following</LightSpan>

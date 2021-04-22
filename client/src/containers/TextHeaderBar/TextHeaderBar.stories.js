@@ -10,7 +10,7 @@ export default {
     docs: {
       description: {
         component:
-          "TextHeaderBar 컨테이너 컴포넌트는 home, liked, profile, info 페이지 상단의 헤더 역할을 합니다.",
+          "TextHeaderBar 컨테이너 컴포넌트는 home, follow, profile, info 페이지 상단의 헤더 역할을 합니다.",
       },
     },
   },
@@ -18,7 +18,7 @@ export default {
     page: {
       description: "헤더바가 어느 페이지에서 쓰일 것인지 지정",
       type: "select",
-      options: ["home", "liked", "profile", "info", "search"],
+      options: ["home", "follow", "profile", "info", "search"],
     },
   },
 };

@@ -41,7 +41,7 @@ function App() {
         <RouteGuard path="/" exact component={HomePage} />
         <RouteGuard path="/demo" exact component={DemoPage} />
         <RouteGuard path="/search" component={SearchPage} />
-        <RouteGuard path="/liked" component={FollowingPage} />
+        <RouteGuard path="/follow" component={FollowingPage} />
         <RouteGuard path="/profile" component={ProfilePage} />
         <RouteGuard path="/info" component={InfoPage} />
         <RouteGuard path="user/my-info" component={UserPage} />
