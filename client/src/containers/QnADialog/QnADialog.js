@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Portal from 'components/Portal/Portal';
 import Dialog from 'components/Dialog/Dialog';
 import Card from 'components/Card/Card';
@@ -13,6 +13,7 @@ import {
 } from 'styles/common/common.styled';
 import { bool, object } from 'prop-types';
 import API from 'api/api';
+import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -79,26 +80,30 @@ const Answers = ({ answersList = [] }) => {
     answersList !== [] &&
     answersList.map((answer) => {
       return (
-        <>
+        <React.Fragment key={answer._id}>
           <QnAContent
-            key={answer._id + 1}
             answer={answer}
             isEllipsis={false}
           />
           <Divider
-            key={answer._id + 2}
             primary={false}
             color="gray"
             height="1px"
             width="50%"
           />
-        </>
+        </React.Fragment>
       );
     })
   );
 };
 
-const InputArea = ({ isAnswered }) => {
+const InputArea = ({ isAnswered, isInputLoading }) => {
+  if (isInputLoading) {
+    return (
+      <Spinner />
+    );
+  }
+
   if (isAnswered) return null;
 
   return (
@@ -115,15 +120,21 @@ export default function QnADialog({
   question = {},
   onClick, // 닫기 버튼 제어
 }) {
-  const [isAnswered, setIsAnswered] = useState(false);
+  const [isAnswered, setIsAnswered] = useState(null);
+  const [isInputLoading, setIsInputLoading] = useState(null);
 
   useEffect(() => {
+    setIsAnswered(true);
+    setIsInputLoading(true);
+
     const getIsAnswered = async questionId => {
       const userData = await API('/api/user-profile', 'get');
+      const check = userData[0].answeredQuestions.find(
+        ({ _id }) => _id === questionId
+      );
 
-      userData[0].answeredQuestions.forEach(({ _id }) => {
-        if (_id === questionId) setIsAnswered(true);
-      });
+      check ? setIsAnswered(true) : setIsAnswered(false);
+      setIsInputLoading(false);
     };
 
     if (question._id) {
@@ -152,7 +163,10 @@ export default function QnADialog({
             })}
           </HashtagContainer>
           <Answers answersList={question.answers} />
-          <InputArea isAnswered={isAnswered} />
+          <InputArea
+            isAnswered={isAnswered}
+            isInputLoading={isInputLoading}
+          />
         </Card>
         </CardContainer>
       </Dialog>
