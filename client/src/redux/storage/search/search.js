@@ -7,7 +7,25 @@ const GET_SEARCH_SUCCESS  = '검색 요청 성공';
 const GET_SEARCH_FAILURE = '검색 요청 실패';
 
 /* ----------------------------- thunk ---------------------------- */
-export const fetchSearchData = searchWord => async (dispatch) => {
+export const fetchSearchData = (searchWord, prevSearchWord) => async (dispatch) => {
+  // 현재 검색어와 이전 검색어가 동일할 경우
+  if (searchWord === prevSearchWord) {
+    dispatch({ type: READ_SEARCH_RESULT });
+    return;
+  }
+
+  // 빈 문자열일 경우
+  if (searchWord === '') {
+    dispatch({ type: GET_SEARCH_RESULT, searchWord });
+    return;
+  }
+
+  // 하나 이상의 공백으로만 작성한 경우
+  if (/\s/.test(searchWord) || /\s{2,}/.test(searchWord)) {
+    console.error('공백은 검색할 수 없습니다.');
+    return;
+  }
+
   // 요청 시작
   dispatch({ type: GET_SEARCH_RESULT, searchWord });
 

@@ -39,7 +39,10 @@ export default function TrendingQuestionContent({
           questions.map(({ _id, content }) => {
             return (
               <li key={_id}>
-                <QuestionCard>
+                <QuestionCard
+                  isQuestion={true}
+                  isDialog={false}
+                >
                   <p>{content}</p>
                 </QuestionCard>
               </li>

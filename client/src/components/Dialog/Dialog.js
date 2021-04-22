@@ -20,6 +20,7 @@ const DialogContainer = styled.div.attrs((props) => ({
   min-width: 305px;
   border-radius: 10px;
   padding: 2em 0 0;
+  max-width: 688px;
 
   @media screen and (min-width: 480px) {
     min-width: 400px;
@@ -70,6 +71,7 @@ export default function Dialog({
   visible = false, // 다이얼로그 가시성 여부
   infoText = "", // content of h1
   label = infoText, // aria-label
+  onClick, // 닫기 버튼
   children,
   opacity = 0.8,
 }) {
@@ -134,7 +136,12 @@ export default function Dialog({
         {visible && (
           <DialogContainer ref={dialogRef} label={label}>
             <CloseButton>
-              <Icon type="close" title="닫기" height="1.8em" />
+              <Icon
+                onClick={onClick}
+                type="close"
+                title="닫기"
+                height="1.8em"
+              />
             </CloseButton>
             <Header>{infoText}</Header>
             {children}

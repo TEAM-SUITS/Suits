@@ -43,7 +43,7 @@ const mockdata = {
 /* -------------------------------------------------------------------------- */
 
 export default function QnAContent({ answer, isEllipsis = true }) {
-  if (!answer) {
+  if (answer === false) {
     return (
       <QnAContainer>
         <AnswerDetail>아직 등록된 답변이 없습니다.</AnswerDetail>
