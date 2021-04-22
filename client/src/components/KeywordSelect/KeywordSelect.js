@@ -3,6 +3,7 @@ import { array, func } from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { resetList, spoqaLarge } from 'styles/common/common.styled';
+import Portal from "components/Portal/Portal";
 
 const Container = styled.div`
   button {
@@ -30,7 +31,8 @@ const Backdrop = styled.div.attrs(() => ({
   right: 0;
   top: 0;
   bottom: 0;
-  opacity: ${(props) => props.opacity};
+  opacity: ${(props) => props.$opacity};
+  backdrop-filter: blur(3px);
 `;
 
 const DialogContainer = styled.div.attrs((props) => ({
@@ -87,6 +89,56 @@ export default function KeywordSelect({ userKeywords, onDone, onCancel }) {
     'Back-End',
   ];
 
+  const dialogRef = React.useRef(null);
+
+  // a11y
+  React.useEffect(() => {
+      const dialogNode = dialogRef.current;
+      dialogNode.setAttribute("tabIndex", -1);
+      dialogNode.focus();
+
+      // 다이얼로그 뒤에 영역이 모바일 보이스리더기에 읽히지 않도록 처리
+      const rootNode = document.getElementById("root");
+      rootNode.setAttribute("aria-hidden", true);
+      rootNode.style.userSelect = "none";
+
+      const handleFocusTrap = (e) => {
+        // 다이얼로그 노드
+        // const dialogNode = dialogRef.current;
+        // focusable nodes "inside" dialogNode
+        const focusableNodeList = dialogNode.querySelectorAll(
+          "a, button, input, select, textarea"
+        ); // 참고로 a 태그는 href 속성이나 tabindex 속성이 있으면 focusable함.
+
+        // 첫 번째 포커스 요소와 마지막 포커스 요소를 기억해놓아야
+        // 다이얼로그가 닫히지 않는 한 다이얼로그 내에서 포커싱이 순환될 수 있음.
+        const firstFocusNode = focusableNodeList[0];
+        const lastFocusNode = focusableNodeList[focusableNodeList.length - 1];
+
+        // 첫 번째 포커스 요소에서 shift + tab 동시에 누르면? -> 마지막 포커스 요소로 이동!
+        if (e.target === firstFocusNode && e.shiftKey && e.key === "Tab") {
+          e.preventDefault();
+          lastFocusNode.focus();
+        }
+
+        // 마지막 포커스 요소에서 tab 누르면? -> 첫 번째 포커스 요소로 이동!
+        if (e.target === lastFocusNode && !e.shiftKey && e.key === "Tab") {
+          e.preventDefault();
+          firstFocusNode.focus();
+        }
+      };
+
+      window.addEventListener("keydown", handleFocusTrap);
+
+      // clean-up function
+      return () => {
+        dialogNode.removeAttribute("tabIndex");
+        rootNode.removeAttribute("aria-hidden");
+        window.removeEventListener("keydown", handleFocusTrap);
+        rootNode.style.userSelect = "auto";
+      };
+  }, []);
+
   const handleClick = (keyword) => {
     const isSelected = selectedKeywords.indexOf(keyword) > -1;
 
@@ -114,29 +166,31 @@ export default function KeywordSelect({ userKeywords, onDone, onCancel }) {
   };
 
   return (
-    <Container>
-      <CancelButton onClick={cancelKeywordSelect}>Cancel</CancelButton>
-      <Backdrop opacity={0.8} />
-      <DialogContainer>
-        <StyledList>
-          {keywordArray.map((keyword) => {
-            return (
-              <li key={keyword}>
-                <Hashtag
-                  type={keyword}
-                  isSelected={selectedKeywords.indexOf(keyword) === -1}
-                  isButton={true}
-                  clicked={() => {
-                    handleClick(keyword);
-                  }}
-                />
-              </li>
-            );
-          })}
-        </StyledList>
-      </DialogContainer>
-      <DoneButton onClick={submitSelectedKeywords}>done</DoneButton>
-    </Container>
+    <Portal id={"dialog-container"}>
+      <Container ref={dialogRef} label="관심 키워드 선택 다이얼로그">
+        <CancelButton onClick={cancelKeywordSelect}>Cancel</CancelButton>
+        <Backdrop $opacity={0.8} />
+        <DialogContainer>
+          <StyledList>
+            {keywordArray.map((keyword) => {
+              return (
+                <li key={keyword}>
+                  <Hashtag
+                    type={keyword}
+                    isSelected={selectedKeywords.indexOf(keyword) === -1}
+                    isButton={true}
+                    clicked={() => {
+                      handleClick(keyword);
+                    }}
+                  />
+                </li>
+              );
+            })}
+          </StyledList>
+        </DialogContainer>
+        <DoneButton onClick={submitSelectedKeywords}>done</DoneButton>
+      </Container>
+    </Portal>
   );
 }
 
