@@ -42,9 +42,13 @@ export default function ProfilePage() {
       return "작성한 답변이 없어요";
     } else if (userProfile && userProfile[0].answeredQuestions) {
       return userProfile[0].answeredQuestions.map((data) => (
-        <Card key={data._id} isQuestion={true} title={data.content}>
+        <Card
+          key={data._id}
+          isQuestion={true}
+          title={data.content}
+          tags={hashTag}
+        >
           <QnAContent
-            key={data._id}
             answer={data.answers.find(
               (answer) => answer.postedby?._id === authUser._id
             )}
