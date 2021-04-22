@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { bool, oneOf } from 'prop-types';
 import { boxShadowBlack, spoqaSmallBold } from 'styles/common/common.styled';
 
@@ -14,9 +14,17 @@ const StyledHashtag = styled.div`
   border-radius: 3em;
   min-width: 7.6rem;
   font-size: ${(props) => (props.isSelected ? 'inherit' : '1rem')};
-  background-color: ${(props) => (!props.isSelected ? `var(${props.theme})` : 'var(--color-gray1)')};
+  background-color: ${(props) =>
+    !props.isSelected ? `var(${props.theme})` : 'var(--color-gray1)'};
   color: ${(props) =>
     !props.isSelected ? 'var(--color-black)' : 'var(--color-gray3)'};
+
+${({ type }) =>
+    type === 'All' &&
+    css`
+      color:
+        ${(props) => props.isSelected ? 'var(--color-black)' : 'var(--color-white)' };
+    `}
 `;
 
 /* ---------------------------- styled components --------------------------- */
@@ -26,7 +34,7 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
 
   switch (type) {
     case 'All':
-      theme = '--color-lightgray2';
+      theme = '--color-black';
       break;
     case 'CSS':
       theme = '--color-blue1';
