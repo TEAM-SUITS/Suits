@@ -15,11 +15,8 @@ import Icon from 'components/Icon/Icon';
 const StylesSuits = styled.section`
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
   align-items: center;
-  padding-top: 5em;
-  min-height: 100vh;
-
+  margin-top: 120px;
   .logo {
     width: 100px;
     display: block;
@@ -83,6 +80,7 @@ const StylesSuits = styled.section`
   }
 
   @media screen and (min-width: 480px) {
+    margin-top: 160px;
     .logo {
       width: 150px;
       margin-bottom: 3em;

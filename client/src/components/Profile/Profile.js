@@ -100,9 +100,7 @@ export default function Profile({ user }) {
       </div>
       <div className="hashtags">
         {hashtag.length !== 0 ? (
-          hashtag.map((tag) => (
-            <Hashtag key={tag} type={tag} isSelected={true} />
-          ))
+          hashtag.map((tag) => <Hashtag key={tag} type={tag} />)
         ) : (
           <Link to="/info/my-info">관심 태그 등록</Link>
         )}
