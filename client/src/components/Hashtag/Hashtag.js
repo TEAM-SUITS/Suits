@@ -18,6 +18,8 @@ const StyledHashtag = styled.div`
     !props.isSelected ? `var(${props.theme})` : 'var(--color-gray1)'};
   color: ${(props) =>
     !props.isSelected ? 'var(--color-black)' : 'var(--color-gray3)'};
+  cursor: ${(props) =>
+    props.isButton ? 'pointer' : 'initial'};
 
 ${({ type }) =>
     type === 'All' &&
@@ -63,10 +65,12 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
   return (
     <StyledHashtag
       type={type}
+      isButton={isButton}
       isSelected={isSelected}
       theme={theme}
       role={isButton && 'button'}
-      style={isButton ? { cursor: 'pointer' } : null}
+      aria-label={isButton ? type : ''}
+      title={isButton ? type : ''}
       tabIndex={isButton ? 0 : -1}
       onClick={clicked}
       onKeyUp={(e) => e.code === 'Space' && clicked()}
