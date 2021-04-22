@@ -9,7 +9,6 @@ import {
   resetList,
   spoqaLarge,
   spoqaMedium,
-  spoqaMediumLight,
 } from 'styles/common/common.styled';
 
 const StylesHowToUse = styled.section`
@@ -39,7 +38,7 @@ const StylesHowToUse = styled.section`
       }
 
       span {
-        ${spoqaMediumLight}
+        ${spoqaMedium}
         margin: 0 0 0 0.4em;
         flex: 1;
       }
@@ -59,9 +58,8 @@ const StylesHowToUse = styled.section`
         &:not(:last-child) {
           margin-bottom: 0.2em;
         }
-        svg {
-          width: 70px;
-          height: 12px;
+        img {
+          width: 100px;
         }
         span {
           width: 200px;
@@ -118,9 +116,8 @@ const StylesHowToUse = styled.section`
           &:not(:last-child) {
             margin-bottom: 0.4em;
           }
-          svg {
+          img {
             width: 150px;
-            height: 22px;
           }
           span {
             width: 250px;

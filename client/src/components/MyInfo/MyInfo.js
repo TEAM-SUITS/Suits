@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import {
   museoLarge,
   spoqaMedium,
-  spoqaMediumLight,
   spoqaSmall,
   spoqaSmallBold,
   boxShadowBlack,
@@ -53,7 +52,7 @@ const StyledMyInfo = styled.section`
     }
     textarea {
       resize: none;
-      ${spoqaMediumLight}
+      ${spoqaMedium}
       font-size: 1.4rem;
       padding: 0.4em;
       height: 8em;
@@ -177,7 +176,7 @@ const StyledProfile = styled.div`
   @media screen and (min-width: 480px) {
     padding-bottom: 4em;
   }
-  img {
+  & > img {
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -203,12 +202,11 @@ const StyledProfile = styled.div`
   .tierContainer {
     display: flex;
     align-items: center;
-    svg:first-child {
+    img {
       width: 100px;
-      height: 18px;
       margin-right: 1em;
     }
-    svg:last-of-type {
+    svg {
       width: 2em;
       margin-right: 0.5em;
       path {
