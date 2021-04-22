@@ -22,10 +22,10 @@ const Navigation = () => {
           type={pathname === '/search' ? 'search-active' : 'search'}
         />
       </Navbar.ItemLink>
-      <Navbar.ItemLink to="/liked">
+      <Navbar.ItemLink to="/follow">
         <Icon
           title="팔로잉 해시태그"
-          type={pathname === '/liked' ? 'heart-active' : 'heart'}
+          type={pathname === '/follow' ? 'heart-active' : 'heart'}
         />
       </Navbar.ItemLink>
       <Navbar.ItemLink to="/profile">
