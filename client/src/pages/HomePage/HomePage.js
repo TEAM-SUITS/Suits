@@ -100,7 +100,11 @@ export default function HomePage() {
       >
         {/* 랜덤 QnA 카드 섹션 */}
         {randomQData && !isRandomQLoading ? (
-          <Card isQuestion={true} title={randomQData.content}>
+          <Card
+            isQuestion={true}
+            title={randomQData.content}
+            tags={randomQData.hashTag}
+          >
             <QnAContent
               answer={
                 randomQData.answers &&
@@ -123,7 +127,7 @@ export default function HomePage() {
             />
           </Card>
         ) : (
-          <SkeletonCard variant="rect" animation="wave" height="13em" />
+          <SkeletonCard variant="rect" animation="wave" height="16em" />
         )}
 
         {/* 명언 카드 섹션 */}

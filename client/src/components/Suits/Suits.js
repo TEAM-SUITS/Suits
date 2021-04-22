@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {
   boxShadowBlack,
   spoqaLarge,
-  spoqaMediumLight,
+  spoqaMedium,
   textShadowBlack,
 } from 'styles/common/common.styled';
 import Icon from 'components/Icon/Icon';
@@ -26,7 +26,7 @@ const StylesSuits = styled.section`
   .heading {
     text-align: center;
     margin: 0 0 1.5em;
-    ${spoqaMediumLight}
+    ${spoqaMedium}
     ${textShadowBlack}
 
     em {
@@ -36,7 +36,7 @@ const StylesSuits = styled.section`
   }
   p {
     text-align: center;
-    ${spoqaMediumLight}
+    ${spoqaMedium}
     font-size: 1.6rem;
     margin: 0 0 2em;
   }
@@ -47,14 +47,14 @@ const StylesSuits = styled.section`
     margin-bottom: 2em;
     h3 {
       text-align: center;
-      ${spoqaMediumLight}
+      ${spoqaMedium}
       margin: 0 0 1em;
     }
     .members {
       display: flex;
       justify-content: center;
       figure {
-        width: 100px;
+        width: 110px;
         margin: 0;
         text-align: center;
         img {
@@ -65,7 +65,7 @@ const StylesSuits = styled.section`
         }
         figcaption {
           width: 100%;
-          ${spoqaMediumLight}
+          ${spoqaMedium}
         }
       }
     }
@@ -75,7 +75,7 @@ const StylesSuits = styled.section`
     align-items: center;
     address {
       margin-left: 0.3em;
-      ${spoqaMediumLight}
+      ${spoqaMedium}
     }
   }
 

@@ -1,7 +1,7 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import { bool, oneOf } from 'prop-types';
-import { boxShadowBlack, spoqaSmallBold } from 'styles/common/common.styled';
+import React from "react";
+import styled, { css } from "styled-components";
+import { bool, oneOf } from "prop-types";
+import { boxShadowBlack, spoqaSmallBold } from "styles/common/common.styled";
 
 /* ---------------------------- styled components --------------------------- */
 const handleButtonTheme = (type, isSelected, theme) => {
@@ -38,32 +38,32 @@ const StyledHashtag = styled.div`
 
 /* -------------------------------------------------------------------------- */
 export default function Hashtag({ type, isSelected, isButton, clicked }) {
-  let theme = '';
+  let theme = "";
 
   switch (type) {
-    case 'All':
-      theme = '--color-black';
+    case "All":
+      theme = "--color-black";
       break;
-    case 'CSS':
-      theme = '--color-blue1';
+    case "CSS":
+      theme = "--color-blue1";
       break;
-    case 'JavaScript':
-      theme = '--color-yellow';
+    case "JavaScript":
+      theme = "--color-yellow";
       break;
-    case 'OS':
-      theme = '--color-green1';
+    case "OS":
+      theme = "--color-green1";
       break;
-    case 'Database':
-      theme = '--color-purple';
+    case "Database":
+      theme = "--color-purple";
       break;
-    case 'Network':
-      theme = '--color-blue2';
+    case "Network":
+      theme = "--color-blue2";
       break;
-    case 'Front-End':
-      theme = '--color-green2';
+    case "Front-End":
+      theme = "--color-green2";
       break;
-    case 'Back-End':
-      theme = '--color-orange';
+    case "Back-End":
+      theme = "--color-orange";
       break;
     default:
       break;
@@ -79,7 +79,7 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
       title={isButton ? type : ''}
       tabIndex={isButton ? 0 : -1}
       onClick={clicked}
-      onKeyUp={(e) => e.code === 'Space' && clicked()}
+      onKeyUp={(e) => e.code === "Space" && clicked()}
     >
       {type}
     </StyledHashtag>
@@ -90,14 +90,14 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
 
 Hashtag.propTypes = {
   type: oneOf([
-    'CSS',
-    'JavaScript',
-    'OS',
-    'Database',
-    'Network',
-    'Front-End',
-    'Back-End',
-    'All',
+    "CSS",
+    "JavaScript",
+    "OS",
+    "Database",
+    "Network",
+    "Front-End",
+    "Back-End",
+    "All",
   ]),
   isSelected: bool,
   isButton: bool,
