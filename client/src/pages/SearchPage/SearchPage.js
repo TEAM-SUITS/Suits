@@ -65,21 +65,14 @@ function ResultsSection({ result = [], word = "" }) {
         question={question}
       />
       {result.map((data, idx) => (
-        <>
-          {/* <QnADialog
-            isVisible={isDialogVisible}
-            onClick={() => setIsDialogVisible(false)}
-            question={data}
-          /> */}
           <Card
-            key={data._id + "a"}
+            key={data._id}
             isQuestion={true}
             title={data.content}
             tags={data.hashTag}
             onClick={() => handleDialog(data._id)}
           >
             <QnAContent
-              key={data._id + "b"}
               answer={
                 // 빈 객체일 경우 false 전달
                 data.answers[0].hasOwnProperty("likes") &&
@@ -95,7 +88,6 @@ function ResultsSection({ result = [], word = "" }) {
               }
             />
           </Card>
-        </>
       ))}
     </>
   );
