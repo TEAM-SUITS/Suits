@@ -44,7 +44,6 @@ export const currentUserReducer = (
       };
 
     case GET_CURRENT_USER_SUCCESS:
-      console.log(currentUserData);
       return {
         ...state,
         isLoading: false,

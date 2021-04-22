@@ -1,9 +1,9 @@
-import HardWorker from "components/HardWorker/HardWorker";
-import React from "react";
-import styled from "styled-components";
-import { resetList } from "styles/common/common.styled";
-import { array, bool } from "prop-types";
-import { Skeleton } from "@material-ui/lab";
+import HardWorker from 'components/HardWorker/HardWorker';
+import React from 'react';
+import styled from 'styled-components';
+import { resetList } from 'styles/common/common.styled';
+import { array, bool } from 'prop-types';
+import { Skeleton } from '@material-ui/lab';
 
 const HardWorkers = styled.ul`
   ${resetList}

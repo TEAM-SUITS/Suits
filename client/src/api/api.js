@@ -35,7 +35,7 @@ export default function API(
 
       return res.data;
     } catch (err) {
-      if (err) console.error('데이터를 받아올 수 없습니다.');
+      return err;
     }
   };
 

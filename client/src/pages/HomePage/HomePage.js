@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchHardWorkersData } from "redux/storage/hardWorkers/hardWorkers";
 import { fetchTrendingData } from "redux/storage/trendingQ/trendingQ";
 import { fetchRandomQuoteData } from "redux/storage/quote/quote";
+import { fetchRandomQData } from "redux/storage/randomQ/randomQ";
 import { pageEffect } from "styles/motions/variants";
 import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 import Card from "components/Card/Card";
@@ -13,7 +14,6 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import HardWorkersContent from "components/Content/HardWorkersContent";
 import TrendingQuestionContent from "components/Content/TrendingQuestionContent";
-import { fetchRandomQData } from "redux/storage/randomQ/randomQ";
 import QnAContent from "components/Content/QnAContent";
 import Button from "components/Button/Button";
 import { Skeleton } from "@material-ui/lab";
@@ -101,7 +101,20 @@ export default function HomePage() {
         {/* 랜덤 QnA 카드 섹션 */}
         {randomQData && !isRandomQLoading ? (
           <Card isQuestion={true} title={randomQData.content}>
-            <QnAContent answer={randomQData.answers[0]} />
+            <QnAContent
+              answer={
+                randomQData.answers &&
+                randomQData.answers.reduce(
+                  (prev, curr) => {
+                    if (curr.likes.length >= prev.likes.length) {
+                      return curr;
+                    }
+                    return prev;
+                  },
+                  { likes: [] }
+                )
+              }
+            />
             <StyledRefreshButton
               outline
               icon="refresh"

@@ -1,6 +1,6 @@
 import React from "react";
 import { bool, string, node } from "prop-types";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { boxShadowBlack, textShadowBlack } from "styles/common/common.styled";
 import Icon from "components/Icon/Icon";
 import Divider from "components/Divider/Divider";
@@ -10,6 +10,7 @@ import { Skeleton } from "@material-ui/lab";
 
 const CardBox = styled.div`
   ${boxShadowBlack}
+  cursor: ${(props) => (props.isQuestion && !props.isDialog ? 'pointer' : 'initial')};
   position: relative;
   min-width: 305px;
   border-radius: 10px;
@@ -31,9 +32,24 @@ const SkeletonTitle = styled(Skeleton)`
 `;
 /* -------------------------------------------------------------------------- */
 
-export default function Card({ isQuestion, title, children, ...restProps }) {
+export default function Card({
+  isQuestion,
+  isDialog,
+  title,
+  onClick,
+  children,
+  ...restProps
+}) {
   return (
-    <CardBox {...restProps}>
+    <CardBox
+      isQuestion={isQuestion}
+      isDialog={isDialog}
+      onClick={onClick}
+      role={isQuestion && !isDialog ? "button" : ""}
+      aria-label={isQuestion && !isDialog ? "자세히 보기" : ""}
+      title={isQuestion && !isDialog ? "자세히 보기" : ""}
+      {...restProps}
+    >
       {title && (
         <>
           <CardBox.Header>

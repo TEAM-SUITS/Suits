@@ -26,10 +26,6 @@ const AnswerDetail = styled.p`
   ${spoqaSmall}
 `;
 
-const ScreenReaderSpan = styled.span`
-  ${a11yHidden}
-`;
-
 /* -------------------------------- mockdata -------------------------------- */
 const mockdata = {
   _id: "607d40dfc0fe755dc815f9c2",
@@ -43,7 +39,7 @@ const mockdata = {
 /* -------------------------------------------------------------------------- */
 
 export default function QnAContent({ answer, isEllipsis = true }) {
-  if (!answer) {
+  if (answer === false || !answer.content) {
     return (
       <QnAContainer>
         <AnswerDetail>아직 등록된 답변이 없습니다.</AnswerDetail>

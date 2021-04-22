@@ -1,4 +1,6 @@
-import { useState, useRef, useEffect, useSelector } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSearchData } from 'redux/storage/search/search';
 import styled from 'styled-components';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import Icon from 'components/Icon/Icon';
@@ -81,7 +83,11 @@ const CancelButton = styled.button.attrs(() => ({
 `;
 
 /* -------------------------------------------------------------------------- */
-export default function SearchHeaderBar({ onKeyUp, initialWord }) {
+export default function SearchHeaderBar({
+  onKeyUp,
+  initialWord = '',
+  onClick
+}) {
   const [isSearching, setIsSearching] = useState(false);
   const [keyword, setKeyword] = useState(initialWord);
   const ref = useRef(null);
@@ -92,10 +98,6 @@ export default function SearchHeaderBar({ onKeyUp, initialWord }) {
 
   const handleSearching = () => {
     setIsSearching(true);
-  };
-
-  const resetInput = () => {
-    setKeyword('');
   };
 
   // Search Header Bar 클릭 후 input 포커스
@@ -134,7 +136,12 @@ export default function SearchHeaderBar({ onKeyUp, initialWord }) {
           value={keyword}
           onKeyUp={onKeyUp}
           />
-        <CancelButton onClick={resetInput}>CANCEL</CancelButton>
+        <CancelButton
+          onClick={() => {
+            onClick();
+            setKeyword('');
+          }}
+        >CANCEL</CancelButton>
       </FlexBox>
     </HeaderBar>
   );
