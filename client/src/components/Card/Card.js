@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { boxShadowBlack, textShadowBlack } from "styles/common/common.styled";
 import Icon from "components/Icon/Icon";
 import Divider from "components/Divider/Divider";
+import { Skeleton } from "@material-ui/lab";
 
 /* ---------------------------- styled components ---------------------------- */
 
@@ -21,6 +22,13 @@ const CardBox = styled.div`
   width: 100%;
 `;
 
+const SkeletonTitle = styled(Skeleton)`
+  padding: 0 3em !important;
+  margin-bottom: 1.3em !important;
+  max-width: 500px;
+  margin: 0 auto;
+  height: 1.6em;
+`;
 /* -------------------------------------------------------------------------- */
 
 export default function Card({ isQuestion, title, children, ...restProps }) {

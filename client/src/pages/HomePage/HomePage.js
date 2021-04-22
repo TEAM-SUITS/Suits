@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import PageContainer from "containers/PageContainer/PageContainer.styled";
+import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchHardWorkersData } from "redux/storage/hardWorkers/hardWorkers";
+import { fetchTrendingData } from "redux/storage/trendingQ/trendingQ";
+import { fetchRandomQuoteData } from "redux/storage/quote/quote";
 import { pageEffect } from "styles/motions/variants";
 import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 import Card from "components/Card/Card";
 import QuotesContent from "components/Content/QuotesContent";
-import axios from "axios";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import HardWorkersContent from "components/Content/HardWorkersContent";
-import { TrendingQnAContent } from "components/Content/TrendingQuestionContent.stories";
+import TrendingQuestionContent from "components/Content/TrendingQuestionContent";
+import { fetchRandomQData } from "redux/storage/randomQ/randomQ";
+import QnAContent from "components/Content/QnAContent";
+import Button from "components/Button/Button";
+import { Skeleton } from "@material-ui/lab";
 
 /* ---------------------------- styled components --------------------------- */
 
@@ -23,69 +30,64 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
   }
   button:disabled {
     font-weight: 700;
-    color: #eb5022;
+    color: var(--color-orange);
   }
+`;
+
+const StyledRefreshButton = styled(Button)`
+  position: absolute;
+  bottom: 1em;
+  background-color: transparent;
+  border: 1px solid #0000001f;
+  svg path {
+    fill: var(--color-orange);
+  }
+`;
+
+const SkeletonCard = styled(Skeleton)`
+  max-width: 688px;
+  background-color: #e6e6e6;
+  width: 100%;
+  margin-bottom: 3em;
+  border-radius: 10px;
 `;
 
 /* -------------------------------------------------------------------------- */
 
 export default function HomePage() {
-  // 홈페이지에서 관리될 임시 상태들 (일부 상태 제외하곤 리덕스로 처리 예정)
-  const [quote, setQuote] = useState(null);
   const [quoteLanguage, setQuoteLanguage] = useState("ko");
-  const [hardWorkers, setHardWorkers] = useState(null);
-  const [trendingQ, setTrendingQ] = useState(null);
+  const dispatch = useDispatch();
 
-  const [quoteLoading, setQuoteLoading] = useState(false);
-  const [workersLoading, setWorkersLoading] = useState(false);
-  const [trendingLoading, setTrendingLoading] = useState(false);
+  const {
+    randomQData,
+    isLoading: isRandomQLoading,
+    error: randomQError,
+  } = useSelector((state) => state.randomQ);
 
-  const fetchQuote = async () => {
-    try {
-      setQuoteLoading(true);
-      const { data } = await axios("/api/quote");
-      setQuote(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setQuoteLoading(false);
-    }
-  };
+  const {
+    quoteData,
+    isLoading: isQuoteLoading,
+    error: quoteError,
+  } = useSelector((state) => state.quote);
 
-  const fetchHardWorkers = async () => {
-    try {
-      setWorkersLoading(true);
-      const { data } = await axios("/api/hard-workers");
-      setHardWorkers(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setWorkersLoading(false);
-    }
-  };
+  const {
+    workersData,
+    isLoading: isWorkerLoading,
+    error: workerError,
+  } = useSelector((state) => state.hardWorkers);
 
-  const fetchTrendingQ = async () => {
-    try {
-      setTrendingLoading(true);
-      const { data } = await axios("/api/questions/trend");
-      setTrendingQ(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setTrendingLoading(false);
-    }
-  };
+  const {
+    trendingQData,
+    isLoading: isTrendingLoading,
+    error: trendingError,
+  } = useSelector((state) => state.trendingQ);
 
   useEffect(() => {
-    fetchQuote();
-    fetchHardWorkers();
-    fetchTrendingQ();
-    return () => {
-      setQuoteLoading(false);
-      setWorkersLoading(false);
-      setTrendingLoading(false);
-    };
-  }, []);
+    dispatch(fetchRandomQData());
+    dispatch(fetchRandomQuoteData());
+    dispatch(fetchTrendingData());
+    dispatch(fetchHardWorkersData());
+  }, [dispatch]);
 
   return (
     <>
@@ -96,14 +98,29 @@ export default function HomePage() {
         initial="hidden"
         animate="visible"
       >
+        {/* 랜덤 QnA 카드 섹션 */}
+        {randomQData && !isRandomQLoading ? (
+          <Card isQuestion={true} title={randomQData.content}>
+            <QnAContent answer={randomQData.answers[0]} />
+            <StyledRefreshButton
+              outline
+              icon="refresh"
+              onClick={() => dispatch(fetchRandomQData())}
+              aria-label="새로고침"
+            />
+          </Card>
+        ) : (
+          <SkeletonCard variant="rect" animation="wave" height="13em" />
+        )}
+
         {/* 명언 카드 섹션 */}
         <Card title="Wisdom Of The Day">
           {
             <QuotesContent
               textCenter
-              quote={quote}
+              quote={quoteData}
               lang={quoteLanguage}
-              $isLoading={quoteLoading}
+              $isLoading={isQuoteLoading}
             />
           }
           <StyledButtonGroup
@@ -129,13 +146,16 @@ export default function HomePage() {
         </Card>
         {/* 누적 좋아요 순위 섹션 */}
         <Card title="Hard Workers">
-          <HardWorkersContent users={hardWorkers} $isLoading={workersLoading} />
+          <HardWorkersContent
+            users={workersData}
+            $isLoading={isWorkerLoading}
+          />
         </Card>
         {/* 급상승 질문 탑3 */}
         <Card title="Trending QnA">
-          <TrendingQnAContent
-            questions={trendingQ}
-            $isLoading={trendingLoading}
+          <TrendingQuestionContent
+            questions={trendingQData}
+            $isLoading={isTrendingLoading}
           />
         </Card>
       </PageContainer>
