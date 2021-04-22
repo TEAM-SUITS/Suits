@@ -183,15 +183,16 @@ export default function FollowingPage() {
   const userState = useSelector(state => state.currentUser);
   const followingState = useSelector(state => state.following);
   const [currentTag, setCurrentTag] = useState(followingState.currentTag);
-  const [prevTag, setPrevTag] = useState(followingState.currentTag);
+  const [prevTag, setPrevTag] = useState('All');
   const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
     // App이 userState를 받아오기 전 바로 팔로잉페이지로 접근할 경우의
     // 에러를 방지하기 위해 분기 처리
     if (userState.currentUserData) setKeywords(userState.currentUserData[0].hashTag);
-    
+    setPrevTag(currentTag);
     dispatch(fetchFollowingData(keywords, currentTag, prevTag, followingState.isInitial));
+    console.log(currentTag, prevTag);
   }, [dispatch, keywords, currentTag, userState.currentUserData]);
 
   const onClick = e => {
