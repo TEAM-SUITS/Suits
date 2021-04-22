@@ -16,6 +16,7 @@ import TrendingQuestionContent from "components/Content/TrendingQuestionContent"
 import { fetchRandomQData } from "redux/storage/randomQ/randomQ";
 import QnAContent from "components/Content/QnAContent";
 import Button from "components/Button/Button";
+import { Skeleton } from "@material-ui/lab";
 
 /* ---------------------------- styled components --------------------------- */
 
@@ -41,6 +42,14 @@ const StyledRefreshButton = styled(Button)`
   svg path {
     fill: var(--color-orange);
   }
+`;
+
+const SkeletonCard = styled(Skeleton)`
+  max-width: 688px;
+  background-color: #e6e6e6;
+  width: 100%;
+  margin-bottom: 3em;
+  border-radius: 10px;
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -90,13 +99,9 @@ export default function HomePage() {
         animate="visible"
       >
         {/* 랜덤 QnA 카드 섹션 */}
-        {randomQData && (
-          <Card
-            isQuestion={true}
-            title={randomQData && randomQData.content}
-            $isLoading={isRandomQLoading}
-          >
-            <QnAContent key={randomQData._id} answer={randomQData.answers[0]} />
+        {randomQData && !isRandomQLoading ? (
+          <Card isQuestion={true} title={randomQData.content}>
+            <QnAContent answer={randomQData.answers[0]} />
             <StyledRefreshButton
               outline
               icon="refresh"
@@ -104,7 +109,10 @@ export default function HomePage() {
               aria-label="새로고침"
             />
           </Card>
+        ) : (
+          <SkeletonCard variant="rect" animation="wave" height="13em" />
         )}
+
         {/* 명언 카드 섹션 */}
         <Card title="Wisdom Of The Day">
           {
