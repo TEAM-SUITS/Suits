@@ -8,9 +8,13 @@ import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 import Hashtag from "components/Hashtag/Hashtag";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFollowingData } from "redux/storage/following/following";
+import Card from "components/Card/Card";
+import QnAContent from "components/Content/QnAContent";
+import QnADialog from "containers/QnADialog/QnADialog";
+import API from "api/api";
 
 /* ---------------------------- styled components --------------------------- */
-const StyledList = styled.ul`
+const HashtagList = styled.ul`
   ${resetList}
   width: 400px;
   display: flex;
@@ -22,6 +26,21 @@ const StyledList = styled.ul`
   @media screen and (max-width: 480px) {
     width: 340px;
   }
+`;
+
+const CardList = styled.ul`
+  ${resetList}
+
+  > li {
+    width: 470px;
+    max-width: 688px;
+
+    // 모바일
+    @media screen and (max-width: 480px) {
+      width: 350px;
+    }
+  }
+
 `;
 
 const ImageSection = styled.img.attrs(() => ({
@@ -65,15 +84,25 @@ const InfoText = styled.p`
   }
 `;
 
-// 무한업데이트 방지
-let keywords = [];
+// // 무한업데이트 방지
+// let keywords = [];
+// let cardData = {};
 
 /* ------------------------------ card section ------------------------------ */
 function CardSection({
+  cardData = {},
   currentTag = '',
   onClick,
   keywords = [],
 }) {
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
+  const [question, setQuestion] = useState({});
+  const handleDialog = async (id) => {
+    const res = await API(`/api/questions/${id}`, "get");
+    setQuestion(res);
+    setIsDialogVisible(true);
+  };
+
   if (!keywords.length) {
     return (
       <>
@@ -88,27 +117,63 @@ function CardSection({
   }
 
   return (
-    <StyledList>
-      <li>
-        <Hashtag
-          type='All'
-          isSelected={currentTag === 'All' ? true : false}
-          isButton={true}
-          clicked={onClick}
-        />
-      </li>
-      {keywords &&
-        keywords.map(tag => (
-          <li key={tag}>
-            <Hashtag
-              type={tag}
-              isSelected={currentTag === tag ? true : false}
-              isButton={true}
-              clicked={onClick}
-            />
-          </li>
-        ))}
-    </StyledList>
+    <>
+      <QnADialog
+        isVisible={isDialogVisible}
+        onClick={() => setIsDialogVisible(false)}
+        question={question}
+      />
+      <HashtagList>
+        <li>
+          <Hashtag
+            type='All'
+            isSelected={currentTag === 'All' ? true : false}
+            isButton={true}
+            clicked={onClick}
+          />
+        </li>
+        {keywords.map(tag => (
+            <li key={tag}>
+              <Hashtag
+                type={tag}
+                isSelected={currentTag === tag ? true : false}
+                isButton={true}
+                clicked={onClick}
+              />
+            </li>
+          ))}
+      </HashtagList>
+      <CardList>
+        {cardData &&
+          cardData.docs.map(data => (
+            <li key={data._id}>
+              <Card
+                key={data._id}
+                isQuestion={true}
+                title={data.content}
+                tags={data.hashTag}
+                onClick={() => handleDialog(data._id)}
+              >
+                <QnAContent
+                  answer={
+                    // 빈 객체일 경우 false 전달
+                    !!data.answers.length &&
+                    data.answers.reduce(
+                      (prev, curr) => {
+                        if (curr.likes.length >= prev.likes.length) {
+                          return curr;
+                        }
+                        return prev;
+                      },
+                      { likes: [] }
+                    )
+                  }
+                />
+              </Card>
+            </li>
+          ))}
+      </CardList>
+    </>
   );
 }
 
@@ -119,7 +184,7 @@ export default function FollowingPage() {
   const followingState = useSelector(state => state.following);
   const [currentTag, setCurrentTag] = useState(followingState.currentTag);
   const [prevTag, setPrevTag] = useState(followingState.currentTag);
-  const [cardData, setCardData] = useState(followingState.followingData);
+  const [keywords, setKeywords] = useState([]);
 
   // following 데이터 존재하는지 여부 확인
   // 존재 ? init 아니므로 기존 데이터 조회만 : init이므로 데이터 요청
@@ -128,7 +193,7 @@ export default function FollowingPage() {
   useEffect(() => {
     // App이 userState를 받아오기 전 바로 팔로잉페이지로 접근할 경우의
     // 에러를 방지하기 위해 분기 처리
-    if (userState.currentUserData) keywords = userState.currentUserData[0].hashTag;
+    if (userState.currentUserData) setKeywords(userState.currentUserData[0].hashTag);
 
     dispatch(fetchFollowingData(keywords, currentTag, prevTag, init));
   }, [dispatch, keywords, currentTag, userState.currentUserData]);
@@ -140,8 +205,14 @@ export default function FollowingPage() {
   return (
     <>
       <TextHeaderBar page="follow" />
-      <PageContainer variants={pageEffect} initial="hidden" animate="visible">
+      <PageContainer
+        page="follow"
+        variants={pageEffect}
+        initial="hidden"
+        animate="visible"
+      >
         <CardSection
+          cardData={followingState.followingData}
           currentTag={currentTag}
           onClick={onClick}
           keywords={keywords}

@@ -56,7 +56,24 @@ const PageContainer = styled(motion(Container))`
       > div {
         margin-bottom: 3em;
       }
-    `}  
+    `}
+
+    ${({ page }) =>
+    page === "follow" &&
+    css`
+      justify-content: flex-start;
+
+      li {
+        margin-top: 3em;
+      }
+
+      // mobile
+      @media screen and (max-width: 480px) {
+        li {
+          max-width: 350px;
+        }
+      }
+    `}
 
   ${({ ismobile }) =>
     ismobile &&
