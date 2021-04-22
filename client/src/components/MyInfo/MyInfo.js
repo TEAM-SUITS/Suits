@@ -193,7 +193,7 @@ const StyledProfile = styled.div`
     flex-flow: column nowrap;
     justify-content: center;
   }
-  h2 {
+  p {
     ${museoLarge};
     margin: 0;
     @media screen and (min-width: 480px) {
@@ -385,7 +385,7 @@ export default function MyInfo() {
           <StyledProfile>
             <img src={user.avatar} alt={user.username} />
             <div className="info">
-              <h2>{user.username}</h2>
+              <p>{user.username}</p>
               <div className="tierContainer">
                 <Tier tier={user.tier} />
                 <Icon type="heart-active" title="likes" />

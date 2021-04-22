@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { resetList, spoqaMediumLight } from 'styles/common/common.styled';
 import { useLocation } from 'react-router';
+import { resetBoxModel } from 'styles/common/common.styled';
 
 const StyledNav = styled.ul`
   ${resetList}
@@ -22,8 +23,14 @@ const StyledNavLink = styled(NavLink)`
   border-bottom: ${(props) =>
     props.active ? '2px solid var(--color-gray3)' : null};
   font-weight: ${(props) => (props.active ? 700 : 400)};
+`;
+
+const StyledHeading = styled.h2`
+  ${resetBoxModel}
+  font-size: 1.4rem;
+
   @media screen and (min-width: 480px) {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 `;
 
@@ -37,19 +44,19 @@ export default function InfoNav() {
         to={'/info/suits'}
         active={pathname === '/info/suits' || pathname === '/info' ? 1 : 0}
       >
-        Suits
+        <StyledHeading>Suits</StyledHeading>
       </StyledNavLink>
       <StyledNavLink
         to={'/info/my-info'}
         active={pathname === '/info/my-info' ? 1 : 0}
       >
-        나의 정보
+        <StyledHeading>계정 관리</StyledHeading>
       </StyledNavLink>
       <StyledNavLink
         to={'/info/how-to-use'}
         active={pathname === '/info/how-to-use' ? 1 : 0}
       >
-        이용 안내
+        <StyledHeading>이용 안내</StyledHeading>
       </StyledNavLink>
     </StyledNav>
   );
