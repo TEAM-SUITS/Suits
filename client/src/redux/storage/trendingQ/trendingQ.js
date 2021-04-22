@@ -8,16 +8,26 @@ const GET_TRENDING_QUESTIONS_SUCCESS = "급상승 문제 요청 성공";
 const GET_TRENDING_QUESTIONS_FAILURE = "급상승 문제 요청 실패";
 
 /* ----------------------------- thunk ---------------------------- */
-export const fetchTrendingData = () => async (dispatch) => {
-  // 요청 시작
-  dispatch({ type: GET_TRENDING_QUESTIONS });
-  // API 호출
-  try {
-    const trendingQData = await API(`/api/questions/trend`, "get");
-    dispatch({ type: GET_TRENDING_QUESTIONS_SUCCESS, trendingQData });
-  } catch (error) {
-    // 실패했을 때
-    dispatch({ type: GET_TRENDING_QUESTIONS_FAILURE, error });
+export const fetchTrendingData = (mode) => async (dispatch, prevState) => {
+  const disptachAction = async () => {
+    // 요청 시작
+    dispatch({ type: GET_TRENDING_QUESTIONS });
+    // API 호출
+    try {
+      const trendingQData = await API(`/api/questions/trend`, "get");
+      dispatch({ type: GET_TRENDING_QUESTIONS_SUCCESS, trendingQData });
+    } catch (error) {
+      // 실패했을 때
+      dispatch({ type: GET_TRENDING_QUESTIONS_FAILURE, error });
+    }
+  };
+
+  if (mode === "init") {
+    const { trendingQ } = prevState();
+    if (trendingQ.trendingQData) return;
+    disptachAction();
+  } else {
+    disptachAction();
   }
 };
 

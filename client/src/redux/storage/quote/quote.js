@@ -8,16 +8,28 @@ const GET_RANDOM_QUOTE_SUCCESS = "랜덤 명언 정보 요청 성공";
 const GET_RANDOM_QUOTE_FAILURE = "랜덤 명언 정보 요청 실패";
 
 /* ----------------------------- thunk ---------------------------- */
-export const fetchRandomQuoteData = () => async (dispatch) => {
-  // 요청 시작
-  dispatch({ type: GET_RANDOM_QUOTE });
-  // API 호출
-  try {
-    const quoteData = await API(`/api/quote`, "get");
-    dispatch({ type: GET_RANDOM_QUOTE_SUCCESS, quoteData });
-  } catch (error) {
-    // 실패했을 때
-    dispatch({ type: GET_RANDOM_QUOTE_FAILURE, error });
+export const fetchRandomQuoteData = (mode) => async (dispatch, prevState) => {
+  const dispatchAction = async () => {
+    // 요청 시작
+    dispatch({ type: GET_RANDOM_QUOTE });
+    // API 호출
+    try {
+      const quoteData = await API(`/api/quote`, "get");
+      dispatch({ type: GET_RANDOM_QUOTE_SUCCESS, quoteData });
+    } catch (error) {
+      // 실패했을 때
+      dispatch({ type: GET_RANDOM_QUOTE_FAILURE, error });
+    }
+  };
+
+  if (mode === "init") {
+    const { quote } = prevState();
+    if (quote.quoteData) {
+      return;
+    }
+    dispatchAction();
+  } else {
+    dispatchAction();
   }
 };
 

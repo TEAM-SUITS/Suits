@@ -1,6 +1,6 @@
 import React from "react";
-import { bool, string, node } from "prop-types";
-import styled, { css } from "styled-components";
+import { bool, string, node, array } from "prop-types";
+import styled from "styled-components";
 import {
   boxShadowBlack,
   resetList,
@@ -9,7 +9,6 @@ import {
 import Icon from "components/Icon/Icon";
 import Divider from "components/Divider/Divider";
 import Hashtag from "components/Hashtag/Hashtag";
-import { array } from "prop-types";
 
 /* ---------------------------- styled components ---------------------------- */
 
