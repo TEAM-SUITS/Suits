@@ -66,8 +66,8 @@ export default function Card({
           {tags && (
             <TagList>
               {tags.map((tag, idx) => (
-                <li>
-                  <Hashtag key={idx} type={tag} />
+                <li key={idx}>
+                  <Hashtag type={tag} />
                 </li>
               ))}
             </TagList>
