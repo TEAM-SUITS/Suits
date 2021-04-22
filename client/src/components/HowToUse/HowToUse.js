@@ -9,7 +9,6 @@ import {
   resetList,
   spoqaLarge,
   spoqaMedium,
-  spoqaMediumLight,
 } from 'styles/common/common.styled';
 
 const StylesHowToUse = styled.section`
@@ -39,7 +38,7 @@ const StylesHowToUse = styled.section`
       }
 
       span {
-        ${spoqaMediumLight}
+        ${spoqaMedium}
         margin: 0 0 0 0.4em;
         flex: 1;
       }

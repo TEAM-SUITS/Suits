@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import {
   museoLarge,
   spoqaMedium,
-  spoqaMediumLight,
   spoqaSmall,
   spoqaSmallBold,
   boxShadowBlack,
@@ -53,7 +52,7 @@ const StyledMyInfo = styled.section`
     }
     textarea {
       resize: none;
-      ${spoqaMediumLight}
+      ${spoqaMedium}
       font-size: 1.4rem;
       padding: 0.4em;
       height: 8em;
