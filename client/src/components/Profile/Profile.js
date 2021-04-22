@@ -1,15 +1,16 @@
-import React from 'react';
-import styled from 'styled-components';
-import { object } from 'prop-types';
-import Tier from 'components/Tier/Tier';
-import Hashtag from 'components/Hashtag/Hashtag';
+import React from "react";
+import styled from "styled-components";
+import { object } from "prop-types";
+import Tier from "components/Tier/Tier";
+import Hashtag from "components/Hashtag/Hashtag";
 import {
   museoLarge,
   spoqaMediumLight,
   spoqaSmall,
-} from 'styles/common/common.styled';
-import Icon from 'components/Icon/Icon';
-import { Link } from 'react-router-dom';
+} from "styles/common/common.styled";
+import Icon from "components/Icon/Icon";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const StyledProfile = styled.div`
   display: flex;
@@ -80,6 +81,8 @@ const StyledProfile = styled.div`
   }
 `;
 
+const StyledLink = styled(motion(Link))``;
+
 /* ---------------------------- styled components --------------------------- */
 
 export default function Profile({ user }) {
@@ -95,13 +98,27 @@ export default function Profile({ user }) {
           <span>{like}</span>
         </div>
         <a href={github}>{github}</a>
-        {bio ? <p>{bio}</p> : <Link to="/info/my-info">소개말 등록</Link>}
+        {bio ? (
+          <p>{bio}</p>
+        ) : (
+          <StyledLink whileHover={{ scale: 1.1 }} to="/info/my-info">
+            소개말 등록
+          </StyledLink>
+        )}
       </div>
       <div className="hashtags">
         {hashtag.length !== 0 ? (
           hashtag.map((tag) => <Hashtag key={tag} type={tag} />)
         ) : (
-          <Link to="/info/my-info">관심 태그 등록</Link>
+          <StyledLink
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 1.1 }}
+            to="/info/my-info"
+          >
+            <Hashtag isButton type="ETC">
+              관심 태그 등록
+            </Hashtag>
+          </StyledLink>
         )}
       </div>
     </StyledProfile>

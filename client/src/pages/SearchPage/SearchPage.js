@@ -33,9 +33,9 @@ function ResultsSection({ result = [], word = "" }) {
   const [question, setQuestion] = useState({});
   // 이벤트 핸들러(QnA 다이얼로그 제어)
   const handleDialog = async (id) => {
-    setIsDialogVisible(true);
     const res = await API(`/api/questions/${id}`, "get");
     setQuestion(res);
+    setIsDialogVisible(true);
   };
   // const showDialog = async id => {
   //   const res = await axios.get(`/api/questions/${id}`);

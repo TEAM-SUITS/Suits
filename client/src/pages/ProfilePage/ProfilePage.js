@@ -1,47 +1,31 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import React from "react";
 import PageContainer from "containers/PageContainer/PageContainer.styled";
 import { pageEffect } from "styles/motions/variants";
 import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 import { useSelector } from "react-redux";
 import Profile from "components/Profile/Profile";
-import axios from "axios";
 import QnAContent from "components/Content/QnAContent";
 import Card from "components/Card/Card";
+import Alert from "components/Alert/Alert";
+import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 
 /* -------------------------------------------------------------------------- */
 
 export default function ProfilePage() {
-  const { authUser } = useSelector((state) => state.auth);
-  const [userProfile, setUserProfile] = useState(null);
-  const [loading, isLoading] = useState(false);
-
-  const fetchUserProfile = async () => {
-    try {
-      isLoading(true);
-      const { data } = await axios("/api/user-profile");
-      setUserProfile(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      isLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchUserProfile();
-    return () => {
-      isLoading(false);
-    };
-  }, []);
+  const { currentUserData, isLoading } = useSelector(
+    (state) => state.currentUser
+  );
 
   const renderAnsweredQuestions = () => {
-    if (loading) {
-      return "loading...";
-    } else if (userProfile && userProfile[0].answeredQuestions.length === 0) {
-      return "작성한 답변이 없어요";
-    } else if (userProfile && userProfile[0].answeredQuestions) {
-      return userProfile[0].answeredQuestions.map((data) => (
+    if (isLoading) {
+      return <Spinner />;
+    } else if (
+      currentUserData &&
+      currentUserData[0].answeredQuestions.length === 0
+    ) {
+      return <Alert status="info" message="작성한 답변이 없어요" />;
+    } else if (currentUserData && currentUserData[0].answeredQuestions) {
+      return currentUserData[0].answeredQuestions.map((data) => (
         <Card
           key={data._id}
           isQuestion={true}
@@ -50,7 +34,7 @@ export default function ProfilePage() {
         >
           <QnAContent
             answer={data.answers.find(
-              (answer) => answer.postedby?._id === authUser._id
+              (answer) => answer.postedby?._id === currentUserData[0]._id
             )}
           />
         </Card>
@@ -66,7 +50,7 @@ export default function ProfilePage() {
     tier,
     githubRepo,
     hashTag,
-  } = authUser;
+  } = currentUserData[0];
 
   const user = {
     username,
