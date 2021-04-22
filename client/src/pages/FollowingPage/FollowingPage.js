@@ -33,7 +33,6 @@ export default function FollowingPage() {
 
   useEffect(() => {
     dispatch(fetchFollowingData(userData.hashTag, currentTag, prevTag));
-    console.log(currentTag, prevTag);
   }, [dispatch, userData.hashTag, currentTag, prevTag]);
 
   const onClick = e => {
