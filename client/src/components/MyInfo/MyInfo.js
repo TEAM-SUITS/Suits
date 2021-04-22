@@ -402,7 +402,7 @@ export default function MyInfo() {
             </div>
             <div className="hashtag__hashtags">
               {user.hashTag.map((ht) => {
-                return <Hashtag key={ht} type={ht} isSelected={true} />;
+                return <Hashtag key={ht} type={ht} />;
               })}
             </div>
           </div>
