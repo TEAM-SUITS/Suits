@@ -1,13 +1,15 @@
-import API from 'api/api';
+import API from "api/api";
 
 /* ------------------------------ action types ------------------------------ */
-const READ_SEARCH_RESULT = '검색 결과 조회';
-const GET_SEARCH_RESULT = '검색어로 검색 요청';
-const GET_SEARCH_SUCCESS  = '검색 요청 성공';
-const GET_SEARCH_FAILURE = '검색 요청 실패';
+const READ_SEARCH_RESULT = "검색 결과 조회";
+const GET_SEARCH_RESULT = "검색어로 검색 요청";
+const GET_SEARCH_SUCCESS = "검색 요청 성공";
+const GET_SEARCH_FAILURE = "검색 요청 실패";
 
 /* ----------------------------- thunk ---------------------------- */
-export const fetchSearchData = (searchWord, prevSearchWord) => async (dispatch) => {
+export const fetchSearchData = (searchWord, prevSearchWord) => async (
+  dispatch
+) => {
   // 현재 검색어와 이전 검색어가 동일할 경우
   if (searchWord === prevSearchWord) {
     dispatch({ type: READ_SEARCH_RESULT });
@@ -15,14 +17,14 @@ export const fetchSearchData = (searchWord, prevSearchWord) => async (dispatch) 
   }
 
   // 빈 문자열일 경우
-  if (searchWord === '') {
+  if (searchWord === "") {
     dispatch({ type: GET_SEARCH_RESULT, searchWord });
     return;
   }
 
   // 하나 이상의 공백으로만 작성한 경우
   if (/\s/.test(searchWord) || /\s{2,}/.test(searchWord)) {
-    console.error('공백은 검색할 수 없습니다.');
+    console.error("공백은 검색할 수 없습니다.");
     return;
   }
 
@@ -32,7 +34,7 @@ export const fetchSearchData = (searchWord, prevSearchWord) => async (dispatch) 
   // API 호출
   try {
     // 성공했을 때
-    const searchData = await API(`/api/questions/search/${searchWord}`, 'get');
+    const searchData = await API(`/api/questions/search/${searchWord}`, "get");
     dispatch({ type: GET_SEARCH_SUCCESS, searchData });
   } catch (error) {
     // 실패했을 때
@@ -43,7 +45,7 @@ export const fetchSearchData = (searchWord, prevSearchWord) => async (dispatch) 
 /* ------------------------- initial state + reducer ------------------------ */
 const initialState = {
   isLoading: false,
-  searchWord: '',
+  searchWord: "",
   searchData: null,
   error: null,
 };
@@ -70,7 +72,6 @@ export const searchReducer = (
         searchData,
       };
 
-
     case GET_SEARCH_FAILURE:
       return {
         ...state,
@@ -78,7 +79,7 @@ export const searchReducer = (
         error,
       };
 
-      default:
+    default:
       return state;
   }
 };

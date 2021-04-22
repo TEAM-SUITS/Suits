@@ -12,47 +12,39 @@ import { spoqaMedium } from "styles/common/common.styled";
 import { array, string } from "prop-types";
 import QnADialog from "containers/QnADialog/QnADialog";
 import API from "api/api";
-
 /* ---------------------------- styled components --------------------------- */
 const InfoImg = styled.img`
   display: block;
   margin: 0 auto;
   width: 300px;
-
   // mobile
   @media screen and (max-width: 480px) {
     width: 200px;
   }
 `;
-
 const InfoMsg = styled.p`
   ${spoqaMedium}
   text-align: center;
   color: var(--color-gray3);
 `;
-
 /* ---------------------------------- 검색 영역 --------------------------------- */
 function ResultsSection({ result = [], word = "" }) {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [question, setQuestion] = useState({});
-
   // 이벤트 핸들러(QnA 다이얼로그 제어)
-  const handleDialog = async id => {
-    const res = await API(`/api/questions/${id}`, 'get');
+  const handleDialog = async (id) => {
+    const res = await API(`/api/questions/${id}`, "get");
     setQuestion(res);
     setIsDialogVisible(true);
   };
-
   // const showDialog = async id => {
   //   const res = await axios.get(`/api/questions/${id}`);
   //   setQuestion(res.data);
   // };
-
   // useEffect(() => {
   //   showDialog(questionId);
   //   setIsDialogVisible(true);
   // }, [questionId]);
-
   if (result === null || word === "") {
     return <InfoMsg>검색하실 단어를 입력해주세요.</InfoMsg>;
   }
@@ -65,7 +57,6 @@ function ResultsSection({ result = [], word = "" }) {
       </>
     );
   }
-
   return (
     <>
       <QnADialog
@@ -81,13 +72,13 @@ function ResultsSection({ result = [], word = "" }) {
             question={data}
           /> */}
           <Card
-            key={data._id + 'a'}
+            key={data._id + "a"}
             isQuestion={true}
             title={data.content}
             onClick={() => handleDialog(data._id)}
           >
             <QnAContent
-              key={data._id + 'b'}
+              key={data._id + "b"}
               answer={
                 // 빈 객체일 경우 false 전달
                 data.answers[0].hasOwnProperty("likes") &&
@@ -96,51 +87,43 @@ function ResultsSection({ result = [], word = "" }) {
                     if (curr.likes.length >= prev.likes.length) {
                       return curr;
                     }
-
                     return prev;
-                  }, { likes: [] }
+                  },
+                  { likes: [] }
                 )
               }
             />
           </Card>
         </>
-        ))}
+      ))}
     </>
   );
 }
-
 /* ------------------------------- Search Page ------------------------------ */
 export default function SearchPage() {
   const dispatch = useDispatch();
   const searchState = useSelector((state) => state.search);
   const [searchWord, setSearchWord] = useState(searchState.searchWord);
   const [prevSearchWord, setPrevSearchWord] = useState(searchWord);
-
   useEffect(() => {
-      dispatch(fetchSearchData(searchWord, prevSearchWord));
+    dispatch(fetchSearchData(searchWord, prevSearchWord));
   }, [searchWord, dispatch]);
-
   const handleSearchWord = (e) => {
     // enter -> setSearchWord
     if (e.key === "Enter") {
-
       const v = e.target.value;
-
       // if (/\s/.test(v) || /\s{2,}/.test(v)) {
       //   console.error('공백은 검색할 수 없습니다.');
       //   return;
       // }
-
       setPrevSearchWord(searchWord);
       setSearchWord(v);
     }
   };
-
   const handleCancelButton = () => {
     setPrevSearchWord(searchWord);
     setSearchWord("");
   };
-
   return (
     <>
       <TextHeaderBar page="search" />
@@ -156,15 +139,11 @@ export default function SearchPage() {
           initialWord={searchWord}
         />
         <TextHeaderBar page="search" />
-        <ResultsSection
-          result={searchState.searchData}
-          word={searchWord}
-        />
+        <ResultsSection result={searchState.searchData} word={searchWord} />
       </PageContainer>
     </>
   );
 }
-
 /* -------------------------------- proptypes ------------------------------- */
 ResultsSection.propTypes = {
   result: array,

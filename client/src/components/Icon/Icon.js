@@ -18,6 +18,7 @@ import { ReactComponent as Success } from "./images/success.svg";
 import { ReactComponent as Github } from "./images/github.svg";
 import { ReactComponent as Logo } from "./images/logo.svg";
 import { ReactComponent as Mail } from "./images/mail.svg";
+import { ReactComponent as Refresh } from "./images/refresh.svg";
 
 /* -------------------------------------------------------------------------- */
 
@@ -83,6 +84,9 @@ export default function Icon({
     case "mail":
       COMP = Mail;
       break;
+    case "refresh":
+      COMP = Refresh;
+      break;
     default:
       throw new Error("아이콘을 찾을수없습니다");
   }
@@ -110,6 +114,7 @@ Icon.propTypes = {
     "success",
     "github",
     "mail",
+    "refresh",
   ]).isRequired,
   title: string,
   height: string,

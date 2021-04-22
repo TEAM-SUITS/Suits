@@ -39,7 +39,7 @@ const mockdata = {
 /* -------------------------------------------------------------------------- */
 
 export default function QnAContent({ answer, isEllipsis = true }) {
-  if (answer === false) {
+  if (answer === false || !answer.content) {
     return (
       <QnAContainer>
         <AnswerDetail>아직 등록된 답변이 없습니다.</AnswerDetail>
@@ -52,7 +52,7 @@ export default function QnAContent({ answer, isEllipsis = true }) {
       <AnswerInfo>
         <MiniProfile user={answer.postedby || mockdata} />
         <LikeButton />
-        <span>{answer.likes.length}</span>
+        {answer.likes.length}
       </AnswerInfo>
       <AnswerDetail isEllipsis={isEllipsis}>{answer.content}</AnswerDetail>
     </QnAContainer>
@@ -62,6 +62,6 @@ export default function QnAContent({ answer, isEllipsis = true }) {
 /* -------------------------------- propTypes ------------------------------- */
 
 QnAContent.propTypes = {
-  answer: oneOfType([object, bool]).isRequired,
+  answer: oneOfType([object, bool]),
   isEllipsis: bool,
 };

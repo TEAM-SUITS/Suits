@@ -79,5 +79,6 @@ export const GlobalStyle = createGlobalStyle`
     --color-blue1: #2998D4;
     --color-blue2: #56CCF2;
     --color-yellow: #ECB312;
+    --color-orange: #EB5022;
   }
 `;
