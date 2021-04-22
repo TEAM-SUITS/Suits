@@ -27,7 +27,7 @@ const StyledNavLink = styled(NavLink)`
 
 const StyledHeading = styled.h2`
   ${resetBoxModel}
-  font-size: 1.4rem;
+  font-size: 1.8rem;
 
   @media screen and (min-width: 480px) {
     font-size: 2rem;
