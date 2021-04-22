@@ -1,11 +1,11 @@
-import axios from 'axios';
-import Hashtag from 'components/Hashtag/Hashtag';
-import Icon from 'components/Icon/Icon';
-import Tier from 'components/Tier/Tier';
-import React, { useState, useEffect } from 'react';
-import { signOutAction } from 'redux/storage/auth/auth';
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import axios from "axios";
+import Hashtag from "components/Hashtag/Hashtag";
+import Icon from "components/Icon/Icon";
+import Tier from "components/Tier/Tier";
+import React, { useState, useEffect } from "react";
+import { signOutAction } from "redux/storage/auth/auth";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
 import {
   museoLarge,
   spoqaMedium,
@@ -13,11 +13,11 @@ import {
   spoqaSmallBold,
   boxShadowBlack,
   resetBoxModel,
-} from 'styles/common/common.styled';
-import API from 'api/api';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
-import KeywordSelect from 'components/KeywordSelect/KeywordSelect';
+} from "styles/common/common.styled";
+import API from "api/api";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import KeywordSelect from "components/KeywordSelect/KeywordSelect";
 
 /* -------------------------------------------------------------------------- */
 
@@ -288,13 +288,13 @@ const Loading = styled.p`
 export default function MyInfo() {
   const [user, setUser] = useState(null);
   const [isBioActive, setIsBioActive] = useState(false);
-  const [enteredBio, setEnteredBio] = useState('');
+  const [enteredBio, setEnteredBio] = useState("");
   const [isSelectingKeywords, setIsSelectingKeywords] = useState(false);
 
   const dispatch = useDispatch();
 
   const getUser = async () => {
-    const res = await axios.get('/api/user-profile');
+    const res = await axios.get("/api/user-profile");
     const userData = res.data[0];
     setUser(userData);
     setEnteredBio(userData.bio);
@@ -304,7 +304,7 @@ export default function MyInfo() {
     getUser();
     return () => {
       setUser(null);
-      setEnteredBio('');
+      setEnteredBio("");
     };
   }, []);
 
@@ -317,7 +317,7 @@ export default function MyInfo() {
   };
 
   const handleDoneHashtagChange = (selectedKeywords) => {
-    API('/api/user-profile/hashtag', 'patch', { hashTag: selectedKeywords });
+    API("/api/user-profile/hashtag", "patch", { hashTag: selectedKeywords });
     setUser((prev) => {
       return { ...prev, hashTag: selectedKeywords };
     });
@@ -335,7 +335,7 @@ export default function MyInfo() {
         return;
       }
 
-      API('/api/user-profile/bio', 'patch', { bio: enteredBio });
+      API("/api/user-profile/bio", "patch", { bio: enteredBio });
     }
     setIsBioActive(!isBioActive);
   };
@@ -355,7 +355,7 @@ export default function MyInfo() {
               <button onClick={onClose}>취소</button>
               <button
                 onClick={async () => {
-                  await API('/api/user', 'delete');
+                  await API("/api/user", "delete");
                   dispatch(signOutAction());
                   onClose();
                 }}
@@ -396,7 +396,7 @@ export default function MyInfo() {
             <div className="bio__heading-container">
               <h3>자기소개</h3>
               <button onClick={handleClickBioButton}>
-                {isBioActive ? '완료' : '수정'}
+                {isBioActive ? "완료" : "수정"}
               </button>
             </div>
             <textarea

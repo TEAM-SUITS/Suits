@@ -46,7 +46,7 @@ export default function ProfilePage() {
           key={data._id}
           isQuestion={true}
           title={data.content}
-          tags={hashTag}
+          tags={data.hashTag}
         >
           <QnAContent
             answer={data.answers.find(
