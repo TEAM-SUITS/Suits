@@ -13,11 +13,14 @@ import {
   spoqaSmall,
   spoqaSmallBold,
   boxShadowBlack,
+  resetBoxModel,
 } from 'styles/common/common.styled';
 import API from 'api/api';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import KeywordSelect from 'components/KeywordSelect/KeywordSelect';
+
+/* -------------------------------------------------------------------------- */
 
 const StyledMyInfo = styled.section`
   display: flex;
@@ -272,6 +275,18 @@ const StyledConfirmAlert = styled.div`
   }
 `;
 
+const Loading = styled.p`
+  ${resetBoxModel};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  font-size: 3rem;
+`;
+
+/* ---------------------------- styled components --------------------------- */
+
 export default function MyInfo() {
   const [user, setUser] = useState(null);
   const [isBioActive, setIsBioActive] = useState(false);
@@ -402,7 +417,7 @@ export default function MyInfo() {
             </div>
             <div className="hashtag__hashtags">
               {user.hashTag.map((ht) => {
-                return <Hashtag key={ht} type={ht} isSelected={true} />;
+                return <Hashtag key={ht} type={ht} />;
               })}
             </div>
           </div>
@@ -419,5 +434,5 @@ export default function MyInfo() {
     );
   }
 
-  return <p>스켈레톤</p>;
+  return <Loading>Loading...</Loading>;
 }

@@ -101,6 +101,10 @@ export default function KeywordSelect({ userKeywords, onDone, onCancel }) {
   };
 
   const submitSelectedKeywords = () => {
+    if (userKeywords === selectedKeywords) {
+      onCancel();
+      return;
+    }
     onDone(selectedKeywords);
   };
 
@@ -120,7 +124,7 @@ export default function KeywordSelect({ userKeywords, onDone, onCancel }) {
               <li key={keyword}>
                 <Hashtag
                   type={keyword}
-                  isSelected={selectedKeywords.indexOf(keyword) > -1}
+                  isSelected={selectedKeywords.indexOf(keyword) === -1}
                   isButton={true}
                   clicked={() => {
                     handleClick(keyword);
