@@ -38,9 +38,10 @@ export default function LoginPage() {
   // 사용자가 이미 로그인 상태일때 url을 이용해 /login에 직정접으로 접근하려고 할시 홈 라우트로 이동하도록 설정
   // 인증 요청을 하고 정상적으로 인증이 됐을 경우 홈으로 이동,
   // 오류가 발생했을시는 버튼을 다시 활성화 시켜서 다시 시도할수 있도록 설정
+
   useEffect(() => {
     if (isAuthed) {
-      history.push(state?.referrer);
+      !state?.referrer ? history.push("/") : history.push(state?.referrer);
     } else if (error) {
       setDisabled(false);
     }
