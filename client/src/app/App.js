@@ -17,6 +17,7 @@ import LoginPage from "pages/LoginPage/LoginPage";
 import RouteGuard from "components/RouteGuard/RouteGuard";
 import { useDispatch } from "react-redux";
 import { fetchUserAction } from "redux/storage/auth/auth";
+import { fetchCurrentUserData } from "redux/storage/currentUser/currentUser";
 
 /* -------------------------------------------------------------------------- */
 function App() {
@@ -25,6 +26,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchUserAction());
+    dispatch(fetchCurrentUserData());
   }, [dispatch]);
 
   // 임시 state for Dialog

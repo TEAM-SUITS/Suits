@@ -129,9 +129,9 @@ export default function Suits() {
   return (
     <StylesSuits>
       <img src={logo} alt="Suits 로고" className="logo" />
-      <h2 className="heading">
+      <h3 className="heading">
         기술 면접을 준비하는 단정한 습관<em>Suits</em>
-      </h2>
+      </h3>
       <p>
         Suits는 예비 개발자분들을 위한
         <br />

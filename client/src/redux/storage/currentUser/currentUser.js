@@ -47,14 +47,14 @@ export const currentUserReducer = (
       return {
         ...state,
         isLoading: false,
-        currentUserData
+        currentUserData,
       };
 
     case GET_CURRENT_USER_FAILURE:
       return {
         ...state,
         isLoading: false,
-        error
+        error,
       };
 
     default:
