@@ -10,15 +10,21 @@ const GET_FOLLOWING_DATA_FAILURE = '관심키워드에 해당하는 질문 요�
 export const fetchFollowingData = (
   hashtags = [],
   currentTag = '',
-  prevTag = ''
+  prevTag = '',
+  init
 ) => async dispatch => {
-  // 다른 페이지 갔다가 돌아왔을 경우, 비동기 요청 없이 기존 정보 조회
-  if (currentTag === prevTag) {
-    dispatch({ type: READ_FOLLOWING_DATA });
+  const interests = hashtags.join('+');
+
+  // 최초 요청 시, 팔로잉 중인 키워드가 없는 경우
+  if (!hashtags.length) {
     return;
   }
 
-  const interests = hashtags.join('+');
+  // 다른 페이지 갔다가 돌아왔을 경우, 비동기 요청 없이 기존 정보 조회
+  if (!init && currentTag === prevTag) {
+    dispatch({ type: READ_FOLLOWING_DATA });
+    return;
+  }
   
   // 요청 시작
   dispatch({ type: GET_FOLLOWING_DATA, currentTag });
