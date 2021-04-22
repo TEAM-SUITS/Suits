@@ -3,6 +3,23 @@ import styled, { css } from "styled-components";
 import { bool, oneOf } from "prop-types";
 import { boxShadowBlack, spoqaSmallBold } from "styles/common/common.styled";
 
+/* ---------------------------- styled components --------------------------- */
+const handleButtonTheme = (type, isSelected, theme) => {
+  if (type === 'All') {
+    return isSelected
+      ? 'color: var(--color-gray3); background: var(--color-gray1)'
+      : 'color: var(--color-white); background: var(--color-black)';
+  }
+
+  return isSelected
+    ? 'color: var(--color-gray3); background: var(--color-gray1)'
+    : `color: var(--color-black); background: var(${theme})`;
+};
+/**
+ * 참고
+ * https://stackoverflow.com/questions/56047659/multiple-props-options-for-styled-components
+ */
+
 const StyledHashtag = styled.div`
   ${boxShadowBlack}
   ${spoqaSmallBold}
@@ -13,22 +30,13 @@ const StyledHashtag = styled.div`
   border: none;
   border-radius: 3em;
   min-width: 7.6rem;
-  font-size: ${(props) => (props.isSelected ? "inherit" : "1rem")};
-  background-color: ${(props) =>
-    !props.isSelected ? `var(${props.theme})` : "var(--color-gray1)"};
-  color: ${(props) =>
-    !props.isSelected ? "var(--color-black)" : "var(--color-gray3)"};
-
-  ${({ type }) =>
-    type === "All" &&
-    css`
-      color: ${(props) =>
-        props.isSelected ? "var(--color-black)" : "var(--color-white)"};
-    `}
+  font-size: ${(props) => (props.isSelected ? 'inherit' : '1rem')};
+  cursor: ${(props) =>
+    props.isButton ? 'pointer' : 'initial'};
+  ${({ $type, isSelected, theme }) => handleButtonTheme($type, isSelected, theme)}
 `;
 
-/* ---------------------------- styled components --------------------------- */
-
+/* -------------------------------------------------------------------------- */
 export default function Hashtag({ type, isSelected, isButton, clicked }) {
   let theme = "";
 
@@ -62,11 +70,13 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
   }
   return (
     <StyledHashtag
-      type={type}
+      $type={type}
+      isButton={isButton}
       isSelected={isSelected}
       theme={theme}
-      role={isButton && "button"}
-      style={isButton ? { cursor: "pointer" } : null}
+      role={isButton && 'button'}
+      aria-label={isButton ? type : ''}
+      title={isButton ? type : ''}
       tabIndex={isButton ? 0 : -1}
       onClick={clicked}
       onKeyUp={(e) => e.code === "Space" && clicked()}

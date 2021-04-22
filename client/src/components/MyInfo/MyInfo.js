@@ -9,7 +9,6 @@ import styled from "styled-components";
 import {
   museoLarge,
   spoqaMedium,
-  spoqaMediumLight,
   spoqaSmall,
   spoqaSmallBold,
   boxShadowBlack,
@@ -53,7 +52,7 @@ const StyledMyInfo = styled.section`
     }
     textarea {
       resize: none;
-      ${spoqaMediumLight}
+      ${spoqaMedium}
       font-size: 1.4rem;
       padding: 0.4em;
       height: 8em;
@@ -177,7 +176,7 @@ const StyledProfile = styled.div`
   @media screen and (min-width: 480px) {
     padding-bottom: 4em;
   }
-  img {
+  & > img {
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -193,7 +192,7 @@ const StyledProfile = styled.div`
     flex-flow: column nowrap;
     justify-content: center;
   }
-  h2 {
+  p {
     ${museoLarge};
     margin: 0;
     @media screen and (min-width: 480px) {
@@ -203,12 +202,11 @@ const StyledProfile = styled.div`
   .tierContainer {
     display: flex;
     align-items: center;
-    svg:first-child {
+    img {
       width: 100px;
-      height: 18px;
       margin-right: 1em;
     }
-    svg:last-of-type {
+    svg {
       width: 2em;
       margin-right: 0.5em;
       path {
@@ -385,7 +383,7 @@ export default function MyInfo() {
           <StyledProfile>
             <img src={user.avatar} alt={user.username} />
             <div className="info">
-              <h2>{user.username}</h2>
+              <p>{user.username}</p>
               <div className="tierContainer">
                 <Tier tier={user.tier} />
                 <Icon type="heart-active" title="likes" />

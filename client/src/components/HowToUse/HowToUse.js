@@ -9,7 +9,6 @@ import {
   resetList,
   spoqaLarge,
   spoqaMedium,
-  spoqaMediumLight,
 } from 'styles/common/common.styled';
 
 const StylesHowToUse = styled.section`
@@ -20,7 +19,7 @@ const StylesHowToUse = styled.section`
   margin-top: 120px;
   .box {
     max-width: 500px;
-    h2 {
+    h3 {
       ${spoqaMedium}
       text-align: center;
       margin: 0;
@@ -39,7 +38,7 @@ const StylesHowToUse = styled.section`
       }
 
       span {
-        ${spoqaMediumLight}
+        ${spoqaMedium}
         margin: 0 0 0 0.4em;
         flex: 1;
       }
@@ -59,9 +58,8 @@ const StylesHowToUse = styled.section`
         &:not(:last-child) {
           margin-bottom: 0.2em;
         }
-        svg {
-          width: 70px;
-          height: 12px;
+        img {
+          width: 100px;
         }
         span {
           width: 200px;
@@ -96,7 +94,7 @@ const StylesHowToUse = styled.section`
       &:first-child {
         margin-bottom: 4em;
       }
-      h2 {
+      h3 {
         ${spoqaLarge}
         font-size: 2.4rem;
       }
@@ -118,9 +116,8 @@ const StylesHowToUse = styled.section`
           &:not(:last-child) {
             margin-bottom: 0.4em;
           }
-          svg {
+          img {
             width: 150px;
-            height: 22px;
           }
           span {
             width: 250px;
@@ -139,7 +136,7 @@ export default function HowToUse() {
   return (
     <StylesHowToUse>
       <div className="box box-feature">
-        <h2>주요 기능 소개</h2>
+        <h3>주요 기능 소개</h3>
         <Divider width="40%" margin="0.5em auto" />
         <ul>
           <li>
@@ -166,12 +163,12 @@ export default function HowToUse() {
           <li>
             {' '}
             <Icon type="info" />
-            <span>서비스 소개, 나의 정보, 이용 안내를 볼 수 있습니다.</span>
+            <span>서비스 소개, 계정 관리, 이용 안내를 볼 수 있습니다.</span>
           </li>
         </ul>
       </div>
       <div className="box box-tier">
-        <h2>회원 등급</h2>
+        <h3>회원 등급</h3>
         <Divider width="40%" margin="0.5em auto" />
         <div className="tiers__container">
           <div>
