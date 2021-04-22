@@ -13,13 +13,16 @@ export const fetchFollowingData = (
   prevTag = '',
   init
 ) => async dispatch => {
-  // 최초 요청 시, 팔로잉 중인 키워드가 없는 경우
+  // 팔로잉 중인 키워드가 없는 경우
   if (!hashtags.length) {
+    console.log('first one');
     return;
   }
 
   // 다른 페이지 갔다가 돌아왔을 경우, 비동기 요청 없이 기존 정보 조회
   if (!init && currentTag === prevTag) {
+    console.log('second one');
+
     dispatch({ type: READ_FOLLOWING_DATA });
     return;
   }
@@ -44,6 +47,7 @@ export const fetchFollowingData = (
 /* ------------------------- initial state + reducer ------------------------ */
 const initialState = {
   isLoading: false,
+  isInitial: true,
   currentTag: 'All',
   followingData: null,
   error: null,
@@ -61,6 +65,7 @@ export const followingReducer = (
       return {
         ...state,
         isLoading: true,
+        isInitial: false,
         currentTag,
       };
 

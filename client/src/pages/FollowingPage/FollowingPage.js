@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { resetList, spoqaMedium, spoqaLarge } from "styles/common/common.styled";
 import { Link } from "react-router-dom";
@@ -186,16 +186,12 @@ export default function FollowingPage() {
   const [prevTag, setPrevTag] = useState(followingState.currentTag);
   const [keywords, setKeywords] = useState([]);
 
-  // following 데이터 존재하는지 여부 확인
-  // 존재 ? init 아니므로 기존 데이터 조회만 : init이므로 데이터 요청
-  const [init, setInit] = useState(!followingState.followingData);
-
   useEffect(() => {
     // App이 userState를 받아오기 전 바로 팔로잉페이지로 접근할 경우의
     // 에러를 방지하기 위해 분기 처리
     if (userState.currentUserData) setKeywords(userState.currentUserData[0].hashTag);
-
-    dispatch(fetchFollowingData(keywords, currentTag, prevTag, init));
+    
+    dispatch(fetchFollowingData(keywords, currentTag, prevTag, followingState.isInitial));
   }, [dispatch, keywords, currentTag, userState.currentUserData]);
 
   const onClick = e => {
