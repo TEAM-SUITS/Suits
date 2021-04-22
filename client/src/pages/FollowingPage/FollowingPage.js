@@ -24,18 +24,20 @@ const StyledList = styled.ul`
 
 /* -------------------------------------------------------------------------- */
 export default function FollowingPage() {
-  const [isClicked, setIsClicked] = useState('All');
   const dispatch = useDispatch();
   const userState = useSelector(state => state.currentUser);
+  const followingState = useSelector(state => state.following);
+  const [currentTag, setCurrentTag] = useState(followingState.currentTag);
+  const [prevTag, setPrevTag] = useState(followingState.currentTag);
   const userData = userState.currentUserData[0];
-  console.log(userData);
 
   useEffect(() => {
-    dispatch(fetchFollowingData(userData.hashTag, isClicked));
-  }, [dispatch, userData.hashTag, isClicked]);
+    dispatch(fetchFollowingData(userData.hashTag, currentTag, prevTag));
+    console.log(currentTag, prevTag);
+  }, [dispatch, userData.hashTag, currentTag, prevTag]);
 
   const onClick = e => {
-    setIsClicked(e.target.title);
+    setCurrentTag(e.target.title);
   };
 
   return (
@@ -46,7 +48,7 @@ export default function FollowingPage() {
           <li>
             <Hashtag
               type='All'
-              isSelected={isClicked === 'All' ? true : false}
+              isSelected={currentTag === 'All' ? true : false}
               isButton={true}
               clicked={onClick}
             />
@@ -56,7 +58,7 @@ export default function FollowingPage() {
               <li key={tag}>
                 <Hashtag
                   type={tag}
-                  isSelected={isClicked === tag ? true : false}
+                  isSelected={currentTag === tag ? true : false}
                   isButton={true}
                   clicked={onClick}
                 />

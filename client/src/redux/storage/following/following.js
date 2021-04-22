@@ -7,12 +7,19 @@ const GET_FOLLOWING_DATA_SUCCESS = '관심키워드에 해당하는 질문 요�
 const GET_FOLLOWING_DATA_FAILURE = '관심키워드에 해당하는 질문 요청 실패';
 
 /* ---------------------------------- thunk --------------------------------- */
-export const fetchFollowingData = (hashtags = [], currentTag = '') => async dispatch => {
+export const fetchFollowingData = (
+  hashtags = [],
+  currentTag = '',
+  prevTag = ''
+) => async dispatch => {
+  // 다른 페이지 갔다가 돌아왔을 경우, 비동기 요청 없이 기존 정보 조회
+  if (currentTag === prevTag) {
+    dispatch({ type: READ_FOLLOWING_DATA });
+    return;
+  }
 
   const interests = hashtags.join('+');
-
-  // TODO: 리로드하는 경우 아니면 기존 정보 조회하도록 조건 추가할 것
-
+  
   // 요청 시작
   dispatch({ type: GET_FOLLOWING_DATA, currentTag });
 
