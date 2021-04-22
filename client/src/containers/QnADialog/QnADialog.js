@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import Portal from 'components/Portal/Portal';
-import Dialog from 'components/Dialog/Dialog';
-import Card from 'components/Card/Card';
-import QnAContent from 'components/Content/QnAContent';
-import Divider from 'components/Divider/Divider';
-import Hashtag from 'components/Hashtag/Hashtag';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import Portal from "components/Portal/Portal";
+import Dialog from "components/Dialog/Dialog";
+import Card from "components/Card/Card";
+import QnAContent from "components/Content/QnAContent";
+import Divider from "components/Divider/Divider";
+import Hashtag from "components/Hashtag/Hashtag";
+import styled from "styled-components";
 import {
   boxShadowBlack,
   spoqaMedium,
   spoqaMediumLight,
-} from 'styles/common/common.styled';
-import { bool, object } from 'prop-types';
-import API from 'api/api';
-import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
+} from "styles/common/common.styled";
+import { bool, object } from "prop-types";
+import API from "api/api";
+import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -68,12 +68,7 @@ const AnswerContainer = styled.div`
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
 const Answers = ({ answersList = [] }) => {
   if (!answersList.length) {
-    return (
-      <QnAContent
-        answer={false}
-        isEllipsis={false}
-      />
-    )
+    return <QnAContent answer={false} isEllipsis={false} />;
   }
 
   return (
@@ -81,16 +76,8 @@ const Answers = ({ answersList = [] }) => {
     answersList.map((answer) => {
       return (
         <React.Fragment key={answer._id}>
-          <QnAContent
-            answer={answer}
-            isEllipsis={false}
-          />
-          <Divider
-            primary={false}
-            color="gray"
-            height="1px"
-            width="50%"
-          />
+          <QnAContent answer={answer} isEllipsis={false} />
+          <Divider primary={false} color="gray" height="1px" width="50%" />
         </React.Fragment>
       );
     })
@@ -99,9 +86,7 @@ const Answers = ({ answersList = [] }) => {
 
 const InputArea = ({ isAnswered, isInputLoading }) => {
   if (isInputLoading) {
-    return (
-      <Spinner />
-    );
+    return <Spinner />;
   }
 
   if (isAnswered) return null;
@@ -127,8 +112,8 @@ export default function QnADialog({
     setIsAnswered(true);
     setIsInputLoading(true);
 
-    const getIsAnswered = async questionId => {
-      const userData = await API('/api/user-profile', 'get');
+    const getIsAnswered = async (questionId) => {
+      const userData = await API("/api/user-profile", "get");
       const check = userData[0].answeredQuestions.find(
         ({ _id }) => _id === questionId
       );
@@ -149,25 +134,25 @@ export default function QnADialog({
   if (!Object.keys(question).length) return null;
 
   return (
-    <Portal id={'dialog-container'}>
+    <Portal id={"dialog-container"}>
       <Dialog
         visible={isVisible} // 상위 컴포넌트의 state로 handle
         label="QnA 상세 내용"
         onClick={onClick}
       >
         <CardContainer>
-        <Card isDialog isQuestion title={question.content}>
-          <HashtagContainer>
-            {question.hashTag.map((keyword, idx) => {
-              return <Hashtag key={idx} type={keyword} />
-            })}
-          </HashtagContainer>
-          <Answers answersList={question.answers} />
-          <InputArea
-            isAnswered={isAnswered}
-            isInputLoading={isInputLoading}
-          />
-        </Card>
+          <Card isDialog isQuestion title={question.content}>
+            <HashtagContainer>
+              {question.hashTag.map((keyword, idx) => {
+                return <Hashtag key={idx} type={keyword} />;
+              })}
+            </HashtagContainer>
+            <Answers answersList={question.answers} />
+            <InputArea
+              isAnswered={isAnswered}
+              isInputLoading={isInputLoading}
+            />
+          </Card>
         </CardContainer>
       </Dialog>
     </Portal>

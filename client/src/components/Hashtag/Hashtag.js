@@ -1,7 +1,7 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import { bool, oneOf } from 'prop-types';
-import { boxShadowBlack, spoqaSmallBold } from 'styles/common/common.styled';
+import React from "react";
+import styled, { css } from "styled-components";
+import { bool, oneOf } from "prop-types";
+import { boxShadowBlack, spoqaSmallBold } from "styles/common/common.styled";
 
 const StyledHashtag = styled.div`
   ${boxShadowBlack}
@@ -13,49 +13,49 @@ const StyledHashtag = styled.div`
   border: none;
   border-radius: 3em;
   min-width: 7.6rem;
-  font-size: ${(props) => (props.isSelected ? 'inherit' : '1rem')};
+  font-size: ${(props) => (props.isSelected ? "inherit" : "1rem")};
   background-color: ${(props) =>
-    !props.isSelected ? `var(${props.theme})` : 'var(--color-gray1)'};
+    !props.isSelected ? `var(${props.theme})` : "var(--color-gray1)"};
   color: ${(props) =>
-    !props.isSelected ? 'var(--color-black)' : 'var(--color-gray3)'};
+    !props.isSelected ? "var(--color-black)" : "var(--color-gray3)"};
 
-${({ type }) =>
-    type === 'All' &&
+  ${({ type }) =>
+    type === "All" &&
     css`
-      color:
-        ${(props) => props.isSelected ? 'var(--color-black)' : 'var(--color-white)' };
+      color: ${(props) =>
+        props.isSelected ? "var(--color-black)" : "var(--color-white)"};
     `}
 `;
 
 /* ---------------------------- styled components --------------------------- */
 
 export default function Hashtag({ type, isSelected, isButton, clicked }) {
-  let theme = '';
+  let theme = "";
 
   switch (type) {
-    case 'All':
-      theme = '--color-black';
+    case "All":
+      theme = "--color-black";
       break;
-    case 'CSS':
-      theme = '--color-blue1';
+    case "CSS":
+      theme = "--color-blue1";
       break;
-    case 'JavaScript':
-      theme = '--color-yellow';
+    case "JavaScript":
+      theme = "--color-yellow";
       break;
-    case 'OS':
-      theme = '--color-green1';
+    case "OS":
+      theme = "--color-green1";
       break;
-    case 'Database':
-      theme = '--color-purple';
+    case "Database":
+      theme = "--color-purple";
       break;
-    case 'Network':
-      theme = '--color-blue2';
+    case "Network":
+      theme = "--color-blue2";
       break;
-    case 'Front-End':
-      theme = '--color-green2';
+    case "Front-End":
+      theme = "--color-green2";
       break;
-    case 'Back-End':
-      theme = '--color-orange';
+    case "Back-End":
+      theme = "--color-orange";
       break;
     default:
       break;
@@ -65,11 +65,11 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
       type={type}
       isSelected={isSelected}
       theme={theme}
-      role={isButton && 'button'}
-      style={isButton ? { cursor: 'pointer' } : null}
+      role={isButton && "button"}
+      style={isButton ? { cursor: "pointer" } : null}
       tabIndex={isButton ? 0 : -1}
       onClick={clicked}
-      onKeyUp={(e) => e.code === 'Space' && clicked()}
+      onKeyUp={(e) => e.code === "Space" && clicked()}
     >
       {type}
     </StyledHashtag>
@@ -80,14 +80,14 @@ export default function Hashtag({ type, isSelected, isButton, clicked }) {
 
 Hashtag.propTypes = {
   type: oneOf([
-    'CSS',
-    'JavaScript',
-    'OS',
-    'Database',
-    'Network',
-    'Front-End',
-    'Back-End',
-    'All',
+    "CSS",
+    "JavaScript",
+    "OS",
+    "Database",
+    "Network",
+    "Front-End",
+    "Back-End",
+    "All",
   ]),
   isSelected: bool,
   isButton: bool,

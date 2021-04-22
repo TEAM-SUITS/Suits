@@ -1,16 +1,22 @@
 import React from "react";
 import { bool, string, node } from "prop-types";
 import styled, { css } from "styled-components";
-import { boxShadowBlack, textShadowBlack } from "styles/common/common.styled";
+import {
+  boxShadowBlack,
+  resetList,
+  textShadowBlack,
+} from "styles/common/common.styled";
 import Icon from "components/Icon/Icon";
 import Divider from "components/Divider/Divider";
-import { Skeleton } from "@material-ui/lab";
+import Hashtag from "components/Hashtag/Hashtag";
+import { array } from "prop-types";
 
 /* ---------------------------- styled components ---------------------------- */
 
 const CardBox = styled.div`
   ${boxShadowBlack}
-  cursor: ${(props) => (props.isQuestion && !props.isDialog ? 'pointer' : 'initial')};
+  cursor: ${(props) =>
+    props.isQuestion && !props.isDialog ? "pointer" : "initial"};
   position: relative;
   min-width: 305px;
   border-radius: 10px;
@@ -23,12 +29,16 @@ const CardBox = styled.div`
   width: 100%;
 `;
 
-const SkeletonTitle = styled(Skeleton)`
-  padding: 0 3em !important;
-  margin-bottom: 1.3em !important;
-  max-width: 500px;
+const TagList = styled.ul`
+  ${resetList};
+  display: flex;
+  justify-content: space-between;
+  max-width: 300px;
   margin: 0 auto;
-  height: 1.6em;
+  margin-top: 1em;
+  li {
+    margin: 0 auto;
+  }
 `;
 /* -------------------------------------------------------------------------- */
 
@@ -36,6 +46,7 @@ export default function Card({
   isQuestion,
   isDialog,
   title,
+  tags,
   onClick,
   children,
   ...restProps
@@ -52,6 +63,15 @@ export default function Card({
     >
       {title && (
         <>
+          {tags && (
+            <TagList>
+              {tags.map((tag, idx) => (
+                <li key={idx}>
+                  <Hashtag type={tag} />
+                </li>
+              ))}
+            </TagList>
+          )}
           <CardBox.Header>
             {isQuestion && (
               <>
@@ -85,11 +105,9 @@ CardBox.Header = styled.div`
     position: absolute;
     &:first-child {
       left: 2em;
-      top: 1em;
     }
     &:nth-child(2) {
       right: 2em;
-      top: 2em;
     }
   }
 `;
@@ -102,6 +120,8 @@ CardBox.Content = styled.div`
 
 Card.propTypes = {
   isQuestion: bool,
+  isDialog: bool,
+  tags: array,
   title: string,
   children: node,
 };

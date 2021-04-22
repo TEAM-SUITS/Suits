@@ -69,6 +69,7 @@ function ResultsSection({ result = [], word = "" }) {
             key={data._id}
             isQuestion={true}
             title={data.content}
+            tags={data.hashTag}
             onClick={() => handleDialog(data._id)}
           >
             <QnAContent
