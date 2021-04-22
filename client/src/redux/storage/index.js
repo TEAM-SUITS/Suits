@@ -6,6 +6,7 @@ import { hardWorkersReducer } from "./hardWorkers/hardWorkers";
 import { trendingQReducer } from "./trendingQ/trendingQ";
 import { quoteReducer } from "./quote/quote";
 import { randomQReducer } from "./randomQ/randomQ";
+import { followingReducer } from "./following/following";
 
 /* root reducer ------------------------------------------------------------- */
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   trendingQ: trendingQReducer,
   quote: quoteReducer,
   randomQ: randomQReducer,
+  following: followingReducer,
 });
 
 export default rootReducer;
