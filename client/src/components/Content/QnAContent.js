@@ -26,10 +26,6 @@ const AnswerDetail = styled.p`
   ${spoqaSmall}
 `;
 
-const ScreenReaderSpan = styled.span`
-  ${a11yHidden}
-`;
-
 /* -------------------------------- mockdata -------------------------------- */
 const mockdata = {
   _id: "607d40dfc0fe755dc815f9c2",
@@ -56,7 +52,7 @@ export default function QnAContent({ answer, isEllipsis = true }) {
       <AnswerInfo>
         <MiniProfile user={answer.postedby || mockdata} />
         <LikeButton />
-        <ScreenReaderSpan>{answer.likes.length}</ScreenReaderSpan>
+        <span>{answer.likes.length}</span>
       </AnswerInfo>
       <AnswerDetail isEllipsis={isEllipsis}>{answer.content}</AnswerDetail>
     </QnAContainer>
