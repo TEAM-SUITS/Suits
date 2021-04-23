@@ -45,6 +45,7 @@ export default function ProfilePage() {
   const { username, avatar, likeCount, bio, tier, githubRepo, hashTag } =
     currentUserData && currentUserData[0] ? currentUserData[0] : {};
 
+  // 프로필 컴포넌트에 맞는 형식으로 전달하기 위해 이름 재지정
   const user = {
     username,
     img: avatar,
@@ -63,7 +64,7 @@ export default function ProfilePage() {
         initial="hidden"
         animate="visible"
       >
-        <Profile user={user} />
+        <Profile user={user} $isLoading={isLoading} />
         {renderAnsweredQuestions()}
       </PageContainer>
     </>
