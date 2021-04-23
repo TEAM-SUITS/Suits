@@ -1,11 +1,10 @@
-import axios from "axios";
-import Hashtag from "components/Hashtag/Hashtag";
-import Icon from "components/Icon/Icon";
-import Tier from "components/Tier/Tier";
-import React, { useState, useEffect } from "react";
-import { signOutAction } from "redux/storage/auth/auth";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
+import Hashtag from 'components/Hashtag/Hashtag';
+import Icon from 'components/Icon/Icon';
+import Tier from 'components/Tier/Tier';
+import React, { useState, useEffect } from 'react';
+import { signOutAction } from 'redux/storage/auth/auth';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import {
   museoLarge,
   spoqaMedium,
@@ -13,11 +12,14 @@ import {
   spoqaSmallBold,
   boxShadowBlack,
   resetBoxModel,
-} from "styles/common/common.styled";
-import API from "api/api";
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
-import KeywordSelect from "components/KeywordSelect/KeywordSelect";
+} from 'styles/common/common.styled';
+import API from 'api/api';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import KeywordSelect from 'components/KeywordSelect/KeywordSelect';
+import { useSelector } from 'react-redux';
+import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
+import { ReactComponent as Spinner } from '../Spinner/Spinner.svg';
 
 /* -------------------------------------------------------------------------- */
 
@@ -286,56 +288,48 @@ const Loading = styled.p`
 /* ---------------------------- styled components --------------------------- */
 
 export default function MyInfo() {
-  const [user, setUser] = useState(null);
   const [isBioActive, setIsBioActive] = useState(false);
-  const [enteredBio, setEnteredBio] = useState("");
+  const [enteredBio, setEnteredBio] = useState('');
   const [isSelectingKeywords, setIsSelectingKeywords] = useState(false);
 
   const dispatch = useDispatch();
 
-  const getUser = async () => {
-    const res = await axios.get("/api/user-profile");
-    const userData = res.data[0];
-    setUser(userData);
-    setEnteredBio(userData.bio);
-  };
+  let user = null;
+
+  const { currentUserData, isLoading } = useSelector(
+    (state) => state.currentUser
+  );
 
   useEffect(() => {
-    getUser();
-    return () => {
-      setUser(null);
-      setEnteredBio("");
-    };
-  }, []);
+    if (user) setEnteredBio(user.bio);
+  }, [user, currentUserData]);
+
+  if (isLoading) {
+    return (
+      <Loading>
+        <Spinner />
+      </Loading>
+    );
+  }
+
+  user = currentUserData[0];
 
   const handleBioChange = (e) => {
     setEnteredBio(e.target.value);
   };
 
-  const handleStartHashtagChange = () => {
+  const handleOpenHashtagChange = () => {
     setIsSelectingKeywords(true);
   };
 
-  const handleDoneHashtagChange = (selectedKeywords) => {
-    API("/api/user-profile/hashtag", "patch", { hashTag: selectedKeywords });
-    setUser((prev) => {
-      return { ...prev, hashTag: selectedKeywords };
-    });
+  const handleCloseHashtagChange = () => {
     setIsSelectingKeywords(false);
   };
 
-  const handleCancelHashtagChange = () => {
-    setIsSelectingKeywords(false);
-  };
-
-  const handleClickBioButton = () => {
-    if (isBioActive) {
-      if (enteredBio === user.bio) {
-        setIsBioActive(!isBioActive);
-        return;
-      }
-
-      API("/api/user-profile/bio", "patch", { bio: enteredBio });
+  const handleClickBioButton = async () => {
+    if (isBioActive && user.bio !== enteredBio) {
+      await API('/api/user-profile/bio', 'patch', { bio: enteredBio });
+      dispatch(fetchCurrentUserData());
     }
     setIsBioActive(!isBioActive);
   };
@@ -345,6 +339,10 @@ export default function MyInfo() {
   };
 
   const handleDelete = () => {
+    const deleteAccount = async () => {
+      await API('/api/user', 'delete');
+      dispatch(signOutAction());
+    };
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
@@ -354,9 +352,8 @@ export default function MyInfo() {
             <div>
               <button onClick={onClose}>취소</button>
               <button
-                onClick={async () => {
-                  await API("/api/user", "delete");
-                  dispatch(signOutAction());
+                onClick={() => {
+                  deleteAccount();
                   onClose();
                 }}
               >
@@ -369,68 +366,63 @@ export default function MyInfo() {
     });
   };
 
-  if (user) {
-    return (
-      <>
-        {isSelectingKeywords && (
-          <KeywordSelect
-            userKeywords={user.hashTag}
-            onDone={handleDoneHashtagChange}
-            onCancel={handleCancelHashtagChange}
+  return (
+    <>
+      {isSelectingKeywords && (
+        <KeywordSelect
+          userKeywords={user.hashTag}
+          onClose={handleCloseHashtagChange}
+        />
+      )}
+      <StyledMyInfo>
+        <StyledProfile>
+          <img src={user.avatar} alt={user.username} />
+          <div className="info">
+            <p>{user.username}</p>
+            <div className="tierContainer">
+              <Tier tier={user.tier} />
+              <Icon type="heart-active" title="likes" />
+              <span>{user.likeCount}</span>
+            </div>
+            <a href={user.githubRepo}>{user.githubRepo}</a>
+          </div>
+        </StyledProfile>
+        <div className="bio__container">
+          <div className="bio__heading-container">
+            <h3>자기소개</h3>
+            <button onClick={handleClickBioButton}>
+              {isBioActive ? '완료' : '수정'}
+            </button>
+          </div>
+          <textarea
+            disabled={!isBioActive}
+            id="bio"
+            value={enteredBio}
+            onChange={(e) => handleBioChange(e)}
+            maxLength="119"
           />
-        )}
-        <StyledMyInfo>
-          <StyledProfile>
-            <img src={user.avatar} alt={user.username} />
-            <div className="info">
-              <p>{user.username}</p>
-              <div className="tierContainer">
-                <Tier tier={user.tier} />
-                <Icon type="heart-active" title="likes" />
-                <span>{user.likeCount}</span>
-              </div>
-              <a href={user.githubRepo}>{user.githubRepo}</a>
-            </div>
-          </StyledProfile>
-          <div className="bio__container">
-            <div className="bio__heading-container">
-              <h3>자기소개</h3>
-              <button onClick={handleClickBioButton}>
-                {isBioActive ? "완료" : "수정"}
-              </button>
-            </div>
-            <textarea
-              disabled={!isBioActive}
-              id="bio"
-              value={enteredBio}
-              onChange={(e) => handleBioChange(e)}
-              maxLength="119"
-            />
-            {isBioActive && <span>{enteredBio.length}/120</span>}
+          {isBioActive && <span>{enteredBio.length}/120</span>}
+        </div>
+        <div className="hashtag__container">
+          <div className="hashtag__heading-container">
+            <h3>관심 키워드</h3>
+            <button onClick={handleOpenHashtagChange}>수정</button>
           </div>
-          <div className="hashtag__container">
-            <div className="hashtag__heading-container">
-              <h3>관심 키워드</h3>
-              <button onClick={handleStartHashtagChange}>수정</button>
-            </div>
-            <div className="hashtag__hashtags">
-              {user.hashTag.map((ht) => {
-                return <Hashtag key={ht} type={ht} />;
-              })}
-            </div>
+          <div className="hashtag__hashtags">
+            {user.hashTag.map((ht) => {
+              return <Hashtag key={ht} type={ht} />;
+            })}
           </div>
-          <div className="button__container">
-            <button className="signout" onClick={handleSignOut}>
-              로그아웃
-            </button>
-            <button className="delete-account" onClick={handleDelete}>
-              회원탈퇴
-            </button>
-          </div>
-        </StyledMyInfo>
-      </>
-    );
-  }
-
-  return <Loading>Loading...</Loading>;
+        </div>
+        <div className="button__container">
+          <button className="signout" onClick={handleSignOut}>
+            로그아웃
+          </button>
+          <button className="delete-account" onClick={handleDelete}>
+            회원탈퇴
+          </button>
+        </div>
+      </StyledMyInfo>
+    </>
+  );
 }

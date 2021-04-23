@@ -3,14 +3,17 @@ import { array, func } from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { resetList, spoqaLarge } from 'styles/common/common.styled';
-import Portal from "components/Portal/Portal";
+import Portal from 'components/Portal/Portal';
+import { useDispatch } from 'react-redux';
+import API from 'api/api';
+import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 
 const Container = styled.div`
   button {
     background-color: transparent;
     border: none;
     ${spoqaLarge}
-    position: absolute;
+    position: fixed;
     top: 1.5em;
     z-index: 999;
     cursor: pointer;
@@ -75,7 +78,7 @@ const DoneButton = styled.button`
 
 /* ---------------------------- styled component ---------------------------- */
 
-export default function KeywordSelect({ userKeywords, onDone, onCancel }) {
+export default function KeywordSelect({ userKeywords, onClose }) {
   const [selectedKeywords, setSelectedKeywords] = useState(
     userKeywords.length ? userKeywords : []
   );
@@ -91,52 +94,54 @@ export default function KeywordSelect({ userKeywords, onDone, onCancel }) {
 
   const dialogRef = React.useRef(null);
 
+  const dispatch = useDispatch();
+
   // a11y
   React.useEffect(() => {
-      const dialogNode = dialogRef.current;
-      dialogNode.setAttribute("tabIndex", -1);
-      dialogNode.focus();
+    const dialogNode = dialogRef.current;
+    dialogNode.setAttribute('tabIndex', -1);
+    dialogNode.focus();
 
-      // 다이얼로그 뒤에 영역이 모바일 보이스리더기에 읽히지 않도록 처리
-      const rootNode = document.getElementById("root");
-      rootNode.setAttribute("aria-hidden", true);
-      rootNode.style.userSelect = "none";
+    // 다이얼로그 뒤에 영역이 모바일 보이스리더기에 읽히지 않도록 처리
+    const rootNode = document.getElementById('root');
+    rootNode.setAttribute('aria-hidden', true);
+    rootNode.style.userSelect = 'none';
 
-      const handleFocusTrap = (e) => {
-        // 다이얼로그 노드
-        // const dialogNode = dialogRef.current;
-        // focusable nodes "inside" dialogNode
-        const focusableNodeList = dialogNode.querySelectorAll(
-          "a, button, input, select, textarea"
-        ); // 참고로 a 태그는 href 속성이나 tabindex 속성이 있으면 focusable함.
+    const handleFocusTrap = (e) => {
+      // 다이얼로그 노드
+      // const dialogNode = dialogRef.current;
+      // focusable nodes "inside" dialogNode
+      const focusableNodeList = dialogNode.querySelectorAll(
+        'a, button, input, select, textarea'
+      ); // 참고로 a 태그는 href 속성이나 tabindex 속성이 있으면 focusable함.
 
-        // 첫 번째 포커스 요소와 마지막 포커스 요소를 기억해놓아야
-        // 다이얼로그가 닫히지 않는 한 다이얼로그 내에서 포커싱이 순환될 수 있음.
-        const firstFocusNode = focusableNodeList[0];
-        const lastFocusNode = focusableNodeList[focusableNodeList.length - 1];
+      // 첫 번째 포커스 요소와 마지막 포커스 요소를 기억해놓아야
+      // 다이얼로그가 닫히지 않는 한 다이얼로그 내에서 포커싱이 순환될 수 있음.
+      const firstFocusNode = focusableNodeList[0];
+      const lastFocusNode = focusableNodeList[focusableNodeList.length - 1];
 
-        // 첫 번째 포커스 요소에서 shift + tab 동시에 누르면? -> 마지막 포커스 요소로 이동!
-        if (e.target === firstFocusNode && e.shiftKey && e.key === "Tab") {
-          e.preventDefault();
-          lastFocusNode.focus();
-        }
+      // 첫 번째 포커스 요소에서 shift + tab 동시에 누르면? -> 마지막 포커스 요소로 이동!
+      if (e.target === firstFocusNode && e.shiftKey && e.key === 'Tab') {
+        e.preventDefault();
+        lastFocusNode.focus();
+      }
 
-        // 마지막 포커스 요소에서 tab 누르면? -> 첫 번째 포커스 요소로 이동!
-        if (e.target === lastFocusNode && !e.shiftKey && e.key === "Tab") {
-          e.preventDefault();
-          firstFocusNode.focus();
-        }
-      };
+      // 마지막 포커스 요소에서 tab 누르면? -> 첫 번째 포커스 요소로 이동!
+      if (e.target === lastFocusNode && !e.shiftKey && e.key === 'Tab') {
+        e.preventDefault();
+        firstFocusNode.focus();
+      }
+    };
 
-      window.addEventListener("keydown", handleFocusTrap);
+    window.addEventListener('keydown', handleFocusTrap);
 
-      // clean-up function
-      return () => {
-        dialogNode.removeAttribute("tabIndex");
-        rootNode.removeAttribute("aria-hidden");
-        window.removeEventListener("keydown", handleFocusTrap);
-        rootNode.style.userSelect = "auto";
-      };
+    // clean-up function
+    return () => {
+      dialogNode.removeAttribute('tabIndex');
+      rootNode.removeAttribute('aria-hidden');
+      window.removeEventListener('keydown', handleFocusTrap);
+      rootNode.style.userSelect = 'auto';
+    };
   }, []);
 
   const handleClick = (keyword) => {
@@ -152,21 +157,26 @@ export default function KeywordSelect({ userKeywords, onDone, onCancel }) {
     }
   };
 
-  const submitSelectedKeywords = () => {
-    if (userKeywords === selectedKeywords) {
-      onCancel();
-      return;
+  const submitSelectedKeywords = async () => {
+    if (userKeywords !== selectedKeywords) {
+      await API('/api/user-profile/hashtag', 'patch', {
+        hashTag: selectedKeywords,
+      });
+      await API('/api/user-profile/first-login', 'patch', {
+        firstLogin: false,
+      });
+      dispatch(fetchCurrentUserData());
     }
-    onDone(selectedKeywords);
+    onClose();
   };
 
   const cancelKeywordSelect = () => {
     setSelectedKeywords(userKeywords.length ? userKeywords : []);
-    onCancel();
+    onClose();
   };
 
   return (
-    <Portal id={"dialog-container"}>
+    <Portal id={'dialog-container'}>
       <Container ref={dialogRef} label="관심 키워드 선택 다이얼로그">
         <CancelButton onClick={cancelKeywordSelect}>Cancel</CancelButton>
         <Backdrop $opacity={0.8} />
