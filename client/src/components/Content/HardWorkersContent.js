@@ -1,9 +1,10 @@
-import HardWorker from 'components/HardWorker/HardWorker';
-import React from 'react';
-import styled from 'styled-components';
-import { resetList } from 'styles/common/common.styled';
-import { array, bool } from 'prop-types';
-import { Skeleton } from '@material-ui/lab';
+import HardWorker from "components/HardWorker/HardWorker";
+import React from "react";
+import styled from "styled-components";
+import { resetList } from "styles/common/common.styled";
+import { array, bool } from "prop-types";
+import { Skeleton } from "@material-ui/lab";
+import ProfileDialog from "containers/ProfileDialog/ProfileDialog";
 
 const HardWorkers = styled.ul`
   ${resetList}
@@ -82,6 +83,12 @@ const HardWorkersSkeleton = (
   </>
 );
 
+/* ----------------------------- functions ---------------------------- */
+
+const handleProfileView = (id) => {
+  console.log(id);
+};
+
 /* ----------------------------- skeleton ---------------------------- */
 
 export default function HardWorkersContent({ users, $isLoading }) {
@@ -94,6 +101,7 @@ export default function HardWorkersContent({ users, $isLoading }) {
             username={username}
             img={avatar}
             tier={tier}
+            $onClick={() => handleProfileView(_id)}
           />
         ))
       : HardWorkersSkeleton;
