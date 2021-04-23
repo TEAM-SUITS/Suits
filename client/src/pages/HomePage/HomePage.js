@@ -18,6 +18,7 @@ import QnAContent from 'components/Content/QnAContent';
 import Button from 'components/Button/Button';
 import { Skeleton } from '@material-ui/lab';
 import KeywordSelect from 'components/KeywordSelect/KeywordSelect';
+import API from 'api/api';
 
 /* ---------------------------- styled components --------------------------- */
 

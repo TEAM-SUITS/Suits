@@ -13,7 +13,7 @@ const Container = styled.div`
     background-color: transparent;
     border: none;
     ${spoqaLarge}
-    position: absolute;
+    position: fixed;
     top: 1.5em;
     z-index: 999;
     cursor: pointer;
@@ -161,6 +161,9 @@ export default function KeywordSelect({ userKeywords, onClose }) {
     if (userKeywords !== selectedKeywords) {
       await API('/api/user-profile/hashtag', 'patch', {
         hashTag: selectedKeywords,
+      });
+      await API('/api/user-profile/first-login', 'patch', {
+        firstLogin: false,
       });
       dispatch(fetchCurrentUserData());
     }
