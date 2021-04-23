@@ -78,11 +78,21 @@ const SkeletonCard = styled(Skeleton)`
   ${SkeletonStyle}
   padding: 1em;
   border-radius: 10px;
-  width: ${(props) => props.width};
+  // 모바일
+  @media screen and (max-width: 480px) {
+    min-width: 248px;
+    width: 248px;
+  }
 `;
 
 const SkeletonDivider = styled(Skeleton)`
   ${SkeletonStyle}
+  // 모바일
+  @media screen and (max-width: 480px) {
+    min-width: 200px;
+    width: 200px;
+    margin: 3em auto;
+  }
 `;
 
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
@@ -145,10 +155,6 @@ export default function QnADialog({
     if (question._id) {
       getIsAnswered(question._id);
     }
-
-    return () => {
-      isVisible = false;
-    };
   }, [question._id]);
 
   // if (!Object.keys(question).length) return null;
