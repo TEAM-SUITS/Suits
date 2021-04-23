@@ -1,20 +1,20 @@
-import API from 'api/api';
+import API from "api/api";
 
 /* ------------------------------ action types ------------------------------ */
-const READ_CURRENT_USER = '현재 사용자 정보 조회';
-const GET_CURRENT_USER = '현재 사용자 정보 요청';
-const GET_CURRENT_USER_SUCCESS = '현재 사용자 정보 요청 성공';
-const GET_CURRENT_USER_FAILURE = '현재 사용자 정보 요청 실패';
+const READ_CURRENT_USER = "현재 사용자 정보 조회";
+const GET_CURRENT_USER = "현재 사용자 정보 요청";
+const GET_CURRENT_USER_SUCCESS = "현재 사용자 정보 요청 성공";
+const GET_CURRENT_USER_FAILURE = "현재 사용자 정보 요청 실패";
 
 /* ---------------------------------- thunk --------------------------------- */
-export const fetchCurrentUserData = () => async dispatch => {
+export const fetchCurrentUserData = () => async (dispatch) => {
   // 요청 시작
   dispatch({ type: GET_CURRENT_USER });
 
   // API 호출
   try {
     // 성공했을 때
-    const currentUserData = await API('/api/user-profile', 'get');
+    const currentUserData = await API("/api/user-profile", "get");
     dispatch({ type: GET_CURRENT_USER_SUCCESS, currentUserData });
   } catch (error) {
     // 실패했을 때
@@ -22,6 +22,9 @@ export const fetchCurrentUserData = () => async dispatch => {
   }
 };
 
+export const readCurrentUserData = () => (dispatch) => {
+  dispatch({ type: GET_CURRENT_USER });
+};
 /* ------------------------- initial state + reducer ------------------------ */
 const initialState = {
   isLoading: false,

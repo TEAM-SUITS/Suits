@@ -17,6 +17,7 @@ import TrendingQuestionContent from "components/Content/TrendingQuestionContent"
 import QnAContent from "components/Content/QnAContent";
 import Button from "components/Button/Button";
 import { Skeleton } from "@material-ui/lab";
+import ProfileDialog from "containers/ProfileDialog/ProfileDialog";
 
 /* ---------------------------- styled components --------------------------- */
 

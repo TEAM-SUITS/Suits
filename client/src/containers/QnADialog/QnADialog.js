@@ -15,6 +15,7 @@ import { bool, object } from "prop-types";
 import API from "api/api";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 import { Skeleton } from "@material-ui/lab";
+import { useSelector } from "react-redux";
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -124,18 +125,18 @@ export default function QnADialog({
   question = {},
   onClick, // 닫기 버튼 제어
 }) {
+  const { currentUserData: userData } = useSelector(
+    (state) => state.currentUser
+  );
   const [isAnswered, setIsAnswered] = useState(null);
   const [isInputLoading, setIsInputLoading] = useState(null);
 
   useEffect(() => {
-    setIsAnswered(true);
     setIsInputLoading(true);
-
-    const getIsAnswered = async (questionId) => {
-      const userData = await API("/api/user-profile", "get");
-      const check = userData[0].answeredQuestions.find(
-        ({ _id }) => _id === questionId
-      );
+    const getIsAnswered = (questionId) => {
+      const check =
+        userData &&
+        userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
 
       check ? setIsAnswered(true) : setIsAnswered(false);
       setIsInputLoading(false);
