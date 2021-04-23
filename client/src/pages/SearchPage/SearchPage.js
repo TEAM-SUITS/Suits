@@ -31,21 +31,6 @@ const InfoMsg = styled.p`
   color: var(--color-gray3);
 `;
 
-const SkeletonStyle = css`
-  min-width: 305px;
-  max-width: 688px;
-  /* margin: 3em; */
-  background-color: #e6e6e6;
-  border-radius: 10px;
-`;
-
-const SkeletonCard = styled(Skeleton)`
-  ${SkeletonStyle}
-  padding: 1em;
-  width: 100%;
-  margin-top: 28px;
-`;
-
 /* ---------------------------------- 검색 영역 --------------------------------- */
 function ResultsSection({ result = [], word = "", isLoading }) {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
