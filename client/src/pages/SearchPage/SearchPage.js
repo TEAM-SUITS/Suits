@@ -37,14 +37,7 @@ function ResultsSection({ result = [], word = "" }) {
     setQuestion(res);
     setIsDialogVisible(true);
   };
-  // const showDialog = async id => {
-  //   const res = await axios.get(`/api/questions/${id}`);
-  //   setQuestion(res.data);
-  // };
-  // useEffect(() => {
-  //   showDialog(questionId);
-  //   setIsDialogVisible(true);
-  // }, [questionId]);
+
   if (result === null || word === "") {
     return <InfoMsg>검색하실 단어를 입력해주세요.</InfoMsg>;
   }
@@ -61,7 +54,10 @@ function ResultsSection({ result = [], word = "" }) {
     <>
       <QnADialog
         isVisible={isDialogVisible}
-        onClick={() => setIsDialogVisible(false)}
+        onClick={() => {
+          setIsDialogVisible(false);
+          setQuestion({});
+        }}
         question={question}
       />
       {result.map((data, idx) => (
@@ -70,7 +66,10 @@ function ResultsSection({ result = [], word = "" }) {
           isQuestion={true}
           title={data.content}
           tags={data.hashTag}
-          onClick={() => handleDialog(data._id)}
+          onClick={() => {
+            setIsDialogVisible(true);
+            handleDialog(data._id);
+          }}
         >
           <QnAContent
             answer={
