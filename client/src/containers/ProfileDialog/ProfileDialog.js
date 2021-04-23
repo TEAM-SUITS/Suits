@@ -36,7 +36,12 @@ const FontSizeContainer = styled.div`
 `;
 
 /* -------------------------------------------------------------------------- */
-export default function ProfileDialog({ isVisible, user, $onClick }) {
+export default function ProfileDialog({
+  isVisible,
+  user,
+  $onClick,
+  $isLoading,
+}) {
   return (
     <Portal id={"dialog-container"}>
       <Dialog
@@ -48,6 +53,7 @@ export default function ProfileDialog({ isVisible, user, $onClick }) {
         <FontSizeContainer>
           <Profile
             user={user}
+            $isLoading={$isLoading}
             // 상위 컴포넌트로부터 전달 받은
             // 클릭된 유저의 데이터
           />

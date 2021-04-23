@@ -109,7 +109,7 @@ const ProfileSkeleton = (
   <StyledProfile>
     <ProfileSkeletonImage variant="circle" animation="wave" />
     <InfoContainer>
-      <Skeleton variant="h2" animation="wave" />
+      <Skeleton variant="text" animation="wave" />
       <TierContainer>
         <Skeleton className="tier" animation="wave" />
         <Skeleton className="likes" animation="wave" />
@@ -123,7 +123,7 @@ const ProfileSkeleton = (
 
 /* ---------------------------- styled components --------------------------- */
 
-export default function Profile({ user = {}, $isLoading }) {
+export default function Profile({ user, $isLoading }) {
   const { username, img, tier, hashtag, github, bio, like } = user;
   return user && !$isLoading ? (
     <StyledProfile>

@@ -89,39 +89,48 @@ const HardWorkersSkeleton = (
 export default function HardWorkersContent({ users, $isLoading }) {
   const [isDialogVisible, setDialogVisiblity] = useState(false);
   const [profile, setProfile] = useState({});
+  const [isLoading, setLoading] = useState(false);
 
   const handleDialog = async (id) => {
     setDialogVisiblity(true);
-    const data = await API(`/api/user-profile/${id}`, "get");
-    const {
-      username,
-      avatar,
-      tier,
-      hashTag,
-      githubRepo,
-      bio,
-      likeCount,
-    } = data[0];
-    setProfile({
-      username,
-      img: avatar,
-      tier,
-      hashtag: hashTag,
-      github: githubRepo,
-      bio,
-      like: likeCount,
-    });
+    // profile에 맞게 데이터를 전달해주기 위해 가공
+    try {
+      setLoading(true);
+      const data = await API(`/api/user-profile/${id}`, "get");
+      const {
+        username,
+        avatar,
+        tier,
+        hashTag,
+        githubRepo,
+        bio,
+        likeCount,
+      } = data[0];
+      setProfile({
+        username,
+        img: avatar,
+        tier,
+        hashtag: hashTag,
+        github: githubRepo,
+        bio,
+        like: likeCount,
+      });
+    } catch (err) {
+      console.err(err);
+    } finally {
+      setLoading(false);
+    }
   };
-
   const userItems =
     users && !$isLoading
-      ? users.map(({ _id, username, avatar, tier }) => (
+      ? users.map(({ _id, username, avatar, tier, likeCount }) => (
           <HardWorker
             key={_id}
             id={_id}
             username={username}
             img={avatar}
             tier={tier}
+            likeCount={likeCount}
             $onClick={() => handleDialog(_id)}
           />
         ))
@@ -132,6 +141,7 @@ export default function HardWorkersContent({ users, $isLoading }) {
       <HardWorkers>{userItems}</HardWorkers>
       <ProfileDialog
         isVisible={isDialogVisible}
+        $isLoading={isLoading}
         $onClick={() => {
           setDialogVisiblity(false);
           setProfile({});

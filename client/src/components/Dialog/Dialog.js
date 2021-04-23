@@ -16,7 +16,7 @@ const DialogContainer = styled.div.attrs((props) => ({
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 60vw;
+  width: 60v;
   min-width: 305px;
   border-radius: 10px;
   padding: 2em 0 0;
@@ -24,6 +24,11 @@ const DialogContainer = styled.div.attrs((props) => ({
 
   @media screen and (min-width: 480px) {
     min-width: 400px;
+    min-height: 250px;
+  }
+
+  @media screen and (max-width: 480px) {
+    min-width: 100vw;
   }
 `;
 
@@ -46,8 +51,7 @@ const CloseButton = styled.button.attrs(() => ({
 const Header = styled.h1`
   text-align: center;
   display: block;
-  margin: 0;
-  padding: 0;
+  margin-top: 0;
   font-size: 2rem;
 `;
 
