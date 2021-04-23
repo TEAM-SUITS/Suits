@@ -107,7 +107,7 @@ export default function Profile({ user }) {
         )}
       </div>
       <div className="hashtags">
-        {hashtag.length !== 0 ? (
+        {hashtag && hashtag.length !== 0 ? (
           hashtag.map((tag) => <Hashtag key={tag} type={tag} />)
         ) : (
           <StyledLink

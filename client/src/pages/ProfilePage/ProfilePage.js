@@ -42,15 +42,8 @@ export default function ProfilePage() {
     }
   };
 
-  const {
-    username,
-    avatar,
-    likeCount,
-    bio,
-    tier,
-    githubRepo,
-    hashTag,
-  } = currentUserData[0];
+  const { username, avatar, likeCount, bio, tier, githubRepo, hashTag } =
+    currentUserData && currentUserData[0] ? currentUserData[0] : {};
 
   const user = {
     username,
