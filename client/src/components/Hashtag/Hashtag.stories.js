@@ -25,6 +25,7 @@ export default {
         'Front-End',
         'Back-End',
         'All',
+        'ETC',
       ],
       description: '관심 키워드 지정',
     },
@@ -34,6 +35,12 @@ export default {
         '관심 키워드로 선택 전 - 타입별 배경색 적용, 선택 후 - 회색 배경 적용',
       defaultValue: false,
     },
+    children: {
+      description:
+        'type을 ETC로 지정시 children에 커스텀 레이블을 작성가능함',
+    },
+
+
   },
 };
 
