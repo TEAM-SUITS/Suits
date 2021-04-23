@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { resetList, spoqaMedium, spoqaLarge } from "styles/common/common.styled";
 import { Link } from "react-router-dom";
 import PageContainer from "containers/PageContainer/PageContainer.styled";
@@ -12,6 +12,7 @@ import Card from "components/Card/Card";
 import QnAContent from "components/Content/QnAContent";
 import QnADialog from "containers/QnADialog/QnADialog";
 import API from "api/api";
+import { Skeleton } from "@material-ui/lab";
 
 /* ---------------------------- styled components --------------------------- */
 const HashtagList = styled.ul`
@@ -84,12 +85,41 @@ const InfoText = styled.p`
   }
 `;
 
-// // 무한업데이트 방지
-// let keywords = [];
-// let cardData = {};
+const SkeletonStyle = css`
+  min-width: 305px;
+  max-width: 688px;
+  /* margin: 3em; */
+  background-color: #e6e6e6;
+  border-radius: 10px;
+`;
+
+const SkeletonCard = styled(Skeleton)`
+  ${SkeletonStyle}
+  padding: 1em;
+  width: 400px;
+  margin-top: 28px;
+
+  // 모바일
+  @media screen and (max-width: 480px) {
+    width: 350px;
+    margin-top: 35px;
+  }
+`;
+
+const SkeletonTitle = styled(Skeleton)`
+  ${SkeletonStyle}
+  margin-top: 30px;
+  width: 470px;
+
+  // 모바일
+  @media screen and (max-width: 480px) {
+    width: 350px;
+  }
+`;
 
 /* ------------------------------ card section ------------------------------ */
 function CardSection({
+  isLoading,
   cardData = {},
   currentTag = '',
   onClick,
@@ -100,10 +130,9 @@ function CardSection({
   const handleDialog = async (id) => {
     const res = await API(`/api/questions/${id}`, "get");
     setQuestion(res);
-    // setIsDialogVisible(true);
   };
 
-  if (!keywords.length) {
+  if (!isLoading && !keywords.length) {
     return (
       <>
         <ImageSection />
@@ -147,7 +176,13 @@ function CardSection({
           ))}
       </HashtagList>
       <CardList>
-        {cardData &&
+        {cardData ? (isLoading ? (
+          <>
+            <SkeletonCard variant="rect" height="20em" />
+            <SkeletonCard variant="rect" height="20em" />
+            <SkeletonCard variant="rect" height="20em" />
+          </>
+        ) : (
           cardData.docs.map(data => (
             <li key={data._id}>
               <Card
@@ -177,7 +212,14 @@ function CardSection({
                 />
               </Card>
             </li>
-          ))}
+          )))
+        ) : (
+          <>
+            <SkeletonCard variant="rect" height="20em" />
+            <SkeletonCard variant="rect" height="20em" />
+            <SkeletonCard variant="rect" height="20em" />
+          </>
+        )}
       </CardList>
     </>
   );
@@ -214,12 +256,22 @@ export default function FollowingPage() {
         initial="hidden"
         animate="visible"
       >
-        <CardSection
-          cardData={followingState.followingData}
-          currentTag={currentTag}
-          onClick={onClick}
-          keywords={keywords}
-        />
+        {userState.currentUserData ? (
+          <CardSection
+            isLoading={followingState.isLoading}
+            cardData={followingState.followingData}
+            currentTag={currentTag}
+            onClick={onClick}
+            keywords={keywords}
+          />
+        ) : (
+          <>
+            <SkeletonTitle variant="rect" height="2.8em" />
+            <SkeletonCard variant="rect" height="20em" />
+            <SkeletonCard variant="rect" height="20em" />
+            <SkeletonCard variant="rect" height="20em" />
+          </>
+        )}
       </PageContainer>
     </>
   );

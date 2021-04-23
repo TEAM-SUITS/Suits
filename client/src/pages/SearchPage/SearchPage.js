@@ -7,11 +7,14 @@ import SearchHeaderBar from "containers/SearchHeaderBar/SearchHeaderBar";
 import Card from "components/Card/Card";
 import QnAContent from "components/Content/QnAContent";
 import { fetchSearchData } from "redux/storage/search/search";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { spoqaMedium } from "styles/common/common.styled";
 import { array, string } from "prop-types";
 import QnADialog from "containers/QnADialog/QnADialog";
 import API from "api/api";
+import { Skeleton } from "@material-ui/lab";
+import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
+
 /* ---------------------------- styled components --------------------------- */
 const InfoImg = styled.img`
   display: block;
@@ -27,8 +30,24 @@ const InfoMsg = styled.p`
   text-align: center;
   color: var(--color-gray3);
 `;
+
+const SkeletonStyle = css`
+  min-width: 305px;
+  max-width: 688px;
+  /* margin: 3em; */
+  background-color: #e6e6e6;
+  border-radius: 10px;
+`;
+
+const SkeletonCard = styled(Skeleton)`
+  ${SkeletonStyle}
+  padding: 1em;
+  width: 100%;
+  margin-top: 28px;
+`;
+
 /* ---------------------------------- 검색 영역 --------------------------------- */
-function ResultsSection({ result = [], word = "" }) {
+function ResultsSection({ result = [], word = "", isLoading }) {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [question, setQuestion] = useState({});
   // 이벤트 핸들러(QnA 다이얼로그 제어)
@@ -38,11 +57,18 @@ function ResultsSection({ result = [], word = "" }) {
     setIsDialogVisible(true);
   };
 
+  // 로딩 중일 때
+  if (isLoading) {
+    return (
+      <Spinner />
+    );
+  }
+
   if (result === null || word === "") {
     return <InfoMsg>검색하실 단어를 입력해주세요.</InfoMsg>;
   }
   // 검색 결과가 존재하지 않을 경우
-  if (!result.length) {
+  if (!isLoading && !result.length) {
     return (
       <>
         <InfoImg src="assets/empty.png" alt="검색 결과 없음" />
@@ -97,6 +123,7 @@ export default function SearchPage() {
   const searchState = useSelector((state) => state.search);
   const [searchWord, setSearchWord] = useState(searchState.searchWord);
   const [prevSearchWord, setPrevSearchWord] = useState(searchWord);
+
   useEffect(() => {
     dispatch(fetchSearchData(searchWord, prevSearchWord));
   }, [searchWord, dispatch]);
@@ -131,7 +158,11 @@ export default function SearchPage() {
           initialWord={searchWord}
         />
         <TextHeaderBar page="search" />
-        <ResultsSection result={searchState.searchData} word={searchWord} />
+          <ResultsSection
+            result={searchState.searchData}
+            word={searchWord}
+            isLoading={searchState.isLoading}
+          />
       </PageContainer>
     </>
   );
