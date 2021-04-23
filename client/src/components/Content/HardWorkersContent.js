@@ -1,10 +1,11 @@
 import HardWorker from "components/HardWorker/HardWorker";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { resetList } from "styles/common/common.styled";
 import { array, bool } from "prop-types";
 import { Skeleton } from "@material-ui/lab";
 import ProfileDialog from "containers/ProfileDialog/ProfileDialog";
+import API from "api/api";
 
 const HardWorkers = styled.ul`
   ${resetList}
@@ -83,15 +84,35 @@ const HardWorkersSkeleton = (
   </>
 );
 
-/* ----------------------------- functions ---------------------------- */
-
-const handleProfileView = (id) => {
-  console.log(id);
-};
-
 /* ----------------------------- skeleton ---------------------------- */
 
 export default function HardWorkersContent({ users, $isLoading }) {
+  const [isDialogVisible, setDialogVisiblity] = useState(false);
+  const [profile, setProfile] = useState({});
+
+  const handleDialog = async (id) => {
+    setDialogVisiblity(true);
+    const data = await API(`/api/user-profile/${id}`, "get");
+    const {
+      username,
+      avatar,
+      tier,
+      hashTag,
+      githubRepo,
+      bio,
+      likeCount,
+    } = data[0];
+    setProfile({
+      username,
+      img: avatar,
+      tier,
+      hashtag: hashTag,
+      github: githubRepo,
+      bio,
+      like: likeCount,
+    });
+  };
+
   const userItems =
     users && !$isLoading
       ? users.map(({ _id, username, avatar, tier }) => (
@@ -101,12 +122,24 @@ export default function HardWorkersContent({ users, $isLoading }) {
             username={username}
             img={avatar}
             tier={tier}
-            $onClick={() => handleProfileView(_id)}
+            $onClick={() => handleDialog(_id)}
           />
         ))
       : HardWorkersSkeleton;
 
-  return <HardWorkers>{userItems}</HardWorkers>;
+  return (
+    <>
+      <HardWorkers>{userItems}</HardWorkers>
+      <ProfileDialog
+        isVisible={isDialogVisible}
+        $onClick={() => {
+          setDialogVisiblity(false);
+          setProfile({});
+        }}
+        user={profile}
+      />
+    </>
+  );
 }
 
 /* -------------------------------- propTypes ------------------------------- */

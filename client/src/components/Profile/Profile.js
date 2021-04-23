@@ -123,7 +123,7 @@ const ProfileSkeleton = (
 
 /* ---------------------------- styled components --------------------------- */
 
-export default function Profile({ user, $isLoading }) {
+export default function Profile({ user = {}, $isLoading }) {
   const { username, img, tier, hashtag, github, bio, like } = user;
   return user && !$isLoading ? (
     <StyledProfile>
@@ -168,6 +168,6 @@ export default function Profile({ user, $isLoading }) {
 /* -------------------------------- propTypes ------------------------------- */
 
 Profile.propTypes = {
-  user: object.isRequired,
+  user: object,
   $isLoading: bool,
 };
