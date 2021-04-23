@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { object } from "prop-types";
+import { object, bool } from "prop-types";
 import Tier from "components/Tier/Tier";
 import Hashtag from "components/Hashtag/Hashtag";
 import {
@@ -11,6 +11,7 @@ import {
 import Icon from "components/Icon/Icon";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Skeleton } from "@material-ui/lab";
 
 const StyledProfile = styled.div`
   display: flex;
@@ -30,33 +31,7 @@ const StyledProfile = styled.div`
       height: 150px;
     }
   }
-  .info {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-  }
-  h2 {
-    ${museoLarge};
-    margin: 0;
-  }
-  .tierContainer {
-    display: flex;
-    align-items: center;
-    img {
-      width: 100px;
-      margin-right: 1em;
-    }
-    svg {
-      width: 2em;
-      margin-right: 0.5em;
-      path {
-        fill: var(--color-red);
-      }
-    }
-    span {
-      font-size: 1.8rem;
-    }
-  }
+
   a {
     text-decoration: none;
     color: var(--color-gray3);
@@ -81,22 +56,85 @@ const StyledProfile = styled.div`
   }
 `;
 
+const InfoContainer = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  h2 {
+    ${museoLarge};
+    margin: 0;
+  }
+`;
+
+const TierContainer = styled.div`
+  display: flex;
+  align-items: center;
+  .tier {
+    width: 100px;
+    margin-right: 1em;
+  }
+  .likes {
+    width: 2em;
+    margin-right: 0.5em;
+    path {
+      fill: var(--color-red);
+    }
+  }
+  .likes-count {
+    font-size: 1.8rem;
+  }
+`;
+
 const StyledLink = styled(motion(Link))``;
+
+/* ---------------------------- Skeleton UI --------------------------- */
+
+const ProfileSkeletonImage = styled(Skeleton)`
+  width: 100px !important;
+  height: 100px !important;
+  margin-right: 1.6em;
+  @media screen and (min-width: 480px) {
+    width: 150px !important;
+    height: 150px !important;
+  }
+`;
+
+const HashTagSkeleton = styled(Skeleton)`
+  position: absolute;
+  bottom: 2em;
+  width: 5em;
+`;
+
+const ProfileSkeleton = (
+  <StyledProfile>
+    <ProfileSkeletonImage variant="circle" animation="wave" />
+    <InfoContainer>
+      <Skeleton variant="h2" animation="wave" />
+      <TierContainer>
+        <Skeleton className="tier" animation="wave" />
+        <Skeleton className="likes" animation="wave" />
+      </TierContainer>
+      <Skeleton animation="wave" />
+      <Skeleton varaiant="rect" animation="wave" height={50} />
+    </InfoContainer>
+    <HashTagSkeleton />
+  </StyledProfile>
+);
 
 /* ---------------------------- styled components --------------------------- */
 
-export default function Profile({ user }) {
+export default function Profile({ user, $isLoading }) {
   const { username, img, tier, hashtag, github, bio, like } = user;
-  return (
+  return user && !$isLoading ? (
     <StyledProfile>
       <img src={img} alt={username} />
-      <div className="info">
+      <InfoContainer>
         <h2>{username}</h2>
-        <div className="tierContainer">
-          <Tier tier={tier} />
-          <Icon type="heart-active" title="likes" />
-          <span>{like}</span>
-        </div>
+        <TierContainer>
+          <Tier className="tier" tier={tier} />
+          <Icon className="likes" type="heart-active" title="likes" />
+          <span className="likes-count">{like}</span>
+        </TierContainer>
         <a href={github}>{github}</a>
         {bio ? (
           <p>{bio}</p>
@@ -105,7 +143,7 @@ export default function Profile({ user }) {
             소개말 등록
           </StyledLink>
         )}
-      </div>
+      </InfoContainer>
       <div className="hashtags">
         {hashtag && hashtag.length !== 0 ? (
           hashtag.map((tag) => <Hashtag key={tag} type={tag} />)
@@ -122,6 +160,8 @@ export default function Profile({ user }) {
         )}
       </div>
     </StyledProfile>
+  ) : (
+    ProfileSkeleton
   );
 }
 
@@ -129,4 +169,5 @@ export default function Profile({ user }) {
 
 Profile.propTypes = {
   user: object.isRequired,
+  $isLoading: bool,
 };
