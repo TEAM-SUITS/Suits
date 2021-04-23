@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { museoSmall, textShadowBlack } from 'styles/common/common.styled';
-import { string, number } from 'prop-types';
-import Tier from 'components/Tier/Tier';
+import React from "react";
+import styled from "styled-components";
+import { museoSmall, textShadowBlack } from "styles/common/common.styled";
+import { string, number } from "prop-types";
+import Tier from "components/Tier/Tier";
 
 const StyledHardWorker = styled.div`
   display: flex;
@@ -58,16 +58,13 @@ StyledHardWorker.Username = styled.h3`
 
 export default function HardWorker({
   id,
-  img = 'https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg',
-  username = 'username',
+  img = "https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg",
+  username = "username",
   tier = 1,
+  $onClick,
 }) {
-  const goToProfile = (id) => {
-    console.log(id + '을 아이디로 가진 유저의 프로필 페이지로 이동');
-  };
-
   return (
-    <StyledHardWorker onClick={() => goToProfile(id)}>
+    <StyledHardWorker onClick={$onClick}>
       <StyledHardWorker.Image img={img} role="img" aria-label={username} />
       <StyledHardWorker.Username>{username}</StyledHardWorker.Username>
       <Tier tier={tier} />

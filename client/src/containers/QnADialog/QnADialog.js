@@ -15,6 +15,7 @@ import { bool, object } from "prop-types";
 import API from "api/api";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 import { Skeleton } from "@material-ui/lab";
+import { useSelector } from "react-redux";
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -77,11 +78,21 @@ const SkeletonCard = styled(Skeleton)`
   ${SkeletonStyle}
   padding: 1em;
   border-radius: 10px;
-  width: ${(props) => props.width};
+  // 모바일
+  @media screen and (max-width: 480px) {
+    min-width: 248px;
+    width: 248px;
+  }
 `;
 
 const SkeletonDivider = styled(Skeleton)`
   ${SkeletonStyle}
+  // 모바일
+  @media screen and (max-width: 480px) {
+    min-width: 200px;
+    width: 200px;
+    margin: 3em auto;
+  }
 `;
 
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
@@ -124,18 +135,18 @@ export default function QnADialog({
   question = {},
   onClick, // 닫기 버튼 제어
 }) {
+  const { currentUserData: userData } = useSelector(
+    (state) => state.currentUser
+  );
   const [isAnswered, setIsAnswered] = useState(null);
   const [isInputLoading, setIsInputLoading] = useState(null);
 
   useEffect(() => {
-    setIsAnswered(true);
     setIsInputLoading(true);
-
-    const getIsAnswered = async (questionId) => {
-      const userData = await API("/api/user-profile", "get");
-      const check = userData[0].answeredQuestions.find(
-        ({ _id }) => _id === questionId
-      );
+    const getIsAnswered = (questionId) => {
+      const check =
+        userData &&
+        userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
 
       check ? setIsAnswered(true) : setIsAnswered(false);
       setIsInputLoading(false);
@@ -144,10 +155,6 @@ export default function QnADialog({
     if (question._id) {
       getIsAnswered(question._id);
     }
-
-    return () => {
-      isVisible = false;
-    };
   }, [question._id]);
 
   // if (!Object.keys(question).length) return null;

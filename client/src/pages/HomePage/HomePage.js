@@ -17,6 +17,7 @@ import TrendingQuestionContent from "components/Content/TrendingQuestionContent"
 import QnAContent from "components/Content/QnAContent";
 import Button from "components/Button/Button";
 import { Skeleton } from "@material-ui/lab";
+import KeywordSelect from "components/KeywordSelect/KeywordSelect";
 
 /* ---------------------------- styled components --------------------------- */
 
@@ -56,7 +57,11 @@ const SkeletonCard = styled(Skeleton)`
 
 export default function HomePage() {
   const [quoteLanguage, setQuoteLanguage] = useState("ko");
+  const [isSelectingKeywords, setIsSelectingKeywords] = useState(false);
+
   const dispatch = useDispatch();
+
+  const { currentUserData } = useSelector((state) => state.currentUser);
 
   const {
     randomQData,
@@ -89,8 +94,19 @@ export default function HomePage() {
     dispatch(fetchHardWorkersData("init"));
   }, [dispatch]);
 
+  useEffect(() => {
+    if (currentUserData && currentUserData[0].firstLogin)
+      setIsSelectingKeywords(true);
+  }, [currentUserData]);
+
   return (
     <>
+      {isSelectingKeywords && (
+        <KeywordSelect
+          userKeywords={currentUserData[0].hashTag}
+          onClose={() => setIsSelectingKeywords(false)}
+        />
+      )}
       <TextHeaderBar page="home" />
       <PageContainer
         page="home"
