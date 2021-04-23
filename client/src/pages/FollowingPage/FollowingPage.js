@@ -96,7 +96,7 @@ const SkeletonStyle = css`
 const SkeletonCard = styled(Skeleton)`
   ${SkeletonStyle}
   padding: 1em;
-  width: 400px;
+  width: 470px;
   margin-top: 28px;
 
   // 모바일
@@ -109,7 +109,7 @@ const SkeletonCard = styled(Skeleton)`
 const SkeletonTitle = styled(Skeleton)`
   ${SkeletonStyle}
   margin-top: 30px;
-  width: 470px;
+  width: 400px;
 
   // 모바일
   @media screen and (max-width: 480px) {
