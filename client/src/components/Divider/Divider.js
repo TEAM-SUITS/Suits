@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { string } from "prop-types";
+import React from 'react';
+import styled from 'styled-components';
+import { string } from 'prop-types';
 
 const HorizontalLine = styled.hr`
-  height: ${({ height }) => (height ? height : "1px")};
-  width: ${({ width }) => (width ? width : "100%")};
-  background-color: ${({ color }) => (color ? color : "var(--color-gray2)")};
-  margin: ${({ margin }) => (margin ? margin : "1em auto")};
+  height: ${({ height }) => (height ? height : '1px')};
+  width: ${({ width }) => (width ? width : '100%')};
+  background-color: ${({ color }) => (color ? color : 'var(--color-gray4)')};
+  margin: ${({ margin }) => (margin ? margin : '1em auto')};
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -23,7 +23,7 @@ export default function Divider({
     <HorizontalLine
       height={height}
       width={width}
-      color={primary ? "#EB5022" : color}
+      color={primary ? '#EB5022' : color}
       margin={margin}
       {...restProps}
     />

@@ -1,6 +1,6 @@
-import styled, { css } from "styled-components";
-import { motion } from "framer-motion";
-import { forwardRef } from "react";
+import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
+import { forwardRef } from 'react';
 
 const Container = forwardRef((props, ref) => {
   return <div ref={ref} {...props}></div>;
@@ -12,19 +12,19 @@ const PageContainer = styled(motion(Container))`
   align-items: center;
   justify-content: center;
   margin: ${({ margin }) =>
-    margin ? margin : "7.5em 0"}; //4.5em(네비게이션) + 3em 마진(기본)
+    margin ? margin : '7.5em 0'}; //4.5em(네비게이션) + 3em 마진(기본)
   background-color: var(--var-lightgray2);
 
   ${({ page }) =>
-    page === "login" &&
+    page === 'login' &&
     css`
       margin: 0;
-      background-color: var(--color-black);
+      background-color: var(--color-text);
       min-height: 100vh;
     `}
 
   ${({ page }) =>
-    page === "home" &&
+    page === 'home' &&
     css`
       > div {
         margin-bottom: 3em;
@@ -32,9 +32,9 @@ const PageContainer = styled(motion(Container))`
     `}
 
   ${({ page }) =>
-    page === "search" &&
+    page === 'search' &&
     css`
-      margin: ${({ margin }) => (margin ? margin : "120px 0")};
+      margin: ${({ margin }) => (margin ? margin : '120px 0')};
       justify-content: flex-start;
 
       > div {
@@ -50,7 +50,7 @@ const PageContainer = styled(motion(Container))`
     `}
 
     ${({ page }) =>
-    page === "profile" &&
+    page === 'profile' &&
     css`
       margin: 4.5em 0;
       > div {
@@ -59,7 +59,7 @@ const PageContainer = styled(motion(Container))`
     `}
 
     ${({ page }) =>
-    page === "follow" &&
+    page === 'follow' &&
     css`
       justify-content: flex-start;
 
