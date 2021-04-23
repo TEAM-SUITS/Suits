@@ -5,7 +5,7 @@ import Card from "components/Card/Card";
 import QnAContent from "components/Content/QnAContent";
 import Divider from "components/Divider/Divider";
 import Hashtag from "components/Hashtag/Hashtag";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import {
   boxShadowBlack,
   spoqaMedium,
@@ -14,6 +14,7 @@ import {
 import { bool, object } from "prop-types";
 import API from "api/api";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
+import { Skeleton } from "@material-ui/lab";
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -63,6 +64,24 @@ const AnswerContainer = styled.div`
     right: 0.3em;
     cursor: pointer;
   }
+`;
+
+const SkeletonStyle = css`
+  min-width: 305px;
+  max-width: 688px;
+  margin: 3em;
+  background-color: #e6e6e6;
+`;
+
+const SkeletonCard = styled(Skeleton)`
+  ${SkeletonStyle}
+  padding: 1em;
+  border-radius: 10px;
+  width: ${(props) => props.width};
+`;
+
+const SkeletonDivider = styled(Skeleton)`
+  ${SkeletonStyle}
 `;
 
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
@@ -131,7 +150,7 @@ export default function QnADialog({
     };
   }, [question._id]);
 
-  if (!Object.keys(question).length) return null;
+  // if (!Object.keys(question).length) return null;
 
   return (
     <Portal id={"dialog-container"}>
@@ -141,18 +160,27 @@ export default function QnADialog({
         onClick={onClick}
       >
         <CardContainer>
-          <Card isDialog isQuestion title={question.content}>
-            <HashtagContainer>
-              {question.hashTag.map((keyword, idx) => {
-                return <Hashtag key={idx} type={keyword} />;
-              })}
-            </HashtagContainer>
-            <Answers answersList={question.answers} />
-            <InputArea
-              isAnswered={isAnswered}
-              isInputLoading={isInputLoading}
-            />
-          </Card>
+          {Object.keys(question).length ? (
+            <Card isDialog isQuestion title={question.content}>
+              <HashtagContainer>
+                {question.hashTag.map((keyword, idx) => {
+                  return <Hashtag key={idx} type={keyword} />;
+                })}
+              </HashtagContainer>
+              <Answers answersList={question.answers} />
+              <InputArea
+                isAnswered={isAnswered}
+                isInputLoading={isInputLoading}
+              />
+            </Card>
+          ) : (
+            <>
+              <SkeletonCard variant="rect" height="3em" />
+              <SkeletonDivider variant="rect" height="1px" />
+              <SkeletonCard variant="rect" height="5em" />
+              <SkeletonCard variant="rect" height="20em" />
+            </>
+          )}
         </CardContainer>
       </Dialog>
     </Portal>

@@ -100,7 +100,7 @@ function CardSection({
   const handleDialog = async (id) => {
     const res = await API(`/api/questions/${id}`, "get");
     setQuestion(res);
-    setIsDialogVisible(true);
+    // setIsDialogVisible(true);
   };
 
   if (!keywords.length) {
@@ -120,7 +120,10 @@ function CardSection({
     <>
       <QnADialog
         isVisible={isDialogVisible}
-        onClick={() => setIsDialogVisible(false)}
+        onClick={() => {
+          setIsDialogVisible(false);
+          setQuestion({});
+        }}
         question={question}
       />
       <HashtagList>
@@ -152,7 +155,10 @@ function CardSection({
                 isQuestion={true}
                 title={data.content}
                 tags={data.hashTag}
-                onClick={() => handleDialog(data._id)}
+                onClick={() => {
+                  setIsDialogVisible(true);
+                  handleDialog(data._id);
+                }}
               >
                 <QnAContent
                   answer={
