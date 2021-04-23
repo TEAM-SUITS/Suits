@@ -318,19 +318,11 @@ export default function MyInfo() {
     setEnteredBio(e.target.value);
   };
 
-  const handleStartHashtagChange = () => {
+  const handleOpenHashtagChange = () => {
     setIsSelectingKeywords(true);
   };
 
-  const handleDoneHashtagChange = async (selectedKeywords) => {
-    await API('/api/user-profile/hashtag', 'patch', {
-      hashTag: selectedKeywords,
-    });
-    dispatch(fetchCurrentUserData());
-    setIsSelectingKeywords(false);
-  };
-
-  const handleCancelHashtagChange = () => {
+  const handleCloseHashtagChange = () => {
     setIsSelectingKeywords(false);
   };
 
@@ -379,8 +371,7 @@ export default function MyInfo() {
       {isSelectingKeywords && (
         <KeywordSelect
           userKeywords={user.hashTag}
-          onDone={handleDoneHashtagChange}
-          onCancel={handleCancelHashtagChange}
+          onClose={handleCloseHashtagChange}
         />
       )}
       <StyledMyInfo>
@@ -415,7 +406,7 @@ export default function MyInfo() {
         <div className="hashtag__container">
           <div className="hashtag__heading-container">
             <h3>관심 키워드</h3>
-            <button onClick={handleStartHashtagChange}>수정</button>
+            <button onClick={handleOpenHashtagChange}>수정</button>
           </div>
           <div className="hashtag__hashtags">
             {user.hashTag.map((ht) => {
