@@ -57,6 +57,19 @@ module.exports = (app) => {
     }
   });
 
+  // First login 정보 수정
+  app.patch('/api/user-profile/first-login', requireLogin, async (req, res) => {
+    try {
+      req.user.firstLogin = req.body.firstLogin;
+      await req.user.save();
+      res.status(200).send({ message: '성공적으로 저장' });
+    } catch (err) {
+      res.status(500).send({
+        message: err,
+      });
+    }
+  });
+
   // 회원탈퇴
   app.delete('/api/user', requireLogin, (req, res) => {
     User.findOneAndRemove({ _id: req.user._id }, (err) => {
