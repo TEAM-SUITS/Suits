@@ -19,6 +19,9 @@ export const fetchSearchData = (searchWord, prevSearchWord) => async (
   // 빈 문자열일 경우
   if (searchWord === "") {
     dispatch({ type: GET_SEARCH_RESULT, searchWord });
+    const searchData = [];
+    dispatch({ type: GET_SEARCH_SUCCESS, searchData });
+    return;
   }
 
   // 하나 이상의 공백으로만 작성한 경우
