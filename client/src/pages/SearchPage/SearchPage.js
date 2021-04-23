@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import PageContainer from "containers/PageContainer/PageContainer.styled";
-import { pageEffect } from "styles/motions/variants";
-import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
-import SearchHeaderBar from "containers/SearchHeaderBar/SearchHeaderBar";
-import Card from "components/Card/Card";
-import QnAContent from "components/Content/QnAContent";
-import { fetchSearchData } from "redux/storage/search/search";
-import styled, { css } from "styled-components";
-import { spoqaMedium } from "styles/common/common.styled";
-import { array, string } from "prop-types";
-import QnADialog from "containers/QnADialog/QnADialog";
-import API from "api/api";
-import { Skeleton } from "@material-ui/lab";
-import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PageContainer from 'containers/PageContainer/PageContainer.styled';
+import { pageEffect } from 'styles/motions/variants';
+import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
+import SearchHeaderBar from 'containers/SearchHeaderBar/SearchHeaderBar';
+import Card from 'components/Card/Card';
+import QnAContent from 'components/Content/QnAContent';
+import { fetchSearchData } from 'redux/storage/search/search';
+import styled, { css } from 'styled-components';
+import { spoqaMedium } from 'styles/common/common.styled';
+import { array, string } from 'prop-types';
+import QnADialog from 'containers/QnADialog/QnADialog';
+import API from 'api/api';
+import { Skeleton } from '@material-ui/lab';
+import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
 
 /* ---------------------------- styled components --------------------------- */
 const InfoImg = styled.img`
@@ -28,28 +28,26 @@ const InfoImg = styled.img`
 const InfoMsg = styled.p`
   ${spoqaMedium}
   text-align: center;
-  color: var(--color-gray3);
+  color: var(--color-gray5);
 `;
 
 /* ---------------------------------- 검색 영역 --------------------------------- */
-function ResultsSection({ result = [], word = "", isLoading }) {
+function ResultsSection({ result = [], word = '', isLoading }) {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [question, setQuestion] = useState({});
   // 이벤트 핸들러(QnA 다이얼로그 제어)
   const handleDialog = async (id) => {
-    const res = await API(`/api/questions/${id}`, "get");
+    const res = await API(`/api/questions/${id}`, 'get');
     setQuestion(res);
     setIsDialogVisible(true);
   };
 
   // 로딩 중일 때
   if (isLoading) {
-    return (
-      <Spinner />
-    );
+    return <Spinner />;
   }
 
-  if (result === null || word === "") {
+  if (result === null || word === '') {
     return <InfoMsg>검색하실 단어를 입력해주세요.</InfoMsg>;
   }
   // 검색 결과가 존재하지 않을 경우
@@ -85,7 +83,7 @@ function ResultsSection({ result = [], word = "", isLoading }) {
           <QnAContent
             answer={
               // 빈 객체일 경우 false 전달
-              data.answers[0].hasOwnProperty("likes") &&
+              data.answers[0].hasOwnProperty('likes') &&
               data.answers.reduce(
                 (prev, curr) => {
                   if (curr.likes.length >= prev.likes.length) {
@@ -114,7 +112,7 @@ export default function SearchPage() {
   }, [searchWord, dispatch]);
   const handleSearchWord = (e) => {
     // enter -> setSearchWord
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       const v = e.target.value;
       // if (/\s/.test(v) || /\s{2,}/.test(v)) {
       //   console.error('공백은 검색할 수 없습니다.');
@@ -126,7 +124,7 @@ export default function SearchPage() {
   };
   const handleCancelButton = () => {
     setPrevSearchWord(searchWord);
-    setSearchWord("");
+    setSearchWord('');
   };
   return (
     <>
@@ -143,11 +141,11 @@ export default function SearchPage() {
           initialWord={searchWord}
         />
         <TextHeaderBar page="search" />
-          <ResultsSection
-            result={searchState.searchData}
-            word={searchWord}
-            isLoading={searchState.isLoading}
-          />
+        <ResultsSection
+          result={searchState.searchData}
+          word={searchWord}
+          isLoading={searchState.isLoading}
+        />
       </PageContainer>
     </>
   );
