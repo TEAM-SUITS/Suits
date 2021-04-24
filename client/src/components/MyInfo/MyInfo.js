@@ -116,6 +116,7 @@ const StyledMyInfo = styled.section`
     }
     .delete-account {
       background-color: var(--color-gray1);
+      border: 1px solid var(--color-gray2);
       color: var(--color-red);
     }
   }
