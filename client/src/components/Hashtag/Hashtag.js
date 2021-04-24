@@ -12,8 +12,8 @@ const handleButtonTheme = (type, isSelected, theme) => {
   }
 
   return isSelected
-    ? 'color: var(--color-gray5); background: var(--color-gray3)'
-    : `color: var(--color-text); background: var(${theme})`;
+    ? 'color: var(--color-black); background: var(--color-gray3)'
+    : `color: var(--color-black); background: var(${theme})`;
 };
 /**
  * 참고
