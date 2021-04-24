@@ -6,6 +6,8 @@ export const lightTheme = {
   gray3: '#CCC',
   gray4: '#AAA',
   gray5: '#333',
+  black: '#000',
+  white: '#FFF',
 };
 export const darkTheme = {
   body: '#101010',
@@ -15,4 +17,6 @@ export const darkTheme = {
   gray3: '#CCC',
   gray4: '#D5D5D5',
   gray5: '#FAFAFA',
+  black: '#000',
+  white: '#FFF',
 };

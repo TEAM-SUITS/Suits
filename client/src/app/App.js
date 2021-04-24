@@ -21,17 +21,30 @@ import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 import { ThemeProvider } from 'styled-components';
 import ThemeToggler from '../components/ThemeToggler/ThemeToggler';
 import { darkTheme, lightTheme } from 'styles/pages/Themes';
+import { themeChecker } from 'utils/themeChecker';
 
 /* -------------------------------------------------------------------------- */
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  // dark theme
-  const [theme, setTheme] = useState('light');
+  // <dark mode>
+  const [theme, setTheme] = useState(() => themeChecker());
+
   const themeToggler = () => {
     theme === 'light' ? setTheme('dark') : setTheme('light');
   };
+
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', (event) => {
+      if (event.matches) {
+        setTheme('dark');
+      } else {
+        setTheme('light');
+      }
+    });
+  // </dark mode>
 
   useEffect(() => {
     dispatch(fetchUserAction());

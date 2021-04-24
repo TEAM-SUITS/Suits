@@ -80,6 +80,8 @@ export const GlobalStyle = createGlobalStyle`
     --color-gray3: ${(props) => props.theme.gray3};
     --color-gray4: ${(props) => props.theme.gray4};
     --color-gray5: ${(props) => props.theme.gray5};
+    --color-black: ${(props) => props.theme.black};
+    --color-white: ${(props) => props.theme.white};
     --color-red: #DD2222;
     --color-green1: #5F885F;
     --color-green2: #6FCF97;
