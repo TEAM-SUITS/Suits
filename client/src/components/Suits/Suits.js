@@ -5,13 +5,12 @@ import suh from './images/suh.png';
 import park from './images/park.jpeg';
 import styled from 'styled-components';
 import {
-  boxShadow,
+  boxShadowBlack,
   spoqaLarge,
   spoqaMedium,
-  textShadow,
+  textShadowBlack,
 } from 'styles/common/common.styled';
 import Icon from 'components/Icon/Icon';
-import Divider from 'components/Divider/Divider';
 
 const StylesSuits = styled.section`
   display: flex;
@@ -28,7 +27,7 @@ const StylesSuits = styled.section`
     text-align: center;
     margin: 0 0 1.5em;
     ${spoqaMedium}
-    ${textShadow}
+    ${textShadowBlack}
 
     em {
       ${spoqaLarge}
@@ -39,7 +38,7 @@ const StylesSuits = styled.section`
     text-align: center;
     ${spoqaMedium}
     font-size: 1.6rem;
-    margin: 0 0 1em;
+    margin: 0 0 2em;
   }
   .members__container {
     display: flex;
@@ -62,7 +61,7 @@ const StylesSuits = styled.section`
           width: 50px;
           margin-bottom: 0.6em;
           border-radius: 50%;
-          ${boxShadow}
+          ${boxShadowBlack}
         }
         figcaption {
           width: 100%;
@@ -95,10 +94,9 @@ const StylesSuits = styled.section`
     }
     p {
       font-size: 2rem;
-      margin: 0 0 2em;
+      margin: 0 0 3em;
     }
     .members__container {
-      margin-top: 1em;
       margin-bottom: 4em;
       h3 {
         font-size: 2rem;
@@ -142,7 +140,6 @@ export default function Suits() {
         꿈을 향해 가는 당신의 길에 함께 하겠습니다.
         <br />
       </p>
-      <Divider />
       <div className="members__container">
         <h3>Made by</h3>
         <div className="members">

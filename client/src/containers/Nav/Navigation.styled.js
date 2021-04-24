@@ -1,7 +1,7 @@
-import styled, { css } from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import { resetBoxModel } from 'styles/common/common.styled';
-import { bool, node } from 'prop-types';
+import styled, { css } from "styled-components";
+import { NavLink } from "react-router-dom";
+import { resetBoxModel } from "styles/common/common.styled";
+import { bool, node } from "prop-types";
 
 /* --------------------------------- router --------------------------------- */
 const Link = ({ children, to, ...restProps }) => {
@@ -65,8 +65,8 @@ const StyledNav = styled.ul`
       min-width: 375px;
       flex: 1;
       justify-content: space-around;
-      border-top: 1px solid var(--color-gray3);
-      background-color: var(--color-body);
+      border-top: 1px solid var(--color-gray1);
+      background-color: var(--color-white);
     `}
 `;
 
