@@ -19,7 +19,7 @@ const PageContainer = styled(motion(Container))`
     page === 'login' &&
     css`
       margin: 0;
-      background-color: var(--color-text);
+      background-color: var(--color-black);
       min-height: 100vh;
     `}
 
