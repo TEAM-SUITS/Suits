@@ -15,7 +15,7 @@ const CardBox = styled.div`
   position: relative;
   min-width: 305px;
   border-radius: 10px;
-  background-color: var(--color-gray1);
+  background-color: var(--color-body);
   padding: 1em 2em 1.4em;
   max-height: 60vh;
   overflow: auto;

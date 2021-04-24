@@ -16,15 +16,26 @@ const LoginContent = styled.div`
   justify-content: center;
   height: 100%;
   margin-top: 10em;
+  svg {
+    path {
+      fill: var(--color-white);
+    }
+  }
   h1 {
     text-transform: uppercase;
     ${museoLarge}
     font-weight: 700;
-    color: var(--color-body);
+    color: var(--color-white);
     user-select: none;
   }
   button {
+    svg {
+      path {
+        fill: var(--color-black);
+      }
+    }
     margin-top: 5em;
+    background-color: var(--color-gray2);
   }
 `;
 

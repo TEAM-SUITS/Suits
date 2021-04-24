@@ -15,50 +15,49 @@ import ProfileDialog from 'containers/ProfileDialog/ProfileDialog';
 import DemoPage from 'pages/DemoPage/DemoPage';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import RouteGuard from 'components/RouteGuard/RouteGuard';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserAction } from 'redux/storage/auth/auth';
 import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 import { ThemeProvider } from 'styled-components';
 import ThemeToggler from '../components/ThemeToggler/ThemeToggler';
 import { darkTheme, lightTheme } from 'styles/pages/Themes';
-import { themeChecker } from 'utils/themeChecker';
+import themeToggler from 'utils/themeToggler';
 
 /* -------------------------------------------------------------------------- */
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  // <dark mode>
-  const [theme, setTheme] = useState(() => themeChecker());
-
-  const themeToggler = () => {
-    theme === 'light' ? setTheme('dark') : setTheme('light');
-  };
-
-  window
-    .matchMedia('(prefers-color-scheme: dark)')
-    .addEventListener('change', (event) => {
-      if (event.matches) {
-        setTheme('dark');
-      } else {
-        setTheme('light');
-      }
-    });
-  // </dark mode>
-
   useEffect(() => {
     dispatch(fetchUserAction());
     dispatch(fetchCurrentUserData());
   }, [dispatch]);
 
+  // theme state (dark mode)
+  const [theme, setTheme] = useState(() => {
+    return window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  });
+
+  const { currentUserData } = useSelector((state) => state.currentUser);
+
+  useEffect(() => {
+    if (!currentUserData || typeof currentUserData[0] !== 'object') return;
+    currentUserData[0].theme && setTheme(currentUserData[0].theme);
+  }, [currentUserData]);
+
   // 임시 state for Dialog
   const [checkingProfile, isCheckingProfile] = useState(false);
 
   return (
-    <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+    <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <div className="App">
         <GlobalStyle />
-        <ThemeToggler handleClick={themeToggler} />
+        {location.pathname === '/login' ? null : (
+          <ThemeToggler handleClick={() => themeToggler(theme, setTheme)} />
+        )}
         <ProfileDialog isVisible={checkingProfile} />
         {/* <DemoPage /> */}
         <Switch>
