@@ -56,14 +56,14 @@ const Modal = styled.div.attrs(() => ({
 }))`
   max-width: 100%;
   z-index: 998;
-  background-color: var(--color-text);
+  background-color: var(--color-black);
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   opacity: ${(props) => props.opacity};
-  /* backdrop-filter: blur(20px) opacity(80%); */
+  backdrop-filter: blur(20px) opacity(0.8);
 `;
 
 /* -------------------------------------------------------------------------- */
