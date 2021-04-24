@@ -16,6 +16,7 @@ import API from "api/api";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 import { Skeleton } from "@material-ui/lab";
 import { useSelector } from "react-redux";
+import badwordFliter from "utils/badwordFilter/badwordFilter";
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -67,7 +68,7 @@ const StyledButton = styled.button.attrs((props) => ({
   position: absolute;
   bottom: 0.6em;
   right: 0.3em;
-  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer' };
+  cursor: ${({ disabled }) => disabled ? 'wait' : 'pointer' };
 `;
 
 const SkeletonStyle = css`
@@ -127,7 +128,7 @@ const InputArea = ({ isAnswered, isInputLoading, questionId, handleIsAnswered, r
 
   const postContent = async () => {
     await API('/api/answers', 'post', {
-      content,
+      content: badwordFliter.filter(content, '**'),
       questionId,
     });
 
