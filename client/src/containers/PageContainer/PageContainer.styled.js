@@ -13,7 +13,6 @@ const PageContainer = styled(motion(Container))`
   justify-content: center;
   margin: ${({ margin }) =>
     margin ? margin : '7.5em 0'}; //4.5em(네비게이션) + 3em 마진(기본)
-  background-color: var(--var-lightgray2);
 
   ${({ page }) =>
     page === 'login' &&

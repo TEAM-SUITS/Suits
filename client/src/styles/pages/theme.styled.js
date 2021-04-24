@@ -13,8 +13,7 @@ export const GlobalStyle = createGlobalStyle`
     color: #212121;
     font-size: 10px;
     max-width: 944px;
-    background-color: var(--color-gray1);
-    background: ${(props) => props.theme.body};
+    background-color: ${(props) => props.theme.gray1};
     color: ${(props) => props.theme.text};
   }
 

@@ -95,7 +95,7 @@ export default function Icon({
       throw new Error('아이콘을 찾을수없습니다');
   }
 
-  return <COMP title={title} height={height} />;
+  return <COMP title={title} height={height} {...restProps} />;
 }
 
 Icon.propTypes = {

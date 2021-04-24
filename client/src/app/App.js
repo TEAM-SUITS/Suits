@@ -21,35 +21,20 @@ import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 import { ThemeProvider } from 'styled-components';
 import ThemeToggler from '../components/ThemeToggler/ThemeToggler';
 import { darkTheme, lightTheme } from 'styles/pages/Themes';
-import { themeChecker } from 'utils/themeChecker';
+import { themeChecker, themeToggler } from 'utils/themeChecker';
 
 /* -------------------------------------------------------------------------- */
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  // <dark mode>
-  const [theme, setTheme] = useState(() => themeChecker());
-
-  const themeToggler = () => {
-    theme === 'light' ? setTheme('dark') : setTheme('light');
-  };
-
-  window
-    .matchMedia('(prefers-color-scheme: dark)')
-    .addEventListener('change', (event) => {
-      if (event.matches) {
-        setTheme('dark');
-      } else {
-        setTheme('light');
-      }
-    });
-  // </dark mode>
-
   useEffect(() => {
     dispatch(fetchUserAction());
     dispatch(fetchCurrentUserData());
   }, [dispatch]);
+
+  // theme state (dark mode)
+  const [theme, setTheme] = useState(() => themeChecker());
 
   // 임시 state for Dialog
   const [checkingProfile, isCheckingProfile] = useState(false);
@@ -58,7 +43,7 @@ function App() {
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
       <div className="App">
         <GlobalStyle />
-        <ThemeToggler handleClick={themeToggler} />
+        <ThemeToggler handleClick={() => themeToggler(theme, setTheme)} />
         <ProfileDialog isVisible={checkingProfile} />
         {/* <DemoPage /> */}
         <Switch>
