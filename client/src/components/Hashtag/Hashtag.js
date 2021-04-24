@@ -21,7 +21,6 @@ const handleButtonTheme = (type, isSelected, theme) => {
  */
 
 const StyledHashtag = styled.div`
-  color: #000 !important;
   ${boxShadow}
   ${spoqaSmallBold}
   padding: 0.3em 1em;

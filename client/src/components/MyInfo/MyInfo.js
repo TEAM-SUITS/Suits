@@ -107,10 +107,10 @@ const StyledMyInfo = styled.section`
       padding: 0.5em;
       ${spoqaMedium}
       border: none;
-      ${boxShadow}
+      ${boxShadow};
     }
     .signout {
-      color: #000;
+      color: var(--color-black);
       background-color: var(--color-gray2);
       margin-bottom: 1em;
     }

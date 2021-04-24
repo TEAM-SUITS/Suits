@@ -8,7 +8,7 @@ import { string } from 'prop-types';
 
 const AlertContainer = styled.div.attrs({ role: 'alert' })`
   text-align: center;
-  color: var(--color-gray5);
+  color: var(--color-gray3);
   ${spoqaSmall}
   color: ${({ status }) =>
     (status === 'error' && '#7c1c24') ||

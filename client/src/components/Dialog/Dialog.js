@@ -24,6 +24,12 @@ const DialogContainer = styled.div.attrs((props) => ({
 
   @media screen and (min-width: 480px) {
     min-width: 400px;
+    min-height: 250px;
+  }
+
+  // 모바일
+  @media screen and (max-width: 480px) {
+    width: 350px;
   }
 `;
 
@@ -46,8 +52,7 @@ const CloseButton = styled.button.attrs(() => ({
 const Header = styled.h1`
   text-align: center;
   display: block;
-  margin: 0;
-  padding: 0;
+  margin-top: 0;
   font-size: 2rem;
 `;
 
@@ -132,7 +137,7 @@ export default function Dialog({
   return (
     <>
       <Portal id={'dialog-container'}>
-        {visible ? <Modal opacity={opacity} /> : null}
+        {visible ? <Modal className="modal" opacity={opacity} /> : null}
         {visible && (
           <DialogContainer ref={dialogRef} label={label}>
             <CloseButton>

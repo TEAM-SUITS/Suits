@@ -1,10 +1,12 @@
 import HardWorker from "components/HardWorker/HardWorker";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { resetList } from "styles/common/common.styled";
 import { array, bool } from "prop-types";
 import { Skeleton } from "@material-ui/lab";
 import ProfileDialog from "containers/ProfileDialog/ProfileDialog";
+import API from "api/api";
+import { useEffect } from "react";
 
 const HardWorkers = styled.ul`
   ${resetList}
@@ -83,30 +85,85 @@ const HardWorkersSkeleton = (
   </>
 );
 
-/* ----------------------------- functions ---------------------------- */
-
-const handleProfileView = (id) => {
-  console.log(id);
-};
-
 /* ----------------------------- skeleton ---------------------------- */
 
 export default function HardWorkersContent({ users, $isLoading }) {
+  const [isDialogVisible, setDialogVisiblity] = useState(false);
+  const [profile, setProfile] = useState({});
+  const [isLoading, setLoading] = useState(false);
+
+  const handleClick = (e) => {
+    if (e.target.classList.contains("modal")) setDialogVisiblity(false);
+  };
+
+  useEffect(() => {
+    if (isDialogVisible) {
+      window.addEventListener("click", handleClick);
+    }
+    return () => window.removeEventListener("click", handleClick);
+  }, [isDialogVisible]);
+
+  const handleDialog = async (id) => {
+    setDialogVisiblity(true);
+    // profile에 맞게 데이터를 전달해주기 위해 가공
+    try {
+      setLoading(true);
+      const data = await API(`/api/user-profile/${id}`, "get");
+      const {
+        _id,
+        username,
+        avatar,
+        tier,
+        hashTag,
+        githubRepo,
+        bio,
+        likeCount,
+      } = data[0];
+      setProfile({
+        _id,
+        username,
+        img: avatar,
+        tier,
+        hashtag: hashTag,
+        github: githubRepo,
+        bio,
+        like: likeCount,
+      });
+    } catch (err) {
+      console.err(err);
+    } finally {
+      setLoading(false);
+    }
+  };
   const userItems =
     users && !$isLoading
-      ? users.map(({ _id, username, avatar, tier }) => (
+      ? users.map(({ _id, username, avatar, tier, likeCount }) => (
           <HardWorker
             key={_id}
             id={_id}
             username={username}
             img={avatar}
             tier={tier}
-            $onClick={() => handleProfileView(_id)}
+            likeCount={likeCount}
+            $onClick={() => handleDialog(_id)}
           />
         ))
       : HardWorkersSkeleton;
 
-  return <HardWorkers>{userItems}</HardWorkers>;
+  return (
+    <>
+      <HardWorkers>{userItems}</HardWorkers>
+      <ProfileDialog
+        isVisible={isDialogVisible}
+        $isLoading={isLoading}
+        $onClick={() => {
+          setDialogVisiblity(false);
+          setProfile({});
+        }}
+        user={profile}
+      />
+    </>
+  );
 }
 
 /* -------------------------------- propTypes ------------------------------- */

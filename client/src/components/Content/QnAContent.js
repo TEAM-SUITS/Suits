@@ -26,6 +26,20 @@ const AnswerDetail = styled.p`
   ${spoqaSmall}
 `;
 
+const NoAnswerYet = styled.div`
+  margin: 2rem 0;
+  display: flex;
+  flex-flow: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  ${spoqaSmall}
+
+  > img {
+    width: 80px;
+    height: auto;
+  }
+`;
+
 /* -------------------------------- mockdata -------------------------------- */
 const mockdata = {
   _id: "607d40dfc0fe755dc815f9c2",
@@ -42,7 +56,10 @@ export default function QnAContent({ answer, isEllipsis = true }) {
   if (answer === false || !answer.content) {
     return (
       <QnAContainer>
-        <AnswerDetail>아직 등록된 답변이 없습니다.</AnswerDetail>
+        <NoAnswerYet>
+          <img src="assets/banner.png" alt="답변 없음을 알리는 슈티" />
+          아직 등록된 답변이 없습니다.
+        </NoAnswerYet>
       </QnAContainer>
     );
   }

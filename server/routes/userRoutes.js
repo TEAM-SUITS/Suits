@@ -133,7 +133,7 @@ module.exports = (app) => {
         {
           _id: req.params.id,
         },
-        { githubId: 0, memberSince: 0, firstLogin: 0, _id: 0 }
+        { githubId: 0, memberSince: 0, firstLogin: 0 }
       );
       res.json(user);
     } catch (err) {
