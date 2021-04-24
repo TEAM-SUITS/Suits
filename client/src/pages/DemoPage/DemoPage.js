@@ -30,7 +30,7 @@ export default function DemoPage() {
   const postAnswer = async () => {
     await axios.post("/api/answers", {
       content,
-      questionId: "60751f2caf540a054f122920",
+      questionId: "6077cd4bb60c1cf50f9fe309",
     });
 
     // console.log(res);
