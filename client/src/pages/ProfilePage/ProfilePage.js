@@ -31,7 +31,7 @@ const ProfileContainer = styled.div`
 
 const MessageContainer = styled.div`
   align-self: flex-start;
-  margin-top: 3rem;
+  margin: 3rem;
   width: 100%;
 `;
 
@@ -48,6 +48,15 @@ export default function ProfilePage() {
         <SpinnerContainer>
           <Spinner />
         </SpinnerContainer>
+      );
+    } else if (
+      currentUserData &&
+      currentUserData[0].answeredQuestions.length === 0
+    ) {
+      return (
+        <MessageContainer>
+          <Alert status="info" message="작성한 답변이 없어요" />
+        </MessageContainer>
       );
     } else if (currentUserData && currentUserData[0].answeredQuestions) {
       return (

@@ -16,7 +16,7 @@ const DialogContainer = styled.div.attrs((props) => ({
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 60v;
+  width: 60vw;
   min-width: 305px;
   border-radius: 10px;
   padding: 2em 0 0;

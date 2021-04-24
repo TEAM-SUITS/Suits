@@ -59,8 +59,7 @@ const StyledProfile = styled.div`
     justify-content: space-between;
   }
   .no-tag {
-    max-height: 2em;
-    width: 250px;
+    width: 150px;
     margin-bottom: 1em;
     color: var(--color-gray);
     em {
@@ -80,6 +79,7 @@ const StyledProfile = styled.div`
 `;
 
 const InfoContainer = styled.div`
+  min-width: 220px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -123,7 +123,7 @@ const ProfileSkeletonImage = styled(Skeleton)`
 `;
 
 const HashTagSkeleton = styled(Skeleton)`
-  min-width: 200px;
+  min-width: 250px !important;
   display: flex;
   justify-content: space-between;
   padding: 1em;
