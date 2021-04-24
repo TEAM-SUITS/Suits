@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { museoSmall, textShadow } from 'styles/common/common.styled';
-import { string, number } from 'prop-types';
-import Tier from 'components/Tier/Tier';
+import React from "react";
+import styled from "styled-components";
+import { museoSmall, textShadowBlack } from "styles/common/common.styled";
+import { string, number } from "prop-types";
+import Tier from "components/Tier/Tier";
 
 const StyledHardWorker = styled.div`
   display: flex;
@@ -44,7 +44,7 @@ StyledHardWorker.Image = styled.div`
 StyledHardWorker.Username = styled.h3`
   margin: 3px 0;
   ${museoSmall};
-  ${textShadow};
+  ${textShadowBlack};
 
   @media screen and (min-width: 480px) {
     font-size: 1.8rem;
@@ -58,8 +58,8 @@ StyledHardWorker.Username = styled.h3`
 
 export default function HardWorker({
   id,
-  img = 'https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg',
-  username = 'username',
+  img = "https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg",
+  username = "username",
   tier = 1,
   $onClick,
 }) {

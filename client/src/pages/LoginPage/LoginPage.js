@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import PageContainer from 'containers/PageContainer/PageContainer.styled';
-import styled from 'styled-components';
-import { pageEffect } from 'styles/motions/variants';
-import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
-import Button from 'components/Button/Button';
-import Icon from 'components/Icon/Icon';
-import { museoLarge } from 'styles/common/common.styled';
-import Alert from 'components/Alert/Alert';
+import React, { useEffect, useState } from "react";
+import PageContainer from "containers/PageContainer/PageContainer.styled";
+import styled from "styled-components";
+import { pageEffect } from "styles/motions/variants";
+import { useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router";
+import Button from "components/Button/Button";
+import Icon from "components/Icon/Icon";
+import { museoLarge } from "styles/common/common.styled";
+import Alert from "components/Alert/Alert";
 
 const LoginContent = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ const LoginContent = styled.div`
     text-transform: uppercase;
     ${museoLarge}
     font-weight: 700;
-    color: var(--color-body);
+    color: var(--color-white);
     user-select: none;
   }
   button {
@@ -41,7 +41,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthed) {
-      !state?.referrer ? history.push('/') : history.push(state?.referrer);
+      !state?.referrer ? history.push("/") : history.push(state?.referrer);
     } else if (error) {
       setDisabled(false);
     }
@@ -49,7 +49,7 @@ export default function LoginPage() {
 
   const handleGithubLogin = () => {
     setDisabled(true);
-    window.open('/auth/github', '_self');
+    window.open("/auth/github", "_self");
   };
 
   return (

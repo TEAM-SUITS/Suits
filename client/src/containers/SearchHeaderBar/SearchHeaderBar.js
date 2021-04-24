@@ -4,26 +4,22 @@ import { fetchSearchData } from 'redux/storage/search/search';
 import styled from 'styled-components';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import Icon from 'components/Icon/Icon';
-import {
-  museoSmall,
-  spoqaSmallBold,
-  spoqaSmall,
-} from 'styles/common/common.styled';
+import { museoSmall, spoqaSmallBold, spoqaSmall } from 'styles/common/common.styled';
 import { func, string } from 'prop-types';
 
 /* ------------------------------- 검색 중이 아닐 떄 ------------------------------- */
 const SearchButton = styled.button.attrs(() => ({
-  type: 'button',
+  type: "button",
 }))`
   transform: translate(0, 45px);
   margin: 0 auto;
   cursor: pointer;
   width: 100%;
   height: 100%;
-  background-color: var(--color-body);
+  background-color: var(--color-white);
   text-align: initial;
-  border: 1px solid var(--color-gray3);
-
+  border: 1px solid var(--color-gray1);
+  
   div {
     position: relative;
     width: 8em;
@@ -44,7 +40,7 @@ const SearchButton = styled.button.attrs(() => ({
       display: inline-block;
       ${museoSmall}
       font-style: normal;
-      color: var(--color-gray5);
+      color: var(--color-gray3);
       line-height: 1.5;
     }
   }
@@ -58,8 +54,8 @@ const FlexBox = styled.div`
   flex-wrap: nowrap;
   width: 100%;
   height: 100%;
-  background-color: var(--color-body);
-  border: 1px solid var(--color-gray3);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray1);
 
   svg {
     margin: 10px;
@@ -72,15 +68,14 @@ const FlexBox = styled.div`
     height: 100%;
     border: none;
     ${spoqaSmall}
-    color: var(--color-gray5);
-    background-color: var(--color-gray1);
+    color: var(--color-gray3);
   }
 `;
 
 const CancelButton = styled.button.attrs(() => ({
-  type: 'button',
+  type: "button",
 }))`
-  background-color: var(--color-body);
+  background-color: var(--color-white);
   ${spoqaSmallBold}
   color: var(--color-red);
   border: none;
@@ -91,13 +86,13 @@ const CancelButton = styled.button.attrs(() => ({
 export default function SearchHeaderBar({
   onKeyUp,
   initialWord = '',
-  onClick,
+  onClick
 }) {
   const [isSearching, setIsSearching] = useState(false);
   const [keyword, setKeyword] = useState(initialWord);
   const ref = useRef(null);
 
-  const handleInput = (e) => {
+  const handleInput = e => {
     setKeyword(e.target.value);
   };
 
@@ -140,15 +135,13 @@ export default function SearchHeaderBar({
           ref={ref}
           value={keyword}
           onKeyUp={onKeyUp}
-        />
+          />
         <CancelButton
           onClick={() => {
             onClick();
             setKeyword('');
           }}
-        >
-          CANCEL
-        </CancelButton>
+        >CANCEL</CancelButton>
       </FlexBox>
     </HeaderBar>
   );

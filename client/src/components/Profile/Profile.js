@@ -1,17 +1,17 @@
-import React from 'react';
-import styled from 'styled-components';
-import { object, bool } from 'prop-types';
-import Tier from 'components/Tier/Tier';
-import Hashtag from 'components/Hashtag/Hashtag';
+import React from "react";
+import styled from "styled-components";
+import { object, bool } from "prop-types";
+import Tier from "components/Tier/Tier";
+import Hashtag from "components/Hashtag/Hashtag";
 import {
   museoLarge,
   spoqaMediumLight,
   spoqaSmall,
-} from 'styles/common/common.styled';
-import Icon from 'components/Icon/Icon';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Skeleton } from '@material-ui/lab';
+} from "styles/common/common.styled";
+import Icon from "components/Icon/Icon";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Skeleton } from "@material-ui/lab";
 
 const StyledProfile = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const StyledProfile = styled.div`
   padding: 1.6em 1.6em 5em;
   width: 100%;
   justify-content: center;
-  background-color: var(--color-body);
+  background-color: var(--color-white);
 
   & > img {
     width: 100px;
@@ -34,7 +34,7 @@ const StyledProfile = styled.div`
 
   a {
     text-decoration: none;
-    color: var(--color-gray5);
+    color: var(--color-gray3);
     ${spoqaSmall}
   }
   p {
@@ -73,7 +73,7 @@ const TierContainer = styled.div`
     width: 100px;
     margin-right: 1em;
   }
-  svg {
+  .likes {
     width: 2em;
     margin-right: 0.5em;
     path {

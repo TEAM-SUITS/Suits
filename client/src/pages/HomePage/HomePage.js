@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import PageContainer from 'containers/PageContainer/PageContainer.styled';
-import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchHardWorkersData } from 'redux/storage/hardWorkers/hardWorkers';
-import { fetchTrendingData } from 'redux/storage/trendingQ/trendingQ';
-import { fetchRandomQuoteData } from 'redux/storage/quote/quote';
-import { fetchRandomQData } from 'redux/storage/randomQ/randomQ';
-import { pageEffect } from 'styles/motions/variants';
-import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
-import Card from 'components/Card/Card';
-import QuotesContent from 'components/Content/QuotesContent';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import HardWorkersContent from 'components/Content/HardWorkersContent';
-import TrendingQuestionContent from 'components/Content/TrendingQuestionContent';
-import QnAContent from 'components/Content/QnAContent';
-import Button from 'components/Button/Button';
-import { Skeleton } from '@material-ui/lab';
-import KeywordSelect from 'components/KeywordSelect/KeywordSelect';
-import { boxShadow } from 'styles/common/common.styled';
+import React, { useEffect, useState } from "react";
+import PageContainer from "containers/PageContainer/PageContainer.styled";
+import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchHardWorkersData } from "redux/storage/hardWorkers/hardWorkers";
+import { fetchTrendingData } from "redux/storage/trendingQ/trendingQ";
+import { fetchRandomQuoteData } from "redux/storage/quote/quote";
+import { fetchRandomQData } from "redux/storage/randomQ/randomQ";
+import { pageEffect } from "styles/motions/variants";
+import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
+import Card from "components/Card/Card";
+import QuotesContent from "components/Content/QuotesContent";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import HardWorkersContent from "components/Content/HardWorkersContent";
+import TrendingQuestionContent from "components/Content/TrendingQuestionContent";
+import QnAContent from "components/Content/QnAContent";
+import Button from "components/Button/Button";
+import { Skeleton } from "@material-ui/lab";
+import KeywordSelect from "components/KeywordSelect/KeywordSelect";
 
 /* ---------------------------- styled components --------------------------- */
 
@@ -28,7 +27,7 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
   margin-top: 1.2em;
 
   button {
-    color: var(--color-text);
+    color: var(--color-black);
   }
   button:disabled {
     font-weight: 700;
@@ -39,9 +38,8 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
 const StyledRefreshButton = styled(Button)`
   position: absolute;
   bottom: 1em;
-  background-color: var(--color-gray1);
-  border: 2px solid var(--color-gray2);
-  ${boxShadow};
+  background-color: transparent;
+  border: 1px solid #0000001f;
   svg path {
     fill: var(--color-orange);
   }
@@ -58,7 +56,7 @@ const SkeletonCard = styled(Skeleton)`
 /* -------------------------------------------------------------------------- */
 
 export default function HomePage() {
-  const [quoteLanguage, setQuoteLanguage] = useState('ko');
+  const [quoteLanguage, setQuoteLanguage] = useState("ko");
   const [isSelectingKeywords, setIsSelectingKeywords] = useState(false);
 
   const dispatch = useDispatch();
@@ -90,10 +88,10 @@ export default function HomePage() {
   } = useSelector((state) => state.trendingQ);
 
   useEffect(() => {
-    dispatch(fetchRandomQData('init'));
-    dispatch(fetchRandomQuoteData('init'));
-    dispatch(fetchTrendingData('init'));
-    dispatch(fetchHardWorkersData('init'));
+    dispatch(fetchRandomQData("init"));
+    dispatch(fetchRandomQuoteData("init"));
+    dispatch(fetchTrendingData("init"));
+    dispatch(fetchHardWorkersData("init"));
   }, [dispatch]);
 
   useEffect(() => {
@@ -166,14 +164,14 @@ export default function HomePage() {
             <ToggleButton
               value="ko"
               aria-label="번역된 명언 보기"
-              disabled={quoteLanguage === 'ko'}
+              disabled={quoteLanguage === "ko"}
             >
               ko
             </ToggleButton>
             <ToggleButton
               value="en"
               aria-label="원문 명언 보기"
-              disabled={quoteLanguage === 'en'}
+              disabled={quoteLanguage === "en"}
             >
               en
             </ToggleButton>

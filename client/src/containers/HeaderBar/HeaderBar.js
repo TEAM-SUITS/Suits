@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { node } from 'prop-types';
-import { boxShadow } from 'styles/common/common.styled';
+import React from "react";
+import styled from "styled-components";
+import { node } from "prop-types";
+import { boxShadowBlack } from "styles/common/common.styled";
 
 /* ---------------------------- styled components --------------------------- */
 const Container = styled.header`
@@ -11,7 +11,7 @@ const Container = styled.header`
 
     position: fixed;
     top: 0;
-    background-color: var(--color-body);
+    background-color: var(--color-white);
     max-width: 944px;
     width: 100%;
     height: 45px;
@@ -26,7 +26,7 @@ const Container = styled.header`
     // mobile
     position: fixed;
     top: 0;
-    background-color: var(--color-body);
+    background-color: var(--color-white);
     text-align: center;
     width: 100%;
     min-width: 375px;
@@ -47,7 +47,7 @@ const StyledHeading = styled.h1`
   user-select: none;
   display: block;
   margin: 0;
-  ${boxShadow}
+  ${boxShadowBlack}
 
   span {
     display: inline-block;
@@ -56,7 +56,7 @@ const StyledHeading = styled.h1`
   }
 
   a {
-    color: var(--color-text);
+    color: var(--color-black);
   }
 `;
 

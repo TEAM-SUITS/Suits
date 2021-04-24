@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import Portal from 'components/Portal/Portal';
-import Dialog from 'components/Dialog/Dialog';
-import Card from 'components/Card/Card';
-import QnAContent from 'components/Content/QnAContent';
-import Divider from 'components/Divider/Divider';
-import Hashtag from 'components/Hashtag/Hashtag';
-import styled, { css } from 'styled-components';
+import React, { useEffect, useState } from "react";
+import Portal from "components/Portal/Portal";
+import Dialog from "components/Dialog/Dialog";
+import Card from "components/Card/Card";
+import QnAContent from "components/Content/QnAContent";
+import Divider from "components/Divider/Divider";
+import Hashtag from "components/Hashtag/Hashtag";
+import styled, { css } from "styled-components";
 import {
-  boxShadow,
+  boxShadowBlack,
   spoqaMedium,
   spoqaMediumLight,
-} from 'styles/common/common.styled';
-import { bool, object } from 'prop-types';
-import API from 'api/api';
-import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
-import { Skeleton } from '@material-ui/lab';
-import { useSelector } from 'react-redux';
+} from "styles/common/common.styled";
+import { bool, object } from "prop-types";
+import API from "api/api";
+import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
+import { Skeleton } from "@material-ui/lab";
+import { useSelector } from "react-redux";
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -41,23 +41,23 @@ const AnswerContainer = styled.div`
 
   textarea {
     ${spoqaMediumLight}
-    background-color: var(--color-gray2);
+    background-color: var(--color-lightgray2);
     padding: 1em;
-    border: solid 1px var(--color-gray3);
+    border: solid 1px var(--color-gray1);
     border-radius: 5px;
     width: 100%;
     height: 10em;
     resize: none;
-    ${boxShadow}
+    ${boxShadowBlack}
   }
 
   button {
-    background-color: var(--color-gray5);
-    color: var(--color-gray1);
+    background-color: var(--color-gray3);
+    color: var(--color-lightgray1);
     border: none;
     border-radius: 5px;
     width: 60px;
-    ${boxShadow}
+    ${boxShadowBlack}
     ${spoqaMedium}
     padding: 0 3px;
     position: absolute;
@@ -160,7 +160,7 @@ export default function QnADialog({
   // if (!Object.keys(question).length) return null;
 
   return (
-    <Portal id={'dialog-container'}>
+    <Portal id={"dialog-container"}>
       <Dialog
         visible={isVisible} // 상위 컴포넌트의 state로 handle
         label="QnA 상세 내용"
