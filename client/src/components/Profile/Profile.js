@@ -23,7 +23,7 @@ const StyledProfile = styled.div`
   padding: 1.5em 1.6em 1em;
   width: 100%;
   justify-content: center;
-  background-color: var(--color-white);
+  background-color: var(--color-body);
 
   @media screen and (min-width: 640px) {
     width: 30em;
@@ -44,7 +44,7 @@ const StyledProfile = styled.div`
 
   a {
     text-decoration: none;
-    color: var(--color-gray3);
+    color: var(--color-gray5);
     ${spoqaSmall}
   }
   p {
@@ -59,7 +59,7 @@ const StyledProfile = styled.div`
     justify-content: space-between;
   }
   .no-tag {
-    width: 150px;
+    width: 220px;
     margin-bottom: 1em;
     color: var(--color-gray);
     em {
@@ -96,7 +96,7 @@ const TierContainer = styled.div`
     width: 100px;
     margin-right: 1em;
   }
-  .likes {
+  svg {
     width: 2em;
     margin-right: 0.5em;
     path {

@@ -19,7 +19,7 @@ const PageContainer = styled(motion(Container))`
     page === "login" &&
     css`
       margin: 0;
-      background-color: var(--color-black);
+      background-color: var(--color-text);
       min-height: 100vh;
     `}
 
@@ -35,6 +35,7 @@ const PageContainer = styled(motion(Container))`
     page === "search" &&
     css`
       margin: ${({ margin }) => (margin ? margin : "120px 0")};
+      justify-content: flex-start;
 
       > div {
         margin-top: 3em;

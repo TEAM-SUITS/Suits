@@ -11,7 +11,7 @@ const DialogContainer = styled.div.attrs((props) => ({
   ariaLabel: props.label,
 }))`
   z-index: 999;
-  background-color: var(--color-lightgray1);
+  background-color: var(--color-gray1);
   position: fixed;
   left: 50%;
   top: 50%;
@@ -44,7 +44,7 @@ const CloseButton = styled.button.attrs(() => ({
   border: none;
 
   line {
-    stroke: var(--color-gray1);
+    stroke: var(--color-gray3);
   }
 `;
 
@@ -60,7 +60,7 @@ const Modal = styled.div.attrs(() => ({
 }))`
   max-width: 100%;
   z-index: 998;
-  background-color: var(--color-black);
+  background-color: var(--color-text);
   position: fixed;
   left: 0;
   right: 0;

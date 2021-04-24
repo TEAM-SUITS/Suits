@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import {
   museoSmall,
-  textShadowBlack,
+  textShadow,
   spoqaSmallBold,
 } from "styles/common/common.styled";
 import { string, number } from "prop-types";
@@ -95,7 +95,7 @@ StyledHardWorker.IconContainer = styled.div`
 StyledHardWorker.Username = styled.h3`
   margin: 3px 0;
   ${museoSmall};
-  ${textShadowBlack};
+  ${textShadow};
 
   @media screen and (min-width: 480px) {
     font-size: 1.8rem;
