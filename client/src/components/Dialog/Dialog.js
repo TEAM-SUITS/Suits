@@ -136,7 +136,7 @@ export default function Dialog({
   return (
     <>
       <Portal id={"dialog-container"}>
-        {visible ? <Modal opacity={opacity} /> : null}
+        {visible ? <Modal className="modal" opacity={opacity} /> : null}
         {visible && (
           <DialogContainer ref={dialogRef} label={label}>
             <CloseButton>

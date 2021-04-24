@@ -35,7 +35,6 @@ const PageContainer = styled(motion(Container))`
     page === "search" &&
     css`
       margin: ${({ margin }) => (margin ? margin : "120px 0")};
-      justify-content: flex-start;
 
       > div {
         margin-top: 3em;
@@ -53,6 +52,34 @@ const PageContainer = styled(motion(Container))`
     page === "profile" &&
     css`
       margin: 4.5em 0;
+
+      .question {
+        margin-bottom: 3em;
+      }
+      @media screen and (min-width: 640px) {
+        display: flex;
+        flex-flow: row;
+        justify-content: flex-start;
+
+        .profile {
+          max-width: 30em;
+          margin-right: 3em;
+        }
+        .question {
+          h2 {
+            max-height: 3em;
+            overflow-y: scroll;
+          }
+          p {
+            min-height: 60px;
+          }
+        }
+      }
+
+      li {
+        max-width: 350px;
+      }
+
       > div {
         margin-bottom: 3em;
       }

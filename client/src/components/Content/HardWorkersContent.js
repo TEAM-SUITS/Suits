@@ -6,6 +6,7 @@ import { array, bool } from "prop-types";
 import { Skeleton } from "@material-ui/lab";
 import ProfileDialog from "containers/ProfileDialog/ProfileDialog";
 import API from "api/api";
+import { useEffect } from "react";
 
 const HardWorkers = styled.ul`
   ${resetList}
@@ -91,6 +92,17 @@ export default function HardWorkersContent({ users, $isLoading }) {
   const [profile, setProfile] = useState({});
   const [isLoading, setLoading] = useState(false);
 
+  const handleClick = (e) => {
+    if (e.target.classList.contains("modal")) setDialogVisiblity(false);
+  };
+
+  useEffect(() => {
+    if (isDialogVisible) {
+      window.addEventListener("click", handleClick);
+    }
+    return () => window.removeEventListener("click", handleClick);
+  }, [isDialogVisible]);
+
   const handleDialog = async (id) => {
     setDialogVisiblity(true);
     // profile에 맞게 데이터를 전달해주기 위해 가공
@@ -98,6 +110,7 @@ export default function HardWorkersContent({ users, $isLoading }) {
       setLoading(true);
       const data = await API(`/api/user-profile/${id}`, "get");
       const {
+        _id,
         username,
         avatar,
         tier,
@@ -107,6 +120,7 @@ export default function HardWorkersContent({ users, $isLoading }) {
         likeCount,
       } = data[0];
       setProfile({
+        _id,
         username,
         img: avatar,
         tier,
