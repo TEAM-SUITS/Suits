@@ -32,14 +32,21 @@ const InfoMsg = styled.p`
 `;
 
 /* ---------------------------------- 검색 영역 --------------------------------- */
-function ResultsSection({ result = [], word = "", isLoading }) {
+function ResultsSection({ result = [], word = "", isLoading, refreshSearchData }) {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [question, setQuestion] = useState({});
+
   // 이벤트 핸들러(QnA 다이얼로그 제어)
   const handleDialog = async (id) => {
     const res = await API(`/api/questions/${id}`, "get");
     setQuestion(res);
     setIsDialogVisible(true);
+  };
+
+  const refreshQuestion = async () => {
+    const res = await API(`/api/questions/${question._id}`, "get");
+    setQuestion(res);
+    refreshSearchData();
   };
 
   // 로딩 중일 때
@@ -70,6 +77,7 @@ function ResultsSection({ result = [], word = "", isLoading }) {
           setQuestion({});
         }}
         question={question}
+        refreshQuestion={refreshQuestion}
       />
       {result.map((data, idx) => (
         <Card
@@ -124,6 +132,11 @@ export default function SearchPage() {
       setSearchWord(v);
     }
   };
+
+  const refreshSearchData = () => {
+    dispatch(fetchSearchData(searchWord, prevSearchWord));
+  };
+
   const handleCancelButton = () => {
     setPrevSearchWord(searchWord);
     setSearchWord("");
@@ -147,6 +160,7 @@ export default function SearchPage() {
             result={searchState.searchData}
             word={searchWord}
             isLoading={searchState.isLoading}
+            refreshSearchData={refreshSearchData}
           />
       </PageContainer>
     </>

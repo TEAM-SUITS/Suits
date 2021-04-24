@@ -94,6 +94,7 @@ export default function HomePage() {
     dispatch(fetchHardWorkersData("init"));
   }, [dispatch]);
 
+  // 처음 앱에 가입한 유저인 경우 키워드 설정하는 모달이 나오도록 설정
   useEffect(() => {
     if (currentUserData && currentUserData[0].firstLogin)
       setIsSelectingKeywords(true);
@@ -107,6 +108,7 @@ export default function HomePage() {
           onClose={() => setIsSelectingKeywords(false)}
         />
       )}
+
       <TextHeaderBar page="home" />
       <PageContainer
         page="home"
@@ -145,7 +147,6 @@ export default function HomePage() {
         ) : (
           <SkeletonCard variant="rect" animation="wave" height="16em" />
         )}
-
         {/* 명언 카드 섹션 */}
         <Card title="Wisdom Of The Day">
           {
@@ -184,6 +185,7 @@ export default function HomePage() {
             $isLoading={isWorkerLoading}
           />
         </Card>
+
         {/* 급상승 질문 탑3 */}
         <Card title="Trending QnA">
           <TrendingQuestionContent

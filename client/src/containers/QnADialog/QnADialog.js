@@ -50,21 +50,24 @@ const AnswerContainer = styled.div`
     resize: none;
     ${boxShadowBlack}
   }
+`;
 
-  button {
-    background-color: var(--color-gray3);
-    color: var(--color-lightgray1);
-    border: none;
-    border-radius: 5px;
-    width: 60px;
-    ${boxShadowBlack}
-    ${spoqaMedium}
-    padding: 0 3px;
-    position: absolute;
-    bottom: 0.6em;
-    right: 0.3em;
-    cursor: pointer;
-  }
+const StyledButton = styled.button.attrs((props) => ({
+  type: 'button',
+  disabled: props.disabled,
+}))`
+  background-color: ${({ disabled }) => disabled ? 'var(--color-gray1)' : 'var(--color-gray3)' };
+  color: var(--color-lightgray1);
+  border: none;
+  border-radius: 5px;
+  width: 60px;
+  ${boxShadowBlack}
+  ${spoqaMedium}
+  padding: 0 3px;
+  position: absolute;
+  bottom: 0.6em;
+  right: 0.3em;
+  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer' };
 `;
 
 const SkeletonStyle = css`
@@ -114,7 +117,24 @@ const Answers = ({ answersList = [] }) => {
   );
 };
 
-const InputArea = ({ isAnswered, isInputLoading }) => {
+const InputArea = ({ isAnswered, isInputLoading, questionId, handleIsAnswered, refreshQuestion }) => {
+  const [content, setContent] = useState('');
+  const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
+
+  const handleContent = e => {
+    setContent(e.target.value);
+  };
+
+  const postContent = async () => {
+    await API('/api/answers', 'post', {
+      content,
+      questionId,
+    });
+
+    handleIsAnswered();
+    refreshQuestion();
+  };
+
   if (isInputLoading) {
     return <Spinner />;
   }
@@ -123,8 +143,14 @@ const InputArea = ({ isAnswered, isInputLoading }) => {
 
   return (
     <AnswerContainer>
-      <textarea />
-      <button>Post</button>
+      <textarea onChange={(e) => handleContent(e)} />
+      <StyledButton
+        disabled={isDisabled}
+        onClick={() => {
+          setIsDisabled(true);
+          postContent();
+        }}
+      >Post</StyledButton>
     </AnswerContainer>
   );
 };
@@ -134,19 +160,28 @@ export default function QnADialog({
   isVisible,
   question = {},
   onClick, // 닫기 버튼 제어
+  refreshQuestion,
 }) {
-  const { currentUserData: userData } = useSelector(
-    (state) => state.currentUser
-  );
+  // const { currentUserData: userData } = useSelector(
+  //   (state) => state.currentUser
+  // );
   const [isAnswered, setIsAnswered] = useState(null);
   const [isInputLoading, setIsInputLoading] = useState(null);
+  // InputArea로부터 상태 끌어올리기
+  // const [content, setContent] = useState('');
 
   useEffect(() => {
+    setIsAnswered(true);
     setIsInputLoading(true);
-    const getIsAnswered = (questionId) => {
-      const check =
-        userData &&
-        userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
+    const getIsAnswered = async (questionId) => {
+      const userData = await API("/api/user-profile", "get");
+      const check = userData[0].answeredQuestions.find(
+        ({ _id }) => _id === questionId
+      );
+    // const getIsAnswered = (questionId) => {
+    //   const check =
+    //     userData &&
+    //     userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
 
       check ? setIsAnswered(true) : setIsAnswered(false);
       setIsInputLoading(false);
@@ -157,7 +192,9 @@ export default function QnADialog({
     }
   }, [question._id]);
 
-  // if (!Object.keys(question).length) return null;
+  const handleIsAnswered = () => {
+    setIsAnswered(true);
+  };
 
   return (
     <Portal id={"dialog-container"}>
@@ -178,6 +215,9 @@ export default function QnADialog({
               <InputArea
                 isAnswered={isAnswered}
                 isInputLoading={isInputLoading}
+                questionId={question._id}
+                handleIsAnswered={handleIsAnswered}
+                refreshQuestion={refreshQuestion}
               />
             </Card>
           ) : (
