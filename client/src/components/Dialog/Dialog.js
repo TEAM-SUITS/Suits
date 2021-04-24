@@ -27,8 +27,9 @@ const DialogContainer = styled.div.attrs((props) => ({
     min-height: 250px;
   }
 
+  // 모바일
   @media screen and (max-width: 480px) {
-    min-width: 100vw;
+    width: 350px;
   }
 `;
 

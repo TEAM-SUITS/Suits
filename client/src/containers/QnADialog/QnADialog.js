@@ -76,6 +76,10 @@ const SkeletonStyle = css`
   max-width: 688px;
   margin: 3em;
   background-color: #e6e6e6;
+
+  @media screen and (max-width: 480px) {
+    margin: 3em auto;
+  }
 `;
 
 const SkeletonCard = styled(Skeleton)`
