@@ -28,7 +28,7 @@ const Backdrop = styled.div.attrs(() => ({
 }))`
   max-width: 100%;
   z-index: 998;
-  background-color: var(--color-text);
+  background-color: var(--color-black);
   position: fixed;
   left: 0;
   right: 0;
@@ -67,12 +67,12 @@ const StyledList = styled.ul`
 `;
 
 const CancelButton = styled.button`
-  color: var(--color-gray4);
+  color: var(--color-gray2);
   left: 1.5em;
 `;
 
 const DoneButton = styled.button`
-  color: var(--color-body);
+  color: var(--color-white);
   right: 1.5em;
 `;
 

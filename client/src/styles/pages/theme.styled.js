@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 /* 전역 스타일--------------------------------------------------------- */
 
@@ -13,9 +13,7 @@ export const GlobalStyle = createGlobalStyle`
     color: #212121;
     font-size: 10px;
     max-width: 944px;
-    background-color: var(--color-gray1);
-    background: ${(props) => props.theme.body};
-    color: ${(props) => props.theme.text};
+    background-color: var(--color-lightgray1);
   }
 
   body,
@@ -52,13 +50,6 @@ export const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
 
-  svg {
-    path{
-
-    fill: var(--color-text);
-    }
-  }
-
 /* ------------------------------- 사용자 정의 스타일 ------------------------------- */
 
   body {
@@ -73,13 +64,13 @@ export const GlobalStyle = createGlobalStyle`
   html {
     font-size: 10px;
     /* 색상 변수 */
-    --color-body: ${(props) => props.theme.body};
-    --color-text: ${(props) => props.theme.text};
-    --color-gray1: ${(props) => props.theme.gray1};
-    --color-gray2: ${(props) => props.theme.gray2};
-    --color-gray3: ${(props) => props.theme.gray3};
-    --color-gray4: ${(props) => props.theme.gray4};
-    --color-gray5: ${(props) => props.theme.gray5};
+    --color-white: #FFF;
+    --color-black: #101010;
+    --color-lightgray1: #FAFAFA;
+    --color-lightgray2: #F0F0F0;
+    --color-gray1: #CCC;
+    --color-gray2: #AAA;
+    --color-gray3: #555;
     --color-red: #DD2222;
     --color-green1: #5F885F;
     --color-green2: #6FCF97;

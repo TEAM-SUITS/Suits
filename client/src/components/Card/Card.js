@@ -1,7 +1,11 @@
 import React from "react";
 import { bool, string, node, array } from "prop-types";
 import styled from "styled-components";
-import { boxShadow, resetList, textShadow } from "styles/common/common.styled";
+import {
+  boxShadowBlack,
+  resetList,
+  textShadowBlack,
+} from "styles/common/common.styled";
 import Icon from "components/Icon/Icon";
 import Divider from "components/Divider/Divider";
 import Hashtag from "components/Hashtag/Hashtag";
@@ -9,17 +13,17 @@ import Hashtag from "components/Hashtag/Hashtag";
 /* ---------------------------- styled components ---------------------------- */
 
 const CardBox = styled.div`
-  ${boxShadow}
+  ${boxShadowBlack}
   cursor: ${(props) =>
     props.isQuestion && !props.isDialog ? "pointer" : "initial"};
   position: relative;
   min-width: 305px;
   border-radius: 10px;
-  background-color: var(--color-gray1);
+  background-color: var(--color-white);
   padding: 1em 2em 1.4em;
   max-height: 60vh;
   overflow: auto;
-  color: var(--color-gray5);
+  color: var(--color-gray3);
   max-width: 688px;
   width: 100%;
 `;
@@ -91,8 +95,8 @@ CardBox.Header = styled.div`
     display: block;
     font-weight: 700;
     text-align: center;
-    color: var(--color-gray5);
-    ${textShadow}
+    color: var(--color-gray3);
+    ${textShadowBlack}
     font-size: 1.6rem;
     padding: 0 2em;
   }
