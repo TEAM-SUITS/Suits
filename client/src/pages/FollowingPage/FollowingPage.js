@@ -124,12 +124,19 @@ function CardSection({
   currentTag = '',
   onClick,
   keywords = [],
+  refreshFollowingData,
 }) {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [question, setQuestion] = useState({});
   const handleDialog = async (id) => {
     const res = await API(`/api/questions/${id}`, "get");
     setQuestion(res);
+  };
+
+  const refreshQuestion = async () => {
+    const res = await API(`/api/questions/${question._id}`, "get");
+    setQuestion(res);
+    refreshFollowingData();
   };
 
   if (!isLoading && !keywords.length) {
@@ -154,6 +161,7 @@ function CardSection({
           setQuestion({});
         }}
         question={question}
+        refreshQuestion={refreshQuestion}
       />
       <HashtagList>
         <li>
@@ -240,11 +248,14 @@ export default function FollowingPage() {
     if (userState.currentUserData) setKeywords(userState.currentUserData[0].hashTag);
     setPrevTag(currentTag);
     dispatch(fetchFollowingData(keywords, currentTag, prevTag, followingState.isInitial));
-    console.log(currentTag, prevTag);
   }, [dispatch, keywords, currentTag, userState.currentUserData]);
 
   const onClick = e => {
     setCurrentTag(e.target.title);
+  };
+
+  const refreshFollowingData = () => {
+    dispatch(fetchFollowingData(keywords, currentTag, prevTag, !followingState.isInitial));
   };
 
   return (
@@ -263,6 +274,7 @@ export default function FollowingPage() {
             currentTag={currentTag}
             onClick={onClick}
             keywords={keywords}
+            refreshFollowingData={refreshFollowingData}
           />
         ) : (
           <>

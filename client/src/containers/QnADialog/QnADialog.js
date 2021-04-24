@@ -67,7 +67,7 @@ const StyledButton = styled.button.attrs((props) => ({
   position: absolute;
   bottom: 0.6em;
   right: 0.3em;
-  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer' };
+  cursor: ${({ disabled }) => disabled ? 'wait' : 'pointer' };
 `;
 
 const SkeletonStyle = css`

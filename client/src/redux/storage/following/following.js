@@ -15,13 +15,11 @@ export const fetchFollowingData = (
 ) => async dispatch => {
   // 팔로잉 중인 키워드가 없는 경우
   if (!hashtags.length) {
-    console.log('first one');
     return;
   }
 
   // 다른 페이지 갔다가 돌아왔을 경우, 비동기 요청 없이 기존 정보 조회
   if (!init && currentTag === prevTag) {
-    console.log('second one');
 
     dispatch({ type: READ_FOLLOWING_DATA });
     return;
