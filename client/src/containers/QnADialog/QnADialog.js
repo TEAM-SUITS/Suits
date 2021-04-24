@@ -16,6 +16,7 @@ import API from "api/api";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 import { Skeleton } from "@material-ui/lab";
 import { useSelector } from "react-redux";
+import badwordFliter from "utils/badwordFilter/badwordFilter";
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -127,7 +128,7 @@ const InputArea = ({ isAnswered, isInputLoading, questionId, handleIsAnswered, r
 
   const postContent = async () => {
     await API('/api/answers', 'post', {
-      content,
+      content: badwordFliter.filter(content, '**'),
       questionId,
     });
 
