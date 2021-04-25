@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { string } from 'prop-types';
 
-const HorizontalLine = styled.hr`
+const HorizontalLine = styled.div`
   height: ${({ height }) => (height ? height : '1px')};
   width: ${({ width }) => (width ? width : '100%')};
   background-color: ${({ color }) => (color ? color : 'var(--color-gray4)')};
