@@ -1,6 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
-import { resetList, spoqaMedium, spoqaLarge } from "styles/common/common.styled";
+import {
+  resetList,
+  spoqaMedium,
+  spoqaLarge,
+} from "styles/common/common.styled";
 import { Link } from "react-router-dom";
 import PageContainer from "containers/PageContainer/PageContainer.styled";
 import { pageEffect } from "styles/motions/variants";
@@ -41,12 +45,11 @@ const CardList = styled.ul`
       width: 350px;
     }
   }
-
 `;
 
 const ImageSection = styled.img.attrs(() => ({
   src: "assets/suity.png",
-  alt: "관심 키워드 설정 안내하는 슈티"
+  alt: "관심 키워드 설정 안내하는 슈티",
 }))`
   width: 300px;
 
@@ -121,7 +124,7 @@ const SkeletonTitle = styled(Skeleton)`
 function CardSection({
   isLoading,
   cardData = {},
-  currentTag = '',
+  currentTag = "",
   onClick,
   keywords = [],
   refreshFollowingData,
@@ -166,61 +169,63 @@ function CardSection({
       <HashtagList>
         <li>
           <Hashtag
-            type='All'
-            isSelected={currentTag === 'All' ? true : false}
+            type="All"
+            isSelected={currentTag === "All" ? true : false}
             isButton={true}
             clicked={onClick}
           />
         </li>
-        {keywords.map(tag => (
-            <li key={tag}>
-              <Hashtag
-                type={tag}
-                isSelected={currentTag === tag ? true : false}
-                isButton={true}
-                clicked={onClick}
-              />
-            </li>
-          ))}
+        {keywords.map((tag) => (
+          <li key={tag}>
+            <Hashtag
+              type={tag}
+              isSelected={currentTag === tag ? true : false}
+              isButton={true}
+              clicked={onClick}
+            />
+          </li>
+        ))}
       </HashtagList>
       <CardList>
-        {cardData ? (isLoading ? (
-          <>
-            <SkeletonCard variant="rect" height="20em" />
-            <SkeletonCard variant="rect" height="20em" />
-            <SkeletonCard variant="rect" height="20em" />
-          </>
-        ) : (
-          cardData.docs.map(data => (
-            <li key={data._id}>
-              <Card
-                key={data._id}
-                isQuestion={true}
-                title={data.content}
-                tags={data.hashTag}
-                onClick={() => {
-                  setIsDialogVisible(true);
-                  handleDialog(data._id);
-                }}
-              >
-                <QnAContent
-                  answer={
-                    // 빈 객체일 경우 false 전달
-                    !!data.answers.length &&
-                    data.answers.reduce(
-                      (prev, curr) => {
-                        if (curr.likes.length >= prev.likes.length) {
-                          return curr;
-                        }
-                        return prev;
-                      },
-                      { likes: [] }
-                    )
-                  }
-                />
-              </Card>
-            </li>
-          )))
+        {cardData ? (
+          isLoading ? (
+            <>
+              <SkeletonCard variant="rect" height="20em" />
+              <SkeletonCard variant="rect" height="20em" />
+              <SkeletonCard variant="rect" height="20em" />
+            </>
+          ) : (
+            cardData.docs.map((data) => (
+              <li key={data._id}>
+                <Card
+                  key={data._id}
+                  isQuestion={true}
+                  title={data.content}
+                  tags={data.hashTag}
+                  onClick={() => {
+                    setIsDialogVisible(true);
+                    handleDialog(data._id);
+                  }}
+                >
+                  <QnAContent
+                    answer={
+                      // 빈 객체일 경우 false 전달
+                      !!data.answers.length &&
+                      data.answers.reduce(
+                        (prev, curr) => {
+                          if (curr.likes.length >= prev.likes.length) {
+                            return curr;
+                          }
+                          return prev;
+                        },
+                        { likes: [] }
+                      )
+                    }
+                  />
+                </Card>
+              </li>
+            ))
+          )
         ) : (
           <>
             <SkeletonCard variant="rect" height="20em" />
@@ -236,26 +241,41 @@ function CardSection({
 /* -------------------------------------------------------------------------- */
 export default function FollowingPage() {
   const dispatch = useDispatch();
-  const userState = useSelector(state => state.currentUser);
-  const followingState = useSelector(state => state.following);
+  const userState = useSelector((state) => state.currentUser);
+  const followingState = useSelector((state) => state.following);
   const [currentTag, setCurrentTag] = useState(followingState.currentTag);
-  const [prevTag, setPrevTag] = useState('All');
+  const [prevTag, setPrevTag] = useState("All");
   const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
     // App이 userState를 받아오기 전 바로 팔로잉페이지로 접근할 경우의
     // 에러를 방지하기 위해 분기 처리
-    if (userState.currentUserData) setKeywords(userState.currentUserData[0].hashTag);
+    if (userState.currentUserData)
+      setKeywords(userState.currentUserData[0].hashTag);
     setPrevTag(currentTag);
-    dispatch(fetchFollowingData(keywords, currentTag, prevTag, followingState.isInitial));
+    dispatch(
+      fetchFollowingData(
+        keywords,
+        currentTag,
+        prevTag,
+        followingState.isInitial
+      )
+    );
   }, [dispatch, keywords, currentTag, userState.currentUserData]);
 
-  const onClick = e => {
+  const onClick = (e) => {
     setCurrentTag(e.target.title);
   };
 
   const refreshFollowingData = () => {
-    dispatch(fetchFollowingData(keywords, currentTag, prevTag, !followingState.isInitial));
+    dispatch(
+      fetchFollowingData(
+        keywords,
+        currentTag,
+        prevTag,
+        !followingState.isInitial
+      )
+    );
   };
 
   return (

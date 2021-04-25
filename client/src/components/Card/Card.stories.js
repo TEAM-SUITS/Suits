@@ -32,6 +32,9 @@ export default {
     tags: {
       description: "카드에 명시될 태그를 보여주기 위한 용도",
     },
+    hasButton: {
+      description: "카드 위에 버튼을 추가할경우 마진을 주기 위한용도",
+    },
     children: {
       description: "카드의 컨텐츠",
     },

@@ -7,12 +7,11 @@ import SearchHeaderBar from "containers/SearchHeaderBar/SearchHeaderBar";
 import Card from "components/Card/Card";
 import QnAContent from "components/Content/QnAContent";
 import { fetchSearchData } from "redux/storage/search/search";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { spoqaMedium } from "styles/common/common.styled";
 import { array, string } from "prop-types";
 import QnADialog from "containers/QnADialog/QnADialog";
 import API from "api/api";
-import { Skeleton } from "@material-ui/lab";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 
 /* ---------------------------- styled components --------------------------- */
@@ -32,7 +31,12 @@ const InfoMsg = styled.p`
 `;
 
 /* ---------------------------------- 검색 영역 --------------------------------- */
-function ResultsSection({ result = [], word = "", isLoading, refreshSearchData }) {
+function ResultsSection({
+  result = [],
+  word = "",
+  isLoading,
+  refreshSearchData,
+}) {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [question, setQuestion] = useState({});
 
@@ -51,9 +55,7 @@ function ResultsSection({ result = [], word = "", isLoading, refreshSearchData }
 
   // 로딩 중일 때
   if (isLoading) {
-    return (
-      <Spinner />
-    );
+    return <Spinner />;
   }
 
   if (result === null || word === "") {
@@ -156,12 +158,12 @@ export default function SearchPage() {
           initialWord={searchWord}
         />
         <TextHeaderBar page="search" />
-          <ResultsSection
-            result={searchState.searchData}
-            word={searchWord}
-            isLoading={searchState.isLoading}
-            refreshSearchData={refreshSearchData}
-          />
+        <ResultsSection
+          result={searchState.searchData}
+          word={searchWord}
+          isLoading={searchState.isLoading}
+          refreshSearchData={refreshSearchData}
+        />
       </PageContainer>
     </>
   );

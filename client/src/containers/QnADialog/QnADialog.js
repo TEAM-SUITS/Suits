@@ -54,10 +54,11 @@ const AnswerContainer = styled.div`
 `;
 
 const StyledButton = styled.button.attrs((props) => ({
-  type: 'button',
+  type: "button",
   disabled: props.disabled,
 }))`
-  background-color: ${({ disabled }) => disabled ? 'var(--color-gray1)' : 'var(--color-gray3)' };
+  background-color: ${({ disabled }) =>
+    disabled ? "var(--color-gray1)" : "var(--color-gray3)"};
   color: var(--color-lightgray1);
   border: none;
   border-radius: 5px;
@@ -68,7 +69,7 @@ const StyledButton = styled.button.attrs((props) => ({
   position: absolute;
   bottom: 0.6em;
   right: 0.3em;
-  cursor: ${({ disabled }) => disabled ? 'wait' : 'pointer' };
+  cursor: ${({ disabled }) => (disabled ? "wait" : "pointer")};
 `;
 
 const SkeletonStyle = css`
@@ -118,17 +119,23 @@ const Answers = ({ answersList = [] }) => {
   );
 };
 
-const InputArea = ({ isAnswered, isInputLoading, questionId, handleIsAnswered, refreshQuestion }) => {
-  const [content, setContent] = useState('');
+const InputArea = ({
+  isAnswered,
+  isInputLoading,
+  questionId,
+  handleIsAnswered,
+  refreshQuestion,
+}) => {
+  const [content, setContent] = useState("");
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
 
-  const handleContent = e => {
+  const handleContent = (e) => {
     setContent(e.target.value);
   };
 
   const postContent = async () => {
-    await API('/api/answers', 'post', {
-      content: badwordFliter.filter(content, '**'),
+    await API("/api/answers", "post", {
+      content: badwordFliter.filter(content, "**"),
       questionId,
     });
 
@@ -151,7 +158,9 @@ const InputArea = ({ isAnswered, isInputLoading, questionId, handleIsAnswered, r
           setIsDisabled(true);
           postContent();
         }}
-      >Post</StyledButton>
+      >
+        Post
+      </StyledButton>
     </AnswerContainer>
   );
 };
@@ -179,10 +188,10 @@ export default function QnADialog({
       const check = userData[0].answeredQuestions.find(
         ({ _id }) => _id === questionId
       );
-    // const getIsAnswered = (questionId) => {
-    //   const check =
-    //     userData &&
-    //     userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
+      // const getIsAnswered = (questionId) => {
+      //   const check =
+      //     userData &&
+      //     userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
 
       check ? setIsAnswered(true) : setIsAnswered(false);
       setIsInputLoading(false);

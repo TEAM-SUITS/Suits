@@ -18,6 +18,7 @@ import QnAContent from "components/Content/QnAContent";
 import Button from "components/Button/Button";
 import { Skeleton } from "@material-ui/lab";
 import KeywordSelect from "components/KeywordSelect/KeywordSelect";
+import useDetectViewport from "hooks/useDetectViewport";
 
 /* ---------------------------- styled components --------------------------- */
 
@@ -35,13 +36,22 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
   }
 `;
 
-const StyledRefreshButton = styled(Button)`
+const RefreshButton = styled(Button)`
   position: absolute;
   bottom: 1em;
   background-color: transparent;
   border: 1px solid #0000001f;
   svg path {
     fill: var(--color-orange);
+  }
+  @media screen and (max-width: 480px) {
+    top: 0;
+    left: 0;
+    height: 2em;
+    width: 100%;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #0000001f;
   }
 `;
 
@@ -58,6 +68,7 @@ const SkeletonCard = styled(Skeleton)`
 export default function HomePage() {
   const [quoteLanguage, setQuoteLanguage] = useState("ko");
   const [isSelectingKeywords, setIsSelectingKeywords] = useState(false);
+  const { isMobile } = useDetectViewport();
 
   const dispatch = useDispatch();
 
@@ -119,9 +130,10 @@ export default function HomePage() {
         {/* 랜덤 QnA 카드 섹션 */}
         {randomQData && !isRandomQLoading ? (
           <Card
-            isQuestion={true}
+            isQuestion
             title={randomQData.content}
             tags={randomQData.hashTag}
+            hasButton
           >
             <QnAContent
               answer={
@@ -137,11 +149,12 @@ export default function HomePage() {
                 )
               }
             />
-            <StyledRefreshButton
+            <RefreshButton
               outline
               icon="refresh"
               onClick={() => dispatch(fetchRandomQData())}
               aria-label="새로고침"
+              isMobile={isMobile}
             />
           </Card>
         ) : (

@@ -20,25 +20,33 @@ const StyledProfile = styled.div`
   flex-flow: wrap;
   position: relative;
   min-height: 250px;
-  padding: 1.5em 1.6em 1em;
+  padding: 3.5em 1.6em 1em;
   width: 100%;
   justify-content: center;
   background-color: var(--color-white);
-
   @media screen and (min-width: 640px) {
     width: 30em;
     margin-right: 3em;
     margin: 0 auto;
+  }
+  @media screen and (max-width: 480px) {
+    padding-top: 5em;
   }
 
   & > img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    margin-right: 1.6em;
-    @media screen and (min-width: 480px) {
+    @media screen and (min-width: 481px) {
       width: 150px;
       height: 150px;
+    }
+    @media screen and (max-width: 480px) {
+      margin-top: 0;
+      margin-right: 0;
+    }
+    @media screen and (min-width: 350px) and (max-width: 639px) {
+      margin-right: 1.6em;
     }
   }
 
@@ -47,17 +55,20 @@ const StyledProfile = styled.div`
     color: var(--color-gray3);
     ${spoqaSmall}
   }
+
   p {
     ${spoqaMediumLight}
     max-width: 200px;
   }
+
   .hashtags {
     min-width: 250px;
     height: 2em;
     margin: 2em 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
   }
+
   .no-tag {
     width: 220px;
     margin-bottom: 1em;
@@ -113,12 +124,17 @@ const StyledLink = styled(motion(Link))``;
 /* ---------------------------- Skeleton UI --------------------------- */
 
 const ProfileSkeletonImage = styled(Skeleton)`
+  margin-right: 1.6em;
+  margin-bottom: 1em;
   width: 100px !important;
   height: 100px !important;
-  margin-right: 1.6em;
-  @media screen and (min-width: 480px) {
+  @media screen and (min-width: 481px) {
     width: 150px !important;
     height: 150px !important;
+    margin-right: 0;
+  }
+  @media screen and (min-width: 350px) and (max-width: 639px) {
+    margin-right: 1.6em;
   }
 `;
 

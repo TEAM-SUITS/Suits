@@ -4,6 +4,7 @@ import Icon from "components/Icon/Icon";
 import { museoMedium, textShadowBlack } from "styles/common/common.styled";
 import { string, node, bool } from "prop-types";
 import { motion } from "framer-motion";
+import useDetectViewport from "hooks/useDetectViewport";
 
 /* ---------------------------- styled components --------------------------- */
 
@@ -40,11 +41,12 @@ export default function Button({
   isLoading,
   disabled,
   title,
+  isMobile,
   ...restProps
 }) {
   return (
     <StyledButton
-      whileHover={{ scale: 1.1 }}
+      whileHover={isMobile ? null : { scale: 1.1 }}
       outline={outline}
       width={width}
       height={height}

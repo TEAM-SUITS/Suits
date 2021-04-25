@@ -130,7 +130,7 @@ export default function HardWorkersContent({ users, $isLoading }) {
         like: likeCount,
       });
     } catch (err) {
-      console.err(err);
+      console.error(err);
     } finally {
       setLoading(false);
     }

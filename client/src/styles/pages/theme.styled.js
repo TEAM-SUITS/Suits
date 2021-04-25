@@ -50,6 +50,11 @@ export const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
 
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
 /* ------------------------------- 사용자 정의 스타일 ------------------------------- */
 
   body {
