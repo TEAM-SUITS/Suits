@@ -43,11 +43,8 @@ function App() {
    */
   useEffect(() => {
     dispatch(fetchUserAction());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(fetchCurrentUserData());
-  }, [dispatch, theme]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!currentUserData || typeof currentUserData[0] !== 'object') return;

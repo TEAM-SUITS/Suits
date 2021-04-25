@@ -7,20 +7,6 @@ import { useSelector } from 'react-redux';
 /* ---------------------------- styled components --------------------------- */
 const handleButtonTheme = (type, isSelected, theme, userTheme) => {
   // 🌒 다크 모드일 때
-  if (userTheme === 'dark') {
-    if (type === 'All') {
-      return isSelected
-        ? 'color: var(--color-white); background: var(--color-body)'
-        : 'color: var(--color-body); background: var(--color-text)';
-    }
-  
-    return isSelected
-      ? 'color: var(--color-white); background: var(--color-body)'
-      : `color: var(--color-black); background: var(${theme})`;
-  }
-
-  // 🌞 라이트 모드일 때
-  if (userTheme === 'light')
   if (type === 'All') {
     return isSelected
       ? 'color: var(--color-black); background: var(--color-gray3)'

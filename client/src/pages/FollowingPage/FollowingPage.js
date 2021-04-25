@@ -261,7 +261,7 @@ export default function FollowingPage() {
         followingState.isInitial
       )
     );
-  }, [dispatch, keywords, currentTag]);
+  }, [dispatch, keywords, currentTag, userState.currentUserData]);
 
   const onClick = (e) => {
     setCurrentTag(e.target.title);
