@@ -15,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
     max-width: 944px;
     background-color: ${(props) => props.theme.gray1};
     color: ${(props) => props.theme.text};
+    transition: all 0.25s linear;
   }
 
   body,
