@@ -2,12 +2,28 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { bool, oneOf } from 'prop-types';
 import { boxShadow, spoqaSmallBold } from 'styles/common/common.styled';
+import { useSelector } from 'react-redux';
 
 /* ---------------------------- styled components --------------------------- */
-const handleButtonTheme = (type, isSelected, theme) => {
+const handleButtonTheme = (type, isSelected, theme, userTheme) => {
+  // 🌒 다크 모드일 때
+  if (userTheme === 'dark') {
+    if (type === 'All') {
+      return isSelected
+        ? 'color: var(--color-white); background: var(--color-body)'
+        : 'color: var(--color-body); background: var(--color-text)';
+    }
+  
+    return isSelected
+      ? 'color: var(--color-white); background: var(--color-body)'
+      : `color: var(--color-black); background: var(${theme})`;
+  }
+
+  // 🌞 라이트 모드일 때
+  if (userTheme === 'light')
   if (type === 'All') {
     return isSelected
-      ? 'color: var(--color-gray5); background: var(--color-gray3)'
+      ? 'color: var(--color-black); background: var(--color-gray3)'
       : 'color: var(--color-body); background: var(--color-text)';
   }
 
@@ -32,8 +48,8 @@ const StyledHashtag = styled.div`
   min-width: 7.6rem;
   font-size: ${(props) => (props.isSelected ? 'inherit' : '1rem')};
   cursor: ${(props) => (props.isButton ? 'pointer' : 'initial')};
-  ${({ $type, isSelected, theme }) =>
-    handleButtonTheme($type, isSelected, theme)}
+  ${({ $type, isSelected, theme, userTheme }) =>
+    handleButtonTheme($type, isSelected, theme, userTheme)}
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -44,6 +60,8 @@ export default function Hashtag({
   children,
   clicked,
 }) {
+  const userState = useSelector(state => state.currentUser);
+
   let theme = '';
 
   switch (type) {
@@ -83,6 +101,7 @@ export default function Hashtag({
       isButton={isButton}
       isSelected={isSelected}
       theme={theme}
+      userTheme={userState.currentUserData[0].theme}
       role={isButton && 'button'}
       aria-label={isButton ? type : ''}
       title={isButton ? type : ''}
