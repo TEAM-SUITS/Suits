@@ -23,7 +23,8 @@ const StyledProfile = styled.div`
   padding: 3.5em 1.6em 1em;
   width: 100%;
   justify-content: center;
-  background-color: var(--color-white);
+  background-color: var(--color-body);
+
   @media screen and (min-width: 640px) {
     width: 30em;
     margin-right: 3em;
@@ -52,7 +53,7 @@ const StyledProfile = styled.div`
 
   a {
     text-decoration: none;
-    color: var(--color-gray3);
+    color: var(--color-gray5);
     ${spoqaSmall}
   }
 

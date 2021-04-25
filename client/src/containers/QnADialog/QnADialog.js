@@ -7,7 +7,7 @@ import Divider from "components/Divider/Divider";
 import Hashtag from "components/Hashtag/Hashtag";
 import styled, { css } from "styled-components";
 import {
-  boxShadowBlack,
+  boxShadow,
   spoqaMedium,
   spoqaMediumLight,
 } from "styles/common/common.styled";
@@ -42,14 +42,14 @@ const AnswerContainer = styled.div`
 
   textarea {
     ${spoqaMediumLight}
-    background-color: var(--color-lightgray2);
+    background-color: var(--color-gray2);
     padding: 1em;
-    border: solid 1px var(--color-gray1);
+    border: solid 1px var(--color-gray3);
     border-radius: 5px;
     width: 100%;
     height: 10em;
     resize: none;
-    ${boxShadowBlack}
+    ${boxShadow}
   }
 `;
 
@@ -58,12 +58,12 @@ const StyledButton = styled.button.attrs((props) => ({
   disabled: props.disabled,
 }))`
   background-color: ${({ disabled }) =>
-    disabled ? "var(--color-gray1)" : "var(--color-gray3)"};
-  color: var(--color-lightgray1);
+    disabled ? "var(--color-gray3)" : "var(--color-gray5)"};
+  color: var(--color-gray1);
   border: none;
   border-radius: 5px;
   width: 60px;
-  ${boxShadowBlack}
+  ${boxShadow}
   ${spoqaMedium}
   padding: 0 3px;
   position: absolute;
@@ -77,6 +77,10 @@ const SkeletonStyle = css`
   max-width: 688px;
   margin: 3em;
   background-color: #e6e6e6;
+
+  @media screen and (max-width: 480px) {
+    margin: 3em auto;
+  }
 `;
 
 const SkeletonCard = styled(Skeleton)`

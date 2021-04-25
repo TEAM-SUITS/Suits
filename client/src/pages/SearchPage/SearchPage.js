@@ -27,7 +27,7 @@ const InfoImg = styled.img`
 const InfoMsg = styled.p`
   ${spoqaMedium}
   text-align: center;
-  color: var(--color-gray3);
+  color: var(--color-gray5);
 `;
 
 /* ---------------------------------- 검색 영역 --------------------------------- */

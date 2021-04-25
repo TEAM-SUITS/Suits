@@ -1,11 +1,9 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import Icon from "components/Icon/Icon";
-import { museoMedium, textShadowBlack } from "styles/common/common.styled";
+import { museoMedium, textShadow } from "styles/common/common.styled";
 import { string, node, bool } from "prop-types";
 import { motion } from "framer-motion";
-import useDetectViewport from "hooks/useDetectViewport";
-
 /* ---------------------------- styled components --------------------------- */
 
 const StyledButton = styled(motion.button)`
@@ -16,7 +14,7 @@ const StyledButton = styled(motion.button)`
   width: ${({ width }) => (width ? width : "auto")};
   height: ${({ height }) => (height ? height : "auto")};
   ${museoMedium}
-  ${textShadowBlack};
+  ${textShadow};
   border: none;
   background-color: transparent;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
@@ -26,7 +24,7 @@ const StyledButton = styled(motion.button)`
       border-radius: 1em;
       padding: 0.625em;
       background-color: ${({ disabled }) =>
-        disabled ? "var(--color-white)" : "var(--color-gray2)"};
+        disabled ? "var(--color-body)" : "var(--color-gray4)"};
     `};
 `;
 

@@ -35,7 +35,7 @@ const Backdrop = styled.div.attrs(() => ({
   top: 0;
   bottom: 0;
   opacity: ${(props) => props.$opacity};
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(20px) opacity(0.8);
 `;
 
 const DialogContainer = styled.div.attrs((props) => ({
@@ -67,7 +67,7 @@ const StyledList = styled.ul`
 `;
 
 const CancelButton = styled.button`
-  color: var(--color-gray2);
+  color: var(--color-gray4);
   left: 1.5em;
 `;
 

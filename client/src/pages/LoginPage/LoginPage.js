@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import PageContainer from "containers/PageContainer/PageContainer.styled";
-import styled from "styled-components";
-import { pageEffect } from "styles/motions/variants";
-import { useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router";
-import Button from "components/Button/Button";
-import Icon from "components/Icon/Icon";
-import { museoLarge } from "styles/common/common.styled";
-import Alert from "components/Alert/Alert";
+import React, { useEffect, useState } from 'react';
+import PageContainer from 'containers/PageContainer/PageContainer.styled';
+import styled from 'styled-components';
+import { pageEffect } from 'styles/motions/variants';
+import { useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router';
+import Button from 'components/Button/Button';
+import Icon from 'components/Icon/Icon';
+import { museoLarge } from 'styles/common/common.styled';
+import Alert from 'components/Alert/Alert';
 
 const LoginContent = styled.div`
   display: flex;
@@ -16,6 +16,11 @@ const LoginContent = styled.div`
   justify-content: center;
   height: 100%;
   margin-top: 10em;
+  svg {
+    path {
+      fill: var(--color-white);
+    }
+  }
   h1 {
     text-transform: uppercase;
     ${museoLarge}
@@ -24,7 +29,13 @@ const LoginContent = styled.div`
     user-select: none;
   }
   button {
+    svg {
+      path {
+        fill: var(--color-black);
+      }
+    }
     margin-top: 5em;
+    background-color: var(--color-gray2);
   }
 `;
 
@@ -41,7 +52,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthed) {
-      !state?.referrer ? history.push("/") : history.push(state?.referrer);
+      !state?.referrer ? history.push('/') : history.push(state?.referrer);
     } else if (error) {
       setDisabled(false);
     }
@@ -49,7 +60,7 @@ export default function LoginPage() {
 
   const handleGithubLogin = () => {
     setDisabled(true);
-    window.open("/auth/github", "_self");
+    window.open('/auth/github', '_self');
   };
 
   return (

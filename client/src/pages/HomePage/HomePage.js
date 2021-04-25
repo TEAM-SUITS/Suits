@@ -18,6 +18,7 @@ import QnAContent from "components/Content/QnAContent";
 import Button from "components/Button/Button";
 import { Skeleton } from "@material-ui/lab";
 import KeywordSelect from "components/KeywordSelect/KeywordSelect";
+import { boxShadow } from "styles/common/common.styled";
 import useDetectViewport from "hooks/useDetectViewport";
 
 /* ---------------------------- styled components --------------------------- */
@@ -28,7 +29,7 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
   margin-top: 1.2em;
 
   button {
-    color: var(--color-black);
+    color: var(--color-text);
   }
   button:disabled {
     font-weight: 700;
@@ -39,8 +40,9 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
 const RefreshButton = styled(Button)`
   position: absolute;
   bottom: 1em;
-  background-color: transparent;
-  border: 1px solid #0000001f;
+  background-color: var(--color-gray1);
+  border: 2px solid var(--color-gray2);
+  ${boxShadow};
   svg path {
     fill: var(--color-orange);
   }
@@ -52,6 +54,7 @@ const RefreshButton = styled(Button)`
     border-radius: 0;
     border: none;
     border-bottom: 1px solid #0000001f;
+    box-shadow: none;
   }
 `;
 

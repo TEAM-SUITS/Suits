@@ -62,7 +62,7 @@ const ImageSection = styled.img.attrs(() => ({
 const InfoText = styled.p`
   ${spoqaMedium}
   text-align: center;
-  color: var(--color-gray3);
+  color: var(--color-gray5);
 
   > span {
     ${spoqaMedium}
