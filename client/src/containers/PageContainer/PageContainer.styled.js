@@ -25,7 +25,7 @@ const PageContainer = styled(motion(Container))`
   ${({ page }) =>
     page === "home" &&
     css`
-      // No Clickable Card
+      // Non Clickable Card
       > div {
         margin-bottom: 3em;
       }

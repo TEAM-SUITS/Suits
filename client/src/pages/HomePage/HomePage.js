@@ -13,12 +13,7 @@ import QuotesContent from "components/Content/QuotesContent";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import HardWorkersContent from "components/Content/HardWorkersContent";
-import TrendingQuestionContent from "components/Content/TrendingQuestionContent";
-import QnAContent from "components/Content/QnAContent";
-import Button from "components/Button/Button";
-import { Skeleton } from "@material-ui/lab";
 import KeywordSelect from "components/KeywordSelect/KeywordSelect";
-import { boxShadow } from "styles/common/common.styled";
 import useDetectViewport from "hooks/useDetectViewport";
 import QNACardSection from "components/QNACardSection/QNACardSection";
 
@@ -36,14 +31,6 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
     font-weight: 700;
     color: var(--color-orange);
   }
-`;
-
-const SkeletonCard = styled(Skeleton)`
-  max-width: 688px;
-  background-color: #e6e6e6;
-  width: 100%;
-  margin-bottom: 3em;
-  border-radius: 10px;
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -94,6 +81,19 @@ export default function HomePage() {
       setIsSelectingKeywords(true);
   }, [currentUserData]);
 
+  // 페이지내에서 사용될 랜덤 질문 미리보기 로직 (좋아요 순)
+  const previewAnswer = (answers) => {
+    return answers.reduce(
+      (prev, curr) => {
+        if (curr.likes.length >= prev.likes.length) {
+          return curr;
+        }
+        return prev;
+      },
+      { likes: [] }
+    );
+  };
+
   return (
     <>
       {isSelectingKeywords && (
@@ -115,43 +115,12 @@ export default function HomePage() {
         <QNACardSection
           content="randomQ"
           isLoading={isRandomQLoading}
-          cardData={randomQData && randomQData}
+          cardData={randomQData}
           isMobile={isMobile}
+          previewAnswer={previewAnswer}
           refreshData={() => dispatch(fetchRandomQData())}
         />
 
-        {/* {randomQData && !isRandomQLoading ? (
-          <Card
-            isQuestion
-            title={randomQData.content}
-            tags={randomQData.hashTag}
-            hasButton
-          >
-            <QnAContent
-              answer={
-                randomQData.answers &&
-                randomQData.answers.reduce(
-                  (prev, curr) => {
-                    if (curr.likes.length >= prev.likes.length) {
-                      return curr;
-                    }
-                    return prev;
-                  },
-                  { likes: [] }
-                )
-              }
-            />
-            <RefreshButton
-              outline
-              icon="refresh"
-              onClick={() => dispatch(fetchRandomQData())}
-              aria-label="새로고침"
-              isMobile={isMobile}
-            />
-          </Card>
-        ) : (
-          <SkeletonCard variant="rect" animation="wave" height="16em" />
-        )} */}
         {/* 명언 카드 섹션 */}
         <Card title="Wisdom Of The Day">
           {
@@ -192,18 +161,12 @@ export default function HomePage() {
           />
         </Card>
 
+        {/* 급상승 질문 탑3 */}
         <QNACardSection
           content="trendingQ"
           cardData={trendingQData}
           isLoading={isTrendingLoading}
         />
-        {/* 급상승 질문 탑3 */}
-        {/* <Card title="Trending QnA">
-          <TrendingQuestionContent
-            questions={trendingQData}
-            $isLoading={isTrendingLoading}
-          />
-        </Card> */}
       </PageContainer>
     </>
   );

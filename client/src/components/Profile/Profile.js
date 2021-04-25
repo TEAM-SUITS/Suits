@@ -219,7 +219,9 @@ export default function Profile({ user, $isLoading, ...restProps }) {
       );
   };
 
-  return user && !$isLoading ? (
+  return !user || $isLoading ? (
+    ProfileSkeleton
+  ) : (
     <StyledProfile {...restProps}>
       <img src={img} alt={username} />
       <InfoContainer>
@@ -234,8 +236,6 @@ export default function Profile({ user, $isLoading, ...restProps }) {
       </InfoContainer>
       {renderHashTag()}
     </StyledProfile>
-  ) : (
-    ProfileSkeleton
   );
 }
 
