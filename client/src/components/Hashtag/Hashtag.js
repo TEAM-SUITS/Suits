@@ -5,7 +5,7 @@ import { boxShadow, spoqaSmallBold } from 'styles/common/common.styled';
 import { useSelector } from 'react-redux';
 
 /* ---------------------------- styled components --------------------------- */
-const handleButtonTheme = (type, isSelected, theme, userTheme) => {
+const handleButtonTheme = (type, isSelected, theme) => {
   // 🌒 다크 모드일 때
   if (type === 'All') {
     return isSelected
@@ -34,8 +34,8 @@ const StyledHashtag = styled.div`
   min-width: 7.6rem;
   font-size: ${(props) => (props.isSelected ? 'inherit' : '1rem')};
   cursor: ${(props) => (props.isButton ? 'pointer' : 'initial')};
-  ${({ $type, isSelected, theme, userTheme }) =>
-    handleButtonTheme($type, isSelected, theme, userTheme)}
+  ${({ $type, isSelected, theme }) =>
+    handleButtonTheme($type, isSelected, theme)}
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -87,7 +87,6 @@ export default function Hashtag({
       isButton={isButton}
       isSelected={isSelected}
       theme={theme}
-      userTheme={userState.currentUserData[0].theme}
       role={isButton && 'button'}
       aria-label={isButton ? type : ''}
       title={isButton ? type : ''}

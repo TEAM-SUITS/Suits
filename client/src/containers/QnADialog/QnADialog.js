@@ -41,7 +41,7 @@ const AnswerContainer = styled.div`
   max-width: 347px;
 
   textarea {
-    ${spoqaMediumLight}
+    ${spoqaMedium}
     background-color: var(--color-gray2);
     padding: 1em;
     border: solid 1px var(--color-gray3);
@@ -127,14 +127,89 @@ const EditorOnlyButton = styled.button.attrs(() => ({
   border-radius: 5px;
 
   &:last-child {
-    color: var(--color-orange);
+    background-color: var(--color-orange);
+    color: var(--color-text);
+  }
+`;
+
+const EditContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 10rem;
+`;
+
+const EditArea = styled.textarea`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10rem;
+  resize: none;
+  border-radius: 5px;
+  ${spoqaMedium}
+  background-color: var(--color-gray2);
+  padding: 1em;
+  border: solid 1px var(--color-gray3);
+`;
+
+const EditConfirmButton = styled.button.attrs(() => ({
+  type: "button",
+}))`
+  background-color: var(--color-gray5);
+  color: var(--color-gray1);
+  border: none;
+  border-radius: 5px;
+  width: 60px;
+  ${boxShadow}
+  ${spoqaMedium}
+  padding: 0 3px;
+  position: absolute;
+  bottom: .8rem;
+  right: .8rem;
+
+  &:first-of-type {
+    right: 7.2rem;
   }
 `;
 
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
-const Answers = ({ answersList = [], userId = '' }) => {
+const Answers = ({ answersList = [], userId = '', refreshQuestion }) => {
   // 사용자가 답변을 수정하는 중인지
-  const [isEditing, setIsEditing] = useState(null);
+  const [editing, setEditing] = useState(null);
+  const [editContent, setEditContent] = useState('');
+  const [needRefresh, setNeedRefresh] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (needRefresh) {
+      refreshQuestion();
+      setNeedRefresh(false);
+      setIsLoading(false);
+    }
+  }, [needRefresh, refreshQuestion]);
+
+  const handleEdit = (answerId, answerContent) => {
+    setEditing(answerId);
+    setEditContent(answerContent);
+  };
+
+  const handleEditContent = (e) => {
+    setEditContent(e.target.value);
+  };
+
+  const postContent = async (answerId, newContent) => {
+    await API(`/api/answers/${answerId}`, 'patch', {
+      content: newContent,
+    });
+
+    setEditing(null);
+    setNeedRefresh(true);
+    setIsLoading(true);
+  };
+
+  const handleRemove = (answerId) => {
+    console.log('삭제 안되지롱 메롱');
+  };
 
   if (!answersList.length) {
     return <QnAContent answer={false} isEllipsis={false} />;
@@ -145,12 +220,42 @@ const Answers = ({ answersList = [], userId = '' }) => {
     answersList.map((answer) => {
       return (
         <React.Fragment key={answer._id}>
-          <QnAContent answer={answer} isEllipsis={false} />
+          {editing === answer._id ? (
+            <EditContainer>
+              <EditArea
+                value={editContent}
+                onChange={(e) => handleEditContent(e)}
+              />
+              <EditConfirmButton
+                onClick={() => postContent(answer._id, editContent)}
+              >
+                확인
+              </EditConfirmButton>
+              <EditConfirmButton
+                onClick={() => setEditing(null)}
+              >
+                취소
+              </EditConfirmButton>
+            </EditContainer>
+          ) : (
+            <QnAContent answer={answer} isEllipsis={false} />
+          )}
           {answer.postedby._id === userId ? (
-            <ButtonContainer>
-              <EditorOnlyButton>수정</EditorOnlyButton>
-              <EditorOnlyButton>삭제</EditorOnlyButton>
-            </ButtonContainer>
+            <>
+            {!editing ? (
+              <ButtonContainer>
+                <EditorOnlyButton
+                  onClick={() => handleEdit(answer._id, answer.content)}
+                >
+                  수정
+                </EditorOnlyButton>
+                <EditorOnlyButton
+                  onClick={() => handleRemove(answer._id)}
+                >
+                  삭제</EditorOnlyButton>
+              </ButtonContainer>
+            ) : null}
+            </>
           ) : null}
           <Divider primary={false} $color="gray" $height="1px" $width="70%" />
         </React.Fragment>
@@ -195,11 +300,13 @@ const InputArea = ({
       <StyledButton
         disabled={isDisabled}
         onClick={() => {
+          if (content === "") return;
+
           setIsDisabled(true);
           postContent();
         }}
       >
-        Post
+        등록
       </StyledButton>
     </AnswerContainer>
   );
@@ -263,7 +370,11 @@ export default function QnADialog({
                   return <Hashtag key={idx} type={keyword} />;
                 })}
               </HashtagContainer>
-              <Answers answersList={question.answers} userId={userData[0]._id} />
+              <Answers
+                answersList={question.answers}
+                userId={userData[0]._id}
+                refreshQuestion={refreshQuestion}
+              />
               <InputArea
                 isAnswered={isAnswered}
                 isInputLoading={isInputLoading}
