@@ -106,6 +106,7 @@ export default function KeywordSelect({ userKeywords, onClose }) {
     const rootNode = document.getElementById('root');
     rootNode.setAttribute('aria-hidden', true);
     rootNode.style.userSelect = 'none';
+    rootNode.style.filter = 'blur(3px)';
 
     const handleFocusTrap = (e) => {
       // 다이얼로그 노드
@@ -141,6 +142,7 @@ export default function KeywordSelect({ userKeywords, onClose }) {
       rootNode.removeAttribute('aria-hidden');
       window.removeEventListener('keydown', handleFocusTrap);
       rootNode.style.userSelect = 'auto';
+      rootNode.style.filter = '';
     };
   }, []);
 

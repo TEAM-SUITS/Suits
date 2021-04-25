@@ -68,7 +68,6 @@ const Modal = styled.div.attrs(() => ({
   top: 0;
   bottom: 0;
   opacity: ${(props) => props.opacity};
-  backdrop-filter: blur(20px) opacity(0.8);
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -78,7 +77,7 @@ export default function Dialog({
   label = infoText, // aria-label
   onClick, // 닫기 버튼
   children,
-  opacity = 0.8,
+  opacity = 0.6,
 }) {
   const dialogRef = React.useRef(null);
 
@@ -93,6 +92,7 @@ export default function Dialog({
       const rootNode = document.getElementById('root');
       rootNode.setAttribute('aria-hidden', true);
       rootNode.style.userSelect = 'none';
+      rootNode.style.filter = 'blur(3px)';
 
       const handleFocusTrap = (e) => {
         // 다이얼로그 노드
@@ -128,6 +128,7 @@ export default function Dialog({
         rootNode.removeAttribute('aria-hidden');
         window.removeEventListener('keydown', handleFocusTrap);
         rootNode.style.userSelect = 'auto';
+        rootNode.style.filter = '';
       };
     }
   }, [visible]);
