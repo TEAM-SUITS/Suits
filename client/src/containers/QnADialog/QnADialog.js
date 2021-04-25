@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import Portal from 'components/Portal/Portal';
-import Dialog from 'components/Dialog/Dialog';
-import Card from 'components/Card/Card';
-import QnAContent from 'components/Content/QnAContent';
-import Divider from 'components/Divider/Divider';
-import Hashtag from 'components/Hashtag/Hashtag';
-import styled, { css } from 'styled-components';
+import React, { useEffect, useState } from "react";
+import Portal from "components/Portal/Portal";
+import Dialog from "components/Dialog/Dialog";
+import Card from "components/Card/Card";
+import QnAContent from "components/Content/QnAContent";
+import Divider from "components/Divider/Divider";
+import Hashtag from "components/Hashtag/Hashtag";
+import styled, { css } from "styled-components";
 import {
   boxShadow,
   spoqaMedium,
   spoqaMediumLight,
-} from 'styles/common/common.styled';
-import { bool, object } from 'prop-types';
-import API from 'api/api';
-import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
-import { Skeleton } from '@material-ui/lab';
-import { useSelector } from 'react-redux';
-import badwordFliter from 'utils/badwordFilter/badwordFilter';
+} from "styles/common/common.styled";
+import { bool, object } from "prop-types";
+import API from "api/api";
+import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
+import { Skeleton } from "@material-ui/lab";
+import { useSelector } from "react-redux";
+import badwordFliter from "utils/badwordFilter/badwordFilter";
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -54,11 +54,11 @@ const AnswerContainer = styled.div`
 `;
 
 const StyledButton = styled.button.attrs((props) => ({
-  type: 'button',
+  type: "button",
   disabled: props.disabled,
 }))`
   background-color: ${({ disabled }) =>
-    disabled ? 'var(--color-gray3)' : 'var(--color-gray5)'};
+    disabled ? "var(--color-gray3)" : "var(--color-gray5)"};
   color: var(--color-gray1);
   border: none;
   border-radius: 5px;
@@ -69,7 +69,7 @@ const StyledButton = styled.button.attrs((props) => ({
   position: absolute;
   bottom: 0.6em;
   right: 0.3em;
-  cursor: ${({ disabled }) => (disabled ? 'wait' : 'pointer')};
+  cursor: ${({ disabled }) => (disabled ? "wait" : "pointer")};
 `;
 
 const SkeletonStyle = css`
@@ -130,7 +130,7 @@ const InputArea = ({
   handleIsAnswered,
   refreshQuestion,
 }) => {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
 
   const handleContent = (e) => {
@@ -138,8 +138,8 @@ const InputArea = ({
   };
 
   const postContent = async () => {
-    await API('/api/answers', 'post', {
-      content: badwordFliter.filter(content, '**'),
+    await API("/api/answers", "post", {
+      content: badwordFliter.filter(content, "**"),
       questionId,
     });
 
@@ -188,7 +188,7 @@ export default function QnADialog({
     setIsAnswered(true);
     setIsInputLoading(true);
     const getIsAnswered = async (questionId) => {
-      const userData = await API('/api/user-profile', 'get');
+      const userData = await API("/api/user-profile", "get");
       const check = userData[0].answeredQuestions.find(
         ({ _id }) => _id === questionId
       );
@@ -211,7 +211,7 @@ export default function QnADialog({
   };
 
   return (
-    <Portal id={'dialog-container'}>
+    <Portal id={"dialog-container"}>
       <Dialog
         visible={isVisible} // 상위 컴포넌트의 state로 handle
         label="QnA 상세 내용"

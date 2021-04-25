@@ -1,22 +1,22 @@
-import { useEffect, useState, useRef } from 'react';
-import styled, { css } from 'styled-components';
+import { useEffect, useState, useRef } from "react";
+import styled, { css } from "styled-components";
 import {
   resetList,
   spoqaMedium,
   spoqaLarge,
-} from 'styles/common/common.styled';
-import { Link } from 'react-router-dom';
-import PageContainer from 'containers/PageContainer/PageContainer.styled';
-import { pageEffect } from 'styles/motions/variants';
-import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
-import Hashtag from 'components/Hashtag/Hashtag';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchFollowingData } from 'redux/storage/following/following';
-import Card from 'components/Card/Card';
-import QnAContent from 'components/Content/QnAContent';
-import QnADialog from 'containers/QnADialog/QnADialog';
-import API from 'api/api';
-import { Skeleton } from '@material-ui/lab';
+} from "styles/common/common.styled";
+import { Link } from "react-router-dom";
+import PageContainer from "containers/PageContainer/PageContainer.styled";
+import { pageEffect } from "styles/motions/variants";
+import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
+import Hashtag from "components/Hashtag/Hashtag";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchFollowingData } from "redux/storage/following/following";
+import Card from "components/Card/Card";
+import QnAContent from "components/Content/QnAContent";
+import QnADialog from "containers/QnADialog/QnADialog";
+import API from "api/api";
+import { Skeleton } from "@material-ui/lab";
 
 /* ---------------------------- styled components --------------------------- */
 const HashtagList = styled.ul`
@@ -48,8 +48,8 @@ const CardList = styled.ul`
 `;
 
 const ImageSection = styled.img.attrs(() => ({
-  src: 'assets/suity.png',
-  alt: '관심 키워드 설정 안내하는 슈티',
+  src: "assets/suity.png",
+  alt: "관심 키워드 설정 안내하는 슈티",
 }))`
   width: 300px;
 
@@ -124,7 +124,7 @@ const SkeletonTitle = styled(Skeleton)`
 function CardSection({
   isLoading,
   cardData = {},
-  currentTag = '',
+  currentTag = "",
   onClick,
   keywords = [],
   refreshFollowingData,
@@ -132,12 +132,12 @@ function CardSection({
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [question, setQuestion] = useState({});
   const handleDialog = async (id) => {
-    const res = await API(`/api/questions/${id}`, 'get');
+    const res = await API(`/api/questions/${id}`, "get");
     setQuestion(res);
   };
 
   const refreshQuestion = async () => {
-    const res = await API(`/api/questions/${question._id}`, 'get');
+    const res = await API(`/api/questions/${question._id}`, "get");
     setQuestion(res);
     refreshFollowingData();
   };
@@ -170,7 +170,7 @@ function CardSection({
         <li>
           <Hashtag
             type="All"
-            isSelected={currentTag === 'All' ? true : false}
+            isSelected={currentTag === "All" ? true : false}
             isButton={true}
             clicked={onClick}
           />
@@ -244,7 +244,7 @@ export default function FollowingPage() {
   const userState = useSelector((state) => state.currentUser);
   const followingState = useSelector((state) => state.following);
   const [currentTag, setCurrentTag] = useState(followingState.currentTag);
-  const [prevTag, setPrevTag] = useState('All');
+  const [prevTag, setPrevTag] = useState("All");
   const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {

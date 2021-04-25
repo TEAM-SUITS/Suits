@@ -22,7 +22,7 @@ const DialogContainer = styled.div.attrs((props) => ({
   padding: 2em 0 0;
   max-width: 688px;
 
-  @media screen and (min-width: 480px) {
+  @media screen and (min-width: 481px) {
     min-width: 400px;
     min-height: 250px;
   }
