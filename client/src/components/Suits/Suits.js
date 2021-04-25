@@ -23,6 +23,7 @@ const StylesSuits = styled.section`
     display: block;
     box-sizing: border-box;
     margin-bottom: 2em;
+    border-radius: 50%;
   }
   .heading {
     text-align: center;
@@ -128,9 +129,39 @@ const StylesSuits = styled.section`
 `;
 
 export default function Suits() {
+  const handleLoaded = (e) => {
+    let imgSrc = '';
+    switch (e.target.alt) {
+      case '안예인':
+        imgSrc = ahn;
+        break;
+      case '서민기':
+        imgSrc = suh;
+        break;
+      case '박재운':
+        imgSrc = park;
+        break;
+      case 'Suits 로고':
+        imgSrc = logo;
+        break;
+
+      default:
+        break;
+    }
+    e.target.src = imgSrc;
+  };
+
+  const placeHolder =
+    'https://via.placeholder.com/150x150.png?text=Place+Holder';
+
   return (
     <StylesSuits>
-      <img src={logo} alt="Suits 로고" className="logo" />
+      <img
+        src={placeHolder}
+        alt="Suits 로고"
+        className="logo"
+        onLoad={handleLoaded}
+      />
       <h3 className="heading">
         기술 면접을 준비하는 단정한 습관<em>Suits</em>
       </h3>
@@ -148,21 +179,21 @@ export default function Suits() {
         <div className="members">
           <a href="https://github.com/ahnanne">
             <figure>
-              <img src={ahn} alt="안예인" />
+              <img src={placeHolder} alt="안예인" onLoad={handleLoaded} />
 
               <figcaption>Ahn Yein</figcaption>
             </figure>
           </a>
           <a href="https://github.com/minki607">
             <figure>
-              <img src={suh} alt="서민기" />
+              <img src={placeHolder} alt="서민기" onLoad={handleLoaded} />
 
               <figcaption>Suh Mingee</figcaption>
             </figure>
           </a>
           <a href="https://github.com/fe-kid">
             <figure>
-              <img src={park} alt="박재운" />
+              <img src={placeHolder} alt="박재운" onLoad={handleLoaded} />
 
               <figcaption>Park Jaewoon</figcaption>
             </figure>
