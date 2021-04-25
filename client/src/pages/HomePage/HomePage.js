@@ -20,6 +20,7 @@ import { Skeleton } from "@material-ui/lab";
 import KeywordSelect from "components/KeywordSelect/KeywordSelect";
 import { boxShadow } from "styles/common/common.styled";
 import useDetectViewport from "hooks/useDetectViewport";
+import QNACardSection from "components/QNACardSection/QNACardSection";
 
 /* ---------------------------- styled components --------------------------- */
 
@@ -34,27 +35,6 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
   button:disabled {
     font-weight: 700;
     color: var(--color-orange);
-  }
-`;
-
-const RefreshButton = styled(Button)`
-  position: absolute;
-  bottom: 1em;
-  background-color: var(--color-gray1);
-  border: 2px solid var(--color-gray2);
-  ${boxShadow};
-  svg path {
-    fill: var(--color-orange);
-  }
-  @media screen and (max-width: 480px) {
-    top: 0;
-    left: 0;
-    height: 2em;
-    width: 100%;
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid #0000001f;
-    box-shadow: none;
   }
 `;
 
@@ -131,7 +111,16 @@ export default function HomePage() {
         animate="visible"
       >
         {/* 랜덤 QnA 카드 섹션 */}
-        {randomQData && !isRandomQLoading ? (
+
+        <QNACardSection
+          content="randomQ"
+          isLoading={isRandomQLoading}
+          cardData={randomQData && randomQData}
+          isMobile={isMobile}
+          refreshData={() => dispatch(fetchRandomQData())}
+        />
+
+        {/* {randomQData && !isRandomQLoading ? (
           <Card
             isQuestion
             title={randomQData.content}
@@ -162,7 +151,7 @@ export default function HomePage() {
           </Card>
         ) : (
           <SkeletonCard variant="rect" animation="wave" height="16em" />
-        )}
+        )} */}
         {/* 명언 카드 섹션 */}
         <Card title="Wisdom Of The Day">
           {
@@ -195,6 +184,7 @@ export default function HomePage() {
           </StyledButtonGroup>
         </Card>
         {/* 누적 좋아요 순위 섹션 */}
+
         <Card title="Hard Workers">
           <HardWorkersContent
             users={workersData}
@@ -202,13 +192,18 @@ export default function HomePage() {
           />
         </Card>
 
+        <QNACardSection
+          content="trendingQ"
+          cardData={trendingQData}
+          isLoading={isTrendingLoading}
+        />
         {/* 급상승 질문 탑3 */}
-        <Card title="Trending QnA">
+        {/* <Card title="Trending QnA">
           <TrendingQuestionContent
             questions={trendingQData}
             $isLoading={isTrendingLoading}
           />
-        </Card>
+        </Card> */}
       </PageContainer>
     </>
   );
