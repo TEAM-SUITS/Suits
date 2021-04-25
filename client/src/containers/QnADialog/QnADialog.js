@@ -104,8 +104,38 @@ const SkeletonDivider = styled(Skeleton)`
   }
 `;
 
+const ButtonContainer = styled.div`
+  text-align: right;
+  /* background-color: pink; */
+  width: 70%;
+  margin: 0 auto;
+
+  > button {
+    margin: 0 .3rem;
+    padding: 0 1rem;
+  }
+`;
+
+const EditorOnlyButton = styled.button.attrs(() => ({
+  type: "button",
+}))`
+  background-color: var(--color-gray5);
+  color: var(--color-gray1);
+  ${spoqaMedium}
+  font-size: 1.4rem;
+  border: none;
+  border-radius: 5px;
+
+  &:last-child {
+    color: var(--color-orange);
+  }
+`;
+
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
-const Answers = ({ answersList = [] }) => {
+const Answers = ({ answersList = [], userId = '' }) => {
+  // 사용자가 답변을 수정하는 중인지
+  const [isEditing, setIsEditing] = useState(null);
+
   if (!answersList.length) {
     return <QnAContent answer={false} isEllipsis={false} />;
   }
@@ -116,7 +146,13 @@ const Answers = ({ answersList = [] }) => {
       return (
         <React.Fragment key={answer._id}>
           <QnAContent answer={answer} isEllipsis={false} />
-          <Divider primary={false} color="gray" height="1px" width="50%" />
+          {answer.postedby._id === userId ? (
+            <ButtonContainer>
+              <EditorOnlyButton>수정</EditorOnlyButton>
+              <EditorOnlyButton>삭제</EditorOnlyButton>
+            </ButtonContainer>
+          ) : null}
+          <Divider primary={false} $color="gray" $height="1px" $width="70%" />
         </React.Fragment>
       );
     })
@@ -176,9 +212,11 @@ export default function QnADialog({
   onClick, // 닫기 버튼 제어
   refreshQuestion,
 }) {
-  // const { currentUserData: userData } = useSelector(
-  //   (state) => state.currentUser
-  // );
+  const { currentUserData: userData } = useSelector(
+    (state) => state.currentUser
+  );
+
+  console.log(userData);
   const [isAnswered, setIsAnswered] = useState(null);
   const [isInputLoading, setIsInputLoading] = useState(null);
   // InputArea로부터 상태 끌어올리기
@@ -225,7 +263,7 @@ export default function QnADialog({
                   return <Hashtag key={idx} type={keyword} />;
                 })}
               </HashtagContainer>
-              <Answers answersList={question.answers} />
+              <Answers answersList={question.answers} userId={userData[0]._id} />
               <InputArea
                 isAnswered={isAnswered}
                 isInputLoading={isInputLoading}
