@@ -1,17 +1,17 @@
-import React from 'react';
-import { bool, string, node, array } from 'prop-types';
-import styled from 'styled-components';
-import { boxShadow, resetList, textShadow } from 'styles/common/common.styled';
-import Icon from 'components/Icon/Icon';
-import Divider from 'components/Divider/Divider';
-import Hashtag from 'components/Hashtag/Hashtag';
+import React from "react";
+import { bool, string, node, array } from "prop-types";
+import styled, { css } from "styled-components";
+import { boxShadow, resetList, textShadow } from "styles/common/common.styled";
+import Icon from "components/Icon/Icon";
+import Divider from "components/Divider/Divider";
+import Hashtag from "components/Hashtag/Hashtag";
 
 /* ---------------------------- styled components ---------------------------- */
 
 const CardBox = styled.div`
   ${boxShadow}
   cursor: ${(props) =>
-    props.isQuestion && !props.isDialog ? 'pointer' : 'initial'};
+    props.isQuestion && !props.isDialog ? "pointer" : "initial"};
   position: relative;
   min-width: 305px;
   border-radius: 10px;
@@ -29,8 +29,16 @@ const TagList = styled.ul`
   display: flex;
   justify-content: space-between;
   max-width: 300px;
-  margin: 0 auto;
-  margin-top: 1em;
+  margin: 1em auto;
+
+  @media screen and (max-width: 480px) {
+    ${({ hasButton }) =>
+      hasButton &&
+      css`
+        margin-top: 4em;
+      `}
+  }
+
   li {
     margin: 0 auto;
   }
@@ -44,22 +52,31 @@ export default function Card({
   tags,
   onClick,
   children,
+  hasButton,
   ...restProps
 }) {
+  const handleKeyDown = (e) => {
+    if (e.code === "Space" || e.code === "Enter") {
+      onClick && onClick();
+    }
+  };
+
   return (
     <CardBox
       isQuestion={isQuestion}
       isDialog={isDialog}
       onClick={onClick}
-      role={isQuestion && !isDialog ? 'button' : ''}
-      aria-label={isQuestion && !isDialog ? '자세히 보기' : ''}
-      title={isQuestion && !isDialog ? '자세히 보기' : ''}
+      onKeyDown={handleKeyDown}
+      role={isQuestion && !isDialog ? "button" : ""}
+      aria-label={isQuestion && !isDialog ? "자세히 보기" : ""}
+      tabIndex={isQuestion && 0}
+      title={isQuestion && !isDialog ? "자세히 보기" : ""}
       {...restProps}
     >
       {title && (
         <>
           {tags && (
-            <TagList>
+            <TagList hasButton={hasButton}>
               {tags.map((tag, idx) => (
                 <li key={idx}>
                   <Hashtag type={tag} />
@@ -118,5 +135,6 @@ Card.propTypes = {
   isDialog: bool,
   tags: array,
   title: string,
+  hasButton: bool,
   children: node,
 };

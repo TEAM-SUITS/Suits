@@ -22,6 +22,7 @@ const AnsweredContainer = styled.div`
 
 const ProfileContainer = styled.div`
   align-self: baseline;
+
   @media screen and (min-width: 640px) {
     margin-top: 3em;
     position: sticky;

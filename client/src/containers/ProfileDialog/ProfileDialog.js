@@ -24,10 +24,7 @@ const FontSizeContainer = styled.div`
     a {
       font-size: 1.2rem;
     }
-    p {
-      font-size: 1.2rem;
-      font-weight: 400;
-    }
+
     .hashtags {
       font-size: 0.8rem;
       margin-left: -1.6em;
