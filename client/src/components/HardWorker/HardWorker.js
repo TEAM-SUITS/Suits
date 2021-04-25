@@ -1,20 +1,20 @@
-import React from "react";
-import styled, { css } from "styled-components";
+import React from 'react';
+import styled, { css } from 'styled-components';
 import {
   museoSmall,
-  textShadowBlack,
+  textShadow,
   spoqaSmallBold,
-} from "styles/common/common.styled";
-import { string, number } from "prop-types";
-import Tier from "components/Tier/Tier";
-import { motion } from "framer-motion";
-import { hoverMotion } from "styles/motions/variants";
-import Icon from "components/Icon/Icon";
+} from 'styles/common/common.styled';
+import { string, number } from 'prop-types';
+import Tier from 'components/Tier/Tier';
+import { motion } from 'framer-motion';
+import { hoverMotion } from 'styles/motions/variants';
+import Icon from 'components/Icon/Icon';
 
 const StyledHardWorker = styled(motion.div).attrs(() => ({
-  role: "button",
-  ariaLabel: "유저 프로필 자세히 보기",
-  title: "유저 프로필 자세히 보기",
+  role: 'button',
+  ariaLabel: '유저 프로필 자세히 보기',
+  title: '유저 프로필 자세히 보기',
 }))`
   display: flex;
   flex-flow: column nowrap;
@@ -95,7 +95,7 @@ StyledHardWorker.IconContainer = styled.div`
 StyledHardWorker.Username = styled.h3`
   margin: 3px 0;
   ${museoSmall};
-  ${textShadowBlack};
+  ${textShadow};
 
   @media screen and (min-width: 480px) {
     font-size: 1.8rem;
@@ -109,8 +109,8 @@ StyledHardWorker.Username = styled.h3`
 
 export default function HardWorker({
   id,
-  img = "https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg",
-  username = "username",
+  img = 'https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg',
+  username = 'username',
   tier = 1,
   likeCount,
   $onClick,

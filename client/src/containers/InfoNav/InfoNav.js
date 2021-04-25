@@ -12,7 +12,7 @@ const StyledNav = styled.ul`
   width: 100%;
   display: flex;
   justify-content: space-around;
-  background-color: var(--color-white);
+  background-color: var(--color-body);
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -21,7 +21,7 @@ const StyledNavLink = styled(NavLink)`
   text-align: center;
   padding: 1rem 0;
   border-bottom: ${(props) =>
-    props.active ? '2px solid var(--color-gray3)' : null};
+    props.active ? '2px solid var(--color-gray5)' : null};
   font-weight: ${(props) => (props.active ? 700 : 400)};
 `;
 

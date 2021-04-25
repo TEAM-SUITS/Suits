@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import Portal from "components/Portal/Portal";
-import Dialog from "components/Dialog/Dialog";
-import Card from "components/Card/Card";
-import QnAContent from "components/Content/QnAContent";
-import Divider from "components/Divider/Divider";
-import Hashtag from "components/Hashtag/Hashtag";
-import styled, { css } from "styled-components";
+import React, { useEffect, useState } from 'react';
+import Portal from 'components/Portal/Portal';
+import Dialog from 'components/Dialog/Dialog';
+import Card from 'components/Card/Card';
+import QnAContent from 'components/Content/QnAContent';
+import Divider from 'components/Divider/Divider';
+import Hashtag from 'components/Hashtag/Hashtag';
+import styled, { css } from 'styled-components';
 import {
-  boxShadowBlack,
+  boxShadow,
   spoqaMedium,
   spoqaMediumLight,
-} from "styles/common/common.styled";
-import { bool, object } from "prop-types";
-import API from "api/api";
-import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
-import { Skeleton } from "@material-ui/lab";
-import { useSelector } from "react-redux";
-import badwordFliter from "utils/badwordFilter/badwordFilter";
+} from 'styles/common/common.styled';
+import { bool, object } from 'prop-types';
+import API from 'api/api';
+import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
+import { Skeleton } from '@material-ui/lab';
+import { useSelector } from 'react-redux';
+import badwordFliter from 'utils/badwordFilter/badwordFilter';
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -42,14 +42,14 @@ const AnswerContainer = styled.div`
 
   textarea {
     ${spoqaMediumLight}
-    background-color: var(--color-lightgray2);
+    background-color: var(--color-gray2);
     padding: 1em;
-    border: solid 1px var(--color-gray1);
+    border: solid 1px var(--color-gray3);
     border-radius: 5px;
     width: 100%;
     height: 10em;
     resize: none;
-    ${boxShadowBlack}
+    ${boxShadow}
   }
 `;
 
@@ -57,18 +57,19 @@ const StyledButton = styled.button.attrs((props) => ({
   type: 'button',
   disabled: props.disabled,
 }))`
-  background-color: ${({ disabled }) => disabled ? 'var(--color-gray1)' : 'var(--color-gray3)' };
-  color: var(--color-lightgray1);
+  background-color: ${({ disabled }) =>
+    disabled ? 'var(--color-gray3)' : 'var(--color-gray5)'};
+  color: var(--color-gray1);
   border: none;
   border-radius: 5px;
   width: 60px;
-  ${boxShadowBlack}
+  ${boxShadow}
   ${spoqaMedium}
   padding: 0 3px;
   position: absolute;
   bottom: 0.6em;
   right: 0.3em;
-  cursor: ${({ disabled }) => disabled ? 'wait' : 'pointer' };
+  cursor: ${({ disabled }) => (disabled ? 'wait' : 'pointer')};
 `;
 
 const SkeletonStyle = css`
@@ -122,11 +123,17 @@ const Answers = ({ answersList = [] }) => {
   );
 };
 
-const InputArea = ({ isAnswered, isInputLoading, questionId, handleIsAnswered, refreshQuestion }) => {
+const InputArea = ({
+  isAnswered,
+  isInputLoading,
+  questionId,
+  handleIsAnswered,
+  refreshQuestion,
+}) => {
   const [content, setContent] = useState('');
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
 
-  const handleContent = e => {
+  const handleContent = (e) => {
     setContent(e.target.value);
   };
 
@@ -155,7 +162,9 @@ const InputArea = ({ isAnswered, isInputLoading, questionId, handleIsAnswered, r
           setIsDisabled(true);
           postContent();
         }}
-      >Post</StyledButton>
+      >
+        Post
+      </StyledButton>
     </AnswerContainer>
   );
 };
@@ -179,14 +188,14 @@ export default function QnADialog({
     setIsAnswered(true);
     setIsInputLoading(true);
     const getIsAnswered = async (questionId) => {
-      const userData = await API("/api/user-profile", "get");
+      const userData = await API('/api/user-profile', 'get');
       const check = userData[0].answeredQuestions.find(
         ({ _id }) => _id === questionId
       );
-    // const getIsAnswered = (questionId) => {
-    //   const check =
-    //     userData &&
-    //     userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
+      // const getIsAnswered = (questionId) => {
+      //   const check =
+      //     userData &&
+      //     userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
 
       check ? setIsAnswered(true) : setIsAnswered(false);
       setIsInputLoading(false);
@@ -202,7 +211,7 @@ export default function QnADialog({
   };
 
   return (
-    <Portal id={"dialog-container"}>
+    <Portal id={'dialog-container'}>
       <Dialog
         visible={isVisible} // 상위 컴포넌트의 state로 handle
         label="QnA 상세 내용"

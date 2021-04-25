@@ -10,7 +10,7 @@ import {
   spoqaMedium,
   spoqaSmall,
   spoqaSmallBold,
-  boxShadowBlack,
+  boxShadow,
   resetBoxModel,
 } from 'styles/common/common.styled';
 import API from 'api/api';
@@ -47,8 +47,8 @@ const StyledMyInfo = styled.section`
       }
       button {
         ${spoqaSmallBold};
-        color: var(--color-gray2);
-        border: 1px solid var(--color-gray2);
+        color: var(--color-gray4);
+        border: 1px solid var(--color-gray4);
         background-color: transparent;
       }
     }
@@ -59,9 +59,9 @@ const StyledMyInfo = styled.section`
       padding: 0.4em;
       height: 8em;
       letter-spacing: 0.5px;
-      ${boxShadowBlack};
+      ${boxShadow}
       &:disabled {
-        background-color: var(--color-lightgray2);
+        background-color: var(--color-gray2);
       }
     }
     span {
@@ -69,7 +69,7 @@ const StyledMyInfo = styled.section`
       bottom: 1em;
       right: 1em;
       ${spoqaSmall}
-      color: var(--color-gray3)
+      color: var(--color-gray5)
     }
   }
 
@@ -88,8 +88,8 @@ const StyledMyInfo = styled.section`
       }
       button {
         ${spoqaSmallBold};
-        color: var(--color-gray2);
-        border: 1px solid var(--color-gray2);
+        color: var(--color-gray4);
+        border: 1px solid var(--color-gray4);
         background-color: transparent;
       }
     }
@@ -107,15 +107,16 @@ const StyledMyInfo = styled.section`
       padding: 0.5em;
       ${spoqaMedium}
       border: none;
-      ${boxShadowBlack};
+      ${boxShadow};
     }
     .signout {
-      color: var(--color-gray3);
-      background-color: var(--color-lightgray2);
+      color: var(--color-black);
+      background-color: var(--color-gray2);
       margin-bottom: 1em;
     }
     .delete-account {
       background-color: var(--color-gray1);
+      border: 1px solid var(--color-gray2);
       color: var(--color-red);
     }
   }
@@ -221,26 +222,26 @@ const StyledProfile = styled.div`
   }
   a {
     text-decoration: none;
-    color: var(--color-gray3);
+    color: var(--color-gray5);
     ${spoqaSmall}
   }
 `;
 
 const StyledConfirmAlert = styled.div`
-  background-color: var(--color-white);
-  border: 2px solid var(--color-gray3);
+  background-color: var(--color-body);
+  border: 2px solid var(--color-gray5);
   border-radius: 10px;
   padding: 2em 3em 1.5em;
-  ${boxShadowBlack};
+  ${boxShadow}
   h1 {
     font-size: 1.8rem;
     text-align: center;
     margin: 0;
-    color: var(--color-black);
+    color: var(--color-text);
   }
   p {
     font-size: 1.6rem;
-    color: var(--color-black);
+    color: var(--color-text);
     margin-bottom: 2em;
   }
   div {
@@ -249,11 +250,11 @@ const StyledConfirmAlert = styled.div`
     button {
       font-size: 1.4rem;
       border: none;
-      border: 1px solid var(--color-gray3);
+      border: 1px solid var(--color-gray5);
       border-radius: 5px;
-      background-color: var(--color-lightgray2);
+      background-color: var(--color-gray2);
       padding: 0.5em 2em;
-      ${boxShadowBlack}
+      ${boxShadow}
       &:last-child {
         color: var(--color-red);
         margin-left: 3em;

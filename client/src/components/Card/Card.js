@@ -1,29 +1,25 @@
-import React from "react";
-import { bool, string, node, array } from "prop-types";
-import styled from "styled-components";
-import {
-  boxShadowBlack,
-  resetList,
-  textShadowBlack,
-} from "styles/common/common.styled";
-import Icon from "components/Icon/Icon";
-import Divider from "components/Divider/Divider";
-import Hashtag from "components/Hashtag/Hashtag";
+import React from 'react';
+import { bool, string, node, array } from 'prop-types';
+import styled from 'styled-components';
+import { boxShadow, resetList, textShadow } from 'styles/common/common.styled';
+import Icon from 'components/Icon/Icon';
+import Divider from 'components/Divider/Divider';
+import Hashtag from 'components/Hashtag/Hashtag';
 
 /* ---------------------------- styled components ---------------------------- */
 
 const CardBox = styled.div`
-  ${boxShadowBlack}
+  ${boxShadow}
   cursor: ${(props) =>
-    props.isQuestion && !props.isDialog ? "pointer" : "initial"};
+    props.isQuestion && !props.isDialog ? 'pointer' : 'initial'};
   position: relative;
   min-width: 305px;
   border-radius: 10px;
-  background-color: var(--color-white);
+  background-color: var(--color-body);
   padding: 1em 2em 1.4em;
   max-height: 60vh;
   overflow: auto;
-  color: var(--color-gray3);
+  color: var(--color-gray5);
   max-width: 688px;
   width: 100%;
 `;
@@ -55,9 +51,9 @@ export default function Card({
       isQuestion={isQuestion}
       isDialog={isDialog}
       onClick={onClick}
-      role={isQuestion && !isDialog ? "button" : ""}
-      aria-label={isQuestion && !isDialog ? "자세히 보기" : ""}
-      title={isQuestion && !isDialog ? "자세히 보기" : ""}
+      role={isQuestion && !isDialog ? 'button' : ''}
+      aria-label={isQuestion && !isDialog ? '자세히 보기' : ''}
+      title={isQuestion && !isDialog ? '자세히 보기' : ''}
       {...restProps}
     >
       {title && (
@@ -95,8 +91,8 @@ CardBox.Header = styled.div`
     display: block;
     font-weight: 700;
     text-align: center;
-    color: var(--color-gray3);
-    ${textShadowBlack}
+    color: var(--color-gray5);
+    ${textShadow}
     font-size: 1.6rem;
     padding: 0 2em;
   }

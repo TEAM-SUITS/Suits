@@ -1,9 +1,9 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import Icon from "components/Icon/Icon";
-import { museoMedium, textShadowBlack } from "styles/common/common.styled";
-import { string, node, bool } from "prop-types";
-import { motion } from "framer-motion";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import Icon from 'components/Icon/Icon';
+import { museoMedium, textShadow } from 'styles/common/common.styled';
+import { string, node, bool } from 'prop-types';
+import { motion } from 'framer-motion';
 
 /* ---------------------------- styled components --------------------------- */
 
@@ -12,20 +12,20 @@ const StyledButton = styled(motion.button)`
   align-items: center;
   justify-content: space-around;
   text-align: center;
-  width: ${({ width }) => (width ? width : "auto")};
-  height: ${({ height }) => (height ? height : "auto")};
+  width: ${({ width }) => (width ? width : 'auto')};
+  height: ${({ height }) => (height ? height : 'auto')};
   ${museoMedium}
-  ${textShadowBlack};
+  ${textShadow};
   border: none;
   background-color: transparent;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   ${({ outline }) =>
     outline &&
     css`
       border-radius: 1em;
       padding: 0.625em;
       background-color: ${({ disabled }) =>
-        disabled ? "var(--color-white)" : "var(--color-gray2)"};
+        disabled ? 'var(--color-body)' : 'var(--color-gray4)'};
     `};
 `;
 
@@ -52,7 +52,7 @@ export default function Button({
       {...restProps}
     >
       {icon && <Icon type={icon} title={title} />}
-      {isLoading ? "Loading..." : children}
+      {isLoading ? 'Loading...' : children}
     </StyledButton>
   );
 }

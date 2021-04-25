@@ -1,19 +1,19 @@
-import React from "react";
-import styled from "styled-components";
-import { object, bool } from "prop-types";
-import Tier from "components/Tier/Tier";
-import Hashtag from "components/Hashtag/Hashtag";
+import React from 'react';
+import styled from 'styled-components';
+import { object, bool } from 'prop-types';
+import Tier from 'components/Tier/Tier';
+import Hashtag from 'components/Hashtag/Hashtag';
 import {
   museoLarge,
   spoqaMedium,
   spoqaMediumLight,
   spoqaSmall,
-} from "styles/common/common.styled";
-import Icon from "components/Icon/Icon";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Skeleton } from "@material-ui/lab";
-import { useSelector } from "react-redux";
+} from 'styles/common/common.styled';
+import Icon from 'components/Icon/Icon';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Skeleton } from '@material-ui/lab';
+import { useSelector } from 'react-redux';
 
 const StyledProfile = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ const StyledProfile = styled.div`
   padding: 1.5em 1.6em 1em;
   width: 100%;
   justify-content: center;
-  background-color: var(--color-white);
+  background-color: var(--color-body);
 
   @media screen and (min-width: 640px) {
     width: 30em;
@@ -44,7 +44,7 @@ const StyledProfile = styled.div`
 
   a {
     text-decoration: none;
-    color: var(--color-gray3);
+    color: var(--color-gray5);
     ${spoqaSmall}
   }
   p {
