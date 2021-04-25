@@ -128,12 +128,9 @@ const StyledHashtagHeadingContainer = styled.div`
 const StyledHashtags = styled.div`
   display: flex;
   justify-content: space-around;
-  img {
-    background-color: red;
-  }
   @media screen and (min-width: 480px) {
     justify-content: center;
-    * {
+    div {
       font-size: 2rem;
       width: 160px;
       &:not(:last-child) {
@@ -417,8 +414,8 @@ export default function MyInfo() {
               })
             ) : (
               <img
-                src="/assets/suity.png"
-                alt="키워드가 없다고 알려주는 슈티"
+                src="/assets/keyword.png"
+                alt="슈티 : 관심 키워드를 설정해보세요"
               />
             )}
           </StyledHashtags>
