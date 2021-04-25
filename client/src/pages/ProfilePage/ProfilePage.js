@@ -9,6 +9,7 @@ import QnAContent from "components/Content/QnAContent";
 import Card from "components/Card/Card";
 import Alert from "components/Alert/Alert";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
+import { resetList } from "styles/common/common.styled";
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -16,8 +17,15 @@ const SpinnerContainer = styled.div`
   width: 100%;
 `;
 
-const AnsweredContainer = styled.div`
-  margin-top: 3em;
+const AnsweredList = styled.ul`
+  ${resetList}
+
+  > li {
+    // 모바일
+    @media screen and (max-width: 480px) {
+      width: 350px;
+    }
+  }
 `;
 
 const ProfileContainer = styled.div`
@@ -61,23 +69,24 @@ export default function ProfilePage() {
       );
     } else if (currentUserData && currentUserData[0].answeredQuestions) {
       return (
-        <AnsweredContainer>
+        <AnsweredList>
           {currentUserData[0].answeredQuestions.map((data) => (
-            <Card
-              className="question"
-              key={data._id}
-              isQuestion={true}
-              title={data.content}
-              tags={data.hashTag}
-            >
-              <QnAContent
-                answer={data.answers.find(
-                  (answer) => answer.postedby?._id === currentUserData[0]._id
-                )}
-              />
-            </Card>
+            <li key={data._id}>
+              <Card
+                className="question"
+                isQuestion={true}
+                title={data.content}
+                tags={data.hashTag}
+              >
+                <QnAContent
+                  answer={data.answers.find(
+                    (answer) => answer.postedby?._id === currentUserData[0]._id
+                  )}
+                />
+              </Card>
+            </li>
           ))}
-        </AnsweredContainer>
+        </AnsweredList>
       );
     }
   };
