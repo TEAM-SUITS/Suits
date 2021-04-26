@@ -250,8 +250,7 @@ export default function FollowingPage() {
   useEffect(() => {
     // App이 userState를 받아오기 전 바로 팔로잉페이지로 접근할 경우의
     // 에러를 방지하기 위해 분기 처리
-    if (userState.currentUserData)
-      setKeywords(userState.currentUserData[0].hashTag);
+    if (userState.currentUserData) setKeywords(userState.currentUserData[0].hashTag);
     setPrevTag(currentTag);
     dispatch(
       fetchFollowingData(

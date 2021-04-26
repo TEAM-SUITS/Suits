@@ -261,8 +261,7 @@ const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
 
   const handleRemove = (answerId) => {
     const removeAnswer = async () => {
-      console.log('답변 삭제하자');
-
+      await API(`/api/answers/${answerId}`, 'delete');
       setNeedRefresh(true);
       setIsLoading(true);
     };
