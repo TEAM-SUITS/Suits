@@ -362,7 +362,7 @@ module.exports = (app) => {
         return;
       }
 
-      //질문을 삭제
+      // 질문을 삭제
       await Answer.findByIdAndRemove(req.params.id);
 
       // 유저가 답변한 질문들 목록에서 삭제

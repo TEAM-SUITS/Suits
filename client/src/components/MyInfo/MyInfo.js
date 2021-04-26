@@ -253,6 +253,7 @@ const StyledConfirmAlert = styled.div`
       background-color: var(--color-gray2);
       padding: 0.5em 2em;
       ${boxShadow}
+      ${spoqaMedium}
       &:last-child {
         color: var(--color-red);
         margin-left: 3em;
