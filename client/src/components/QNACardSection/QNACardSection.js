@@ -5,7 +5,6 @@ import Card from "components/Card/Card";
 import QnAContent from "components/Content/QnAContent";
 import TrendingQuestionContent from "components/Content/TrendingQuestionContent";
 import QnADialog from "containers/QnADialog/QnADialog";
-import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { boxShadow, resetList } from "styles/common/common.styled";

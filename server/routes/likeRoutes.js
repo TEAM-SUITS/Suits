@@ -13,7 +13,7 @@ module.exports = (app) => {
         req.params.id,
         { $push: { likes: req.user._id } },
         { new: true }
-      );
+      ).populate("postedby");
       // 유저의 누적총 좋아요 수 증가
       const user = await User.findByIdAndUpdate(answer.postedby, {
         $inc: { likeCount: 1 },
@@ -37,7 +37,7 @@ module.exports = (app) => {
         req.params.id,
         { $pull: { likes: req.user._id } },
         { new: true }
-      );
+      ).populate("postedby");
 
       // 유저의 누적총 좋아요 수 감소
       await User.findByIdAndUpdate(answer.postedby, {

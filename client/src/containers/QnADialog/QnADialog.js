@@ -111,7 +111,7 @@ const ButtonContainer = styled.div`
   margin: 0 auto;
 
   > button {
-    margin: 0 .3rem;
+    margin: 0 0.3rem;
     padding: 0 1rem;
   }
 `;
@@ -164,8 +164,8 @@ const EditConfirmButton = styled.button.attrs(() => ({
   ${spoqaMedium}
   padding: 0 3px;
   position: absolute;
-  bottom: .8rem;
-  right: .8rem;
+  bottom: 0.8rem;
+  right: 0.8rem;
 
   &:first-of-type {
     right: 7.2rem;
@@ -173,10 +173,10 @@ const EditConfirmButton = styled.button.attrs(() => ({
 `;
 
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
-const Answers = ({ answersList = [], userId = '', refreshQuestion }) => {
+const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
-  const [editContent, setEditContent] = useState('');
+  const [editContent, setEditContent] = useState("");
   const [needRefresh, setNeedRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -184,7 +184,6 @@ const Answers = ({ answersList = [], userId = '', refreshQuestion }) => {
     if (needRefresh) {
       refreshQuestion();
       setNeedRefresh(false);
-      setIsLoading(false);
     }
   }, [needRefresh, refreshQuestion]);
 
@@ -198,21 +197,28 @@ const Answers = ({ answersList = [], userId = '', refreshQuestion }) => {
   };
 
   const postContent = async (answerId, newContent) => {
-    await API(`/api/answers/${answerId}`, 'patch', {
-      content: newContent,
-    });
-
-    setEditing(null);
-    setNeedRefresh(true);
-    setIsLoading(true);
+    try {
+      setIsLoading(true);
+      await API(`/api/answers/${answerId}`, "patch", {
+        content: newContent,
+      });
+      setEditing(null);
+      setNeedRefresh(true);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleRemove = (answerId) => {
-    console.log('삭제 안되지롱 메롱');
+    console.log("삭제 안되지롱 메롱");
   };
 
   if (!answersList.length) {
     return <QnAContent answer={false} isEllipsis={false} />;
+  } else if (isLoading) {
+    return <Spinner />;
   }
 
   return (
@@ -231,9 +237,7 @@ const Answers = ({ answersList = [], userId = '', refreshQuestion }) => {
               >
                 확인
               </EditConfirmButton>
-              <EditConfirmButton
-                onClick={() => setEditing(null)}
-              >
+              <EditConfirmButton onClick={() => setEditing(null)}>
                 취소
               </EditConfirmButton>
             </EditContainer>
@@ -242,19 +246,18 @@ const Answers = ({ answersList = [], userId = '', refreshQuestion }) => {
           )}
           {answer.postedby._id === userId ? (
             <>
-            {!editing ? (
-              <ButtonContainer>
-                <EditorOnlyButton
-                  onClick={() => handleEdit(answer._id, answer.content)}
-                >
-                  수정
-                </EditorOnlyButton>
-                <EditorOnlyButton
-                  onClick={() => handleRemove(answer._id)}
-                >
-                  삭제</EditorOnlyButton>
-              </ButtonContainer>
-            ) : null}
+              {!editing ? (
+                <ButtonContainer>
+                  <EditorOnlyButton
+                    onClick={() => handleEdit(answer._id, answer.content)}
+                  >
+                    수정
+                  </EditorOnlyButton>
+                  <EditorOnlyButton onClick={() => handleRemove(answer._id)}>
+                    삭제
+                  </EditorOnlyButton>
+                </ButtonContainer>
+              ) : null}
             </>
           ) : null}
           <Divider primary={false} $color="gray" $height="1px" $width="70%" />
