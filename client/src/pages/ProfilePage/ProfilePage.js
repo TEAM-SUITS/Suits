@@ -6,7 +6,6 @@ import { pageEffect } from "styles/motions/variants";
 import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 import { useSelector } from "react-redux";
 import Profile from "components/Profile/Profile";
-import Alert from "components/Alert/Alert";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 import QNACardSection from "components/QNACardSection/QNACardSection";
 import { fetchCurrentUserData } from "redux/storage/currentUser/currentUser";

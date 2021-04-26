@@ -184,6 +184,7 @@ const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
     if (needRefresh) {
       refreshQuestion();
       setNeedRefresh(false);
+      setIsLoading(false);
     }
   }, [needRefresh, refreshQuestion]);
 
@@ -197,18 +198,13 @@ const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
   };
 
   const postContent = async (answerId, newContent) => {
-    try {
-      setIsLoading(true);
-      await API(`/api/answers/${answerId}`, "patch", {
-        content: newContent,
-      });
-      setEditing(null);
-      setNeedRefresh(true);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
+    await API(`/api/answers/${answerId}`, "patch", {
+      content: newContent,
+    });
+
+    setEditing(null);
+    setNeedRefresh(true);
+    setIsLoading(true);
   };
 
   const handleRemove = (answerId) => {
@@ -217,8 +213,6 @@ const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
 
   if (!answersList.length) {
     return <QnAContent answer={false} isEllipsis={false} />;
-  } else if (isLoading) {
-    return <Spinner />;
   }
 
   return (
@@ -244,7 +238,7 @@ const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
           ) : (
             <QnAContent answer={answer} isEllipsis={false} />
           )}
-          {answer.postedby._id === userId ? (
+          {answer.postedby && answer.postedby._id === userId ? (
             <>
               {!editing ? (
                 <ButtonContainer>
