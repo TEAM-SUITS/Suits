@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Portal from "components/Portal/Portal";
 import Dialog from "components/Dialog/Dialog";
 import Card from "components/Card/Card";
@@ -8,6 +8,7 @@ import Hashtag from "components/Hashtag/Hashtag";
 import styled, { css } from "styled-components";
 import {
   boxShadow,
+  spoqaSmall,
   spoqaMedium,
   spoqaMediumLight,
 } from "styles/common/common.styled";
@@ -17,6 +18,7 @@ import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 import { Skeleton } from "@material-ui/lab";
 import { useSelector } from "react-redux";
 import badwordFliter from "utils/badwordFilter/badwordFilter";
+import { confirmAlert } from 'react-confirm-alert';
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -172,6 +174,56 @@ const EditConfirmButton = styled.button.attrs(() => ({
   }
 `;
 
+const StyledConfirmAlert = styled.div`
+  background-color: var(--color-body);
+  border: 2px solid var(--color-gray5);
+  border-radius: 10px;
+  padding: 2em 3em 1.5em;
+  ${boxShadow}
+  h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin: 0;
+    color: var(--color-text);
+  }
+  p {
+    font-size: 1.6rem;
+    color: var(--color-text);
+    margin-bottom: 2em;
+  }
+  div {
+    display: flex;
+    justify-content: center;
+    button {
+      font-size: 1.4rem;
+      border: none;
+      border: 1px solid var(--color-gray5);
+      border-radius: 5px;
+      background-color: var(--color-gray2);
+      padding: 0.5em 2em;
+      ${boxShadow}
+      ${spoqaMedium}
+      &:last-child {
+        color: var(--color-red);
+        margin-left: 3em;
+        font-weight: bold;
+      }
+    }
+  }
+  @media screen and (min-width: 480px) {
+    padding: 5em 6em 4em;
+    h1 {
+      font-size: 2.5rem;
+    }
+    p {
+      font-size: 2rem;
+    }
+    button {
+      font-size: 2rem;
+    }
+  }
+`;
+
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
 const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
   // 사용자가 답변을 수정하는 중인지
@@ -198,8 +250,8 @@ const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
   };
 
   const postContent = async (answerId, newContent) => {
-    await API(`/api/answers/${answerId}`, "patch", {
-      content: newContent,
+    await API(`/api/answers/${answerId}`, 'patch', {
+      content: badwordFliter.filter(newContent, "**"),
     });
 
     setEditing(null);
@@ -208,7 +260,34 @@ const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
   };
 
   const handleRemove = (answerId) => {
-    console.log("삭제 안되지롱 메롱");
+    const removeAnswer = async () => {
+      console.log('답변 삭제하자');
+
+      setNeedRefresh(true);
+      setIsLoading(true);
+    };
+
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <StyledConfirmAlert>
+            <h1>답변 삭제</h1>
+            <p>정말로 답변을 삭제하시겠습니까?</p>
+            <div>
+              <button onClick={onClose}>취소</button>
+              <button
+                onClick={() => {
+                  removeAnswer();
+                  onClose();
+                }}
+              >
+                삭제
+              </button>
+            </div>
+          </StyledConfirmAlert>
+        );
+      },
+    });
   };
 
   if (!answersList.length) {
@@ -240,18 +319,20 @@ const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
           )}
           {answer.postedby && answer.postedby._id === userId ? (
             <>
-              {!editing ? (
-                <ButtonContainer>
-                  <EditorOnlyButton
-                    onClick={() => handleEdit(answer._id, answer.content)}
-                  >
-                    수정
-                  </EditorOnlyButton>
-                  <EditorOnlyButton onClick={() => handleRemove(answer._id)}>
-                    삭제
-                  </EditorOnlyButton>
-                </ButtonContainer>
-              ) : null}
+            {!editing ? (
+              <ButtonContainer>
+                <EditorOnlyButton
+                  onClick={() => handleEdit(answer._id, answer.content)}
+                >
+                  수정
+                </EditorOnlyButton>
+                <EditorOnlyButton
+                  onClick={() => handleRemove(answer._id)}
+                >
+                  삭제
+                </EditorOnlyButton>
+              </ButtonContainer>
+            ) : null}
             </>
           ) : null}
           <Divider primary={false} $color="gray" $height="1px" $width="70%" />
@@ -320,7 +401,6 @@ export default function QnADialog({
     (state) => state.currentUser
   );
 
-  console.log(userData);
   const [isAnswered, setIsAnswered] = useState(null);
   const [isInputLoading, setIsInputLoading] = useState(null);
   // InputArea로부터 상태 끌어올리기
