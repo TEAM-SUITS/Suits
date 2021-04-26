@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Question = require("../model/Question");
 const Answer = require("../model/Answer");
+const User = mongoose.model("User");
 const requireLogin = require("../middlewares/requireLogin");
 
 /* -------------------------------------------------------------------------- */
@@ -351,10 +352,9 @@ module.exports = (app) => {
   // ✅ 답변 삭제(delete answer)
   app.delete("/api/answers/:id", requireLogin, async (req, res) => {
     try {
-      const answer = await Answer.findByIdAndDelete({
-        _id: req.params.id,
-      });
-
+      // 삭제하고 하는 답변 먼저 검색
+      const answer = await Answer.findById(req.params.id);
+      // 권한 확인
       if (!answer.postedby.equals(req.user._id)) {
         res.send({
           message: "삭제 권한이 없습니다.",
@@ -362,8 +362,26 @@ module.exports = (app) => {
         return;
       }
 
+      //질문을 삭제
+      await Answer.findByIdAndRemove(req.params.id);
+
+      // 유저가 답변한 질문들 목록에서 삭제
+      await User.findByIdAndUpdate(
+        req.user._id,
+        { $pull: { answeredQuestions: answer.question } },
+        { new: true }
+      );
+
+      // 질문의 답변 목록에서 삭제
+      await Question.findByIdAndUpdate(
+        answer.question,
+        { $pull: { answers: answer._id } },
+        { new: true }
+      );
+
       res.json(answer); // 삭제 이전의 질문을 반환함.
     } catch (err) {
+      console.log(err);
       res.status(500).send({
         message: err,
       });
