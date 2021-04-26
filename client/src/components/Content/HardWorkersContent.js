@@ -93,7 +93,7 @@ export default function HardWorkersContent({ users, $isLoading }) {
   const [isLoading, setLoading] = useState(false);
 
   const handleClick = (e) => {
-    if (e.target.classList.contains("modal")) setDialogVisiblity(false);
+    if (e.target.classList.contains("overlay")) setDialogVisiblity(false);
   };
 
   useEffect(() => {

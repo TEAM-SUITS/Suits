@@ -25,10 +25,21 @@ const PageContainer = styled(motion(Container))`
   ${({ page }) =>
     page === "home" &&
     css`
+      // Non Clickable Card
       > div {
         margin-bottom: 3em;
       }
+
+      // Question List
+      > ul {
+        width: 100%;
+        margin-bottom: 3em;
+        div {
+          margin: 0 auto;
+        }
+      }
     `}
+
 
   ${({ page }) =>
     page === "search" &&

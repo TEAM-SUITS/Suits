@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import Icon from 'components/Icon/Icon';
-import Portal from 'components/Portal/Portal';
-import { bool, string, node, oneOfType } from 'prop-types';
+import React from "react";
+import styled from "styled-components";
+import Icon from "components/Icon/Icon";
+import Portal from "components/Portal/Portal";
+import { bool, string, node, oneOfType } from "prop-types";
 
 /* ---------------------------- styled components --------------------------- */
 const DialogContainer = styled.div.attrs((props) => ({
-  role: 'dialog',
-  ariaModal: 'true',
+  role: "dialog",
+  ariaModal: "true",
   ariaLabel: props.label,
 }))`
   z-index: 999;
@@ -34,8 +34,8 @@ const DialogContainer = styled.div.attrs((props) => ({
 `;
 
 const CloseButton = styled.button.attrs(() => ({
-  type: 'button',
-  'aria-label': '닫기',
+  type: "button",
+  "aria-label": "닫기",
 }))`
   position: absolute;
   top: 1em;
@@ -57,7 +57,7 @@ const Header = styled.h1`
 `;
 
 const Modal = styled.div.attrs(() => ({
-  role: 'presentation',
+  role: "presentation",
 }))`
   max-width: 100%;
   z-index: 998;
@@ -68,17 +68,16 @@ const Modal = styled.div.attrs(() => ({
   top: 0;
   bottom: 0;
   opacity: ${(props) => props.opacity};
-  backdrop-filter: blur(20px) opacity(0.8);
 `;
 
 /* -------------------------------------------------------------------------- */
 export default function Dialog({
   visible = false, // 다이얼로그 가시성 여부
-  infoText = '', // content of h1
+  infoText = "", // content of h1
   label = infoText, // aria-label
   onClick, // 닫기 버튼
   children,
-  opacity = 0.8,
+  opacity = 0.6,
 }) {
   const dialogRef = React.useRef(null);
 
@@ -86,20 +85,21 @@ export default function Dialog({
   React.useEffect(() => {
     if (visible) {
       const dialogNode = dialogRef.current;
-      dialogNode.setAttribute('tabIndex', -1);
+      dialogNode.setAttribute("tabIndex", -1);
       dialogNode.focus();
 
       // 다이얼로그 뒤에 영역이 모바일 보이스리더기에 읽히지 않도록 처리
-      const rootNode = document.getElementById('root');
-      rootNode.setAttribute('aria-hidden', true);
-      rootNode.style.userSelect = 'none';
+      const rootNode = document.getElementById("root");
+      rootNode.setAttribute("aria-hidden", true);
+      rootNode.style.userSelect = "none";
+      rootNode.style.filter = "blur(3px)";
 
       const handleFocusTrap = (e) => {
         // 다이얼로그 노드
         // const dialogNode = dialogRef.current;
         // focusable nodes "inside" dialogNode
         const focusableNodeList = dialogNode.querySelectorAll(
-          'a, button, input, select, textarea'
+          "a, button, input, select, textarea"
         ); // 참고로 a 태그는 href 속성이나 tabindex 속성이 있으면 focusable함.
 
         // 첫 번째 포커스 요소와 마지막 포커스 요소를 기억해놓아야
@@ -108,26 +108,27 @@ export default function Dialog({
         const lastFocusNode = focusableNodeList[focusableNodeList.length - 1];
 
         // 첫 번째 포커스 요소에서 shift + tab 동시에 누르면? -> 마지막 포커스 요소로 이동!
-        if (e.target === firstFocusNode && e.shiftKey && e.key === 'Tab') {
+        if (e.target === firstFocusNode && e.shiftKey && e.key === "Tab") {
           e.preventDefault();
           lastFocusNode.focus();
         }
 
         // 마지막 포커스 요소에서 tab 누르면? -> 첫 번째 포커스 요소로 이동!
-        if (e.target === lastFocusNode && !e.shiftKey && e.key === 'Tab') {
+        if (e.target === lastFocusNode && !e.shiftKey && e.key === "Tab") {
           e.preventDefault();
           firstFocusNode.focus();
         }
       };
 
-      window.addEventListener('keydown', handleFocusTrap);
+      window.addEventListener("keydown", handleFocusTrap);
 
       // clean-up function
       return () => {
-        dialogNode.removeAttribute('tabIndex');
-        rootNode.removeAttribute('aria-hidden');
-        window.removeEventListener('keydown', handleFocusTrap);
-        rootNode.style.userSelect = 'auto';
+        dialogNode.removeAttribute("tabIndex");
+        rootNode.removeAttribute("aria-hidden");
+        window.removeEventListener("keydown", handleFocusTrap);
+        rootNode.style.userSelect = "auto";
+        rootNode.style.filter = "";
       };
     }
   }, [visible]);
@@ -136,8 +137,8 @@ export default function Dialog({
   // 이 컴포넌트를 Portal 컴포넌트로 감싸주세요!
   return (
     <>
-      <Portal id={'dialog-container'}>
-        {visible ? <Modal className="modal" opacity={opacity} /> : null}
+      <Portal id={"dialog-container"}>
+        {visible ? <Modal className="overlay" opacity={opacity} /> : null}
         {visible && (
           <DialogContainer ref={dialogRef} label={label}>
             <CloseButton>

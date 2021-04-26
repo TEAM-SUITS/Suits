@@ -1,31 +1,20 @@
 import React from "react";
 import PageContainer from "containers/PageContainer/PageContainer.styled";
 import styled from "styled-components";
+import { spoqaMedium } from "styles/common/common.styled";
 import { pageEffect } from "styles/motions/variants";
 import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 import { useSelector } from "react-redux";
 import Profile from "components/Profile/Profile";
-import QnAContent from "components/Content/QnAContent";
-import Card from "components/Card/Card";
-import Alert from "components/Alert/Alert";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
-import { resetList } from "styles/common/common.styled";
+import QNACardSection from "components/QNACardSection/QNACardSection";
+import { fetchCurrentUserData } from "redux/storage/currentUser/currentUser";
+import { useDispatch } from "react-redux";
 
 /* ---------------------------- styled component ---------------------------- */
 
 const SpinnerContainer = styled.div`
   width: 100%;
-`;
-
-const AnsweredList = styled.ul`
-  ${resetList}
-
-  > li {
-    // 모바일
-    @media screen and (max-width: 480px) {
-      width: 350px;
-    }
-  }
 `;
 
 const ProfileContainer = styled.div`
@@ -38,10 +27,27 @@ const ProfileContainer = styled.div`
   }
 `;
 
-const MessageContainer = styled.div`
-  align-self: flex-start;
-  margin: 3rem;
+const MessageContainer = styled.section`
+  align-self: baseline;
+  /* margin: 3rem; */
   width: 100%;
+  text-align: center;
+
+  > img {
+    width: 240px;
+    height: auto;
+  }
+
+  > p {
+    ${spoqaMedium}
+    color: var(--color-gray5);
+  }
+
+  @media screen and (max-width: 480px) {
+    > img {
+      width: 190px;
+    }
+  }
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -51,6 +57,7 @@ export default function ProfilePage() {
     (state) => state.currentUser
   );
 
+  const dispatch = useDispatch();
   const renderAnsweredQuestions = () => {
     if (isLoading) {
       return (
@@ -64,29 +71,19 @@ export default function ProfilePage() {
     ) {
       return (
         <MessageContainer>
-          <Alert status="info" message="작성한 답변이 없어요" />
+          {/* <Alert status="info" message="작성한 답변이 없어요" /> */}
+          <img src="/assets/whistle.png" alt="휘파람 부는 슈티" />
+          <p>아직 작성한 답변이 없어요.</p>
         </MessageContainer>
       );
     } else if (currentUserData && currentUserData[0].answeredQuestions) {
       return (
-        <AnsweredList>
-          {currentUserData[0].answeredQuestions.map((data) => (
-            <li key={data._id}>
-              <Card
-                className="question"
-                isQuestion={true}
-                title={data.content}
-                tags={data.hashTag}
-              >
-                <QnAContent
-                  answer={data.answers.find(
-                    (answer) => answer.postedby?._id === currentUserData[0]._id
-                  )}
-                />
-              </Card>
-            </li>
-          ))}
-        </AnsweredList>
+        <QNACardSection
+          content="answeredQ"
+          isLoading={isLoading}
+          cardData={currentUserData[0]}
+          refreshData={() => dispatch(fetchCurrentUserData())}
+        />
       );
     }
   };
