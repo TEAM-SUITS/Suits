@@ -16,6 +16,8 @@ const StyledSlider = styled(Slider)`
   }
   img {
     width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
   }
 `;
 

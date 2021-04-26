@@ -31,6 +31,11 @@ const PageContainer = styled(motion(Container))`
       // Non Clickable Card
       > div {
         margin-bottom: 3em;
+        &:first-of-type {
+          @media screen and (max-width: 375px) {
+            margin-bottom: 1em;
+          }
+        }
       }
 
       // Question List
