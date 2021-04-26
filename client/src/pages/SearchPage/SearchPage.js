@@ -59,7 +59,12 @@ function ResultsSection({
   }
 
   if (result === null || word === "") {
-    return <InfoMsg>검색하실 단어를 입력해주세요.</InfoMsg>;
+    return (
+      <>
+        <InfoImg src="assets/magnifier.png" alt="검색어 입력 안내" />
+        <InfoMsg>검색하실 단어를 입력해주세요.</InfoMsg>
+      </>
+    );
   }
   // 검색 결과가 존재하지 않을 경우
   if (!isLoading && !result.length) {

@@ -1,6 +1,7 @@
 import React from "react";
 import PageContainer from "containers/PageContainer/PageContainer.styled";
 import styled from "styled-components";
+import { spoqaMedium } from "styles/common/common.styled";
 import { pageEffect } from "styles/motions/variants";
 import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 import { useSelector } from "react-redux";
@@ -27,10 +28,27 @@ const ProfileContainer = styled.div`
   }
 `;
 
-const MessageContainer = styled.div`
-  align-self: flex-start;
-  margin: 3rem;
+const MessageContainer = styled.section`
+  align-self: baseline;
+  /* margin: 3rem; */
   width: 100%;
+  text-align: center;
+
+  > img {
+    width: 240px;
+    height: auto;
+  }
+
+  > p {
+    ${spoqaMedium}
+    color: var(--color-gray5);
+  }
+
+  @media screen and (max-width: 480px) {
+    > img {
+      width: 190px;
+    }
+  }
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -54,7 +72,9 @@ export default function ProfilePage() {
     ) {
       return (
         <MessageContainer>
-          <Alert status="info" message="작성한 답변이 없어요" />
+          {/* <Alert status="info" message="작성한 답변이 없어요" /> */}
+          <img src="/assets/whistle.png" alt="휘파람 부는 슈티" />
+          <p>아직 작성한 답변이 없어요.</p>
         </MessageContainer>
       );
     } else if (currentUserData && currentUserData[0].answeredQuestions) {

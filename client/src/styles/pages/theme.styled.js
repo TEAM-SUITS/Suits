@@ -15,6 +15,8 @@ export const GlobalStyle = createGlobalStyle`
     max-width: 944px;
     background-color: ${(props) => props.theme.gray1};
     color: ${(props) => props.theme.text};
+    transition: all 0.25s linear;
+    // 참고: https://css-tricks.com/a-dark-mode-toggle-with-react-and-themeprovider/
   }
 
   body,

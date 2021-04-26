@@ -93,7 +93,7 @@ export default function Card({
             )}
             <h2>{title}</h2>
           </CardBox.Header>
-          <Divider primary width="80%" />
+          <Divider primary $width="80%" />
         </>
       )}
       <CardBox.Content>{children}</CardBox.Content>

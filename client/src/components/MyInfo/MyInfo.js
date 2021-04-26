@@ -30,145 +30,143 @@ const StyledMyInfo = styled.section`
   max-width: 568px;
   padding: 1em;
   margin-top: 130px;
-
-  .bio__container {
-    display: flex;
-    flex-flow: column nowrap;
-    width: 100%;
-    margin-bottom: 2em;
-    position: relative;
-    .bio__heading-container {
-      display: flex;
-      align-items: flex-end;
-      margin-bottom: 1em;
-      h3 {
-        ${spoqaMedium}
-        margin: 0 .5em 0 0;
-      }
-      button {
-        ${spoqaSmallBold};
-        color: var(--color-gray4);
-        border: 1px solid var(--color-gray4);
-        background-color: transparent;
-      }
-    }
-    textarea {
-      resize: none;
-      ${spoqaMedium}
-      font-size: 1.4rem;
-      padding: 0.4em;
-      height: 8em;
-      letter-spacing: 0.5px;
-      ${boxShadow}
-      &:disabled {
-        background-color: var(--color-gray2);
-      }
-    }
-    span {
-      position: absolute;
-      bottom: 1em;
-      right: 1em;
-      ${spoqaSmall}
-      color: var(--color-gray5)
-    }
-  }
-
-  .hashtag__container {
-    display: flex;
-    flex-flow: column nowrap;
-    width: 100%;
-    margin-bottom: 3em;
-    .hashtag__heading-container {
-      display: flex;
-      align-items: flex-end;
-      margin-bottom: 1em;
-      h3 {
-        ${spoqaMedium}
-        margin: 0 .5em 0 0;
-      }
-      button {
-        ${spoqaSmallBold};
-        color: var(--color-gray4);
-        border: 1px solid var(--color-gray4);
-        background-color: transparent;
-      }
-    }
-    .hashtag__hashtags {
-      display: flex;
-      justify-content: space-around;
-    }
-  }
-
-  .button__container {
-    display: flex;
-    flex-flow: column nowrap;
-    width: 100%;
-    button {
-      padding: 0.5em;
-      ${spoqaMedium}
-      border: none;
-      ${boxShadow};
-    }
-    .signout {
-      color: var(--color-black);
-      background-color: var(--color-gray2);
-      margin-bottom: 1em;
-    }
-    .delete-account {
-      background-color: var(--color-gray1);
-      border: 1px solid var(--color-gray2);
-      color: var(--color-red);
-    }
-  }
-
   @media screen and (min-width: 480px) {
     margin-top: 160px;
-
-    .bio__container {
-      .bio__heading-container {
-        h3 {
-          font-size: 2rem;
-        }
-        button {
-          font-size: 1.6rem;
-        }
-      }
-      textarea {
-        font-size: 2rem;
-      }
-    }
-
-    .hashtag__container {
-      .hashtag__heading-container {
-        h3 {
-          font-size: 2rem;
-        }
-        button {
-          font-size: 1.6rem;
-        }
-      }
-      .hashtag__hashtags {
-        justify-content: center;
-        * {
-          font-size: 2rem;
-          width: 160px;
-          &:not(:last-child) {
-            margin-right: 3rem;
-          }
-        }
-      }
-    }
-
-    .button__container {
-      button {
-        font-size: 2rem;
-      }
+    textarea {
+      font-size: 2rem;
     }
   }
 
   @media screen and (max-height: 667px) {
     margin-top: 100px;
   }
+`;
+
+const StyledBio = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  margin-bottom: 2em;
+  position: relative;
+  textarea {
+    resize: none;
+    ${spoqaMedium}
+    font-size: 1.4rem;
+    padding: 0.4em;
+    height: 8em;
+    letter-spacing: 0.5px;
+    ${boxShadow}
+    &:disabled {
+      background-color: var(--color-gray2);
+    }
+  }
+  span {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    ${spoqaSmall}
+    color: var(--color-gray5)
+  }
+`;
+
+const StyledBioHeading = styled.div`
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 1em;
+  h3 {
+    ${spoqaMedium}
+    margin: 0 .5em 0 0;
+  }
+  button {
+    ${spoqaSmallBold};
+    color: var(--color-gray4);
+    border: 1px solid var(--color-gray4);
+    background-color: transparent;
+  }
+  @media screen and (min-width: 480px) {
+    h3 {
+      font-size: 2rem;
+    }
+    button {
+      font-size: 1.6rem;
+    }
+  }
+`;
+
+const StyledHashtagContainer = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  margin-bottom: 3em;
+`;
+
+const StyledHashtagHeadingContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 1em;
+  h3 {
+    ${spoqaMedium}
+    margin: 0 .5em 0 0;
+  }
+  button {
+    ${spoqaSmallBold};
+    color: var(--color-gray4);
+    border: 1px solid var(--color-gray4);
+    background-color: transparent;
+  }
+
+  @media screen and (min-width: 480px) {
+    h3 {
+      font-size: 2rem;
+    }
+    button {
+      font-size: 1.6rem;
+    }
+  }
+`;
+
+const StyledHashtags = styled.div`
+  display: flex;
+  justify-content: space-around;
+  @media screen and (min-width: 480px) {
+    justify-content: center;
+    div {
+      font-size: 2rem;
+      width: 160px;
+      &:not(:last-child) {
+        margin-right: 3rem;
+      }
+    }
+  }
+`;
+
+const StyledButtonContainer = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  button {
+    padding: 0.5em;
+    ${spoqaMedium}
+    border: none;
+    ${boxShadow};
+  }
+  @media screen and (min-width: 480px) {
+    button {
+      font-size: 2rem;
+    }
+  }
+`;
+
+const StyledSignoutButton = styled.button`
+  color: var(--color-black);
+  background-color: var(--color-gray2);
+  margin-bottom: 1em;
+`;
+
+const StyledDeleteButton = styled.button`
+  background-color: var(--color-gray1);
+  border: 1px solid var(--color-gray2);
+  color: var(--color-red);
 `;
 
 const StyledProfile = styled.div`
@@ -388,13 +386,13 @@ export default function MyInfo() {
             <a href={user.githubRepo}>{user.githubRepo}</a>
           </div>
         </StyledProfile>
-        <div className="bio__container">
-          <div className="bio__heading-container">
+        <StyledBio>
+          <StyledBioHeading>
             <h3>자기소개</h3>
             <button onClick={handleClickBioButton}>
               {isBioActive ? '완료' : '수정'}
             </button>
-          </div>
+          </StyledBioHeading>
           <textarea
             disabled={!isBioActive}
             id="bio"
@@ -403,26 +401,33 @@ export default function MyInfo() {
             maxLength="119"
           />
           {isBioActive && <span>{enteredBio.length}/120</span>}
-        </div>
-        <div className="hashtag__container">
-          <div className="hashtag__heading-container">
+        </StyledBio>
+        <StyledHashtagContainer>
+          <StyledHashtagHeadingContainer>
             <h3>관심 키워드</h3>
             <button onClick={handleOpenHashtagChange}>수정</button>
-          </div>
-          <div className="hashtag__hashtags">
-            {user.hashTag.map((ht) => {
-              return <Hashtag key={ht} type={ht} />;
-            })}
-          </div>
-        </div>
-        <div className="button__container">
-          <button className="signout" onClick={handleSignOut}>
+          </StyledHashtagHeadingContainer>
+          <StyledHashtags>
+            {user.hashTag.length ? (
+              user.hashTag.map((ht) => {
+                return <Hashtag key={ht} type={ht} />;
+              })
+            ) : (
+              <img
+                src="/assets/keyword.png"
+                alt="슈티 : 관심 키워드를 설정해보세요"
+              />
+            )}
+          </StyledHashtags>
+        </StyledHashtagContainer>
+        <StyledButtonContainer>
+          <StyledSignoutButton onClick={handleSignOut}>
             로그아웃
-          </button>
-          <button className="delete-account" onClick={handleDelete}>
+          </StyledSignoutButton>
+          <StyledDeleteButton onClick={handleDelete}>
             회원탈퇴
-          </button>
-        </div>
+          </StyledDeleteButton>
+        </StyledButtonContainer>
       </StyledMyInfo>
     </>
   );

@@ -21,18 +21,13 @@ import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 import { ThemeProvider } from 'styled-components';
 import ThemeToggler from '../components/ThemeToggler/ThemeToggler';
 import { darkTheme, lightTheme } from 'styles/pages/Themes';
-import themeToggler from 'utils/themeToggler';
+import themeToggler from 'utils/themeToggler/themeToggler';
 
 /* -------------------------------------------------------------------------- */
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
-
-  useEffect(() => {
-    dispatch(fetchUserAction());
-    dispatch(fetchCurrentUserData());
-  }, [dispatch]);
-
+  const { currentUserData } = useSelector((state) => state.currentUser);
   // theme state (dark mode)
   const [theme, setTheme] = useState(() => {
     return window.matchMedia &&
@@ -41,15 +36,20 @@ function App() {
       : 'light';
   });
 
-  const { currentUserData } = useSelector((state) => state.currentUser);
+  // effects
+  /** 참고
+   * https://stackoverflow.com/questions/54002792/should-i-use-one-or-many-useeffect-in-component
+   * https://ko.reactjs.org/docs/hooks-effect.html#tip-use-multiple-effects-to-separate-concerns
+   */
+  useEffect(() => {
+    dispatch(fetchUserAction());
+    dispatch(fetchCurrentUserData());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!currentUserData || typeof currentUserData[0] !== 'object') return;
     currentUserData[0].theme && setTheme(currentUserData[0].theme);
   }, [currentUserData]);
-
-  // 임시 state for Dialog
-  const [checkingProfile, isCheckingProfile] = useState(false);
 
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
@@ -58,8 +58,6 @@ function App() {
         {location.pathname === '/login' ? null : (
           <ThemeToggler handleClick={() => themeToggler(theme, setTheme)} />
         )}
-        <ProfileDialog isVisible={checkingProfile} />
-        {/* <DemoPage /> */}
         <Switch>
           <RouteGuard path="/" exact component={HomePage} />
           <RouteGuard path="/demo" exact component={DemoPage} />

@@ -2,7 +2,7 @@ import React from "react";
 import LikeButton from "components/LikeButton/LikeButton";
 import MiniProfile from "components/MiniProfile/MiniProfile";
 import styled from "styled-components";
-import { a11yHidden, ellipsis, spoqaSmall } from "styles/common/common.styled";
+import { ellipsis, spoqaSmall } from "styles/common/common.styled";
 import { object, bool, oneOfType } from "prop-types";
 
 /* ---------------------------- styled component ---------------------------- */
