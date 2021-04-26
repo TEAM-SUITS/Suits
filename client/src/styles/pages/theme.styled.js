@@ -75,7 +75,6 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 10px;
     max-width: 944px;
   }
-
   
   html {
     font-size: 10px;
@@ -98,5 +97,9 @@ export const GlobalStyle = createGlobalStyle`
     --color-blue2: #56CCF2;
     --color-yellow: #ECB312;
     --color-orange: #EB5022;
+  }
+
+  .react-confirm-alert-overlay {
+    background: rgba(97, 97, 97, 0.6);
   }
 `;
