@@ -6,19 +6,15 @@ import { pageEffect } from "styles/motions/variants";
 import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
 import { useSelector } from "react-redux";
 import Profile from "components/Profile/Profile";
-import QnAContent from "components/Content/QnAContent";
-import Card from "components/Card/Card";
-import Alert from "components/Alert/Alert";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
+import QNACardSection from "components/QNACardSection/QNACardSection";
+import { fetchCurrentUserData } from "redux/storage/currentUser/currentUser";
+import { useDispatch } from "react-redux";
 
 /* ---------------------------- styled component ---------------------------- */
 
 const SpinnerContainer = styled.div`
   width: 100%;
-`;
-
-const AnsweredContainer = styled.div`
-  margin-top: 3em;
 `;
 
 const ProfileContainer = styled.div`
@@ -61,6 +57,7 @@ export default function ProfilePage() {
     (state) => state.currentUser
   );
 
+  const dispatch = useDispatch();
   const renderAnsweredQuestions = () => {
     if (isLoading) {
       return (
@@ -81,23 +78,12 @@ export default function ProfilePage() {
       );
     } else if (currentUserData && currentUserData[0].answeredQuestions) {
       return (
-        <AnsweredContainer>
-          {currentUserData[0].answeredQuestions.map((data) => (
-            <Card
-              className="question"
-              key={data._id}
-              isQuestion={true}
-              title={data.content}
-              tags={data.hashTag}
-            >
-              <QnAContent
-                answer={data.answers.find(
-                  (answer) => answer.postedby?._id === currentUserData[0]._id
-                )}
-              />
-            </Card>
-          ))}
-        </AnsweredContainer>
+        <QNACardSection
+          content="answeredQ"
+          isLoading={isLoading}
+          cardData={currentUserData[0]}
+          refreshData={() => dispatch(fetchCurrentUserData())}
+        />
       );
     }
   };

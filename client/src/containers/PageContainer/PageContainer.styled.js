@@ -1,6 +1,6 @@
-import styled, { css } from 'styled-components';
-import { motion } from 'framer-motion';
-import { forwardRef } from 'react';
+import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
+import { forwardRef } from "react";
 
 const Container = forwardRef((props, ref) => {
   return <div ref={ref} {...props}></div>;
@@ -12,10 +12,10 @@ const PageContainer = styled(motion(Container))`
   align-items: center;
   justify-content: center;
   margin: ${({ margin }) =>
-    margin ? margin : '7.5em 0'}; //4.5em(네비게이션) + 3em 마진(기본)
+    margin ? margin : "7.5em 0"}; //4.5em(네비게이션) + 3em 마진(기본)
 
   ${({ page }) =>
-    page === 'login' &&
+    page === "login" &&
     css`
       margin: 0;
       background-color: var(--color-black);
@@ -23,17 +23,28 @@ const PageContainer = styled(motion(Container))`
     `}
 
   ${({ page }) =>
-    page === 'home' &&
+    page === "home" &&
     css`
+      // Non Clickable Card
       > div {
         margin-bottom: 3em;
       }
+
+      // Question List
+      > ul {
+        width: 100%;
+        margin-bottom: 3em;
+        div {
+          margin: 0 auto;
+        }
+      }
     `}
 
+
   ${({ page }) =>
-    page === 'search' &&
+    page === "search" &&
     css`
-      margin: ${({ margin }) => (margin ? margin : '120px 0')};
+      margin: ${({ margin }) => (margin ? margin : "120px 0")};
       justify-content: flex-start;
 
       > div {
@@ -49,7 +60,7 @@ const PageContainer = styled(motion(Container))`
     `}
 
     ${({ page }) =>
-    page === 'profile' &&
+    page === "profile" &&
     css`
       margin: 4.5em 0;
 
@@ -65,6 +76,7 @@ const PageContainer = styled(motion(Container))`
           max-width: 30em;
           margin-right: 3em;
         }
+
         .question {
           h2 {
             max-height: 3em;
@@ -77,16 +89,12 @@ const PageContainer = styled(motion(Container))`
       }
 
       li {
-        max-width: 350px;
-      }
-
-      > div {
-        margin-bottom: 3em;
+        margin-top: 3em;
       }
     `}
 
     ${({ page }) =>
-    page === 'follow' &&
+    page === "follow" &&
     css`
       justify-content: flex-start;
 

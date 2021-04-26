@@ -113,7 +113,7 @@ const ButtonContainer = styled.div`
   margin: 0 auto;
 
   > button {
-    margin: 0 .3rem;
+    margin: 0 0.3rem;
     padding: 0 1rem;
   }
 `;
@@ -166,8 +166,8 @@ const EditConfirmButton = styled.button.attrs(() => ({
   ${spoqaMedium}
   padding: 0 3px;
   position: absolute;
-  bottom: .8rem;
-  right: .8rem;
+  bottom: 0.8rem;
+  right: 0.8rem;
 
   &:first-of-type {
     right: 7.2rem;
@@ -225,10 +225,10 @@ const StyledConfirmAlert = styled.div`
 `;
 
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
-const Answers = ({ answersList = [], userId = '', refreshQuestion }) => {
+const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
-  const [editContent, setEditContent] = useState('');
+  const [editContent, setEditContent] = useState("");
   const [needRefresh, setNeedRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -310,16 +310,14 @@ const Answers = ({ answersList = [], userId = '', refreshQuestion }) => {
               >
                 확인
               </EditConfirmButton>
-              <EditConfirmButton
-                onClick={() => setEditing(null)}
-              >
+              <EditConfirmButton onClick={() => setEditing(null)}>
                 취소
               </EditConfirmButton>
             </EditContainer>
           ) : (
             <QnAContent answer={answer} isEllipsis={false} />
           )}
-          {answer.postedby._id === userId ? (
+          {answer.postedby && answer.postedby._id === userId ? (
             <>
             {!editing ? (
               <ButtonContainer>
