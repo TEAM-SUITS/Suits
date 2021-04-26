@@ -251,7 +251,7 @@ const Answers = ({ answersList = [], userId = '', refreshQuestion }) => {
 
   const postContent = async (answerId, newContent) => {
     await API(`/api/answers/${answerId}`, 'patch', {
-      content: newContent,
+      content: badwordFliter.filter(newContent, "**"),
     });
 
     setEditing(null);
@@ -403,7 +403,6 @@ export default function QnADialog({
     (state) => state.currentUser
   );
 
-  console.log(userData);
   const [isAnswered, setIsAnswered] = useState(null);
   const [isInputLoading, setIsInputLoading] = useState(null);
   // InputArea로부터 상태 끌어올리기

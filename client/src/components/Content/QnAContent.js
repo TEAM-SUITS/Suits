@@ -52,7 +52,7 @@ const mockdata = {
 
 /* -------------------------------------------------------------------------- */
 
-export default function QnAContent({ answer, isEllipsis = true }) {
+export default function QnAContent({ answer = {}, isEllipsis = true }) {
   if (answer === false || !answer.content) {
     return (
       <QnAContainer>
