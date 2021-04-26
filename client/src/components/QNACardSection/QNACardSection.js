@@ -138,7 +138,7 @@ export default function QNACardSection({
             >
               <QnAContent
                 answer={question.answers.find(
-                  (answer) => answer.postedby._id === cardData._id
+                  (answer) => answer.postedby?._id === cardData._id
                 )}
               />
             </Card>
