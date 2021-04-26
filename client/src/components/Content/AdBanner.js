@@ -34,6 +34,16 @@ const adList = [
     src: '/assets/adbanner3.png',
     url: 'https://github.com/hyorard-b/forte-diet',
   },
+  {
+    name: '살롱',
+    src: '/assets/adbanner1.png',
+    url: 'https://github.com/riding-bom/salon',
+  },
+  {
+    name: 'LVPS',
+    src: '/assets/adbanner2.png',
+    url: 'https://github.com/FDS-18-Final-Project',
+  },
 ];
 
 /* --------------------------------- 광고주 리스트 -------------------------------- */
@@ -41,7 +51,12 @@ const adList = [
 export default function AdBanner() {
   const AdBannerCarousel = adList.map(({ name, src, url }) => (
     <div>
-      <a href={url} target="external" rel="external">
+      <a
+        href={url}
+        target="external"
+        rel="external"
+        aria-label={`새 탭에서 ${name} 사이트 열기`}
+      >
         <img src={src} alt={name} />
       </a>
     </div>
