@@ -354,7 +354,6 @@ module.exports = (app) => {
     try {
       // 삭제하고 하는 답변 먼저 검색
       const answer = await Answer.findById(req.params.id);
-
       // 권한 확인
       if (!answer.postedby.equals(req.user._id)) {
         res.send({
