@@ -10,8 +10,6 @@ import { fetchSearchData } from "redux/storage/search/search";
 import styled from "styled-components";
 import { spoqaMedium } from "styles/common/common.styled";
 import { array, string } from "prop-types";
-import QnADialog from "containers/QnADialog/QnADialog";
-import API from "api/api";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 
 /* ---------------------------- styled components --------------------------- */
@@ -35,24 +33,8 @@ function ResultsSection({
   result = [],
   word = "",
   isLoading,
-  refreshSearchData,
+  handleRefresh,
 }) {
-  const [isDialogVisible, setIsDialogVisible] = useState(false);
-  const [question, setQuestion] = useState({});
-
-  // 이벤트 핸들러(QnA 다이얼로그 제어)
-  const handleDialog = async (id) => {
-    const res = await API(`/api/questions/${id}`, "get");
-    setQuestion(res);
-    setIsDialogVisible(true);
-  };
-
-  const refreshQuestion = async () => {
-    const res = await API(`/api/questions/${question._id}`, "get");
-    setQuestion(res);
-    refreshSearchData();
-  };
-
   // 로딩 중일 때
   if (isLoading) {
     return <Spinner />;
@@ -61,7 +43,7 @@ function ResultsSection({
   if (result === null || word === "") {
     return (
       <>
-        <InfoImg src="assets/magnifier.png" alt="검색어 입력 안내" />
+        <InfoImg src="/assets/magnifier.png" alt="검색어 입력 안내" />
         <InfoMsg>검색하실 단어를 입력해주세요.</InfoMsg>
       </>
     );
@@ -70,32 +52,21 @@ function ResultsSection({
   if (!isLoading && !result.length) {
     return (
       <>
-        <InfoImg src="assets/empty.png" alt="검색 결과 없음" />
+        <InfoImg src="/assets/empty.png" alt="검색 결과 없음" />
         <InfoMsg>{`"${word}"에 대한 검색 결과가 없습니다.`}</InfoMsg>
       </>
     );
   }
   return (
     <>
-      <QnADialog
-        isVisible={isDialogVisible}
-        onClick={() => {
-          setIsDialogVisible(false);
-          setQuestion({});
-        }}
-        question={question}
-        refreshQuestion={refreshQuestion}
-      />
       {result.map((data, idx) => (
         <Card
           key={data._id}
+          qId={data._id}
           isQuestion={true}
+          isPreview={true}
           title={data.content}
           tags={data.hashTag}
-          onClick={() => {
-            setIsDialogVisible(true);
-            handleDialog(data._id);
-          }}
         >
           <QnAContent
             answer={
@@ -123,31 +94,31 @@ export default function SearchPage() {
   const searchState = useSelector((state) => state.search);
   const [searchWord, setSearchWord] = useState(searchState.searchWord);
   const [prevSearchWord, setPrevSearchWord] = useState(searchWord);
+  const [refresh, setRefresh] = useState(false);
+  console.log(refresh);
 
   useEffect(() => {
     dispatch(fetchSearchData(searchWord, prevSearchWord));
-  }, [searchWord, dispatch]);
+    setRefresh(false);
+  }, [searchWord, dispatch, refresh]);
   const handleSearchWord = (e) => {
     // enter -> setSearchWord
     if (e.key === "Enter") {
       const v = e.target.value;
-      // if (/\s/.test(v) || /\s{2,}/.test(v)) {
-      //   console.error('공백은 검색할 수 없습니다.');
-      //   return;
-      // }
       setPrevSearchWord(searchWord);
       setSearchWord(v);
     }
-  };
-
-  const refreshSearchData = () => {
-    dispatch(fetchSearchData(searchWord, prevSearchWord));
   };
 
   const handleCancelButton = () => {
     setPrevSearchWord(searchWord);
     setSearchWord("");
   };
+
+  const handleRefresh = () => {
+    setRefresh(true);
+  };
+
   return (
     <>
       <TextHeaderBar page="search" />
@@ -167,7 +138,7 @@ export default function SearchPage() {
           result={searchState.searchData}
           word={searchWord}
           isLoading={searchState.isLoading}
-          refreshSearchData={refreshSearchData}
+          handleRefresh={handleRefresh}
         />
       </PageContainer>
     </>

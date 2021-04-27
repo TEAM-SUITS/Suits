@@ -82,7 +82,7 @@ export default function ProfilePage() {
           content="answeredQ"
           isLoading={isLoading}
           cardData={currentUserData[0]}
-          refreshData={() => dispatch(fetchCurrentUserData())}
+          // refreshData={() => dispatch(fetchCurrentUserData())}
         />
       );
     }
