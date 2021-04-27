@@ -9,6 +9,7 @@ import {
   InfoPage,
   UserPage,
   PageNotFound,
+  PostPage,
 } from 'pages/Pages';
 import Navigation from 'containers/Nav/Navigation';
 import ProfileDialog from 'containers/ProfileDialog/ProfileDialog';
@@ -66,6 +67,8 @@ function App() {
           <RouteGuard path="/profile" component={ProfilePage} />
           <RouteGuard path="/info" component={InfoPage} />
           <RouteGuard path="user/my-info" component={UserPage} />
+          <RouteGuard path="/post/:qid" component={PostPage} />
+          {/* <RouteGuard path="/post/:qid" render={(props) => <PostPage {...props} key={Date.now()} />} /> */}
           <Route path="/login" exact component={LoginPage} />
           <Route path="/page-not-found" component={PageNotFound} />
           <Redirect to="/page-not-found" />
