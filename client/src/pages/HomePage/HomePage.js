@@ -38,8 +38,8 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
 
 export default function HomePage() {
   const [needRefresh, setNeedRefresh] = useState(false);
-  const [currentQId, setCurrentQId] = useState("");
-  const [quoteLanguage, setQuoteLanguage] = useState("ko");
+  const [currentQId, setCurrentQId] = useState('');
+  const [quoteLanguage, setQuoteLanguage] = useState('ko');
   const [isSelectingKeywords, setIsSelectingKeywords] = useState(false);
   const { isMobile } = useDetectViewport();
 
@@ -73,16 +73,16 @@ export default function HomePage() {
 
   useEffect(() => {
     if (needRefresh) {
-      dispatch(fetchRandomQData("refresh", currentQId));
+      dispatch(fetchRandomQData('refresh', currentQId));
       setNeedRefresh(false);
     }
   }, [dispatch, needRefresh]);
 
   useEffect(() => {
-    dispatch(fetchRandomQData("init"));
-    dispatch(fetchRandomQuoteData("init"));
-    dispatch(fetchTrendingData("init"));
-    dispatch(fetchHardWorkersData("init"));
+    dispatch(fetchRandomQData('init'));
+    dispatch(fetchRandomQuoteData('init'));
+    dispatch(fetchTrendingData('init'));
+    dispatch(fetchHardWorkersData('init'));
 
     if (randomQData) setCurrentQId(randomQData[0]._id);
   }, [dispatch]);
