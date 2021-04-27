@@ -10,8 +10,6 @@ import { fetchSearchData } from "redux/storage/search/search";
 import styled from "styled-components";
 import { spoqaMedium } from "styles/common/common.styled";
 import { array, string } from "prop-types";
-import QnADialog from "containers/QnADialog/QnADialog";
-import API from "api/api";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 
 /* ---------------------------- styled components --------------------------- */
@@ -37,16 +35,6 @@ function ResultsSection({
   isLoading,
   handleRefresh,
 }) {
-  const [isDialogVisible, setIsDialogVisible] = useState(false);
-  const [question, setQuestion] = useState({});
-
-  // 이벤트 핸들러(QnA 다이얼로그 제어)
-  const handleDialog = async (id) => {
-    const res = await API(`/api/questions/${id}`, "get");
-    setQuestion(res);
-    setIsDialogVisible(true);
-  };
-
   // 로딩 중일 때
   if (isLoading) {
     return <Spinner />;
@@ -55,7 +43,7 @@ function ResultsSection({
   if (result === null || word === "") {
     return (
       <>
-        <InfoImg src="assets/magnifier.png" alt="검색어 입력 안내" />
+        <InfoImg src="/assets/magnifier.png" alt="검색어 입력 안내" />
         <InfoMsg>검색하실 단어를 입력해주세요.</InfoMsg>
       </>
     );
@@ -64,27 +52,19 @@ function ResultsSection({
   if (!isLoading && !result.length) {
     return (
       <>
-        <InfoImg src="assets/empty.png" alt="검색 결과 없음" />
+        <InfoImg src="/assets/empty.png" alt="검색 결과 없음" />
         <InfoMsg>{`"${word}"에 대한 검색 결과가 없습니다.`}</InfoMsg>
       </>
     );
   }
   return (
     <>
-      <QnADialog
-        isVisible={isDialogVisible}
-        onClick={() => {
-          setIsDialogVisible(false);
-          setQuestion({});
-        }}
-        question={question}
-        handleRefresh={handleRefresh}
-      />
       {result.map((data, idx) => (
         <Card
           key={data._id}
           qId={data._id}
           isQuestion={true}
+          isPreview={true}
           title={data.content}
           tags={data.hashTag}
         >
