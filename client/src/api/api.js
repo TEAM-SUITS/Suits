@@ -1,4 +1,5 @@
 import axios from "axios";
+import { rest } from "lodash";
 
 /* -------------------------------------------------------------------------- */
 export default function API(api, method = "get", payload) {
@@ -9,8 +10,7 @@ export default function API(api, method = "get", payload) {
       switch (method) {
         case "get":
           res = await axios.get(api);
-          console.log("RESPONSE", res);
-          console.log(res.data);
+          console.log("에러처리", res);
           break;
 
         case "post":
@@ -32,8 +32,8 @@ export default function API(api, method = "get", payload) {
         default:
           break;
       }
-
       return res.data;
+      // return res.statusText === "OK" ? res.data : res.data.message;
     } catch (err) {
       return err;
     }

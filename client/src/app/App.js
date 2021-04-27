@@ -22,6 +22,7 @@ import ThemeToggler from "../components/ThemeToggler/ThemeToggler";
 import { darkTheme, lightTheme } from "styles/pages/Themes";
 import themeToggler from "utils/themeToggler/themeToggler";
 import Alert from "components/Alert/Alert";
+import { hideError } from "redux/storage/error/error";
 
 /* -------------------------------------------------------------------------- */
 function App() {
@@ -37,6 +38,9 @@ function App() {
   });
 
   const { error, isOpen } = useSelector((state) => state.error);
+  const handleErrorClose = () => {
+    dispatch(hideError());
+  };
   // effects
   /** 참고
    * https://stackoverflow.com/questions/54002792/should-i-use-one-or-many-useeffect-in-component
@@ -59,7 +63,9 @@ function App() {
         {location.pathname === "/login" ? null : (
           <ThemeToggler handleClick={() => themeToggler(theme, setTheme)} />
         )}
-        {isOpen && error && <Alert status="error"  message={error} />}
+        {isOpen && error && (
+          <Alert status="error" message={error} onClick={handleErrorClose} />
+        )}
         <Switch>
           <RouteGuard path="/" exact component={HomePage} />
           <RouteGuard path="/demo" exact component={DemoPage} />

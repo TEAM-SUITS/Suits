@@ -16,7 +16,8 @@ export const fetchRandomQData = (mode) => async (dispatch, prevState) => {
       // 요청 시작
       dispatch({ type: GET_RANDOM_QUESTION });
 
-      const res = await axios(`/api/questions/random`, "get");
+      const res = await axios(`/api/questions/random`);
+
       if ((res.statusText = "OK")) {
         dispatch({ type: GET_RANDOM_QUESTION_SUCCESS, randomQData: res.data });
       }

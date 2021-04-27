@@ -15,7 +15,9 @@ import Button from "components/Button/Button";
 const AlertContainer = styled(motion.div).attrs({ role: "alert" })`
   text-align: center;
   display: flex;
-  position: relative;
+  position: fixed;
+  z-index: 999;
+  top: 0;
   justify-content: center;
   align-items: center;
   color: var(--color-gray3);
@@ -25,14 +27,14 @@ const AlertContainer = styled(motion.div).attrs({ role: "alert" })`
     (status === "success" && "#0d2e14") ||
     (status === "info" && "black")};
   background-color: ${({ status }) =>
-    (status === "error" && "#f5d0d3") ||
+    (status === "error" && "#f5d0d39c") ||
     (status === "success" && "#c4e6cc") ||
     (status === "info" && "var(--color-body)")};
   border-radius: 3px;
   border: ${({ status }) =>
     status === "info" ? "none" : "1px solid currentColor"};
   padding: 5px;
-
+  width: 100%;
   svg {
     path {
       fill: ${({ status }) =>
@@ -64,7 +66,7 @@ const AlertContainer = styled(motion.div).attrs({ role: "alert" })`
 
 /* -------------------------------------------------------------------------- */
 
-export default function Alert({ status, message }) {
+export default function Alert({ status, message, onClick }) {
   return (
     <AlertContainer
       status={status}
@@ -81,7 +83,7 @@ export default function Alert({ status, message }) {
       }}
     >
       <p>{message}</p>
-      <Button icon="error" />
+      <Button onClick={onClick} icon="error" />
     </AlertContainer>
   );
 }
