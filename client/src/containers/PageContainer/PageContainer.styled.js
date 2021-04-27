@@ -41,7 +41,7 @@ const PageContainer = styled(motion(Container))`
   ${({ page }) =>
     page === "search" &&
     css`
-      margin: ${({ margin }) => (margin ? margin : "120px 0")};
+      margin: ${({ margin }) => (margin ? margin : "30vh 0")};
       justify-content: flex-start;
 
       > div {
