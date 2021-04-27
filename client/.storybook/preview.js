@@ -1,5 +1,5 @@
 import React from "react";
-import { GlobalStyle } from "../src/styles/pages/theme.styled";
+import { GlobalStyle } from "./theme.styled";
 import { StoreProvider } from "redux/store";
 
 let modalRoot = document.createElement("div");
