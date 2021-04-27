@@ -72,7 +72,7 @@ export default function TrendingQuestionContent({
           setQuestion({});
         }}
         question={question}
-        refreshQuestion={() => dispatch(fetchTrendingData())}
+        // refreshQuestion={() => dispatch(fetchTrendingData())}
       />
     </article>
   );

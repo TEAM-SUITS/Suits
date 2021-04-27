@@ -17,14 +17,14 @@ const DialogContainer = styled.div.attrs((props) => ({
   top: 50%;
   transform: translate(-50%, -50%);
   width: 60vw;
-  min-width: 305px;
+  /* min-width: 305px; */
   border-radius: 10px;
   padding: 2em 0 0;
   max-width: 688px;
 
   @media screen and (min-width: 481px) {
-    min-width: 400px;
-    min-height: 250px;
+    /* min-width: 400px; */
+    /* min-height: 250px; */
   }
 
   // 모바일

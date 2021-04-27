@@ -129,5 +129,23 @@ const PageContainer = styled(motion(Container))`
       margin: 0 auto;
       width: 100%;
     `}
+
+  ${({ page }) =>
+  page === "post" &&
+  css`
+    margin: 50px 0;
+    justify-content: flex-start;
+
+    > div {
+      margin-top: 3em;
+    }
+
+    // mobile
+    @media screen and (max-width: 480px) {
+      > div {
+        max-width: 350px;
+      }
+    }
+  `}
 `;
 export default PageContainer;

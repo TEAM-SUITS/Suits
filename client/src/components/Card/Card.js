@@ -5,23 +5,28 @@ import { boxShadow, resetList, textShadow } from "styles/common/common.styled";
 import Icon from "components/Icon/Icon";
 import Divider from "components/Divider/Divider";
 import Hashtag from "components/Hashtag/Hashtag";
+import { Link } from "react-router-dom";
 
 /* ---------------------------- styled components ---------------------------- */
 
 const CardBox = styled.div`
   ${boxShadow}
   cursor: ${(props) =>
-    props.isQuestion && !props.isDialog ? "pointer" : "initial"};
+    props.isButton && !props.isDialog ? "pointer" : "initial"};
   position: relative;
   min-width: 305px;
   border-radius: 10px;
   background-color: var(--color-body);
   padding: 1em 2em 1.4em;
-  max-height: 60vh;
+  /* max-height: 60vh; */
   overflow: auto;
   color: var(--color-gray5);
   max-width: 688px;
   width: 100%;
+
+  a {
+    font-size: 1.6rem;
+  }
 `;
 
 const TagList = styled.ul`
@@ -46,8 +51,11 @@ const TagList = styled.ul`
 /* -------------------------------------------------------------------------- */
 
 export default function Card({
+  qId,
   isQuestion,
+  isPreview,
   isDialog,
+  isButton,
   title,
   tags,
   onClick,
@@ -63,14 +71,15 @@ export default function Card({
 
   return (
     <CardBox
+      isButton={isButton}
       isQuestion={isQuestion}
       isDialog={isDialog}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      role={isQuestion && !isDialog ? "button" : ""}
-      aria-label={isQuestion && !isDialog ? "자세히 보기" : ""}
-      tabIndex={isQuestion && 0}
-      title={isQuestion && !isDialog ? "자세히 보기" : ""}
+      role={isButton && !isDialog ? "button" : ""}
+      aria-label={isButton && !isDialog ? "자세히 보기" : ""}
+      tabIndex={isButton && 0}
+      title={isButton && !isDialog ? "자세히 보기" : ""}
       {...restProps}
     >
       {title && (
@@ -91,7 +100,11 @@ export default function Card({
                 <Icon type="quote-right" />
               </>
             )}
-            <h2>{title}</h2>
+            <h2>{isQuestion && isPreview ? (
+              <Link to={`/post/${qId}`}>{title}</Link>
+            ) : (
+              <>{title}</>
+            )}</h2>
           </CardBox.Header>
           <Divider primary $width="80%" />
         </>
