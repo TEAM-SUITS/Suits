@@ -25,11 +25,19 @@ const StyledSlider = styled(Slider)`
     &:before {
       color: var(--color-black);
     }
+
+    &:focus {
+      outline: 1px solid var(--color-black);
+    }
   }
   .slick-next {
     right: 2%;
     &:before {
       color: var(--color-black);
+    }
+
+    &:focus {
+      outline: 1px solid var(--color-black);
     }
   }
   .slick-dots {

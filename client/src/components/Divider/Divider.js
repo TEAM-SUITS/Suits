@@ -5,6 +5,7 @@ import { string } from 'prop-types';
 const HorizontalLine = styled.div`
   height: ${({ $height }) => ($height ? $height : '1px')};
   width: ${({ $width }) => ($width ? $width : '100%')};
+  min-width: 350px;
   background-color: ${({ $color }) => ($color ? $color : 'var(--color-gray4)')};
   margin: ${({ margin }) => (margin ? margin : '1em auto')};
 `;

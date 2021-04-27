@@ -5,7 +5,7 @@ import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 
 // styles
 import styled, { css } from "styled-components";
-import { boxShadow, spoqaMedium } from "styles/common/common.styled";
+import { boxShadow, spoqaMedium, spoqaLarge } from "styles/common/common.styled";
 
 // etc.
 import API from "api/api";
@@ -15,18 +15,32 @@ import badwordFilter from "utils/badwordFilter/badwordFilter";
 const AnswerContainer = styled.div`
   margin: 3em auto 1em;
   position: relative;
-  max-width: 347px;
+  max-width: 688px;
+  width: 70vw;
+  text-align: center;
 
-  textarea {
-    ${spoqaMedium}
-    background-color: var(--color-gray2);
-    padding: 1em;
-    border: solid 1px var(--color-gray3);
-    border-radius: 5px;
-    width: 100%;
-    height: 10em;
-    resize: none;
-    ${boxShadow}
+  // 모바일
+  @media screen and (max-width: 480px) {
+    min-width: 350px;
+  }
+`;
+
+const StyledTextarea = styled.textarea`
+  ${spoqaMedium}
+  background-color: var(--color-gray2);
+  padding: 1em;
+  border: solid 1px var(--color-gray3);
+  border-radius: 5px;
+  width: 50vw;
+  max-width: 688px;
+  margin: 0 auto;
+  height: 10em;
+  resize: none;
+  ${boxShadow}
+
+  // 모바일
+  @media screen and (max-width: 480px) {
+    width: 80%;
   }
 `;
 
@@ -34,19 +48,19 @@ const StyledButton = styled.button.attrs((props) => ({
   type: "button",
   disabled: props.disabled,
 }))`
+  display: block;
+  margin: 2rem auto;
   background-color: ${({ disabled }) =>
     disabled ? "var(--color-gray3)" : "var(--color-gray5)"};
-  color: var(--color-gray1);
   border: none;
   border-radius: 5px;
   width: 60px;
   ${boxShadow}
-  ${spoqaMedium}
+  ${spoqaLarge}
   padding: 0 3px;
-  position: absolute;
-  bottom: 0.6em;
-  right: 0.3em;
   cursor: ${({ disabled }) => (disabled ? "wait" : "pointer")};
+  color: var(--color-gray1);
+  font-weight: 700;
 `;
 
 /* ------------------------------- input area ------------------------------- */
@@ -82,7 +96,7 @@ export default function InputArea({
 
   return (
     <AnswerContainer>
-      <textarea onChange={(e) => handleContent(e)} />
+      <StyledTextarea onChange={(e) => handleContent(e)} />
       <StyledButton
         disabled={isDisabled}
         onClick={() => {

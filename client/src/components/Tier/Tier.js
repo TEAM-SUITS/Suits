@@ -16,7 +16,6 @@ const StyledTier = styled.img.attrs((props) => ({
 `;
 
 export default function Tier({ tier = 1, height }) {
-  console.log(height);
   let src = null;
   switch (tier) {
     case 1:

@@ -27,3 +27,16 @@ export default {
 const Template = (args) => <ProfileDialog {...args} />
 
 export const Primary = Template.bind({});
+Primary.args = {
+  isVisible: false,
+  user:{
+    _id: "abcd",
+    username: "aespa",
+    img: "/",
+    tier: 2,
+    hashtag: ["CSS"],
+    github: null,
+    bio: "에스파는 나야~",
+    like: 24,
+  },
+};
