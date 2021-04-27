@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { node } from 'prop-types';
-import { boxShadow } from 'styles/common/common.styled';
+import React from "react";
+import styled from "styled-components";
+import { node } from "prop-types";
+import { boxShadow } from "styles/common/common.styled";
 
 /* ---------------------------- styled components --------------------------- */
 const Container = styled.header`

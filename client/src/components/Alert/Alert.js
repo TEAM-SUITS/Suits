@@ -16,7 +16,7 @@ const AlertContainer = styled(motion.div).attrs({ role: "alert" })`
   text-align: center;
   display: flex;
   position: fixed;
-  z-index: 999;
+  z-index: 20;
   top: 0;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,7 @@ const AlertContainer = styled(motion.div).attrs({ role: "alert" })`
     (status === "success" && "#0d2e14") ||
     (status === "info" && "black")};
   background-color: ${({ status }) =>
-    (status === "error" && "#f5d0d39c") ||
+    (status === "error" && "#f5d0d3d9 ") ||
     (status === "success" && "#c4e6cc") ||
     (status === "info" && "var(--color-body)")};
   border-radius: 3px;

@@ -1,4 +1,3 @@
-import API from "api/api";
 import axios from "axios";
 
 /* ------------------------------ action types ------------------------------ */
@@ -17,7 +16,6 @@ export const fetchRandomQData = (mode) => async (dispatch, prevState) => {
       dispatch({ type: GET_RANDOM_QUESTION });
 
       const res = await axios(`/api/questions/random`);
-
       if ((res.statusText = "OK")) {
         dispatch({ type: GET_RANDOM_QUESTION_SUCCESS, randomQData: res.data });
       }
@@ -33,7 +31,7 @@ export const fetchRandomQData = (mode) => async (dispatch, prevState) => {
       // 클라이언트 실패했을 때
       dispatch({
         type: GET_RANDOM_QUESTION_FAILURE,
-        error: "랜덤 질문 요청중에 에러가 발생했습니다. 다시한번 시도해주세요",
+        error: "랜덤 질문 요청중에 에러가 발생했습니다.",
       });
     }
   };
