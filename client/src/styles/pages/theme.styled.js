@@ -89,14 +89,15 @@ export const GlobalStyle = createGlobalStyle`
     --color-black: ${(props) => props.theme.black};
     --color-white: ${(props) => props.theme.white};
     --color-red: #DD2222;
-    --color-green1: #5F885F;
+    --color-green1: #9ab59a;
     --color-green2: #6FCF97;
     --color-orange: #F2994A;
-    --color-purple: #9B51E0;
+    --color-purple: #c196e9;
     --color-blue1: #2998D4;
     --color-blue2: #56CCF2;
     --color-yellow: #ECB312;
     --color-orange: #EB5022;
+    --color-orange2: #ff987a;
   }
 
   .react-confirm-alert-overlay {

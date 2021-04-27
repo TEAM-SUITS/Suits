@@ -1,4 +1,4 @@
-import API from "api/api";
+import axios from "axios";
 
 /* ------------------------------ action types ------------------------------ */
 
@@ -13,11 +13,24 @@ export const fetchHardWorkersData = (mode) => async (dispatch, prevState) => {
     dispatch({ type: GET_HARD_WORKERS });
     // API 호출
     try {
-      const workersData = await API(`/api/hard-workers`, "get");
-      dispatch({ type: GET_HARD_WORKERS_SUCCESS, workersData });
+      const res = await axios(`/api/hard-workers`);
+      if (res.statusText === "OK") {
+        dispatch({ type: GET_HARD_WORKERS_SUCCESS, workersData: res.data });
+      } else {
+        dispatch({
+          type: GET_HARD_WORKERS_FAILURE,
+          error:
+            res.data.message ||
+            "명예의 전당 데이터를 서버에서 불러오는데 실패하였습니다",
+        });
+      }
     } catch (error) {
+      console.log(error);
       // 실패했을 때
-      dispatch({ type: GET_HARD_WORKERS_FAILURE, error });
+      dispatch({
+        type: GET_HARD_WORKERS_FAILURE,
+        error: "명에의 전당 데이터를 불러오는중 에러가 발생하였습니다",
+      });
     }
   };
 

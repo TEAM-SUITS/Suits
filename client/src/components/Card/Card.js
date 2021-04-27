@@ -23,6 +23,7 @@ const CardBox = styled.div`
   color: var(--color-gray5);
   max-width: 688px;
   width: 100%;
+  margin: ${({ centerAlign }) => centerAlign && "0 auto"};
 
   a {
     font-size: 1.6rem;
@@ -32,9 +33,13 @@ const CardBox = styled.div`
 const TagList = styled.ul`
   ${resetList};
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   max-width: 300px;
   margin: 1em auto;
+
+  && li {
+    margin: 0 5px;
+  }
 
   @media screen and (max-width: 480px) {
     ${({ hasButton }) =>
@@ -61,6 +66,7 @@ export default function Card({
   onClick,
   children,
   hasButton,
+  centerAlign,
   ...restProps
 }) {
   const handleKeyDown = (e) => {
@@ -76,10 +82,11 @@ export default function Card({
       isDialog={isDialog}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      role={isButton && !isDialog ? "button" : ""}
-      aria-label={isButton && !isDialog ? "자세히 보기" : ""}
-      tabIndex={isButton && 0}
-      title={isButton && !isDialog ? "자세히 보기" : ""}
+      role={isQuestion && !isDialog ? "button" : ""}
+      aria-label={isQuestion && !isDialog ? "자세히 보기" : ""}
+      tabIndex={isQuestion && 0}
+      title={isQuestion && !isDialog ? "자세히 보기" : ""}
+      centerAlign={centerAlign}
       {...restProps}
     >
       {title && (
@@ -100,11 +107,13 @@ export default function Card({
                 <Icon type="quote-right" />
               </>
             )}
-            <h2>{isQuestion && isPreview ? (
-              <Link to={`/post/${qId}`}>{title}</Link>
-            ) : (
-              <>{title}</>
-            )}</h2>
+            <h2>
+              {isQuestion && isPreview ? (
+                <Link to={`/post/${qId}`}>{title}</Link>
+              ) : (
+                <>{title}</>
+              )}
+            </h2>
           </CardBox.Header>
           <Divider primary $width="80%" />
         </>

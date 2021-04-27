@@ -51,7 +51,7 @@ module.exports = (app) => {
               message: err,
             });
           }
-          res.send([data]);
+          res.status(200).send([data]);
         });
 
       // 또는
@@ -123,7 +123,8 @@ module.exports = (app) => {
         { $sort: { length: -1 } },
         { $limit: 3 },
       ]);
-      res.json(trendingQuestions);
+
+      res.status(200).send(trendingQuestions);
     } catch (err) {
       res.status(500).send({
         message: err,

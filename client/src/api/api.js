@@ -1,4 +1,5 @@
 import axios from "axios";
+import { rest } from "lodash";
 
 /* -------------------------------------------------------------------------- */
 export default function API(api, method = "get", payload) {
@@ -9,7 +10,6 @@ export default function API(api, method = "get", payload) {
       switch (method) {
         case "get":
           res = await axios.get(api);
-          console.log(res.data);
           break;
 
         case "post":
@@ -31,7 +31,6 @@ export default function API(api, method = "get", payload) {
         default:
           break;
       }
-
       return res.data;
     } catch (err) {
       return err;

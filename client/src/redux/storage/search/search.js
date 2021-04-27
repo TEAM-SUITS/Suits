@@ -1,4 +1,5 @@
-import API from "api/api";
+import axios from "axios";
+import { setError } from "../error/error";
 
 /* ------------------------------ action types ------------------------------ */
 const READ_SEARCH_RESULT = "검색 결과 조회";
@@ -26,7 +27,7 @@ export const fetchSearchData = (searchWord, prevSearchWord) => async (
 
   // 하나 이상의 공백으로만 작성한 경우
   if (/\s/.test(searchWord) || /\s{2,}/.test(searchWord)) {
-    console.error("공백은 검색할 수 없습니다.");
+    dispatch(setError("하나 이상의 공백은 입력 불가능합니다"));
     return;
   }
 
@@ -36,11 +37,24 @@ export const fetchSearchData = (searchWord, prevSearchWord) => async (
   // API 호출
   try {
     // 성공했을 때
-    const searchData = await API(`/api/questions/search/${searchWord}`, "get");
-    dispatch({ type: GET_SEARCH_SUCCESS, searchData });
+    const res = await axios(`/api/questions/search/${searchWord}`);
+    console.log(res);
+    if (res.statusText === "OK") {
+      dispatch({ type: GET_SEARCH_SUCCESS, searchData: res.data });
+    } else {
+      dispatch({
+        type: GET_SEARCH_FAILURE,
+        error:
+          res.data.message ||
+          "서버에서 검색 결과를 불러오는중 에러가 발생하였습니다",
+      });
+    }
   } catch (error) {
     // 실패했을 때
-    dispatch({ type: GET_SEARCH_FAILURE, error });
+    dispatch({
+      type: GET_SEARCH_FAILURE,
+      error: "검색 결과를 불러오는도중 에러가 발생하였습니다",
+    });
   }
 };
 

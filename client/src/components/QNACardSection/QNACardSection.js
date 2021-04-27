@@ -12,8 +12,6 @@ import { boxShadow, resetList } from "styles/common/common.styled";
 const CardList = styled.ul`
   ${resetList}
   width:100%;
-  
-
   @media screen and (max-width: 480px) {
     width: 350px;
     margin: 3em auto;
@@ -91,6 +89,7 @@ export default function QNACardSection({
               title={question.content}
               tags={question.hashTag}
               hasButton
+              centerAlign
               onClick={() => {
                 setIsDialogVisible(true);
                 handleDialog(question._id);
@@ -116,7 +115,7 @@ export default function QNACardSection({
         ));
       case "trendingQ":
         return (
-          <Card title="Trending QnA">
+          <Card title="Trending QnA" centerAlign>
             <TrendingQuestionContent
               questions={cardData}
               $isLoading={isLoading}

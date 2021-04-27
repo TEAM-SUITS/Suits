@@ -10,7 +10,7 @@ const DialogContainer = styled.div.attrs((props) => ({
   ariaModal: "true",
   ariaLabel: props.label,
 }))`
-  z-index: 10;
+  z-index: 99;
   background-color: var(--color-gray1);
   position: fixed;
   left: 50%;
@@ -60,7 +60,7 @@ const Modal = styled.div.attrs(() => ({
   role: "presentation",
 }))`
   max-width: 100%;
-  z-index: 9;
+  z-index: 50;
   background-color: var(--color-black);
   position: fixed;
   left: 0;
