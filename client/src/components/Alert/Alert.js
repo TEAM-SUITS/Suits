@@ -16,7 +16,7 @@ const AlertContainer = styled(motion.div).attrs({ role: "alert" })`
   text-align: center;
   display: flex;
   position: fixed;
-  z-index: 20;
+  z-index: 30;
   top: 0;
   justify-content: center;
   align-items: center;

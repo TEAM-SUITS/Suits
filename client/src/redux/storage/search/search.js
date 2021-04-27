@@ -27,7 +27,7 @@ export const fetchSearchData = (searchWord, prevSearchWord) => async (
 
   // 하나 이상의 공백으로만 작성한 경우
   if (/\s/.test(searchWord) || /\s{2,}/.test(searchWord)) {
-    dispatch(setError("공백만으로는 검색이 불가능합니다"));
+    dispatch(setError("하나 이상의 공백은 입력 불가능합니다"));
     return;
   }
 

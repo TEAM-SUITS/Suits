@@ -44,29 +44,21 @@ export default function HomePage() {
 
   const { currentUserData } = useSelector((state) => state.currentUser);
 
-  const {
-    randomQData,
-    isLoading: isRandomQLoading,
-    error: randomQError,
-  } = useSelector((state) => state.randomQ);
+  const { randomQData, isLoading: isRandomQLoading } = useSelector(
+    (state) => state.randomQ
+  );
 
-  const {
-    quoteData,
-    isLoading: isQuoteLoading,
-    error: quoteError,
-  } = useSelector((state) => state.quote);
+  const { quoteData, isLoading: isQuoteLoading } = useSelector(
+    (state) => state.quote
+  );
 
-  const {
-    workersData,
-    isLoading: isWorkerLoading,
-    error: workerError,
-  } = useSelector((state) => state.hardWorkers);
+  const { workersData, isLoading: isWorkerLoading } = useSelector(
+    (state) => state.hardWorkers
+  );
 
-  const {
-    trendingQData,
-    isLoading: isTrendingLoading,
-    error: trendingError,
-  } = useSelector((state) => state.trendingQ);
+  const { trendingQData, isLoading: isTrendingLoading } = useSelector(
+    (state) => state.trendingQ
+  );
 
   useEffect(() => {
     dispatch(fetchRandomQData("init"));
@@ -102,7 +94,6 @@ export default function HomePage() {
           onClose={() => setIsSelectingKeywords(false)}
         />
       )}
-
 
       <TextHeaderBar page="home" />
       <PageContainer
