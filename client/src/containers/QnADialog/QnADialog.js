@@ -18,7 +18,7 @@ import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 import { Skeleton } from "@material-ui/lab";
 import { useSelector } from "react-redux";
 import badwordFliter from "utils/badwordFilter/badwordFilter";
-import { confirmAlert } from 'react-confirm-alert';
+import { confirmAlert } from "react-confirm-alert";
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -240,7 +240,7 @@ const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
   };
 
   const postContent = async (answerId, newContent) => {
-    await API(`/api/answers/${answerId}`, 'patch', {
+    await API(`/api/answers/${answerId}`, "patch", {
       content: badwordFliter.filter(newContent, "**"),
     });
 
@@ -250,7 +250,7 @@ const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
 
   const handleRemove = (answerId) => {
     const removeAnswer = async () => {
-      await API(`/api/answers/${answerId}`, 'delete');
+      await API(`/api/answers/${answerId}`, "delete");
     };
 
     confirmAlert({
@@ -309,20 +309,18 @@ const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
           )}
           {answer.postedby && answer.postedby._id === userId ? (
             <>
-            {!editing ? (
-              <ButtonContainer>
-                <EditorOnlyButton
-                  onClick={() => handleEdit(answer._id, answer.content)}
-                >
-                  수정
-                </EditorOnlyButton>
-                <EditorOnlyButton
-                  onClick={() => handleRemove(answer._id)}
-                >
-                  삭제
-                </EditorOnlyButton>
-              </ButtonContainer>
-            ) : null}
+              {!editing ? (
+                <ButtonContainer>
+                  <EditorOnlyButton
+                    onClick={() => handleEdit(answer._id, answer.content)}
+                  >
+                    수정
+                  </EditorOnlyButton>
+                  <EditorOnlyButton onClick={() => handleRemove(answer._id)}>
+                    삭제
+                  </EditorOnlyButton>
+                </ButtonContainer>
+              ) : null}
             </>
           ) : null}
           <Divider primary={false} $color="gray" $height="1px" $width="70%" />

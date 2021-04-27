@@ -1,4 +1,4 @@
-import API from "api/api";
+import axios from "axios";
 
 /* ------------------------------ action types ------------------------------ */
 const READ_CURRENT_USER = "현재 사용자 정보 조회";
@@ -14,11 +14,23 @@ export const fetchCurrentUserData = () => async (dispatch) => {
   // API 호출
   try {
     // 성공했을 때
-    const currentUserData = await API("/api/user-profile", "get");
-    dispatch({ type: GET_CURRENT_USER_SUCCESS, currentUserData });
+    const res = await axios("/api/user-profile");
+    if (res.statusText === "OK") {
+      dispatch({ type: GET_CURRENT_USER_SUCCESS, currentUserData: res.data });
+    } else {
+      dispatch({
+        type: GET_CURRENT_USER_FAILURE,
+        error:
+          res.data.message ||
+          "현재 유저 정보를 가져오는데 오류가 발생하였습니다",
+      });
+    }
   } catch (error) {
     // 실패했을 때
-    dispatch({ type: GET_CURRENT_USER_FAILURE, error });
+    dispatch({
+      type: GET_CURRENT_USER_FAILURE,
+      error: error.message || "현재 유저 정보를 불러오지 못했습니다.",
+    });
   }
 };
 

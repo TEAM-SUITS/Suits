@@ -7,6 +7,7 @@ import { trendingQReducer } from "./trendingQ/trendingQ";
 import { quoteReducer } from "./quote/quote";
 import { randomQReducer } from "./randomQ/randomQ";
 import { followingReducer } from "./following/following";
+import { errorReducer } from "./error/error";
 
 /* root reducer ------------------------------------------------------------- */
 
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   quote: quoteReducer,
   randomQ: randomQReducer,
   following: followingReducer,
+  error: errorReducer,
 });
 
 export default rootReducer;
