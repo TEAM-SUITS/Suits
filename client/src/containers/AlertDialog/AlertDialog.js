@@ -26,7 +26,6 @@ const ButtonStyle = css`
   color: var(--color-body);
   ${resetBoxModel}
   ${spoqaMedium}
-  border: 2px solid var(--color-black);
   font-weight: 700;
   padding: .3em .7em;
   margin: 1em;
@@ -37,14 +36,14 @@ const ConfirmButton = styled.button.attrs(() => ({
   type: 'button',
 }))`
   ${ButtonStyle}
-  color: var(--color-red);
+  color: #ec8686;
 `;
 
 const CancelButton = styled.button.attrs(() => ({
   type: 'button',
 }))`
   ${ButtonStyle}
-  color: var(--color-black);
+  color: var(--color-body);
 `;
 
 /* ------------------------------ Alert Dialog ------------------------------ */
