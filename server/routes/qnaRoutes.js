@@ -51,7 +51,7 @@ module.exports = (app) => {
               message: err,
             });
           }
-          res.send([data]);
+          res.status(200).send([data]);
         });
 
       // 또는

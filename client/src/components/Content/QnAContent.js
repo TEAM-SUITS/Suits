@@ -25,22 +25,26 @@ const AnswerInfo = styled.div`
 
 const AnswerDetail = styled.p`
   max-width: 347px;
-  margin: 1em;
   ${(props) => props.isEllipsis && ellipsis}
   ${spoqaSmall}
 `;
 
 const NoAnswerYet = styled.div`
-  margin: 2rem 0;
+  margin: 1rem 0;
   display: flex;
   flex-flow: column;
   flex-wrap: nowrap;
   align-items: center;
+
   ${spoqaSmall}
 
   > img {
     width: 80px;
     height: auto;
+  }
+  p {
+    font-size: 1.4rem;
+    margin-bottom: 1em;
   }
 `;
 
@@ -85,7 +89,7 @@ export default function QnAContent({ answer, isEllipsis = true }) {
       <QnAContainer>
         <NoAnswerYet>
           <img src="assets/banner.png" alt="답변 없음을 알리는 슈티" />
-          아직 등록된 답변이 없습니다.
+          <p>아직 등록된 답변이 없습니다.</p>
         </NoAnswerYet>
       </QnAContainer>
     );
@@ -97,7 +101,7 @@ export default function QnAContent({ answer, isEllipsis = true }) {
         <MiniProfile user={$answer.postedby || mockdata} />
         <LikeButton
           isLiked={$answer.likes.includes(currentUserData[0]._id)}
-          // disabled={$answer.postedby?._id === currentUserData[0]._id}
+          disabled={$answer.postedby?._id === currentUserData[0]?._id}
           isLoading={isLikeLoading}
           onClick={toggleLike}
         />

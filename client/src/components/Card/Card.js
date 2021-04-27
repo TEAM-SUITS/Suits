@@ -22,6 +22,7 @@ const CardBox = styled.div`
   color: var(--color-gray5);
   max-width: 688px;
   width: 100%;
+  margin: ${({ centerAlign }) => centerAlign && "0 auto"};
 `;
 
 const TagList = styled.ul`
@@ -53,6 +54,7 @@ export default function Card({
   onClick,
   children,
   hasButton,
+  centerAlign,
   ...restProps
 }) {
   const handleKeyDown = (e) => {
@@ -71,6 +73,7 @@ export default function Card({
       aria-label={isQuestion && !isDialog ? "자세히 보기" : ""}
       tabIndex={isQuestion && 0}
       title={isQuestion && !isDialog ? "자세히 보기" : ""}
+      centerAlign={centerAlign}
       {...restProps}
     >
       {title && (

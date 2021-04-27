@@ -1,4 +1,5 @@
 import API from "api/api";
+import axios from "axios";
 
 /* ------------------------------ action types ------------------------------ */
 
@@ -14,11 +15,25 @@ export const fetchRandomQData = (mode) => async (dispatch, prevState) => {
     try {
       // 요청 시작
       dispatch({ type: GET_RANDOM_QUESTION });
-      const randomQData = await API(`/api/questions/random`, "get");
-      dispatch({ type: GET_RANDOM_QUESTION_SUCCESS, randomQData });
+
+      const res = await axios(`/api/questions/random`, "get");
+      if ((res.statusText = "OK")) {
+        dispatch({ type: GET_RANDOM_QUESTION_SUCCESS, randomQData: res.data });
+      }
+      // 서버에서 실패
+      else
+        dispatch({
+          type: GET_RANDOM_QUESTION_FAILURE,
+          error:
+            res.data.message ||
+            "랜덤 문제 데이터를 서버에서 불러오는데 실패하였습니다",
+        });
     } catch (error) {
-      // 실패했을 때
-      dispatch({ type: GET_RANDOM_QUESTION_FAILURE, error });
+      // 클라이언트 실패했을 때
+      dispatch({
+        type: GET_RANDOM_QUESTION_FAILURE,
+        error: "랜덤 질문 요청중에 에러가 발생했습니다. 다시한번 시도해주세요",
+      });
     }
   };
 
@@ -66,7 +81,7 @@ export const randomQReducer = (
       return {
         ...state,
         isLoading: false,
-        error,
+        error: error,
       };
 
     default:

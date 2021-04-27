@@ -34,9 +34,6 @@ const PageContainer = styled(motion(Container))`
       > ul {
         width: 100%;
         margin-bottom: 3em;
-        div {
-          margin: 0 auto;
-        }
       }
     `}
 

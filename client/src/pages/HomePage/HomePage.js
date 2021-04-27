@@ -103,6 +103,7 @@ export default function HomePage() {
         />
       )}
 
+
       <TextHeaderBar page="home" />
       <PageContainer
         page="home"

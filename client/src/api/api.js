@@ -9,6 +9,7 @@ export default function API(api, method = "get", payload) {
       switch (method) {
         case "get":
           res = await axios.get(api);
+          console.log("RESPONSE", res);
           console.log(res.data);
           break;
 
