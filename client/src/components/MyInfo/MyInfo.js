@@ -29,16 +29,11 @@ const StyledMyInfo = styled.section`
   align-items: center;
   max-width: 568px;
   padding: 1em;
-  margin-top: 130px;
+  margin-top: 60px;
   @media screen and (min-width: 480px) {
-    margin-top: 160px;
     textarea {
       font-size: 2rem;
     }
-  }
-
-  @media screen and (max-height: 667px) {
-    margin-top: 100px;
   }
 `;
 
@@ -85,10 +80,10 @@ const StyledBioHeading = styled.div`
   }
   @media screen and (min-width: 480px) {
     h3 {
-      font-size: 2rem;
+      font-size: 1.8rem;
     }
     button {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
   }
 `;
@@ -117,10 +112,10 @@ const StyledHashtagHeadingContainer = styled.div`
 
   @media screen and (min-width: 480px) {
     h3 {
-      font-size: 2rem;
+      font-size: 1.8rem;
     }
     button {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
   }
 `;
@@ -129,12 +124,11 @@ const StyledHashtags = styled.div`
   display: flex;
   justify-content: space-around;
   @media screen and (min-width: 480px) {
-    justify-content: center;
     div {
-      font-size: 2rem;
-      width: 160px;
+      font-size: 1.6rem;
+      width: 120px;
       &:not(:last-child) {
-        margin-right: 3rem;
+        margin-right: 2em;
       }
     }
   }
@@ -149,11 +143,6 @@ const StyledButtonContainer = styled.div`
     ${spoqaMedium}
     border: none;
     ${boxShadow};
-  }
-  @media screen and (min-width: 480px) {
-    button {
-      font-size: 2rem;
-    }
   }
 `;
 
@@ -183,8 +172,8 @@ const StyledProfile = styled.div`
     border-radius: 50%;
     margin-right: 3em;
     @media screen and (min-width: 480px) {
-      width: 150px;
-      height: 150px;
+      width: 120px;
+      height: 120px;
       margin-right: 5rem;
     }
   }
@@ -197,7 +186,6 @@ const StyledProfile = styled.div`
     ${museoLarge};
     margin: 0;
     @media screen and (min-width: 480px) {
-      font-size: 3rem;
     }
   }
   .tierContainer {
@@ -215,7 +203,7 @@ const StyledProfile = styled.div`
       }
     }
     span {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
     }
   }
   a {
