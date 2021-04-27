@@ -36,8 +36,9 @@ const HashtagContainer = styled.div`
 
 // 💀 skeleton ui
 const SkeletonStyle = css`
-  min-width: 305px;
-  max-width: 688px;
+  /* min-width: 305px;
+  max-width: 688px; */
+  width: 70vw;
   margin: 3em;
   background-color: #e6e6e6;
 
@@ -80,14 +81,19 @@ export default function PostPage({ history, location, match }) {
   const [isAnswered, setIsAnswered] = useState(null);
   const [isInputLoading, setIsInputLoading] = useState(null);
 
+  // post page를 위한 question 정보 받아오기
+  const getData = async (id) => {
+    const res = await API(`/api/questions/${id}`, 'get');
+    setData(res);
+  };
+
+  const removeAnswer = async (answerId) => {
+    const updatedQuestion = await API(`/api/answers/${answerId}`, 'delete');
+    setData(updatedQuestion);
+  };
+
   // effect
   useEffect(() => {
-    // post page를 위한 question 정보 받아오기
-    const getData = async (id) => {
-      const res = await API(`/api/questions/${id}`, 'get');
-      setData(res);
-    };
-
     getData(qid);
 
     // answer 입력창 렌더링 여부 판별
@@ -114,8 +120,11 @@ export default function PostPage({ history, location, match }) {
   };
 
   // 새로고침
-  const handleRefresh = () => {
-    history.go(0);
+  const handleRefresh = async () => {
+    await getData(qid);
+    // history.push(location.pathname);
+    history.push({ pathname: "/" });
+    history.replace({ pathname: location.pathname });
   };
 
   // data === {} 일 때 로딩 지연 처리 필요
@@ -140,6 +149,7 @@ export default function PostPage({ history, location, match }) {
                 answersList={data.answers}
                 userId={userData[0]._id}
                 handleRefresh={handleRefresh}
+                removeAnswer={removeAnswer}
               />
               <InputArea
                 isAnswered={isAnswered}

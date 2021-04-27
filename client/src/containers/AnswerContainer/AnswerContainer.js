@@ -9,9 +9,10 @@ import styled, { css } from "styled-components";
 import { boxShadow, spoqaMedium } from "styles/common/common.styled";
 
 // etc.
-import badwordFliter from "utils/badwordFilter/badwordFilter";
+import badwordFilter from "utils/badwordFilter/badwordFilter";
 import API from "api/api";
-import { confirmAlert } from 'react-confirm-alert';
+// import { confirmAlert } from 'react-confirm-alert';
+import AlertDialog from "containers/AlertDialog/AlertDialog";
 
 /* ---------------------------- styled components --------------------------- */
 // TODO: a11y dialog로 대체 필요
@@ -134,10 +135,11 @@ const EditorOnlyButton = styled.button.attrs(() => ({
 `;
 
 /* --------------------------------- Answers -------------------------------- */
-export default function Answers({ answersList = [], userId = "", handleRefresh }) {
+export default function Answers({ answersList = [], userId = "", handleRefresh, removeAnswer }) {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
   const [editContent, setEditContent] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleEdit = (answerId, answerContent) => {
     setEditing(answerId);
@@ -150,40 +152,11 @@ export default function Answers({ answersList = [], userId = "", handleRefresh }
 
   const postContent = async (answerId, newContent) => {
     await API(`/api/answers/${answerId}`, 'patch', {
-      content: badwordFliter.filter(newContent, "**"),
+      content: badwordFilter.filter(newContent, "**"),
     });
 
     setEditing(null);
     handleRefresh();
-  };
-
-  const handleRemove = (answerId) => {
-    const removeAnswer = async () => {
-      await API(`/api/answers/${answerId}`, 'delete');
-    };
-
-    confirmAlert({
-      customUI: ({ onClose }) => {
-        return (
-          <StyledConfirmAlert>
-            <h1>답변 삭제</h1>
-            <p>정말로 답변을 삭제하시겠습니까?</p>
-            <div>
-              <button onClick={onClose}>취소</button>
-              <button
-                onClick={() => {
-                  removeAnswer();
-                  onClose();
-                  handleRefresh();
-                }}
-              >
-                삭제
-              </button>
-            </div>
-          </StyledConfirmAlert>
-        );
-      },
-    });
   };
 
   if (!answersList.length) {
@@ -195,6 +168,16 @@ export default function Answers({ answersList = [], userId = "", handleRefresh }
     answersList.map((answer) => {
       return (
         <React.Fragment key={answer._id}>
+          <AlertDialog
+            isVisible={isDeleting}
+            onConfirm={() => {
+              setIsDeleting(false);
+              removeAnswer(answer._id);
+              handleRefresh();
+            }}
+            onCancel={() => setIsDeleting(false)}
+            onClick={() => setIsDeleting(false)}
+          />
           {editing === answer._id ? (
             <EditContainer>
               <EditArea
@@ -225,7 +208,7 @@ export default function Answers({ answersList = [], userId = "", handleRefresh }
                   수정
                 </EditorOnlyButton>
                 <EditorOnlyButton
-                  onClick={() => handleRemove(answer._id)}
+                  onClick={() => setIsDeleting(true)}
                 >
                   삭제
                 </EditorOnlyButton>

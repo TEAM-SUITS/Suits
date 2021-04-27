@@ -9,7 +9,7 @@ import { boxShadow, spoqaMedium } from "styles/common/common.styled";
 
 // etc.
 import API from "api/api";
-import badwordFliter from "utils/badwordFilter/badwordFilter";
+import badwordFilter from "utils/badwordFilter/badwordFilter";
 
 /* ---------------------------- styled components --------------------------- */
 const AnswerContainer = styled.div`
@@ -66,7 +66,7 @@ export default function InputArea({
 
   const postContent = async () => {
     await API("/api/answers", "post", {
-      content: badwordFliter.filter(content, "**"),
+      content: badwordFilter.filter(content, "**"),
       questionId,
     });
 

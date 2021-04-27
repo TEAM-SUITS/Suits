@@ -129,18 +129,15 @@ function CardSection({
   keywords = [],
   // refreshFollowingData,
 }) {
-  const [isDialogVisible, setIsDialogVisible] = useState(false);
-  const [question, setQuestion] = useState({});
-  const handleDialog = async (id) => {
-    const res = await API(`/api/questions/${id}`, "get");
-    setQuestion(res);
-  };
+  const isMounted = useRef(null);
 
-  const refreshQuestion = async () => {
-    const res = await API(`/api/questions/${question._id}`, "get");
-    setQuestion(res);
-    // refreshFollowingData();
-  };
+  useEffect(() => {
+    isMounted.current = true;
+
+    return () => {
+      isMounted.current = false;
+    }
+  }, []);
 
   if (!isLoading && !keywords.length) {
     return (
@@ -157,15 +154,6 @@ function CardSection({
 
   return (
     <>
-      <QnADialog
-        isVisible={isDialogVisible}
-        onClick={() => {
-          setIsDialogVisible(false);
-          setQuestion({});
-        }}
-        question={question}
-        // refreshQuestion={refreshQuestion}
-      />
       <HashtagList>
         <li>
           <Hashtag
@@ -199,13 +187,11 @@ function CardSection({
               <li key={data._id}>
                 <Card
                   key={data._id}
+                  qId={data._id}
                   isQuestion={true}
+                  isPreview={true}
                   title={data.content}
                   tags={data.hashTag}
-                  onClick={() => {
-                    setIsDialogVisible(true);
-                    handleDialog(data._id);
-                  }}
                 >
                   <QnAContent
                     answer={
@@ -264,17 +250,6 @@ export default function FollowingPage() {
 
   const onClick = (e) => {
     setCurrentTag(e.target.title);
-  };
-
-  const refreshFollowingData = () => {
-    dispatch(
-      fetchFollowingData(
-        keywords,
-        currentTag,
-        prevTag,
-        !followingState.isInitial
-      )
-    );
   };
 
   return (
