@@ -101,5 +101,12 @@ export const GlobalStyle = createGlobalStyle`
 
   .react-confirm-alert-overlay {
     background: rgba(97, 97, 97, 0.6);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100vw;
+    max-width: 100vw;
   }
 `;

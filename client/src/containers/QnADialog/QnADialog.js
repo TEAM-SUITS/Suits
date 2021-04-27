@@ -225,20 +225,10 @@ const StyledConfirmAlert = styled.div`
 `;
 
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
-const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
+const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
   const [editContent, setEditContent] = useState("");
-  const [needRefresh, setNeedRefresh] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (needRefresh) {
-      refreshQuestion();
-      setNeedRefresh(false);
-      setIsLoading(false);
-    }
-  }, [needRefresh, refreshQuestion]);
 
   const handleEdit = (answerId, answerContent) => {
     setEditing(answerId);
@@ -255,16 +245,12 @@ const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
     });
 
     setEditing(null);
-    setNeedRefresh(true);
-    setIsLoading(true);
+    handleRefresh();
   };
 
   const handleRemove = (answerId) => {
     const removeAnswer = async () => {
-      console.log("답변 삭제하자");
-
-      setNeedRefresh(true);
-      setIsLoading(true);
+      await API(`/api/answers/${answerId}`, "delete");
     };
 
     confirmAlert({
@@ -279,6 +265,7 @@ const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
                 onClick={() => {
                   removeAnswer();
                   onClose();
+                  handleRefresh();
                 }}
               >
                 삭제
@@ -306,7 +293,10 @@ const Answers = ({ answersList = [], userId = "", refreshQuestion }) => {
                 onChange={(e) => handleEditContent(e)}
               />
               <EditConfirmButton
-                onClick={() => postContent(answer._id, editContent)}
+                onClick={() => {
+                  postContent(answer._id, editContent);
+                  // handleRefresh();
+                }}
               >
                 확인
               </EditConfirmButton>
@@ -345,7 +335,7 @@ const InputArea = ({
   isInputLoading,
   questionId,
   handleIsAnswered,
-  refreshQuestion,
+  handleRefresh,
 }) => {
   const [content, setContent] = useState("");
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
@@ -361,7 +351,7 @@ const InputArea = ({
     });
 
     handleIsAnswered();
-    refreshQuestion();
+    handleRefresh();
   };
 
   if (isInputLoading) {
@@ -380,6 +370,7 @@ const InputArea = ({
 
           setIsDisabled(true);
           postContent();
+          // handleRefresh();
         }}
       >
         등록
@@ -393,7 +384,7 @@ export default function QnADialog({
   isVisible,
   question = {},
   onClick, // 닫기 버튼 제어
-  refreshQuestion,
+  handleRefresh,
 }) {
   const { currentUserData: userData } = useSelector(
     (state) => state.currentUser
@@ -401,10 +392,10 @@ export default function QnADialog({
 
   const [isAnswered, setIsAnswered] = useState(null);
   const [isInputLoading, setIsInputLoading] = useState(null);
-  // InputArea로부터 상태 끌어올리기
-  // const [content, setContent] = useState('');
+  const [currentQuestion, setCurrentQuestion] = useState({});
 
   useEffect(() => {
+    setCurrentQuestion(question);
     setIsAnswered(true);
     setIsInputLoading(true);
     const getIsAnswered = async (questionId) => {
@@ -424,7 +415,7 @@ export default function QnADialog({
     if (question._id) {
       getIsAnswered(question._id);
     }
-  }, [question._id]);
+  }, [question, question._id]);
 
   const handleIsAnswered = () => {
     setIsAnswered(true);
@@ -438,24 +429,24 @@ export default function QnADialog({
         onClick={onClick}
       >
         <CardContainer>
-          {Object.keys(question).length ? (
-            <Card isDialog isQuestion title={question.content}>
+          {Object.keys(currentQuestion).length ? (
+            <Card isDialog isQuestion title={currentQuestion.content}>
               <HashtagContainer>
-                {question.hashTag.map((keyword, idx) => {
+                {currentQuestion.hashTag.map((keyword, idx) => {
                   return <Hashtag key={idx} type={keyword} />;
                 })}
               </HashtagContainer>
               <Answers
-                answersList={question.answers}
+                answersList={currentQuestion.answers}
                 userId={userData[0]._id}
-                refreshQuestion={refreshQuestion}
+                handleRefresh={handleRefresh}
               />
               <InputArea
                 isAnswered={isAnswered}
                 isInputLoading={isInputLoading}
                 questionId={question._id}
                 handleIsAnswered={handleIsAnswered}
-                refreshQuestion={refreshQuestion}
+                handleRefresh={handleRefresh}
               />
             </Card>
           ) : (

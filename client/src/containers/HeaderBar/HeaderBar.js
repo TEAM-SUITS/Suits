@@ -5,7 +5,7 @@ import { boxShadow } from "styles/common/common.styled";
 
 /* ---------------------------- styled components --------------------------- */
 const Container = styled.header`
-  z-index: 10;
+  z-index: 8;
   @media screen and (min-width: 480px) {
     // desktop
 

@@ -127,20 +127,17 @@ function CardSection({
   currentTag = "",
   onClick,
   keywords = [],
-  refreshFollowingData,
+  // refreshFollowingData,
 }) {
-  const [isDialogVisible, setIsDialogVisible] = useState(false);
-  const [question, setQuestion] = useState({});
-  const handleDialog = async (id) => {
-    const res = await API(`/api/questions/${id}`, "get");
-    setQuestion(res);
-  };
+  const isMounted = useRef(null);
 
-  const refreshQuestion = async () => {
-    const res = await API(`/api/questions/${question._id}`, "get");
-    setQuestion(res);
-    refreshFollowingData();
-  };
+  useEffect(() => {
+    isMounted.current = true;
+
+    return () => {
+      isMounted.current = false;
+    }
+  }, []);
 
   if (!isLoading && !keywords.length) {
     return (
@@ -157,15 +154,6 @@ function CardSection({
 
   return (
     <>
-      <QnADialog
-        isVisible={isDialogVisible}
-        onClick={() => {
-          setIsDialogVisible(false);
-          setQuestion({});
-        }}
-        question={question}
-        refreshQuestion={refreshQuestion}
-      />
       <HashtagList>
         <li>
           <Hashtag
@@ -199,13 +187,11 @@ function CardSection({
               <li key={data._id}>
                 <Card
                   key={data._id}
+                  qId={data._id}
                   isQuestion={true}
+                  isPreview={true}
                   title={data.content}
                   tags={data.hashTag}
-                  onClick={() => {
-                    setIsDialogVisible(true);
-                    handleDialog(data._id);
-                  }}
                 >
                   <QnAContent
                     answer={
@@ -250,8 +236,7 @@ export default function FollowingPage() {
   useEffect(() => {
     // App이 userState를 받아오기 전 바로 팔로잉페이지로 접근할 경우의
     // 에러를 방지하기 위해 분기 처리
-    if (userState.currentUserData)
-      setKeywords(userState.currentUserData[0].hashTag);
+    if (userState.currentUserData) setKeywords(userState.currentUserData[0].hashTag);
     setPrevTag(currentTag);
     dispatch(
       fetchFollowingData(
@@ -265,17 +250,6 @@ export default function FollowingPage() {
 
   const onClick = (e) => {
     setCurrentTag(e.target.title);
-  };
-
-  const refreshFollowingData = () => {
-    dispatch(
-      fetchFollowingData(
-        keywords,
-        currentTag,
-        prevTag,
-        !followingState.isInitial
-      )
-    );
   };
 
   return (
@@ -294,7 +268,7 @@ export default function FollowingPage() {
             currentTag={currentTag}
             onClick={onClick}
             keywords={keywords}
-            refreshFollowingData={refreshFollowingData}
+            // refreshFollowingData={refreshFollowingData}
           />
         ) : (
           <>

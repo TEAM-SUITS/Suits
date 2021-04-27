@@ -36,6 +36,8 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
 /* -------------------------------------------------------------------------- */
 
 export default function HomePage() {
+  const [needRefresh, setNeedRefresh] = useState(false);
+  const [currentQId, setCurrentQId] = useState("");
   const [quoteLanguage, setQuoteLanguage] = useState("ko");
   const [isSelectingKeywords, setIsSelectingKeywords] = useState(false);
   const { isMobile } = useDetectViewport();
@@ -61,10 +63,19 @@ export default function HomePage() {
   );
 
   useEffect(() => {
+    if (needRefresh) {
+      dispatch(fetchRandomQData("refresh", currentQId));
+      setNeedRefresh(false);
+    }
+  }, [dispatch, needRefresh]);
+
+  useEffect(() => {
     dispatch(fetchRandomQData("init"));
     dispatch(fetchRandomQuoteData("init"));
     dispatch(fetchTrendingData("init"));
     dispatch(fetchHardWorkersData("init"));
+
+    if (randomQData) setCurrentQId(randomQData[0]._id);
   }, [dispatch]);
 
   // 처음 앱에 가입한 유저인 경우 키워드 설정하는 모달이 나오도록 설정
@@ -111,6 +122,7 @@ export default function HomePage() {
           isMobile={isMobile}
           previewAnswer={previewAnswer}
           refreshData={() => dispatch(fetchRandomQData())}
+          handleRefresh={() => setNeedRefresh(true)}
         />
 
         {/* 명언 카드 섹션 */}

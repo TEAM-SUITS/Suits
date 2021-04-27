@@ -16,7 +16,7 @@ const Link = ({ children, to, ...restProps }) => {
 
 /* ---------------------------- styled components --------------------------- */
 const ParentContainer = styled.div`
-  z-index: 20;
+  z-index: 8;
   ${({ ismobile }) =>
     !ismobile &&
     css`
