@@ -35,7 +35,7 @@ function ResultsSection({
   result = [],
   word = "",
   isLoading,
-  refreshSearchData,
+  handleRefresh,
 }) {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [question, setQuestion] = useState({});
@@ -45,12 +45,6 @@ function ResultsSection({
     const res = await API(`/api/questions/${id}`, "get");
     setQuestion(res);
     setIsDialogVisible(true);
-  };
-
-  const refreshQuestion = async () => {
-    const res = await API(`/api/questions/${question._id}`, "get");
-    setQuestion(res);
-    refreshSearchData();
   };
 
   // 로딩 중일 때
@@ -84,7 +78,7 @@ function ResultsSection({
           setQuestion({});
         }}
         question={question}
-        refreshQuestion={refreshQuestion}
+        handleRefresh={handleRefresh}
       />
       {result.map((data, idx) => (
         <Card
@@ -123,31 +117,31 @@ export default function SearchPage() {
   const searchState = useSelector((state) => state.search);
   const [searchWord, setSearchWord] = useState(searchState.searchWord);
   const [prevSearchWord, setPrevSearchWord] = useState(searchWord);
+  const [refresh, setRefresh] = useState(false);
+  console.log(refresh);
 
   useEffect(() => {
     dispatch(fetchSearchData(searchWord, prevSearchWord));
-  }, [searchWord, dispatch]);
+    setRefresh(false);
+  }, [searchWord, dispatch, refresh]);
   const handleSearchWord = (e) => {
     // enter -> setSearchWord
     if (e.key === "Enter") {
       const v = e.target.value;
-      // if (/\s/.test(v) || /\s{2,}/.test(v)) {
-      //   console.error('공백은 검색할 수 없습니다.');
-      //   return;
-      // }
       setPrevSearchWord(searchWord);
       setSearchWord(v);
     }
-  };
-
-  const refreshSearchData = () => {
-    dispatch(fetchSearchData(searchWord, prevSearchWord));
   };
 
   const handleCancelButton = () => {
     setPrevSearchWord(searchWord);
     setSearchWord("");
   };
+
+  const handleRefresh = () => {
+    setRefresh(true);
+  };
+
   return (
     <>
       <TextHeaderBar page="search" />
@@ -167,7 +161,7 @@ export default function SearchPage() {
           result={searchState.searchData}
           word={searchWord}
           isLoading={searchState.isLoading}
-          refreshSearchData={refreshSearchData}
+          handleRefresh={handleRefresh}
         />
       </PageContainer>
     </>
