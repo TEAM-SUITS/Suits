@@ -82,10 +82,10 @@ export default function Card({
       isDialog={isDialog}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      role={isQuestion && !isDialog ? "button" : ""}
-      aria-label={isQuestion && !isDialog ? "자세히 보기" : ""}
-      tabIndex={isQuestion && 0}
-      title={isQuestion && !isDialog ? "자세히 보기" : ""}
+      role={isButton && !isDialog ? "button" : ""}
+      aria-label={isButton && !isDialog ? "자세히 보기" : ""}
+      tabIndex={isButton && 0}
+      title={isButton && !isDialog ? "자세히 보기" : ""}
       centerAlign={centerAlign}
       {...restProps}
     >

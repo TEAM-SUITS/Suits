@@ -67,7 +67,7 @@ const Modal = styled.div.attrs(() => ({
   right: 0;
   top: 0;
   bottom: 0;
-  opacity: ${(props) => props.opacity};
+  opacity: ${(props) => props.$opacity};
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -136,7 +136,7 @@ export default function Dialog({
   return (
     <>
       <Portal id={"dialog-container"}>
-        {visible ? <Modal className="overlay" opacity={opacity} /> : null}
+        {visible ? <Modal className="overlay" $opacity={opacity} /> : null}
         {visible && (
           <DialogContainer ref={dialogRef} label={label}>
             <CloseButton>

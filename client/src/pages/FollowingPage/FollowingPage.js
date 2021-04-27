@@ -48,7 +48,7 @@ const CardList = styled.ul`
 `;
 
 const ImageSection = styled.img.attrs(() => ({
-  src: "assets/suity.png",
+  src: "/assets/suity.png",
   alt: "관심 키워드 설정 안내하는 슈티",
 }))`
   width: 300px;

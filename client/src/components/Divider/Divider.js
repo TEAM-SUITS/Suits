@@ -21,9 +21,9 @@ export default function Divider({
 }) {
   return (
     <HorizontalLine
-      height={height}
-      width={width}
-      color={primary ? '#EB5022' : color}
+      $height={height}
+      $width={width}
+      $color={primary ? '#EB5022' : color}
       margin={margin}
       {...restProps}
     />

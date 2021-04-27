@@ -11,15 +11,15 @@ const StyledButton = styled(motion.button)`
   align-items: center;
   justify-content: space-around;
   text-align: center;
-  width: ${({ width }) => (width ? width : "auto")};
-  height: ${({ height }) => (height ? height : "auto")};
+  width: ${({ $width }) => ($width ? $width : "auto")};
+  height: ${({ $height }) => ($height ? $height : "auto")};
   ${museoMedium}
   ${textShadow};
   border: none;
   background-color: transparent;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  ${({ outline }) =>
-    outline &&
+  ${({ $outline }) =>
+    $outline &&
     css`
       border-radius: 1em;
       padding: 0.625em;
@@ -45,9 +45,9 @@ export default function Button({
   return (
     <StyledButton
       whileHover={isMobile ? null : { scale: 1.1 }}
-      outline={outline}
-      width={width}
-      height={height}
+      $outline={outline}
+      $width={width}
+      $height={height}
       disabled={disabled}
       {...restProps}
     >
