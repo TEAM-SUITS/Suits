@@ -27,7 +27,7 @@ const AlertContainer = styled(motion.div).attrs({ role: "alert" })`
     (status === "success" && "#0d2e14") ||
     (status === "info" && "black")};
   background-color: ${({ status }) =>
-    (status === "error" && "#f5d0d3d9 ") ||
+    (status === "error" && "#f5d0d3") ||
     (status === "success" && "#c4e6cc") ||
     (status === "info" && "var(--color-body)")};
   border-radius: 3px;

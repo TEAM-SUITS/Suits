@@ -24,14 +24,22 @@ const CardBox = styled.div`
   max-width: 688px;
   width: 100%;
   margin: ${({ centerAlign }) => centerAlign && "0 auto"};
+
+  a {
+    font-size: 1.6rem;
+  }
 `;
 
 const TagList = styled.ul`
   ${resetList};
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   max-width: 300px;
   margin: 1em auto;
+
+  && li {
+    margin: 0 5px;
+  }
 
   @media screen and (max-width: 480px) {
     ${({ hasButton }) =>
