@@ -137,7 +137,7 @@ export default function HowToUse() {
     <StylesHowToUse>
       <div className="box box-feature">
         <h3>주요 기능 소개</h3>
-        <Divider $width="40%" margin="0.5em auto" />
+        <Divider width="40%" margin="0.5em auto" />
         <ul>
           <li>
             <Icon type="home" />
@@ -169,7 +169,7 @@ export default function HowToUse() {
       </div>
       <div className="box box-tier">
         <h3>회원 등급</h3>
-        <Divider $width="40%" margin="0.5em auto" />
+        <Divider width="40%" margin="0.5em auto" />
         <div className="tiers__container">
           <div>
             <Tier />

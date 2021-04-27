@@ -88,7 +88,7 @@ export default function QnAContent({ answer, isEllipsis = true }) {
     return (
       <QnAContainer>
         <NoAnswerYet>
-          <img src="assets/banner.png" alt="답변 없음을 알리는 슈티" />
+          <img src="/assets/banner.png" alt="답변 없음을 알리는 슈티" />
           <p>아직 등록된 답변이 없습니다.</p>
         </NoAnswerYet>
       </QnAContainer>

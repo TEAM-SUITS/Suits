@@ -227,7 +227,7 @@ export default function Profile({ user, $isLoading, ...restProps }) {
       <InfoContainer>
         <h2>{username}</h2>
         <TierContainer>
-          <Tier className="tier" tier={tier} />
+          <Tier className="tier" tier={tier} height={20} />
           <Icon className="likes" type="heart-active" title="likes" />
           <span className="likes-count">{like}</span>
         </TierContainer>
