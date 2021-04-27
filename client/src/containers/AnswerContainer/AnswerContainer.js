@@ -124,13 +124,14 @@ const EditorOnlyButton = styled.button.attrs(() => ({
   background-color: var(--color-gray5);
   color: var(--color-gray1);
   ${spoqaMedium}
+  font-weight: 700;
   font-size: 1.4rem;
   border: none;
   border-radius: 5px;
 
   &:last-child {
-    background-color: var(--color-orange);
-    color: var(--color-text);
+    background-color: #E86464;
+    color: #FFFFFF;
   }
 `;
 
