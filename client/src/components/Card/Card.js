@@ -5,6 +5,7 @@ import { boxShadow, resetList, textShadow } from "styles/common/common.styled";
 import Icon from "components/Icon/Icon";
 import Divider from "components/Divider/Divider";
 import Hashtag from "components/Hashtag/Hashtag";
+import { Link } from "react-router-dom";
 
 /* ---------------------------- styled components ---------------------------- */
 
@@ -22,6 +23,10 @@ const CardBox = styled.div`
   color: var(--color-gray5);
   max-width: 688px;
   width: 100%;
+
+  a {
+    font-size: 1.6rem;
+  }
 `;
 
 const TagList = styled.ul`
@@ -46,6 +51,7 @@ const TagList = styled.ul`
 /* -------------------------------------------------------------------------- */
 
 export default function Card({
+  qId,
   isQuestion,
   isDialog,
   title,
@@ -91,7 +97,11 @@ export default function Card({
                 <Icon type="quote-right" />
               </>
             )}
-            <h2>{title}</h2>
+            <h2>{isQuestion ? (
+              <Link to={`/post/${qId}`}>{title}</Link>
+            ) : (
+              <>{title}</>
+            )}</h2>
           </CardBox.Header>
           <Divider primary $width="80%" />
         </>

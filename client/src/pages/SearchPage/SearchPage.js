@@ -83,13 +83,10 @@ function ResultsSection({
       {result.map((data, idx) => (
         <Card
           key={data._id}
+          qId={data._id}
           isQuestion={true}
           title={data.content}
           tags={data.hashTag}
-          onClick={() => {
-            setIsDialogVisible(true);
-            handleDialog(data._id);
-          }}
         >
           <QnAContent
             answer={
