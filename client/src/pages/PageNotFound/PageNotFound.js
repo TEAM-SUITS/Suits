@@ -52,7 +52,7 @@ export default function PageNotFound() {
       <TextHeaderBar page="home" />
       <PageContainer variants={pageEffect} initial="hidden" animate="visible">
         <StyledSection>
-          <img src="assets/404.png" alt="page not found" />
+          <img src="/assets/404.png" alt="page not found" />
           <p>이런... 찾으시는 페이지가 없습니다.</p>
         </StyledSection>
       </PageContainer>

@@ -36,6 +36,8 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
 /* -------------------------------------------------------------------------- */
 
 export default function HomePage() {
+  const [needRefresh, setNeedRefresh] = useState(false);
+  const [currentQId, setCurrentQId] = useState("");
   const [quoteLanguage, setQuoteLanguage] = useState("ko");
   const [isSelectingKeywords, setIsSelectingKeywords] = useState(false);
   const { isMobile } = useDetectViewport();
@@ -44,35 +46,36 @@ export default function HomePage() {
 
   const { currentUserData } = useSelector((state) => state.currentUser);
 
-  const {
-    randomQData,
-    isLoading: isRandomQLoading,
-    error: randomQError,
-  } = useSelector((state) => state.randomQ);
+  const { randomQData, isLoading: isRandomQLoading } = useSelector(
+    (state) => state.randomQ
+  );
 
-  const {
-    quoteData,
-    isLoading: isQuoteLoading,
-    error: quoteError,
-  } = useSelector((state) => state.quote);
+  const { quoteData, isLoading: isQuoteLoading } = useSelector(
+    (state) => state.quote
+  );
 
-  const {
-    workersData,
-    isLoading: isWorkerLoading,
-    error: workerError,
-  } = useSelector((state) => state.hardWorkers);
+  const { workersData, isLoading: isWorkerLoading } = useSelector(
+    (state) => state.hardWorkers
+  );
 
-  const {
-    trendingQData,
-    isLoading: isTrendingLoading,
-    error: trendingError,
-  } = useSelector((state) => state.trendingQ);
+  const { trendingQData, isLoading: isTrendingLoading } = useSelector(
+    (state) => state.trendingQ
+  );
+
+  useEffect(() => {
+    if (needRefresh) {
+      dispatch(fetchRandomQData("refresh", currentQId));
+      setNeedRefresh(false);
+    }
+  }, [dispatch, needRefresh]);
 
   useEffect(() => {
     dispatch(fetchRandomQData("init"));
     dispatch(fetchRandomQuoteData("init"));
     dispatch(fetchTrendingData("init"));
     dispatch(fetchHardWorkersData("init"));
+
+    if (randomQData) setCurrentQId(randomQData[0]._id);
   }, [dispatch]);
 
   // 처음 앱에 가입한 유저인 경우 키워드 설정하는 모달이 나오도록 설정
@@ -119,6 +122,7 @@ export default function HomePage() {
           isMobile={isMobile}
           previewAnswer={previewAnswer}
           refreshData={() => dispatch(fetchRandomQData())}
+          handleRefresh={() => setNeedRefresh(true)}
         />
 
         {/* 명언 카드 섹션 */}

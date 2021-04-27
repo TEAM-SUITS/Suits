@@ -34,9 +34,6 @@ const PageContainer = styled(motion(Container))`
       > ul {
         width: 100%;
         margin-bottom: 3em;
-        div {
-          margin: 0 auto;
-        }
       }
     `}
 
@@ -44,7 +41,7 @@ const PageContainer = styled(motion(Container))`
   ${({ page }) =>
     page === "search" &&
     css`
-      margin: ${({ margin }) => (margin ? margin : "120px 0")};
+      margin: ${({ margin }) => (margin ? margin : "13rem 0")};
       justify-content: flex-start;
 
       > div {
@@ -115,6 +112,24 @@ const PageContainer = styled(motion(Container))`
     css`
       margin: 0 auto;
       width: 100%;
+    `}
+
+  ${({ page }) =>
+    page === "post" &&
+    css`
+      margin: 50px 0;
+      justify-content: flex-start;
+
+      > div {
+        margin-top: 3em;
+      }
+
+      // mobile
+      @media screen and (max-width: 480px) {
+        > div {
+          max-width: 350px;
+        }
+      }
     `}
 `;
 export default PageContainer;

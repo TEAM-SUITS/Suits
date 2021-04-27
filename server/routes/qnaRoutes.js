@@ -51,7 +51,7 @@ module.exports = (app) => {
               message: err,
             });
           }
-          res.send([data]);
+          res.status(200).send([data]);
         });
 
       // 또는
@@ -123,7 +123,8 @@ module.exports = (app) => {
         { $sort: { length: -1 } },
         { $limit: 3 },
       ]);
-      res.json(trendingQuestions);
+
+      res.status(200).send(trendingQuestions);
     } catch (err) {
       res.status(500).send({
         message: err,
@@ -362,7 +363,7 @@ module.exports = (app) => {
         return;
       }
 
-      //질문을 삭제
+      // 질문을 삭제
       await Answer.findByIdAndRemove(req.params.id);
 
       // 유저가 답변한 질문들 목록에서 삭제
@@ -373,13 +374,15 @@ module.exports = (app) => {
       );
 
       // 질문의 답변 목록에서 삭제
-      await Question.findByIdAndUpdate(
+      const updatedQuestion = await Question.findByIdAndUpdate(
         answer.question,
         { $pull: { answers: answer._id } },
         { new: true }
       );
 
-      res.json(answer); // 삭제 이전의 질문을 반환함.
+      console.log(updatedQuestion);
+
+      res.json(updatedQuestion); // 삭제 이후의 질문을 반환함.
     } catch (err) {
       console.log(err);
       res.status(500).send({

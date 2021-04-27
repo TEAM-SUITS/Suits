@@ -1,4 +1,4 @@
-import API from "api/api";
+import axios from "axios";
 
 /* ------------------------------ action types ------------------------------ */
 
@@ -14,11 +14,26 @@ export const fetchTrendingData = (mode) => async (dispatch, prevState) => {
     dispatch({ type: GET_TRENDING_QUESTIONS });
     // API 호출
     try {
-      const trendingQData = await API(`/api/questions/trend`, "get");
-      dispatch({ type: GET_TRENDING_QUESTIONS_SUCCESS, trendingQData });
+      const res = await axios(`/api/questions/trend`);
+      if ((res.statusText = "OK")) {
+        dispatch({
+          type: GET_TRENDING_QUESTIONS_SUCCESS,
+          trendingQData: res.data,
+        });
+      } else {
+        dispatch({
+          type: GET_TRENDING_QUESTIONS_FAILURE,
+          error:
+            res.data.message ||
+            "급상승 질문 데이터를 서버에서 불러오는데 실패하였습니다",
+        });
+      }
     } catch (error) {
       // 실패했을 때
-      dispatch({ type: GET_TRENDING_QUESTIONS_FAILURE, error });
+      dispatch({
+        type: GET_TRENDING_QUESTIONS_FAILURE,
+        error: "급상승 질문를 불러오는데 에러가 발생하였습니다",
+      });
     }
   };
 

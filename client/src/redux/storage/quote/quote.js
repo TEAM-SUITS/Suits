@@ -1,4 +1,4 @@
-import API from "api/api";
+import axios from "axios";
 
 /* ------------------------------ action types ------------------------------ */
 
@@ -14,11 +14,21 @@ export const fetchRandomQuoteData = (mode) => async (dispatch, prevState) => {
     dispatch({ type: GET_RANDOM_QUOTE });
     // API 호출
     try {
-      const quoteData = await API(`/api/quote`, "get");
-      dispatch({ type: GET_RANDOM_QUOTE_SUCCESS, quoteData });
+      const res = await axios.get("/api/quote");
+      if (res.statusText === "OK") {
+        dispatch({ type: GET_RANDOM_QUOTE_SUCCESS, quoteData: res.data });
+      } else {
+        dispatch({
+          type: GET_RANDOM_QUOTE_FAILURE,
+          error: res.data.message || "오늘의 명언을 불러오는데 실패하였습니다",
+        });
+      }
     } catch (error) {
       // 실패했을 때
-      dispatch({ type: GET_RANDOM_QUOTE_FAILURE, error });
+      dispatch({
+        type: GET_RANDOM_QUOTE_FAILURE,
+        error: "오늘의 명언을 불러오는중 에러가 발생하였습니다",
+      });
     }
   };
 

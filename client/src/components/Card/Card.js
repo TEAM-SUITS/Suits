@@ -5,31 +5,41 @@ import { boxShadow, resetList, textShadow } from "styles/common/common.styled";
 import Icon from "components/Icon/Icon";
 import Divider from "components/Divider/Divider";
 import Hashtag from "components/Hashtag/Hashtag";
+import { Link } from "react-router-dom";
 
 /* ---------------------------- styled components ---------------------------- */
 
 const CardBox = styled.div`
   ${boxShadow}
   cursor: ${(props) =>
-    props.isQuestion && !props.isDialog ? "pointer" : "initial"};
+    props.isButton && !props.isDialog ? "pointer" : "initial"};
   position: relative;
   min-width: 305px;
   border-radius: 10px;
   background-color: var(--color-body);
   padding: 1em 2em 1.4em;
-  max-height: 60vh;
+  /* max-height: 60vh; */
   overflow: auto;
   color: var(--color-gray5);
   max-width: 688px;
   width: 100%;
+  margin: ${({ centerAlign }) => centerAlign && "0 auto"};
+
+  a {
+    font-size: 1.6rem;
+  }
 `;
 
 const TagList = styled.ul`
   ${resetList};
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   max-width: 300px;
   margin: 1em auto;
+
+  && li {
+    margin: 0 5px;
+  }
 
   @media screen and (max-width: 480px) {
     ${({ hasButton }) =>
@@ -46,13 +56,17 @@ const TagList = styled.ul`
 /* -------------------------------------------------------------------------- */
 
 export default function Card({
+  qId,
   isQuestion,
+  isPreview,
   isDialog,
+  isButton,
   title,
   tags,
   onClick,
   children,
   hasButton,
+  centerAlign,
   ...restProps
 }) {
   const handleKeyDown = (e) => {
@@ -63,6 +77,7 @@ export default function Card({
 
   return (
     <CardBox
+      isButton={isButton}
       isQuestion={isQuestion}
       isDialog={isDialog}
       onClick={onClick}
@@ -71,6 +86,7 @@ export default function Card({
       aria-label={isQuestion && !isDialog ? "자세히 보기" : ""}
       tabIndex={isQuestion && 0}
       title={isQuestion && !isDialog ? "자세히 보기" : ""}
+      centerAlign={centerAlign}
       {...restProps}
     >
       {title && (
@@ -91,7 +107,13 @@ export default function Card({
                 <Icon type="quote-right" />
               </>
             )}
-            <h2>{title}</h2>
+            <h2>
+              {isQuestion && isPreview ? (
+                <Link to={`/post/${qId}`}>{title}</Link>
+              ) : (
+                <>{title}</>
+              )}
+            </h2>
           </CardBox.Header>
           <Divider primary $width="80%" />
         </>
