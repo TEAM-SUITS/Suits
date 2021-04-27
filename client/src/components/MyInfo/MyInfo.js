@@ -14,12 +14,11 @@ import {
   resetBoxModel,
 } from 'styles/common/common.styled';
 import API from 'api/api';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import KeywordSelect from 'components/KeywordSelect/KeywordSelect';
 import { useSelector } from 'react-redux';
 import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 import { ReactComponent as Spinner } from '../Spinner/Spinner.svg';
+import AlertDialog from 'containers/AlertDialog/AlertDialog';
 
 /* -------------------------------------------------------------------------- */
 
@@ -279,6 +278,7 @@ export default function MyInfo() {
   const [isBioActive, setIsBioActive] = useState(false);
   const [enteredBio, setEnteredBio] = useState('');
   const [isSelectingKeywords, setIsSelectingKeywords] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -326,32 +326,9 @@ export default function MyInfo() {
     dispatch(signOutAction());
   };
 
-  const handleDelete = () => {
-    const deleteAccount = async () => {
-      await API('/api/user', 'delete');
-      dispatch(signOutAction());
-    };
-    confirmAlert({
-      customUI: ({ onClose }) => {
-        return (
-          <StyledConfirmAlert>
-            <h1>회원 탈퇴</h1>
-            <p>정말로 Suits 계정을 삭제하시겠습니까?</p>
-            <div>
-              <button onClick={onClose}>취소</button>
-              <button
-                onClick={() => {
-                  deleteAccount();
-                  onClose();
-                }}
-              >
-                삭제
-              </button>
-            </div>
-          </StyledConfirmAlert>
-        );
-      },
-    });
+  const handleDelete = async () => {
+    await API('/api/user', 'delete');
+    dispatch(signOutAction());
   };
 
   return (
@@ -362,6 +339,13 @@ export default function MyInfo() {
           onClose={handleCloseHashtagChange}
         />
       )}
+      <AlertDialog
+        isVisible={isDeleting}
+        onCancel={() => setIsDeleting(false)}
+        onClick={() => setIsDeleting(false)}
+        onConfirm={handleDelete}
+      />
+
       <StyledMyInfo>
         <StyledProfile>
           <img src={user.avatar} alt={user.username} />
@@ -413,7 +397,7 @@ export default function MyInfo() {
           <StyledSignoutButton onClick={handleSignOut}>
             로그아웃
           </StyledSignoutButton>
-          <StyledDeleteButton onClick={handleDelete}>
+          <StyledDeleteButton onClick={() => setIsDeleting(true)}>
             회원탈퇴
           </StyledDeleteButton>
         </StyledButtonContainer>
