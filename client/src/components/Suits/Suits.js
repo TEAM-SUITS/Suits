@@ -17,7 +17,7 @@ const StylesSuits = styled.section`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  margin-top: 120px;
+  margin-top: 60px;
   .logo {
     width: 100px;
     display: block;
@@ -82,47 +82,30 @@ const StylesSuits = styled.section`
   }
 
   @media screen and (min-width: 480px) {
-    margin-top: 160px;
+    margin-top: 100px;
     .logo {
-      width: 150px;
-      margin-bottom: 3em;
+      width: 120px;
     }
     .heading {
-      margin: 0 0 2em;
-      font-size: 2rem;
+      font-size: 1.6rem;
       em {
-        font-size: 2.8rem;
+        font-size: 2.4rem;
       }
     }
     p {
-      font-size: 2rem;
-      margin: 0 0 2em;
+      font-size: 1.8rem;
     }
     .members__container {
-      margin-top: 1em;
-      margin-bottom: 4em;
       h3 {
-        font-size: 2rem;
-        margin: 0 0 1em;
+        font-size: 1.8rem;
       }
       .members {
         figure {
           width: 150px;
           img {
-            width: 80px;
-            margin-bottom: 0.6em;
-            border-radius: 50%;
-          }
-          figcaption {
-            width: 100%;
-            font-size: 2rem;
+            width: 70px;
           }
         }
-      }
-    }
-    .contact {
-      address {
-        font-size: 2rem;
       }
     }
   }

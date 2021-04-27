@@ -15,9 +15,27 @@ const StyledSlider = styled(Slider)`
     max-width: none;
   }
   img {
-    width: 100%;
+    width: 90%;
     max-width: 600px;
     margin: 0 auto;
+  }
+  .slick-prev {
+    z-index: 1000;
+    left: 2%;
+    &:before {
+      color: var(--color-black);
+    }
+  }
+  .slick-next {
+    right: 2%;
+    &:before {
+      color: var(--color-black);
+    }
+  }
+  .slick-dots {
+    button:before {
+      color: var(--color-text);
+    }
   }
 `;
 
@@ -44,18 +62,13 @@ const adList = [
     src: '/assets/ad-salon.png',
     url: 'https://github.com/riding-bom/salon',
   },
-  // {
-  //   name: 'LVPS',
-  //   src: '/assets/.png',
-  //   url: 'https://github.com/FDS-18-Final-Project',
-  // },
 ];
 
 /* --------------------------------- 광고주 리스트 -------------------------------- */
 
 export default function AdBanner() {
   const AdBannerCarousel = adList.map(({ name, src, url }) => (
-    <div>
+    <div key={`item-${name}`}>
       <a
         href={url}
         target="external"
@@ -73,9 +86,7 @@ export default function AdBanner() {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false,
-    autoplay: true,
-    autoplaySpeed: 4000,
+    dots: true,
   };
 
   return (
@@ -90,3 +101,7 @@ export default function AdBanner() {
     </SliderContainer>
   );
 }
+
+// 캐러셀 접근성 레퍼런스
+// https://nuli.navercorp.com/community/article/1133097
+// 가려진 이미지 링크에 초점 이동 가지 않게 수정할 필요 있음.
