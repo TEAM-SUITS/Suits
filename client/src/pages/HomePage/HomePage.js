@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from "react";
-import PageContainer from "containers/PageContainer/PageContainer.styled";
-import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchHardWorkersData } from "redux/storage/hardWorkers/hardWorkers";
-import { fetchTrendingData } from "redux/storage/trendingQ/trendingQ";
-import { fetchRandomQuoteData } from "redux/storage/quote/quote";
-import { fetchRandomQData } from "redux/storage/randomQ/randomQ";
-import { pageEffect } from "styles/motions/variants";
-import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
-import Card from "components/Card/Card";
-import QuotesContent from "components/Content/QuotesContent";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import HardWorkersContent from "components/Content/HardWorkersContent";
-import KeywordSelect from "components/KeywordSelect/KeywordSelect";
-import useDetectViewport from "hooks/useDetectViewport";
-import QNACardSection from "components/QNACardSection/QNACardSection";
+import React, { useEffect, useState } from 'react';
+import PageContainer from 'containers/PageContainer/PageContainer.styled';
+import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchHardWorkersData } from 'redux/storage/hardWorkers/hardWorkers';
+import { fetchTrendingData } from 'redux/storage/trendingQ/trendingQ';
+import { fetchRandomQuoteData } from 'redux/storage/quote/quote';
+import { fetchRandomQData } from 'redux/storage/randomQ/randomQ';
+import { pageEffect } from 'styles/motions/variants';
+import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
+import Card from 'components/Card/Card';
+import QuotesContent from 'components/Content/QuotesContent';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import HardWorkersContent from 'components/Content/HardWorkersContent';
+import KeywordSelect from 'components/KeywordSelect/KeywordSelect';
+import useDetectViewport from 'hooks/useDetectViewport';
+import QNACardSection from 'components/QNACardSection/QNACardSection';
+import AdBanner from 'components/Content/AdBanner';
 
 /* ---------------------------- styled components --------------------------- */
 
@@ -37,8 +38,8 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
 
 export default function HomePage() {
   const [needRefresh, setNeedRefresh] = useState(false);
-  const [currentQId, setCurrentQId] = useState("");
-  const [quoteLanguage, setQuoteLanguage] = useState("ko");
+  const [currentQId, setCurrentQId] = useState('');
+  const [quoteLanguage, setQuoteLanguage] = useState('ko');
   const [isSelectingKeywords, setIsSelectingKeywords] = useState(false);
   const { isMobile } = useDetectViewport();
 
@@ -64,16 +65,16 @@ export default function HomePage() {
 
   useEffect(() => {
     if (needRefresh) {
-      dispatch(fetchRandomQData("refresh", currentQId));
+      dispatch(fetchRandomQData('refresh', currentQId));
       setNeedRefresh(false);
     }
   }, [dispatch, needRefresh]);
 
   useEffect(() => {
-    dispatch(fetchRandomQData("init"));
-    dispatch(fetchRandomQuoteData("init"));
-    dispatch(fetchTrendingData("init"));
-    dispatch(fetchHardWorkersData("init"));
+    dispatch(fetchRandomQData('init'));
+    dispatch(fetchRandomQuoteData('init'));
+    dispatch(fetchTrendingData('init'));
+    dispatch(fetchHardWorkersData('init'));
 
     if (randomQData) setCurrentQId(randomQData[0]._id);
   }, [dispatch]);
@@ -113,6 +114,8 @@ export default function HomePage() {
         initial="hidden"
         animate="visible"
       >
+        <AdBanner />
+
         {/* 랜덤 QnA 카드 섹션 */}
 
         <QNACardSection
@@ -143,14 +146,14 @@ export default function HomePage() {
             <ToggleButton
               value="ko"
               aria-label="번역된 명언 보기"
-              disabled={quoteLanguage === "ko"}
+              disabled={quoteLanguage === 'ko'}
             >
               ko
             </ToggleButton>
             <ToggleButton
               value="en"
               aria-label="원문 명언 보기"
-              disabled={quoteLanguage === "en"}
+              disabled={quoteLanguage === 'en'}
             >
               en
             </ToggleButton>
