@@ -1,14 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import { object, bool, func } from "prop-types";
-import Tier from "components/Tier/Tier";
-import { museoMedium } from "styles/common/common.styled";
-import { motion } from "framer-motion";
+import React from 'react';
+import styled from 'styled-components';
+import { object, bool, func } from 'prop-types';
+import Tier from 'components/Tier/Tier';
+import { museoMedium } from 'styles/common/common.styled';
 
-const StyledMiniProfile = styled(motion.div)`
+const StyledMiniProfile = styled.div`
   display: flex;
   min-width: 180px;
-  cursor: ${({ isButton }) => (isButton ? "pointer" : "default")};
+  cursor: ${({ isButton }) => (isButton ? 'pointer' : 'default')};
 
   & > img {
     width: 50px;
@@ -53,14 +52,13 @@ export default function MiniProfile({ user, isButton, onClick, onKeyDown }) {
   const { username, avatar, tier } = user;
   return (
     <StyledMiniProfile
-      whileHover={isButton && { scale: 1.1 }}
       isButton={isButton}
-      onClick={isButton ? onClick : ""}
-      onKeyDown={isButton ? onKeyDown : ""}
-      role={isButton ? "button" : ""}
-      aria-label={isButton ? "프로필 자세히 보기" : ""}
+      onClick={isButton ? onClick : ''}
+      onKeyDown={isButton ? onKeyDown : ''}
+      role={isButton ? 'button' : ''}
+      aria-label={isButton ? '프로필 자세히 보기' : ''}
       tabIndex={isButton && 0}
-      title={isButton ? "프로필 자세히 보기" : ""}
+      title={isButton ? '프로필 자세히 보기' : ''}
     >
       <img src={avatar} alt={username} />
       <div>

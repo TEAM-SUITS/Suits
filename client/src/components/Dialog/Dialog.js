@@ -20,7 +20,7 @@ const DialogContainer = styled.div.attrs((props) => ({
   /* min-width: 305px; */
   border-radius: 10px;
   padding: 2em 0 0;
-  max-width: 688px;
+  max-width: ${({ type }) => (type === 'profile' ? '344px' : '688px')};
 
   @media screen and (min-width: 481px) {
     /* min-width: 400px; */
@@ -78,6 +78,7 @@ export default function Dialog({
   onClick, // 닫기 버튼
   children,
   opacity = 0.6,
+  type,
 }) {
   const dialogRef = React.useRef(null);
 
@@ -136,7 +137,7 @@ export default function Dialog({
       <Portal id={'dialog-container'}>
         {visible ? <Modal onClick={onClick} className="overlay" $opacity={opacity} /> : null}
         {visible && (
-          <DialogContainer ref={dialogRef} label={label}>
+          <DialogContainer ref={dialogRef} label={label} type={type}>
             <CloseButton>
               <Icon onClick={onClick} type="close" title="닫기" height="1.8em" />
             </CloseButton>
