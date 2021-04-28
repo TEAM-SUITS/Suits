@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { Switch, Route, Redirect, useLocation } from "react-router-dom";
-import { GlobalStyle } from "styles/pages/theme.styled";
+import { useEffect, useState } from 'react';
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import { GlobalStyle } from 'styles/pages/theme.styled';
 import {
   HomePage,
   SearchPage,
@@ -10,20 +10,20 @@ import {
   UserPage,
   PageNotFound,
   PostPage,
-} from "pages/Pages";
-import Navigation from "containers/Nav/Navigation";
-import DemoPage from "pages/DemoPage/DemoPage";
-import LoginPage from "pages/LoginPage/LoginPage";
-import RouteGuard from "components/RouteGuard/RouteGuard";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUserAction } from "redux/storage/auth/auth";
-import { fetchCurrentUserData } from "redux/storage/currentUser/currentUser";
-import { ThemeProvider } from "styled-components";
-import ThemeToggler from "../components/ThemeToggler/ThemeToggler";
-import { darkTheme, lightTheme } from "styles/pages/Themes";
-import themeToggler from "utils/themeToggler/themeToggler";
-import Alert from "components/Alert/Alert";
-import { hideError } from "redux/storage/error/error";
+} from 'pages/Pages';
+import Navigation from 'containers/Nav/Navigation';
+import DemoPage from 'pages/DemoPage/DemoPage';
+import LoginPage from 'pages/LoginPage/LoginPage';
+import RouteGuard from 'components/RouteGuard/RouteGuard';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserAction } from 'redux/storage/auth/auth';
+import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
+import { ThemeProvider } from 'styled-components';
+import ThemeToggler from '../components/ThemeToggler/ThemeToggler';
+import { darkTheme, lightTheme } from 'styles/pages/Themes';
+import themeToggler from 'utils/themeToggler/themeToggler';
+import Alert from 'components/Alert/Alert';
+import { hideError, setError } from 'redux/storage/error/error';
 
 /* -------------------------------------------------------------------------- */
 function App() {
@@ -33,10 +33,14 @@ function App() {
   // theme state (dark mode)
   const [theme, setTheme] = useState(() => {
     return window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
   });
+
+  const displayError = (message) => {
+    dispatch(setError(message));
+  };
 
   const { error, isOpen } = useSelector((state) => state.error);
   const handleErrorClose = () => {
@@ -53,16 +57,18 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!currentUserData || typeof currentUserData[0] !== "object") return;
+    if (!currentUserData || typeof currentUserData[0] !== 'object') return;
     currentUserData[0].theme && setTheme(currentUserData[0].theme);
   }, [currentUserData]);
 
   return (
-    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
+    <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <div className="App">
         <GlobalStyle />
-        {location.pathname === "/login" ? null : (
-          <ThemeToggler handleClick={() => themeToggler(theme, setTheme)} />
+        {location.pathname === '/login' ? null : (
+          <ThemeToggler
+            handleClick={() => themeToggler(theme, setTheme, displayError)}
+          />
         )}
         {isOpen && error && (
           <Alert status="error" message={error} onClick={handleErrorClose} />
@@ -81,7 +87,7 @@ function App() {
           <Route path="/page-not-found" component={PageNotFound} />
           <Redirect to="/page-not-found" />
         </Switch>
-        {location.pathname === "/login" ? null : <Navigation />}
+        {location.pathname === '/login' ? null : <Navigation />}
       </div>
     </ThemeProvider>
   );
