@@ -8,7 +8,7 @@ import { quoteReducer } from './quote/quote';
 import { randomQReducer } from './randomQ/randomQ';
 import { followingReducer } from './following/following';
 import { errorReducer } from './error/error';
-import { currentQuestionReducer } from 'redux/post/post';
+import { currentQuestionReducer } from './post/post';
 
 /* root reducer ------------------------------------------------------------- */
 
