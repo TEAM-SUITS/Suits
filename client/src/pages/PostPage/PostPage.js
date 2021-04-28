@@ -13,6 +13,7 @@ import { Skeleton } from '@material-ui/lab';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setError } from 'redux/storage/error/error';
+import { fetchCurrentQuestion } from "redux/storage/post/post";
 
 /* ---------------------------- styled components --------------------------- */
 const HeadingContainer = styled.span`
@@ -92,6 +93,7 @@ export default function PostPage({ history, location, match }) {
   const [isInputLoading, setIsInputLoading] = useState(false);
 
   const dispatch = useDispatch();
+
   // post page를 위한 question 정보 받아오기
   const getData = async (id) => {
     try {
@@ -101,6 +103,7 @@ export default function PostPage({ history, location, match }) {
       dispatch(setError('질문을 불러들이는 중 문제가 발생했습니다.'));
     }
   };
+
   const removeAnswer = async (answerId) => {
     try {
       const updatedQuestion = await axios.delete(`/api/answers/${answerId}`);
@@ -109,8 +112,10 @@ export default function PostPage({ history, location, match }) {
       dispatch(setError('답변 삭제 중 문제가 발생했습니다.'));
     }
   };
+
   // effect
   useEffect(() => {
+    dispatch(fetchCurrentQuestion(qid));
     getData(qid);
     // answer 입력창 렌더링 여부 판별
     setIsAnswered(true);

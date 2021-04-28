@@ -117,10 +117,9 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
       });
     } catch (err) {
       dispatch(setError('답변 등록 중에 문제가 발생했습니다.'));
-    } finally {
-      setEditing(null);
-      handleRefresh();
     }
+    setEditing(null);
+    handleRefresh();
   };
 
   if (!answersList.length) {
