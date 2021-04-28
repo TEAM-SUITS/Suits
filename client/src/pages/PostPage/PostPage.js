@@ -15,37 +15,35 @@ import styled, { css } from "styled-components";
 import API from "api/api";
 // TODO: API 말고 그냥 axios로 수정
 import { Skeleton } from "@material-ui/lab";
-import Divider from "components/Divider/Divider";
 
 
 /* ---------------------------- styled components --------------------------- */
-const StyledHeader = styled.h2`
-  font-size: 2rem;
-  max-width: 50%;
-  text-align: center;
-  min-width: 350px;
+const CardContainer = styled.div`
+  > div {
+    background-color: transparent;
+    margin-top: 14px;
+    box-shadow: none;
+  }
 `;
 
 const HashtagContainer = styled.div`
-  width: 244px;
+  width: 100%;
+  max-width: 400px;
   display: flex;
+  justify-content: space-around;
   margin: 2em auto;
-  justify-content: space-evenly;
-
-  > div {
-  }
 `;
 
 // 💀 skeleton ui
 const SkeletonStyle = css`
   /* min-width: 305px;
   max-width: 688px; */
-  width: ${(props) => props.width};
-  margin: 1.6rem;
+  width: 70vw;
+  margin: 3em;
   background-color: #e6e6e6;
 
   @media screen and (max-width: 480px) {
-    margin: 1.6rem auto;
+    margin: 3em auto;
   }
 `;
 
@@ -58,10 +56,6 @@ const SkeletonCard = styled(Skeleton)`
     min-width: 248px;
     width: 248px;
   }
-
-  &:first-child {
-    margin-top: 45px;
-  }
 `;
 
 const SkeletonDivider = styled(Skeleton)`
@@ -70,6 +64,7 @@ const SkeletonDivider = styled(Skeleton)`
   @media screen and (max-width: 480px) {
     min-width: 200px;
     width: 200px;
+    margin: 3em auto;
   }
 `;
 
@@ -142,20 +137,14 @@ export default function PostPage({ history, location, match }) {
         initial="hidden"
         animate="visible"
       >
+      <CardContainer>
           {Object.keys(data).length && userData ? (
-            <>
+            <Card isQuestion title={data.content}>
               <HashtagContainer>
                 {data.hashTag.map((keyword, idx) => {
                   return <Hashtag key={idx} type={keyword} />;
                 })}
               </HashtagContainer>
-              <StyledHeader>{data.content}</StyledHeader>
-              <Divider
-                width="60%"
-                height="3px"
-                color="var(--color-text)"
-                minWidth="340px"
-              />
               <Answers
                 answersList={data.answers}
                 userId={userData[0]._id}
@@ -169,18 +158,16 @@ export default function PostPage({ history, location, match }) {
                 handleIsAnswered={handleIsAnswered}
                 handleRefresh={handleRefresh}
               />
-            </>
+            </Card>
           ) : (
             <>
-              <SkeletonCard variant="rect" height="3em" width="30%" />
-              <SkeletonCard variant="rect" height="3em" width="50%" />
-              <SkeletonDivider variant="rect" height="1px" width="50%" />
-              <SkeletonCard variant="rect" height="5em" width="50%" />
-              <SkeletonCard variant="rect" height="20em" width="60%" />
-              <SkeletonCard variant="rect" height="20em" width="60%" />
-              <SkeletonCard variant="rect" height="20em" width="60%" />
+              <SkeletonCard variant="rect" height="3em" />
+              <SkeletonDivider variant="rect" height="1px" />
+              <SkeletonCard variant="rect" height="5em" />
+              <SkeletonCard variant="rect" height="20em" />
             </>
           )}
+        </CardContainer>
       </PageContainer>
     </>
   );

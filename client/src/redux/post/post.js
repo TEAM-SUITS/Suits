@@ -14,7 +14,7 @@ export const fetchCurrentQuestion = qId => async (dispatch) => {
   // API 호출
   try {
     // 실패했을 때
-    const res = await axios(`/api/questions/${qId}`, 'get');
+    const res = await axios.get(`/api/questions/${qId}`);
     if (res.statusText !== "OK") {
       dispatch({
         type: GET_CURRENT_QUESTION_FAILURE,
