@@ -13,6 +13,8 @@ import API from "api/api";
 
 const QuestionList = styled.ul`
   ${resetList}
+  margin-top: 2em;
+
   li {
     margin-bottom: 1em;
   }
