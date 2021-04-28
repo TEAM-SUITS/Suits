@@ -1,13 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import { object } from 'prop-types';
-// import { Link } from 'react-router-dom';
-import Tier from 'components/Tier/Tier';
-import { museoMedium } from 'styles/common/common.styled';
+import React from "react";
+import styled from "styled-components";
+import { object, bool, func } from "prop-types";
+import Tier from "components/Tier/Tier";
+import { museoMedium } from "styles/common/common.styled";
+import { motion } from "framer-motion";
 
-const StyledMiniProfile = styled.div`
+const StyledMiniProfile = styled(motion.div)`
   display: flex;
-  /* width: 180px; */
+  min-width: 180px;
+  cursor: ${({ isButton }) => (isButton ? "pointer" : "default")};
 
   & > img {
     width: 50px;
@@ -32,7 +33,7 @@ const StyledMiniProfile = styled.div`
   }
 
   @media screen and (min-width: 480px) {
-    /* width: 250px; */
+    min-width: 250px;
 
     & > img {
       width: 80px;
@@ -48,18 +49,24 @@ const StyledMiniProfile = styled.div`
 
 /* ---------------------------- styled components --------------------------- */
 
-export default function MiniProfile({ user }) {
-  const { _id, username, avatar, tier } = user;
+export default function MiniProfile({ user, isButton, onClick, onKeyDown }) {
+  const { username, avatar, tier } = user;
   return (
-    <StyledMiniProfile>
-      {/* 해당 id를 가진 유저의 프로필 페이지로 이동 */}
-      {/* <Link> */}
+    <StyledMiniProfile
+      whileHover={isButton && { scale: 1.1 }}
+      isButton={isButton}
+      onClick={isButton ? onClick : ""}
+      onKeyDown={isButton ? onKeyDown : ""}
+      role={isButton ? "button" : ""}
+      aria-label={isButton ? "프로필 자세히 보기" : ""}
+      tabIndex={isButton && 0}
+      title={isButton ? "프로필 자세히 보기" : ""}
+    >
       <img src={avatar} alt={username} />
       <div>
         <span>{username}</span>
         <Tier tier={tier} height={12} />
       </div>
-      {/* </Link> */}
     </StyledMiniProfile>
   );
 }
@@ -68,4 +75,7 @@ export default function MiniProfile({ user }) {
 
 MiniProfile.propTypes = {
   user: object.isRequired,
+  isButton: bool,
+  onClick: func,
+  onKeyDown: func,
 };

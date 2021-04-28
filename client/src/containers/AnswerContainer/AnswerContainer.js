@@ -3,8 +3,7 @@ import React, { useState } from "react";
 // components
 import QnAContent from "components/Content/QnAContent";
 import Divider from "components/Divider/Divider";
-import { DividerContainer } from "containers/DividerContainer/DividerContainer.styled"
-;
+import { DividerContainer } from "containers/DividerContainer/DividerContainer.styled";
 // styles
 import styled, { css } from "styled-components";
 import { boxShadow, spoqaMedium } from "styles/common/common.styled";
@@ -86,13 +85,18 @@ const EditorOnlyButton = styled.button.attrs(() => ({
   border-radius: 5px;
 
   &:last-child {
-    background-color: #E86464;
-    color: #FFFFFF;
+    background-color: #e86464;
+    color: #ffffff;
   }
 `;
 
 /* --------------------------------- Answers -------------------------------- */
-export default function Answers({ answersList = [], userId = "", handleRefresh, removeAnswer }) {
+export default function Answers({
+  answersList = [],
+  userId = "",
+  handleRefresh,
+  removeAnswer,
+}) {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
   const [editContent, setEditContent] = useState("");
@@ -108,7 +112,7 @@ export default function Answers({ answersList = [], userId = "", handleRefresh, 
   };
 
   const postContent = async (answerId, newContent) => {
-    await API(`/api/answers/${answerId}`, 'patch', {
+    await API(`/api/answers/${answerId}`, "patch", {
       content: badwordFilter.filter(newContent, "**"),
     });
 
@@ -133,59 +137,57 @@ export default function Answers({ answersList = [], userId = "", handleRefresh, 
         onClick={() => setDeleting(null)}
       />
       {answersList !== [] &&
-      answersList.map((answer) => {
-        return (
-          <React.Fragment key={answer._id}>
-            {editing === answer._id ? (
-              <EditContainer>
-                <EditArea
-                  value={editContent}
-                  onChange={(e) => handleEditContent(e)}
-                />
-                <EditConfirmButton
-                  onClick={() => {
-                    postContent(answer._id, editContent);
-                  }}
-                >
-                  확인
-                </EditConfirmButton>
-                <EditConfirmButton onClick={() => setEditing(null)}>
-                  취소
-                </EditConfirmButton>
-              </EditContainer>
-            ) : (
-              <QnAContent answer={answer} isEllipsis={false} />
-            )}
-            {answer.postedby && answer.postedby._id === userId ? (
-              <>
-              {!editing ? (
-                <ButtonContainer>
-                  <EditorOnlyButton
-                    onClick={() => handleEdit(answer._id, answer.content)}
+        answersList.map((answer) => {
+          return (
+            <React.Fragment key={answer._id}>
+              {editing === answer._id ? (
+                <EditContainer>
+                  <EditArea
+                    value={editContent}
+                    onChange={(e) => handleEditContent(e)}
+                  />
+                  <EditConfirmButton
+                    onClick={() => {
+                      postContent(answer._id, editContent);
+                    }}
                   >
-                    수정
-                  </EditorOnlyButton>
-                  <EditorOnlyButton
-                    onClick={() => setDeleting(answer._id)}
-                  >
-                    삭제
-                  </EditorOnlyButton>
-                </ButtonContainer>
+                    확인
+                  </EditConfirmButton>
+                  <EditConfirmButton onClick={() => setEditing(null)}>
+                    취소
+                  </EditConfirmButton>
+                </EditContainer>
+              ) : (
+                <QnAContent answer={answer} isEllipsis={false} />
+              )}
+              {answer.postedby && answer.postedby._id === userId ? (
+                <>
+                  {!editing ? (
+                    <ButtonContainer>
+                      <EditorOnlyButton
+                        onClick={() => handleEdit(answer._id, answer.content)}
+                      >
+                        수정
+                      </EditorOnlyButton>
+                      <EditorOnlyButton onClick={() => setDeleting(answer._id)}>
+                        삭제
+                      </EditorOnlyButton>
+                    </ButtonContainer>
+                  ) : null}
+                </>
               ) : null}
-              </>
-            ) : null}
-            <DividerContainer>
-              <Divider
-                primary={false}
-                color="gray"
-                height="2px"
-                width="56%"
-                minWidth="320px"
-              />
-            </DividerContainer>
-          </React.Fragment>
-        );
-      })}
+              <DividerContainer>
+                <Divider
+                  primary={false}
+                  color="gray"
+                  height="2px"
+                  width="56%"
+                  minWidth="320px"
+                />
+              </DividerContainer>
+            </React.Fragment>
+          );
+        })}
     </>
   );
-};
+}
