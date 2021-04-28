@@ -181,7 +181,7 @@ export default function KeywordSelect({ userKeywords, onClose }) {
     <Portal id={'dialog-container'}>
       <Container ref={dialogRef} label="관심 키워드 선택 다이얼로그">
         <CancelButton onClick={cancelKeywordSelect}>Cancel</CancelButton>
-        <Backdrop $opacity={0.8} />
+        <Backdrop $opacity={0.8}  />
         <DialogContainer>
           <StyledList>
             {keywordArray.map((keyword) => {

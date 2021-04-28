@@ -2,7 +2,7 @@ import React from "react";
 import LikeButton from "components/LikeButton/LikeButton";
 import MiniProfile from "components/MiniProfile/MiniProfile";
 import styled from "styled-components";
-import { ellipsis, spoqaSmall } from "styles/common/common.styled";
+import { ellipsis, spoqaMedium, spoqaSmall } from "styles/common/common.styled";
 import { object, bool, oneOfType } from "prop-types";
 import API from "api/api";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +26,7 @@ const AnswerInfo = styled.div`
 const AnswerDetail = styled.p`
   max-width: 347px;
   ${(props) => props.isEllipsis && ellipsis}
-  ${spoqaSmall}
+  ${spoqaMedium}
 `;
 
 const NoAnswerYet = styled.div`
@@ -36,7 +36,7 @@ const NoAnswerYet = styled.div`
   flex-wrap: nowrap;
   align-items: center;
 
-  ${spoqaSmall}
+  ${spoqaMedium}
 
   > img {
     width: 80px;
@@ -52,7 +52,7 @@ const NoAnswerYet = styled.div`
 const mockdata = {
   _id: "607d40dfc0fe755dc815f9c2",
   username: "N/A",
-  avatar: "assets/suity.png",
+  avatar: "/assets/suity.png",
   bio: "해당 유저는 탈퇴한 유저입니다.",
   githubRepo: "https://github.com/TEAM-SUITS/Suits",
   tier: 1,
@@ -88,7 +88,7 @@ export default function QnAContent({ answer, isEllipsis = true }) {
     return (
       <QnAContainer>
         <NoAnswerYet>
-          <img src="assets/banner.png" alt="답변 없음을 알리는 슈티" />
+          <img src="/assets/banner.png" alt="답변 없음을 알리는 슈티" />
           <p>아직 등록된 답변이 없습니다.</p>
         </NoAnswerYet>
       </QnAContainer>

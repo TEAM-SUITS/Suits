@@ -16,7 +16,7 @@ const StylesHowToUse = styled.section`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  margin-top: 120px;
+  margin-top: 70px;
   .box {
     max-width: 500px;
     h3 {
@@ -41,6 +41,7 @@ const StylesHowToUse = styled.section`
         ${spoqaMedium}
         margin: 0 0 0 0.4em;
         flex: 1;
+        max-width: 380px;
       }
     }
   }
@@ -89,17 +90,17 @@ const StylesHowToUse = styled.section`
   }
 
   @media screen and (min-width: 480px) {
-    margin-top: 160px;
+    margin-top: 100px;
     .box {
       &:first-child {
-        margin-bottom: 4em;
+        margin-bottom: 3em;
       }
       h3 {
         ${spoqaLarge}
-        font-size: 2.4rem;
+        font-size: 2rem;
       }
-      hr {
-        margin-bottom: 2em;
+      div {
+        margin-bottom: 1.5em;
       }
     }
 
@@ -117,14 +118,10 @@ const StylesHowToUse = styled.section`
             margin-bottom: 0.4em;
           }
           img {
-            width: 150px;
+            width: 120px;
           }
           span {
             width: 250px;
-            text-align: center;
-            display: block;
-            ${museoLarge}
-            font-weight: 400;
           }
         }
       }
@@ -137,7 +134,7 @@ export default function HowToUse() {
     <StylesHowToUse>
       <div className="box box-feature">
         <h3>주요 기능 소개</h3>
-        <Divider $width="40%" margin="0.5em auto" />
+        <Divider width="40%" margin="0.5em auto" />
         <ul>
           <li>
             <Icon type="home" />
@@ -169,7 +166,7 @@ export default function HowToUse() {
       </div>
       <div className="box box-tier">
         <h3>회원 등급</h3>
-        <Divider $width="40%" margin="0.5em auto" />
+        <Divider width="40%" margin="0.5em auto" />
         <div className="tiers__container">
           <div>
             <Tier />

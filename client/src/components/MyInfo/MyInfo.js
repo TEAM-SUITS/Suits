@@ -14,12 +14,11 @@ import {
   resetBoxModel,
 } from 'styles/common/common.styled';
 import API from 'api/api';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import KeywordSelect from 'components/KeywordSelect/KeywordSelect';
 import { useSelector } from 'react-redux';
 import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 import { ReactComponent as Spinner } from '../Spinner/Spinner.svg';
+import AlertDialog from 'containers/AlertDialog/AlertDialog';
 
 /* -------------------------------------------------------------------------- */
 
@@ -29,16 +28,11 @@ const StyledMyInfo = styled.section`
   align-items: center;
   max-width: 568px;
   padding: 1em;
-  margin-top: 130px;
+  margin-top: 60px;
   @media screen and (min-width: 480px) {
-    margin-top: 160px;
     textarea {
       font-size: 2rem;
     }
-  }
-
-  @media screen and (max-height: 667px) {
-    margin-top: 100px;
   }
 `;
 
@@ -85,10 +79,10 @@ const StyledBioHeading = styled.div`
   }
   @media screen and (min-width: 480px) {
     h3 {
-      font-size: 2rem;
+      font-size: 1.8rem;
     }
     button {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
   }
 `;
@@ -117,10 +111,10 @@ const StyledHashtagHeadingContainer = styled.div`
 
   @media screen and (min-width: 480px) {
     h3 {
-      font-size: 2rem;
+      font-size: 1.8rem;
     }
     button {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
   }
 `;
@@ -129,12 +123,11 @@ const StyledHashtags = styled.div`
   display: flex;
   justify-content: space-around;
   @media screen and (min-width: 480px) {
-    justify-content: center;
     div {
-      font-size: 2rem;
-      width: 160px;
+      font-size: 1.6rem;
+      width: 120px;
       &:not(:last-child) {
-        margin-right: 3rem;
+        margin-right: 2em;
       }
     }
   }
@@ -149,11 +142,6 @@ const StyledButtonContainer = styled.div`
     ${spoqaMedium}
     border: none;
     ${boxShadow};
-  }
-  @media screen and (min-width: 480px) {
-    button {
-      font-size: 2rem;
-    }
   }
 `;
 
@@ -183,8 +171,8 @@ const StyledProfile = styled.div`
     border-radius: 50%;
     margin-right: 3em;
     @media screen and (min-width: 480px) {
-      width: 150px;
-      height: 150px;
+      width: 120px;
+      height: 120px;
       margin-right: 5rem;
     }
   }
@@ -197,7 +185,6 @@ const StyledProfile = styled.div`
     ${museoLarge};
     margin: 0;
     @media screen and (min-width: 480px) {
-      font-size: 3rem;
     }
   }
   .tierContainer {
@@ -215,7 +202,7 @@ const StyledProfile = styled.div`
       }
     }
     span {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
     }
   }
   a {
@@ -291,6 +278,7 @@ export default function MyInfo() {
   const [isBioActive, setIsBioActive] = useState(false);
   const [enteredBio, setEnteredBio] = useState('');
   const [isSelectingKeywords, setIsSelectingKeywords] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -338,32 +326,9 @@ export default function MyInfo() {
     dispatch(signOutAction());
   };
 
-  const handleDelete = () => {
-    const deleteAccount = async () => {
-      await API('/api/user', 'delete');
-      dispatch(signOutAction());
-    };
-    confirmAlert({
-      customUI: ({ onClose }) => {
-        return (
-          <StyledConfirmAlert>
-            <h1>회원 탈퇴</h1>
-            <p>정말로 Suits 계정을 삭제하시겠습니까?</p>
-            <div>
-              <button onClick={onClose}>취소</button>
-              <button
-                onClick={() => {
-                  deleteAccount();
-                  onClose();
-                }}
-              >
-                삭제
-              </button>
-            </div>
-          </StyledConfirmAlert>
-        );
-      },
-    });
+  const handleDelete = async () => {
+    await API('/api/user', 'delete');
+    dispatch(signOutAction());
   };
 
   return (
@@ -374,6 +339,13 @@ export default function MyInfo() {
           onClose={handleCloseHashtagChange}
         />
       )}
+      <AlertDialog
+        isVisible={isDeleting}
+        onCancel={() => setIsDeleting(false)}
+        onClick={() => setIsDeleting(false)}
+        onConfirm={handleDelete}
+      />
+
       <StyledMyInfo>
         <StyledProfile>
           <img src={user.avatar} alt={user.username} />
@@ -425,7 +397,7 @@ export default function MyInfo() {
           <StyledSignoutButton onClick={handleSignOut}>
             로그아웃
           </StyledSignoutButton>
-          <StyledDeleteButton onClick={handleDelete}>
+          <StyledDeleteButton onClick={() => setIsDeleting(true)}>
             회원탈퇴
           </StyledDeleteButton>
         </StyledButtonContainer>

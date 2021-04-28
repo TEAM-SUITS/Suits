@@ -3,7 +3,8 @@ import React, { useState } from "react";
 // components
 import QnAContent from "components/Content/QnAContent";
 import Divider from "components/Divider/Divider";
-
+import { DividerContainer } from "containers/DividerContainer/DividerContainer.styled"
+;
 // styles
 import styled, { css } from "styled-components";
 import { boxShadow, spoqaMedium } from "styles/common/common.styled";
@@ -15,61 +16,16 @@ import API from "api/api";
 import AlertDialog from "containers/AlertDialog/AlertDialog";
 
 /* ---------------------------- styled components --------------------------- */
-// TODO: a11y dialog로 대체 필요
-const StyledConfirmAlert = styled.div`
-  background-color: var(--color-body);
-  border: 2px solid var(--color-gray5);
-  border-radius: 10px;
-  padding: 2em 3em 1.5em;
-  ${boxShadow}
-  h1 {
-    font-size: 1.8rem;
-    text-align: center;
-    margin: 0;
-    color: var(--color-text);
-  }
-  p {
-    font-size: 1.6rem;
-    color: var(--color-text);
-    margin-bottom: 2em;
-  }
-  div {
-    display: flex;
-    justify-content: center;
-    button {
-      font-size: 1.4rem;
-      border: none;
-      border: 1px solid var(--color-gray5);
-      border-radius: 5px;
-      background-color: var(--color-gray2);
-      padding: 0.5em 2em;
-      ${boxShadow}
-      ${spoqaMedium}
-      &:last-child {
-        color: var(--color-red);
-        margin-left: 3em;
-        font-weight: bold;
-      }
-    }
-  }
-  @media screen and (min-width: 480px) {
-    padding: 5em 6em 4em;
-    h1 {
-      font-size: 2.5rem;
-    }
-    p {
-      font-size: 2rem;
-    }
-    button {
-      font-size: 2rem;
-    }
-  }
-`;
-
 const EditContainer = styled.div`
   position: relative;
-  width: 100%;
   height: 10rem;
+  width: 70vw;
+  max-width: 500px;
+
+  // 모바일
+  @media screen and (max-width: 480px) {
+    min-width: 350px;
+  }
 `;
 
 const EditArea = styled.textarea`
@@ -109,7 +65,7 @@ const EditConfirmButton = styled.button.attrs(() => ({
 const ButtonContainer = styled.div`
   text-align: right;
   /* background-color: pink; */
-  width: 70%;
+  width: 50%;
   margin: 0 auto;
 
   > button {
@@ -140,7 +96,7 @@ export default function Answers({ answersList = [], userId = "", handleRefresh, 
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
   const [editContent, setEditContent] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleting, setDeleting] = useState(null);
 
   const handleEdit = (answerId, answerContent) => {
     setEditing(answerId);
@@ -165,61 +121,71 @@ export default function Answers({ answersList = [], userId = "", handleRefresh, 
   }
 
   return (
-    answersList !== [] &&
-    answersList.map((answer) => {
-      return (
-        <React.Fragment key={answer._id}>
-          <AlertDialog
-            isVisible={isDeleting}
-            onConfirm={() => {
-              setIsDeleting(false);
-              removeAnswer(answer._id);
-              handleRefresh();
-            }}
-            onCancel={() => setIsDeleting(false)}
-            onClick={() => setIsDeleting(false)}
-          />
-          {editing === answer._id ? (
-            <EditContainer>
-              <EditArea
-                value={editContent}
-                onChange={(e) => handleEditContent(e)}
-              />
-              <EditConfirmButton
-                onClick={() => {
-                  postContent(answer._id, editContent);
-                }}
-              >
-                확인
-              </EditConfirmButton>
-              <EditConfirmButton onClick={() => setEditing(null)}>
-                취소
-              </EditConfirmButton>
-            </EditContainer>
-          ) : (
-            <QnAContent answer={answer} isEllipsis={false} />
-          )}
-          {answer.postedby && answer.postedby._id === userId ? (
-            <>
-            {!editing ? (
-              <ButtonContainer>
-                <EditorOnlyButton
-                  onClick={() => handleEdit(answer._id, answer.content)}
+    <>
+      <AlertDialog
+        isVisible={!!deleting}
+        onConfirm={() => {
+          setDeleting(null);
+          removeAnswer(deleting);
+          handleRefresh();
+        }}
+        onCancel={() => setDeleting(null)}
+        onClick={() => setDeleting(null)}
+      />
+      {answersList !== [] &&
+      answersList.map((answer) => {
+        return (
+          <React.Fragment key={answer._id}>
+            {editing === answer._id ? (
+              <EditContainer>
+                <EditArea
+                  value={editContent}
+                  onChange={(e) => handleEditContent(e)}
+                />
+                <EditConfirmButton
+                  onClick={() => {
+                    postContent(answer._id, editContent);
+                  }}
                 >
-                  수정
-                </EditorOnlyButton>
-                <EditorOnlyButton
-                  onClick={() => setIsDeleting(true)}
-                >
-                  삭제
-                </EditorOnlyButton>
-              </ButtonContainer>
+                  확인
+                </EditConfirmButton>
+                <EditConfirmButton onClick={() => setEditing(null)}>
+                  취소
+                </EditConfirmButton>
+              </EditContainer>
+            ) : (
+              <QnAContent answer={answer} isEllipsis={false} />
+            )}
+            {answer.postedby && answer.postedby._id === userId ? (
+              <>
+              {!editing ? (
+                <ButtonContainer>
+                  <EditorOnlyButton
+                    onClick={() => handleEdit(answer._id, answer.content)}
+                  >
+                    수정
+                  </EditorOnlyButton>
+                  <EditorOnlyButton
+                    onClick={() => setDeleting(answer._id)}
+                  >
+                    삭제
+                  </EditorOnlyButton>
+                </ButtonContainer>
+              ) : null}
+              </>
             ) : null}
-            </>
-          ) : null}
-          <Divider primary={false} $color="gray" $height="1px" $width="70%" />
-        </React.Fragment>
-      );
-    })
+            <DividerContainer>
+              <Divider
+                primary={false}
+                color="gray"
+                height="2px"
+                width="56%"
+                minWidth="320px"
+              />
+            </DividerContainer>
+          </React.Fragment>
+        );
+      })}
+    </>
   );
 };

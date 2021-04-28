@@ -323,7 +323,7 @@ const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
               ) : null}
             </>
           ) : null}
-          <Divider primary={false} $color="gray" $height="1px" $width="70%" />
+          <Divider primary={false} color="gray" height="1px" width="70%" />
         </React.Fragment>
       );
     })

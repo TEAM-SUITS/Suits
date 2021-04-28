@@ -7,6 +7,7 @@ const HorizontalLine = styled.div`
   width: ${({ $width }) => ($width ? $width : '100%')};
   background-color: ${({ $color }) => ($color ? $color : 'var(--color-gray4)')};
   margin: ${({ margin }) => (margin ? margin : '1em auto')};
+  min-width: ${({ minWidth }) => minWidth};
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -17,13 +18,15 @@ export default function Divider({
   width,
   color,
   margin,
+  minWidth,
   ...restProps
 }) {
   return (
     <HorizontalLine
-      height={height}
-      width={width}
-      color={primary ? '#EB5022' : color}
+      $height={height}
+      $width={width}
+      $color={primary ? '#EB5022' : color}
+      minWidth={minWidth}
       margin={margin}
       {...restProps}
     />
