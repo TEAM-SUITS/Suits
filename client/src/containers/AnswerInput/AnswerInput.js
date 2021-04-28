@@ -32,7 +32,7 @@ const StyledTextarea = styled.textarea`
   border: solid 1px var(--color-gray3);
   border-radius: 5px;
   width: 50vw;
-  max-width: 688px;
+  max-width: 500px;
   margin: 0 auto;
   height: 10em;
   resize: none;
@@ -60,7 +60,7 @@ const StyledButton = styled.button.attrs((props) => ({
   padding: 0 3px;
   cursor: ${({ disabled }) => (disabled ? "wait" : "pointer")};
   color: var(--color-gray1);
-  font-weight: 700;
+  font-size: 1.6rem;
 `;
 
 /* ------------------------------- input area ------------------------------- */

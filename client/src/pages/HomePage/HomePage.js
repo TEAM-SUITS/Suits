@@ -27,10 +27,12 @@ const StyledButtonGroup = styled(ToggleButtonGroup)`
 
   button {
     color: var(--color-text);
+    border: 1px solid var(--color-gray2);
   }
   button:disabled {
     font-weight: 700;
-    color: var(--color-orange);
+    color: var(--color-gray5);
+    background-color: var(--color-gray1);
   }
 `;
 

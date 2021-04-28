@@ -26,7 +26,7 @@ const RefreshButton = styled(Button)`
   border: 2px solid var(--color-gray2);
   ${boxShadow};
   svg path {
-    fill: var(--color-orange);
+    fill: var(--color-text);
   }
   @media screen and (max-width: 480px) {
     top: 0;

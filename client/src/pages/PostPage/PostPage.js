@@ -27,11 +27,13 @@ const StyledHeader = styled.h2`
 `;
 
 const HashtagContainer = styled.div`
-  width: 100%;
-  max-width: 400px;
+  width: 244px;
   display: flex;
-  justify-content: space-around;
   margin: 2em auto;
+  justify-content: space-evenly;
+
+  > div {
+  }
 `;
 
 // 💀 skeleton ui
@@ -148,7 +150,12 @@ export default function PostPage({ history, location, match }) {
                 })}
               </HashtagContainer>
               <StyledHeader>{data.content}</StyledHeader>
-              <Divider width="60%" height="3px" color="var(--color-text)" />
+              <Divider
+                width="60%"
+                height="3px"
+                color="var(--color-text)"
+                minWidth="340px"
+              />
               <Answers
                 answersList={data.answers}
                 userId={userData[0]._id}

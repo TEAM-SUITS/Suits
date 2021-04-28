@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 import { boxShadow, resetList, textShadow } from "styles/common/common.styled";
 import Icon from "components/Icon/Icon";
 import Divider from "components/Divider/Divider";
+import { DividerContainer } from "containers/DividerContainer/DividerContainer.styled";
 import Hashtag from "components/Hashtag/Hashtag";
 import { Link } from "react-router-dom";
 
@@ -115,7 +116,9 @@ export default function Card({
               )}
             </h2>
           </CardBox.Header>
-          <Divider primary $width="80%" />
+          <DividerContainer>
+            <Divider primary width="80%" height="2px" />
+          </DividerContainer>
         </>
       )}
       <CardBox.Content>{children}</CardBox.Content>

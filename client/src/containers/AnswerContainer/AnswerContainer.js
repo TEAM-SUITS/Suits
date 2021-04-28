@@ -3,7 +3,8 @@ import React, { useState } from "react";
 // components
 import QnAContent from "components/Content/QnAContent";
 import Divider from "components/Divider/Divider";
-
+import { DividerContainer } from "containers/DividerContainer/DividerContainer.styled"
+;
 // styles
 import styled, { css } from "styled-components";
 import { boxShadow, spoqaMedium } from "styles/common/common.styled";
@@ -19,7 +20,7 @@ const EditContainer = styled.div`
   position: relative;
   height: 10rem;
   width: 70vw;
-  max-width: 688px;
+  max-width: 500px;
 
   // 모바일
   @media screen and (max-width: 480px) {
@@ -64,7 +65,7 @@ const EditConfirmButton = styled.button.attrs(() => ({
 const ButtonContainer = styled.div`
   text-align: right;
   /* background-color: pink; */
-  width: 70%;
+  width: 50%;
   margin: 0 auto;
 
   > button {
@@ -173,7 +174,15 @@ export default function Answers({ answersList = [], userId = "", handleRefresh, 
               ) : null}
               </>
             ) : null}
-            <Divider primary={false} color="gray" height="1px" width="50%" />
+            <DividerContainer>
+              <Divider
+                primary={false}
+                color="gray"
+                height="2px"
+                width="56%"
+                minWidth="320px"
+              />
+            </DividerContainer>
           </React.Fragment>
         );
       })}
