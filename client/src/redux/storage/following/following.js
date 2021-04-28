@@ -80,7 +80,7 @@ export const loadMoreFollowingData = (hashtags = [], currentTag = "") => async (
     } catch (error) {
       dispatch({
         type: GET_MORE_FOLLOWING_DATA_FAILURE,
-        error,
+        error: error.message,
       });
     }
   }
@@ -141,6 +141,13 @@ export const followingReducer = (
       return {
         ...state,
         isLoading: false,
+        error,
+      };
+
+    case GET_MORE_FOLLOWING_DATA_FAILURE:
+      return {
+        ...state,
+        isLoadingMore: false,
         error,
       };
 
