@@ -22,7 +22,7 @@ export const fetchCurrentUserData = () => async (dispatch) => {
         type: GET_CURRENT_USER_FAILURE,
         error:
           res.data.message ||
-          "현재 유저 정보를 가져오는데 오류가 발생하였습니다",
+          "현재 유저 정보를 가져오는 데 오류가 발생하였습니다.",
       });
     }
   } catch (error) {
