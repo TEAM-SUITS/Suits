@@ -1,18 +1,28 @@
-import { useEffect, useState, useRef } from 'react';
-import styled, { css } from 'styled-components';
-import { resetList, spoqaMedium, spoqaLarge } from 'styles/common/common.styled';
-import { Link } from 'react-router-dom';
-import PageContainer from 'containers/PageContainer/PageContainer.styled';
-import { pageEffect } from 'styles/motions/variants';
-import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
-import Hashtag from 'components/Hashtag/Hashtag';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchFollowingData } from 'redux/storage/following/following';
-import Card from 'components/Card/Card';
-import QnAContent from 'components/Content/QnAContent';
-import QnADialog from 'containers/QnADialog/QnADialog';
-import API from 'api/api';
-import { Skeleton } from '@material-ui/lab';
+import { useEffect, useState, useRef } from "react";
+import styled, { css } from "styled-components";
+import {
+  resetList,
+  spoqaMedium,
+  spoqaLarge,
+} from "styles/common/common.styled";
+import { Link } from "react-router-dom";
+import PageContainer from "containers/PageContainer/PageContainer.styled";
+import { pageEffect } from "styles/motions/variants";
+import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
+import Hashtag from "components/Hashtag/Hashtag";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchFollowingData,
+  loadMoreFollowingData,
+} from "redux/storage/following/following";
+import Card from "components/Card/Card";
+import QnAContent from "components/Content/QnAContent";
+import QnADialog from "containers/QnADialog/QnADialog";
+import API from "api/api";
+import { Skeleton } from "@material-ui/lab";
+import { useCallback } from "react";
+import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
+import _ from "lodash";
 
 /* ---------------------------- styled components --------------------------- */
 const HashtagList = styled.ul`
@@ -114,6 +124,13 @@ const SkeletonTitle = styled(Skeleton)`
   @media screen and (max-width: 480px) {
     width: 350px;
   }
+`;
+
+const SpinnerContainer = styled.div`
+  // Loading Spinner가 들어갈 공간을 확보해주지 않으면 scroll event로 인해 요청이 연달아 일어남
+  height: 5em;
+  display: flex;
+  align-items: center;
 `;
 
 /* ------------------------------ card section ------------------------------ */
@@ -222,28 +239,63 @@ export default function FollowingPage() {
   useEffect(() => {
     // App이 userState를 받아오기 전 바로 팔로잉페이지로 접근할 경우의
     // 에러를 방지하기 위해 분기 처리
-    if (userState.currentUserData) setKeywords(userState.currentUserData[0].hashTag);
+    if (userState.currentUserData)
+      setKeywords(userState.currentUserData[0].hashTag);
     setPrevTag(currentTag);
     dispatch(fetchFollowingData(keywords, currentTag, prevTag, followingState.isInitial));
   }, [dispatch, keywords, currentTag, userState.currentUserData]);
 
+  // 무한스크롤 로직
+  const onInfiniteScroll = useCallback(() => {
+    let scrollHeight = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight
+    );
+    let scrollTop = Math.max(
+      document.documentElement.scrollTop,
+      document.body.scrollTop
+    );
+    let clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight === scrollHeight) {
+      dispatch(loadMoreFollowingData(keywords, currentTag));
+    }
+  }, [dispatch, keywords, currentTag]);
+
+  // 스크롤 이벤트가 너무 발생하지 않도록 throttle 처리
+  const throttledDetection = _.throttle(onInfiniteScroll, 500);
+
+  useEffect(() => {
+    window.addEventListener("scroll", throttledDetection, true);
+    return () => window.removeEventListener("scroll", throttledDetection, true);
+  }, [onInfiniteScroll]);
+
   const onClick = (e) => {
     setCurrentTag(e.target.title);
   };
-
   return (
     <>
       <TextHeaderBar page="follow" />
       <PageContainer page="follow" variants={pageEffect} initial="hidden" animate="visible">
         {userState.currentUserData ? (
-          <CardSection
-            isLoading={followingState.isLoading}
-            cardData={followingState.followingData}
-            currentTag={currentTag}
-            onClick={onClick}
-            keywords={keywords}
-            // refreshFollowingData={refreshFollowingData}
-          />
+          <>
+            <CardSection
+              isLoading={followingState.isLoading}
+              cardData={followingState.followingData}
+              currentTag={currentTag}
+              onClick={onClick}
+              keywords={keywords}
+              // refreshFollowingData={refreshFollowingData}
+            />
+            <SpinnerContainer>
+              {followingState.isLoadingMore && <Spinner />}
+
+              {followingState &&
+                followingState.followingData &&
+                !followingState.followingData.hasNextPage && (
+                  <p>더 이상 불러올 정보가 없어요</p>
+                )}
+            </SpinnerContainer>
+          </>
         ) : (
           <>
             <SkeletonTitle variant="rect" height="2.8em" />

@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { rest } from 'lodash';
+import axios from "axios";
 
 /* -------------------------------------------------------------------------- */
 export default function API(api, method = 'get', payload) {

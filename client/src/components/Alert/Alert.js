@@ -57,7 +57,7 @@ const AlertContainer = styled(motion.div).attrs({ role: 'alert' })`
 
 /* -------------------------------------------------------------------------- */
 
-export default function Alert({ status, message, onClick }) {
+export default function Alert({ status, fixed, message, onClick }) {
   return (
     <AlertContainer
       status={status}
