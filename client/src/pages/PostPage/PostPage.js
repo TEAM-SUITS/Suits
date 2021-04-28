@@ -135,6 +135,11 @@ export default function PostPage({ history, location, match }) {
     if (data._id) {
       getIsAnswered(data._id);
     }
+
+    return () => {
+      setIsAnswered(false);
+      setIsInputLoading(false);
+    }
   }, [qid, data._id]);
   // handlers
   const handleIsAnswered = () => {
@@ -183,10 +188,7 @@ export default function PostPage({ history, location, match }) {
             </>
           ) : (
             <>
-              <SkeletonCard variant="rect" height="3em" width="30%" />
-              <SkeletonCard variant="rect" height="3em" width="50%" />
-              <SkeletonDivider variant="rect" height="1px" width="50%" />
-              <SkeletonCard variant="rect" height="5em" width="50%" />
+              <SkeletonCard variant="rect" height="13em" width="90%" />
               <SkeletonCard variant="rect" height="20em" width="60%" />
               <SkeletonCard variant="rect" height="20em" width="60%" />
               <SkeletonCard variant="rect" height="20em" width="60%" />

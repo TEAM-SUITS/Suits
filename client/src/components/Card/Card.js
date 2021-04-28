@@ -67,6 +67,7 @@ export default function Card({
   children,
   hasButton,
   centerAlign,
+  noDivider,
   ...restProps
 }) {
   const handleKeyDown = (e) => {
@@ -107,11 +108,13 @@ export default function Card({
                 <Icon type="quote-right" />
               </>
             )}
-            <h2>{isQuestion && isPreview ? <Link to={`/post/${qId}`}>{title}</Link> : <>{title}</>}</h2>
+            <h2>{isPreview ? <Link to={`/post/${qId}`}>{title}</Link> : <>{title}</>}</h2>
           </CardBox.Header>
-          <DividerContainer>
-            <Divider primary width="80%" height="2px" />
-          </DividerContainer>
+          {noDivider ? null : (
+            <DividerContainer>
+              <Divider primary width="80%" height="2px" />
+            </DividerContainer>
+          )}
         </>
       )}
       <CardBox.Content>{children}</CardBox.Content>
