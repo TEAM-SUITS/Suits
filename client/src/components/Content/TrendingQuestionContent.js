@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { fetchTrendingData } from 'redux/storage/trendingQ/trendingQ';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { setError } from 'redux/storage/error/error';
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -48,7 +49,7 @@ export default function TrendingQuestionContent({
       const res = await axios(`/api/questions/${id}`);
       setQuestion(res.data);
     } catch (err) {
-      console.error(err);
+      dispatch(setError('질문을 불러들이는 중 문제가 발생했습니다.'));
     } finally {
       setLoading(false);
     }

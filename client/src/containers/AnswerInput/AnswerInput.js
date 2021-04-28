@@ -14,6 +14,8 @@ import {
 // etc.
 import badwordFilter from 'utils/badwordFilter/badwordFilter';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 /* ---------------------------- styled components --------------------------- */
 const AnswerContainer = styled.div`
@@ -78,6 +80,8 @@ export default function InputArea({
   const [content, setContent] = useState('');
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
 
+  const dispatch = useDispatch();
+
   const handleContent = (e) => {
     setContent(e.target.value);
   };
@@ -89,7 +93,7 @@ export default function InputArea({
         questionId,
       });
     } catch (err) {
-      console.error(err);
+      dispatch(setError('답변 등록 중 문제가 발생했습니다.'));
     } finally {
       handleIsAnswered();
       handleRefresh();

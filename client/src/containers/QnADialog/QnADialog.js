@@ -14,6 +14,8 @@ import { useSelector } from 'react-redux';
 import badwordFliter from 'utils/badwordFilter/badwordFilter';
 import { confirmAlert } from 'react-confirm-alert';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -225,6 +227,8 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
   const [editing, setEditing] = useState(null);
   const [editContent, setEditContent] = useState('');
 
+  const dispatch = useDispatch();
+
   const handleEdit = (answerId, answerContent) => {
     setEditing(answerId);
     setEditContent(answerContent);
@@ -240,7 +244,7 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
         content: badwordFliter.filter(newContent, '**'),
       });
     } catch (err) {
-      console.error(err);
+      dispatch(setError('답변 등록 중 문제가 발생했습니다.'));
     } finally {
       setEditing(null);
       handleRefresh();
@@ -252,7 +256,7 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
       try {
         await axios.delete(`/api/answers/${answerId}`);
       } catch (err) {
-        console.error(err);
+        dispatch(setError('답변 삭제 중 문제가 발생했습니다.'));
       }
     };
 
@@ -343,6 +347,8 @@ const InputArea = ({
   const [content, setContent] = useState('');
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
 
+  const dispatch = useDispatch();
+
   const handleContent = (e) => {
     setContent(e.target.value);
   };
@@ -354,7 +360,7 @@ const InputArea = ({
         questionId,
       });
     } catch (err) {
-      console.error(err);
+      dispatch(setError('답변 등록 중 문제가 발생했습니다.'));
     } finally {
       handleIsAnswered();
       handleRefresh();
@@ -401,6 +407,8 @@ export default function QnADialog({
   const [isInputLoading, setIsInputLoading] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState({});
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setCurrentQuestion(question);
     setIsAnswered(true);
@@ -418,7 +426,9 @@ export default function QnADialog({
         //     userData &&
         //     userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
       } catch (err) {
-        console.error(err);
+        dispatch(
+          setError('질문에 대한 답변 기록을 불러오는 데 문제가 발생했습니다.')
+        );
       } finally {
         setIsInputLoading(false);
       }

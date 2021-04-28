@@ -6,6 +6,8 @@ import QnAContent from 'components/Content/QnAContent';
 import TrendingQuestionContent from 'components/Content/TrendingQuestionContent';
 import QnADialog from 'containers/QnADialog/QnADialog';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 import styled from 'styled-components';
 import { boxShadow, resetList } from 'styles/common/common.styled';
 
@@ -68,12 +70,14 @@ export default function QNACardSection({
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [question, setQuestion] = useState({});
 
+  const dispatch = useDispatch();
+
   const handleDialog = async (id) => {
     try {
       const res = await axios(`/api/questions/${id}`);
       setQuestion(res.data);
     } catch (err) {
-      console.error(err);
+      dispatch(setError('질문을 불러들이는 중 문제가 발생했습니다.'));
     }
   };
 
@@ -83,7 +87,7 @@ export default function QNACardSection({
       setQuestion(res.data);
       refreshData();
     } catch (err) {
-      console.error(err);
+      dispatch(setError('질문을 새고고침하는 중 문제가 발생했습니다.'));
     }
   };
 

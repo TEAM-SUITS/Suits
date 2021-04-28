@@ -13,6 +13,8 @@ import badwordFilter from 'utils/badwordFilter/badwordFilter';
 // import { confirmAlert } from 'react-confirm-alert';
 import AlertDialog from 'containers/AlertDialog/AlertDialog';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 /* ---------------------------- styled components --------------------------- */
 const EditContainer = styled.div`
@@ -102,6 +104,8 @@ export default function Answers({
   const [editContent, setEditContent] = useState('');
   const [deleting, setDeleting] = useState(null);
 
+  const dispatch = useDispatch();
+
   const handleEdit = (answerId, answerContent) => {
     setEditing(answerId);
     setEditContent(answerContent);
@@ -117,7 +121,7 @@ export default function Answers({
         content: badwordFilter.filter(newContent, '**'),
       });
     } catch (err) {
-      console.error(err);
+      dispatch(setError('답변 등록 중에 문제가 발생했습니다.'));
     } finally {
       setEditing(null);
       handleRefresh();

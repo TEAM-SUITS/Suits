@@ -14,6 +14,8 @@ import styled, { css } from 'styled-components';
 import { Skeleton } from '@material-ui/lab';
 import Divider from 'components/Divider/Divider';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 /* ---------------------------- styled components --------------------------- */
 const StyledHeader = styled.h2`
@@ -83,13 +85,14 @@ export default function PostPage({ history, location, match }) {
   const [isAnswered, setIsAnswered] = useState(null);
   const [isInputLoading, setIsInputLoading] = useState(null);
 
+  const dispatch = useDispatch();
   // post page를 위한 question 정보 받아오기
   const getData = async (id) => {
     try {
       const res = await axios(`/api/questions/${id}`);
       setData(res.data);
     } catch (err) {
-      console.error(err);
+      dispatch(setError('질문을 불러들이는 중 문제가 발생했습니다.'));
     }
   };
 
@@ -98,7 +101,7 @@ export default function PostPage({ history, location, match }) {
       const updatedQuestion = await axios.delete(`/api/answers/${answerId}`);
       setData(updatedQuestion);
     } catch (err) {
-      console.error(err);
+      dispatch(setError('답변 삭제 중 문제가 발생했습니다.'));
     }
   };
 
@@ -119,7 +122,9 @@ export default function PostPage({ history, location, match }) {
 
         check ? setIsAnswered(true) : setIsAnswered(false);
       } catch (err) {
-        console.error(err);
+        dispatch(
+          setError('질문에 대한 답변 기록을 불러오는 데 문제가 발생했습니다.')
+        );
       } finally {
         setIsInputLoading(false);
       }

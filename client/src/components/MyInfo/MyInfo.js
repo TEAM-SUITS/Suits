@@ -19,6 +19,7 @@ import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 import { ReactComponent as Spinner } from '../Spinner/Spinner.svg';
 import AlertDialog from 'containers/AlertDialog/AlertDialog';
 import axios from 'axios';
+import { setError } from 'redux/storage/error/error';
 
 /* -------------------------------------------------------------------------- */
 
@@ -271,7 +272,8 @@ export default function MyInfo() {
         dispatch(fetchCurrentUserData());
       }
     } catch (err) {
-      console.error(err);
+      dispatch(setError('자기소개를 수정하는 중 문제가 발생했습니다.'));
+      setEnteredBio(user.bio);
     } finally {
       setIsBioActive(!isBioActive);
     }
@@ -285,7 +287,7 @@ export default function MyInfo() {
     try {
       await axios.delete('/api/user');
     } catch (err) {
-      console.error(err);
+      dispatch(setError('회원 탈퇴 과정에 문제가 발생했습니다.'));
     } finally {
       dispatch(signOutAction());
     }

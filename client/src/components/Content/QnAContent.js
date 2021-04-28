@@ -7,6 +7,8 @@ import { object, bool, oneOfType } from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -64,6 +66,8 @@ export default function QnAContent({ answer, isEllipsis = true }) {
   const [$answer, setAnswer] = useState(answer);
   const [isLikeLoading, setLikeLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   const toggleLike = async (e) => {
     e.stopPropagation();
     try {
@@ -79,7 +83,7 @@ export default function QnAContent({ answer, isEllipsis = true }) {
         setAnswer(answerData);
       }
     } catch (err) {
-      console.error(err);
+      dispatch(setError('좋아요 기능에 문제가 발생했습니다.'));
     } finally {
       setLikeLoading(false);
     }

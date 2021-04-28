@@ -7,6 +7,7 @@ import Portal from 'components/Portal/Portal';
 import { useDispatch } from 'react-redux';
 import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 import axios from 'axios';
+import { setError } from 'redux/storage/error/error';
 
 const Container = styled.div`
   button {
@@ -171,7 +172,8 @@ export default function KeywordSelect({ userKeywords, onClose }) {
         dispatch(fetchCurrentUserData());
       }
     } catch (err) {
-      console.error(err);
+      dispatch(setError('관심 키워드를 수정하는 중 문제가 발생했습니다.'));
+      setSelectedKeywords(userKeywords.length ? userKeywords : []);
     } finally {
       onClose();
     }

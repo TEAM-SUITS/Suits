@@ -6,7 +6,7 @@ const themeToggler = async (theme, setTheme) => {
     await axios.patch('/api/user-profile/theme', { theme: newTheme });
     setTheme(newTheme);
   } catch (err) {
-    console.error(err);
+    // dispatch(setError('테마를 변경하는 중 문제가 발생했습니다.'));
   }
 };
 

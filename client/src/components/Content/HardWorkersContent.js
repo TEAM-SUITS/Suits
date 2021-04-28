@@ -7,6 +7,8 @@ import { Skeleton } from '@material-ui/lab';
 import ProfileDialog from 'containers/ProfileDialog/ProfileDialog';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 const HardWorkers = styled.ul`
   ${resetList}
@@ -92,6 +94,8 @@ export default function HardWorkersContent({ users, $isLoading }) {
   const [profile, setProfile] = useState({});
   const [isLoading, setLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   const handleClick = (e) => {
     if (e.target.classList.contains('overlay')) setDialogVisiblity(false);
   };
@@ -131,7 +135,7 @@ export default function HardWorkersContent({ users, $isLoading }) {
         like: likeCount,
       });
     } catch (err) {
-      console.error(err);
+      dispatch(setError('프로필을 불러들이는 중 문제가 발생했습니다.'));
     } finally {
       setLoading(false);
     }
