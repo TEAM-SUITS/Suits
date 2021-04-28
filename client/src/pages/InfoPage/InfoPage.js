@@ -14,7 +14,7 @@ export default function InfoPage({ match }) {
   return (
     <>
       <TextHeaderBar />
-      <PageContainer variants={pageEffect} initial="hidden" animate="visible" margin="0">
+      <PageContainer variants={pageEffect} initial="hidden" animate="visible">
         <InfoNav />
         <Route path={match.path} exact component={Suits} />
         <Route path={match.path + '/suits'} component={Suits} />

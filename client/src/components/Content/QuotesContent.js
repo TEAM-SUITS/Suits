@@ -20,7 +20,7 @@ const Quote = styled.q`
 
 const QuoteBy = styled.footer`
   ${museoSmall}
-  color: var(--color-gray3);
+  color: var(--color-gray5);
   position: absolute;
   right: 1em;
   bottom: 1em;
