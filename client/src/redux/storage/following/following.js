@@ -5,7 +5,12 @@ import axios from "axios";
 const READ_FOLLOWING_DATA = "현재 사용자의 관심키워드에 해당하는 질문 조회";
 const GET_FOLLOWING_DATA = "현재 사용자의 관심키워드에 해당하는 질문 요청";
 const GET_MORE_FOLLOWING_DATA =
-  "현재 사용자의 관심키워드에 해당하는 질문 더보기";
+  "현재 사용자의 관심키워드에 해당하는 질문 더보기 요청";
+const GET_MORE_FOLLOWING_DATA_SUCCESS =
+  "현재 사용자의 관심키워드에 해당하는 질문 더보기 성공";
+const GET_MORE_FOLLOWING_DATA_FAILURE =
+  "현재 사용자의 관심키워드에 해당하는 질문 더보기 실패";
+
 const GET_FOLLOWING_DATA_SUCCESS = "관심키워드에 해당하는 질문 요청 성공";
 const GET_FOLLOWING_DATA_FAILURE = "관심키워드에 해당하는 질문 요청 실패";
 
@@ -44,33 +49,51 @@ export const fetchFollowingData = (
   }
 };
 
+// 정보를 더 요청할시 사용할 액셕함수
 export const loadMoreFollowingData = (hashtags = [], currentTag = "") => async (
   dispatch,
   prevState
 ) => {
+  // 리덕스 상태의 팔로잉 데이터 추출
   const { following } = prevState();
+  // 다음페이지가 없다면 요청을 보내지않음.
   if (following.followingData && !following.followingData.hasNextPage) {
     console.log("데이터가 없어용");
     return;
   }
+
   const interests = currentTag === "All" ? hashtags.join("+") : currentTag;
 
-  const res = await axios(
-    `/api/questions/following/${interests}?page=${
-      following.followingData.page + 1
-    }`
-  );
-  dispatch({ type: GET_MORE_FOLLOWING_DATA, followingData: res.data });
+  // 전 상태의 페이지에 1을 추가해서 새로운 데이터 요청후 기존 followingData docs 배열에 append 하도록 액션타입 전달
+  if (following.followingData && following.followingData.page) {
+    try {
+      dispatch({ type: GET_MORE_FOLLOWING_DATA });
+      const res = await axios(
+        `/api/questions/following/${interests}?page=${
+          following.followingData.page + 1
+        }`
+      );
+      dispatch({
+        type: GET_MORE_FOLLOWING_DATA_SUCCESS,
+        followingData: res.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_MORE_FOLLOWING_DATA_FAILURE,
+        error,
+      });
+    }
+  }
 };
 
 /* ------------------------- initial state + reducer ------------------------ */
 const initialState = {
   isLoading: false,
+  isLoadingMore: false, // 데이터를 더 불러올때 로딩 상태
   isInitial: true,
   currentTag: "All",
   followingData: null,
   error: null,
-  hasNextPage: false,
   // page
   // nextPage
 };
@@ -101,6 +124,13 @@ export const followingReducer = (
     case GET_MORE_FOLLOWING_DATA:
       return {
         ...state,
+        isLoadingMore: true,
+      };
+
+    case GET_MORE_FOLLOWING_DATA_SUCCESS:
+      return {
+        ...state,
+        isLoadingMore: false,
         followingData: {
           ...followingData,
           docs: [...state.followingData.docs, ...followingData.docs],

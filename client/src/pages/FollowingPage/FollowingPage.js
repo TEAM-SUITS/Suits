@@ -21,6 +21,7 @@ import QnADialog from "containers/QnADialog/QnADialog";
 import API from "api/api";
 import { Skeleton } from "@material-ui/lab";
 import { useCallback } from "react";
+import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
 
 /* ---------------------------- styled components --------------------------- */
 const HashtagList = styled.ul`
@@ -122,6 +123,13 @@ const SkeletonTitle = styled(Skeleton)`
   @media screen and (max-width: 480px) {
     width: 350px;
   }
+`;
+
+const SpinnerContainer = styled.div`
+  // Loading Spinner가 들어갈 공간을 확보해주지 않으면 scroll event로 인해 요청이 연달아 일어남
+  height: 5em;
+  display: flex;
+  align-items: center;
 `;
 
 /* ------------------------------ card section ------------------------------ */
@@ -288,14 +296,25 @@ export default function FollowingPage() {
         animate="visible"
       >
         {userState.currentUserData ? (
-          <CardSection
-            isLoading={followingState.isLoading}
-            cardData={followingState.followingData}
-            currentTag={currentTag}
-            onClick={onClick}
-            keywords={keywords}
-            // refreshFollowingData={refreshFollowingData}
-          />
+          <>
+            <CardSection
+              isLoading={followingState.isLoading}
+              cardData={followingState.followingData}
+              currentTag={currentTag}
+              onClick={onClick}
+              keywords={keywords}
+              // refreshFollowingData={refreshFollowingData}
+            />
+            <SpinnerContainer>
+              {followingState.isLoadingMore && <Spinner />}
+
+              {followingState &&
+                followingState.followingData &&
+                !followingState.followingData.hasNextPage && (
+                  <p>더 이상 불러올 정보가 없어요</p>
+                )}
+            </SpinnerContainer>
+          </>
         ) : (
           <>
             <SkeletonTitle variant="rect" height="2.8em" />
