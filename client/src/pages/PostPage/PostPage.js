@@ -65,18 +65,26 @@ const SkeletonCard = styled(Skeleton)`
     min-width: 248px;
     width: 248px;
   }
-  &:first-child {
-    margin-top: 45px;
+`;
+
+const SkeletonHashTag = styled(Skeleton)`
+  & {
+    ${SkeletonStyle}
+    padding: 0.3em 1em;
+    border-radius: 10px;
+    width: 7.2em;
   }
 `;
 
-const SkeletonDivider = styled(Skeleton)`
-  ${SkeletonStyle}
-  // 모바일
-  @media screen and (max-width: 480px) {
-    min-width: 200px;
-    width: 200px;
-  }
+const SkeletonAnswer = styled.div`
+  margin: 0 auto;
+  width: 350px;
+`;
+
+const SkeletonProfile = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 `;
 
 /* -------------------------------- post page ------------------------------- */
@@ -177,10 +185,27 @@ export default function PostPage({ history, location, match }) {
           </>
         ) : (
           <>
-            <SkeletonCard variant="rect" height="13em" width="90%" />
-            <SkeletonCard variant="rect" height="20em" width="60%" />
-            <SkeletonCard variant="rect" height="20em" width="60%" />
-            <SkeletonCard variant="rect" height="20em" width="60%" />
+            <HeadingContainer>
+              <HashtagContainer>
+                <SkeletonHashTag variant="text" animation="wave" />
+                <SkeletonHashTag variant="text" animation="wave" />
+              </HashtagContainer>
+
+              <StyledHeader>
+                <SkeletonCard variant="rect" height="2rem" width="100%" animation="wave" />
+                <SkeletonCard variant="rect" height="2rem" width="100%" animation="wave" />
+              </StyledHeader>
+            </HeadingContainer>
+            <SkeletonAnswer>
+              <SkeletonProfile>
+                <Skeleton variant="circle" width="8em" height="8em" animation="wave" />
+                <Skeleton variant="text" width="15em" animation="wave" />
+                <Skeleton variant="text" width="3em" height="5em" animation="wave" />
+              </SkeletonProfile>
+              <SkeletonCard variant="rect" height="20em" animation="wave" width="100%" />
+              <SkeletonCard variant="rect" height="20em" animation="wave" width="100%" />
+              <SkeletonCard variant="rect" height="20em" animation="wave" width="100%" />
+            </SkeletonAnswer>
           </>
         )}
       </PageContainer>
