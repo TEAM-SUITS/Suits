@@ -13,12 +13,13 @@ import {
   boxShadow,
   resetBoxModel,
 } from 'styles/common/common.styled';
-import API from 'api/api';
 import KeywordSelect from 'components/KeywordSelect/KeywordSelect';
 import { useSelector } from 'react-redux';
 import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 import { ReactComponent as Spinner } from '../Spinner/Spinner.svg';
 import AlertDialog from 'containers/AlertDialog/AlertDialog';
+import axios from 'axios';
+import { setError } from 'redux/storage/error/error';
 
 /* -------------------------------------------------------------------------- */
 
@@ -212,56 +213,6 @@ const StyledProfile = styled.div`
   }
 `;
 
-const StyledConfirmAlert = styled.div`
-  background-color: var(--color-body);
-  border: 2px solid var(--color-gray5);
-  border-radius: 10px;
-  padding: 2em 3em 1.5em;
-  ${boxShadow}
-  h1 {
-    font-size: 1.8rem;
-    text-align: center;
-    margin: 0;
-    color: var(--color-text);
-  }
-  p {
-    font-size: 1.6rem;
-    color: var(--color-text);
-    margin-bottom: 2em;
-  }
-  div {
-    display: flex;
-    justify-content: center;
-    button {
-      font-size: 1.4rem;
-      border: none;
-      border: 1px solid var(--color-gray5);
-      border-radius: 5px;
-      background-color: var(--color-gray2);
-      padding: 0.5em 2em;
-      ${boxShadow}
-      ${spoqaMedium}
-      &:last-child {
-        color: var(--color-red);
-        margin-left: 3em;
-        font-weight: bold;
-      }
-    }
-  }
-  @media screen and (min-width: 480px) {
-    padding: 5em 6em 4em;
-    h1 {
-      font-size: 2.5rem;
-    }
-    p {
-      font-size: 2rem;
-    }
-    button {
-      font-size: 2rem;
-    }
-  }
-`;
-
 const Loading = styled.p`
   ${resetBoxModel};
   display: flex;
@@ -313,11 +264,17 @@ export default function MyInfo() {
   };
 
   const handleClickBioButton = async () => {
-    if (isBioActive && user.bio !== enteredBio) {
-      await API('/api/user-profile/bio', 'patch', { bio: enteredBio });
-      dispatch(fetchCurrentUserData());
+    try {
+      if (isBioActive && user.bio !== enteredBio) {
+        await axios.patch('/api/user-profile/bio', { bio: enteredBio });
+        dispatch(fetchCurrentUserData());
+      }
+    } catch (err) {
+      dispatch(setError('자기소개를 수정하는 중 문제가 발생했습니다.'));
+      setEnteredBio(user.bio);
+    } finally {
+      setIsBioActive(!isBioActive);
     }
-    setIsBioActive(!isBioActive);
   };
 
   const handleSignOut = () => {
@@ -325,8 +282,13 @@ export default function MyInfo() {
   };
 
   const handleDelete = async () => {
-    await API('/api/user', 'delete');
-    dispatch(signOutAction());
+    try {
+      await axios.delete('/api/user');
+    } catch (err) {
+      dispatch(setError('회원 탈퇴 과정에 문제가 발생했습니다.'));
+    } finally {
+      dispatch(signOutAction());
+    }
   };
 
   return (

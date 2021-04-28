@@ -10,9 +10,11 @@ import { boxShadow, spoqaMedium } from 'styles/common/common.styled';
 
 // etc.
 import badwordFilter from 'utils/badwordFilter/badwordFilter';
-import API from 'api/api';
 // import { confirmAlert } from 'react-confirm-alert';
 import AlertDialog from 'containers/AlertDialog/AlertDialog';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 /* ---------------------------- styled components --------------------------- */
 const EditContainer = styled.div`
@@ -91,11 +93,18 @@ const EditorOnlyButton = styled.button.attrs(() => ({
 `;
 
 /* --------------------------------- Answers -------------------------------- */
-export default function Answers({ answersList = [], userId = '', handleRefresh, removeAnswer }) {
+export default function Answers({
+  answersList = [],
+  userId = '',
+  handleRefresh,
+  removeAnswer,
+}) {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
   const [editContent, setEditContent] = useState('');
   const [deleting, setDeleting] = useState(null);
+
+  const dispatch = useDispatch();
 
   const handleEdit = (answerId, answerContent) => {
     setEditing(answerId);
@@ -107,12 +116,16 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
   };
 
   const postContent = async (answerId, newContent) => {
-    await API(`/api/answers/${answerId}`, 'patch', {
-      content: badwordFilter.filter(newContent, '**'),
-    });
-
-    setEditing(null);
-    handleRefresh();
+    try {
+      await axios.patch(`/api/answers/${answerId}`, {
+        content: badwordFilter.filter(newContent, '**'),
+      });
+    } catch (err) {
+      dispatch(setError('답변 등록 중에 문제가 발생했습니다.'));
+    } finally {
+      setEditing(null);
+      handleRefresh();
+    }
   };
 
   if (!answersList.length) {
@@ -137,7 +150,10 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
             <React.Fragment key={answer._id}>
               {editing === answer._id ? (
                 <EditContainer>
-                  <EditArea value={editContent} onChange={(e) => handleEditContent(e)} />
+                  <EditArea
+                    value={editContent}
+                    onChange={(e) => handleEditContent(e)}
+                  />
                   <EditConfirmButton
                     onClick={() => {
                       postContent(answer._id, editContent);
@@ -145,7 +161,9 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
                   >
                     확인
                   </EditConfirmButton>
-                  <EditConfirmButton onClick={() => setEditing(null)}>취소</EditConfirmButton>
+                  <EditConfirmButton onClick={() => setEditing(null)}>
+                    취소
+                  </EditConfirmButton>
                 </EditContainer>
               ) : (
                 <QnAContent answer={answer} isEllipsis={false} />
@@ -154,14 +172,26 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
                 <>
                   {!editing ? (
                     <ButtonContainer>
-                      <EditorOnlyButton onClick={() => handleEdit(answer._id, answer.content)}>수정</EditorOnlyButton>
-                      <EditorOnlyButton onClick={() => setDeleting(answer._id)}>삭제</EditorOnlyButton>
+                      <EditorOnlyButton
+                        onClick={() => handleEdit(answer._id, answer.content)}
+                      >
+                        수정
+                      </EditorOnlyButton>
+                      <EditorOnlyButton onClick={() => setDeleting(answer._id)}>
+                        삭제
+                      </EditorOnlyButton>
                     </ButtonContainer>
                   ) : null}
                 </>
               ) : null}
               <DividerContainer>
-                <Divider primary={false} color="gray" height="2px" width="56%" minWidth="320px" />
+                <Divider
+                  primary={false}
+                  color="gray"
+                  height="2px"
+                  width="56%"
+                  minWidth="320px"
+                />
               </DividerContainer>
             </React.Fragment>
           );

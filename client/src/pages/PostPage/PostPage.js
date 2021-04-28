@@ -7,12 +7,14 @@ import Hashtag from "components/Hashtag/Hashtag";
 import Answers from "containers/AnswerContainer/AnswerContainer";
 import InputArea from "containers/AnswerInput/AnswerInput";
 // etc.
-import { pageEffect } from "styles/motions/variants";
-import styled, { css } from "styled-components";
+import { pageEffect } from 'styles/motions/variants';
+import styled, { css } from 'styled-components';
+import { Skeleton } from '@material-ui/lab';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 import API from "api/api";
 // TODO: API 말고 그냥 axios로 수정
-import { Skeleton } from "@material-ui/lab";
-
 
 /* ---------------------------- styled components --------------------------- */
 const StyledHeader = styled.h2`
@@ -83,16 +85,26 @@ export default function PostPage({ history, location, match }) {
   const { currentUserData: userData } = useSelector(
     (state) => state.currentUser
   );
-  const [isAnswered, setIsAnswered] = useState(null);
-  const [isInputLoading, setIsInputLoading] = useState(null);
+  const [isAnswered, setIsAnswered] = useState(false);
+  const [isInputLoading, setIsInputLoading] = useState(false);
+
+  const dispatch = useDispatch();
   // post page를 위한 question 정보 받아오기
   const getData = async (id) => {
-    const res = await API(`/api/questions/${id}`, 'get');
-    setData(res);
+    try {
+      const res = await axios(`/api/questions/${id}`);
+      setData(res.data);
+    } catch (err) {
+      dispatch(setError('질문을 불러들이는 중 문제가 발생했습니다.'));
+    }
   };
   const removeAnswer = async (answerId) => {
-    const updatedQuestion = await API(`/api/answers/${answerId}`, 'delete');
-    setData(updatedQuestion);
+    try {
+      const updatedQuestion = await axios.delete(`/api/answers/${answerId}`);
+      setData(updatedQuestion);
+    } catch (err) {
+      dispatch(setError('답변 삭제 중 문제가 발생했습니다.'));
+    }
   };
   // effect
   useEffect(() => {
@@ -101,12 +113,21 @@ export default function PostPage({ history, location, match }) {
     setIsAnswered(true);
     setIsInputLoading(true);
     const getIsAnswered = async (questionId) => {
-      const userData = await API("/api/user-profile", "get");
-      const check = userData[0].answeredQuestions.find(
-        ({ _id }) => _id === questionId
-      );
-      check ? setIsAnswered(true) : setIsAnswered(false);
-      setIsInputLoading(false);
+      try {
+        const res = await axios('/api/user-profile');
+        const userData = res.data;
+        const check = userData[0].answeredQuestions.find(
+          ({ _id }) => _id === questionId
+        );
+
+        check ? setIsAnswered(true) : setIsAnswered(false);
+      } catch (err) {
+        dispatch(
+          setError('질문에 대한 답변 기록을 불러오는 데 문제가 발생했습니다.')
+        );
+      } finally {
+        setIsInputLoading(false);
+      }
     };
     if (data._id) {
       getIsAnswered(data._id);

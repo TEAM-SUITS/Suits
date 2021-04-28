@@ -23,7 +23,7 @@ import ThemeToggler from '../components/ThemeToggler/ThemeToggler';
 import { darkTheme, lightTheme } from 'styles/pages/Themes';
 import themeToggler from 'utils/themeToggler/themeToggler';
 import Alert from 'components/Alert/Alert';
-import { hideError } from 'redux/storage/error/error';
+import { hideError, setError } from 'redux/storage/error/error';
 
 /* -------------------------------------------------------------------------- */
 function App() {
@@ -32,8 +32,15 @@ function App() {
   const { currentUserData } = useSelector((state) => state.currentUser);
   // theme state (dark mode)
   const [theme, setTheme] = useState(() => {
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
   });
+
+  const displayError = (message) => {
+    dispatch(setError(message));
+  };
 
   const { error, isOpen } = useSelector((state) => state.error);
   const handleErrorClose = () => {
@@ -58,8 +65,14 @@ function App() {
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <div className="App">
         <GlobalStyle />
-        {location.pathname === '/login' ? null : <ThemeToggler handleClick={() => themeToggler(theme, setTheme)} />}
-        {isOpen && error && <Alert status="error" message={error} onClick={handleErrorClose} />}
+        {location.pathname === '/login' ? null : (
+          <ThemeToggler
+            handleClick={() => themeToggler(theme, setTheme, displayError)}
+          />
+        )}
+        {isOpen && error && (
+          <Alert status="error" message={error} onClick={handleErrorClose} />
+        )}
         <Switch>
           <RouteGuard path="/" exact component={HomePage} />
           <RouteGuard path="/demo" exact component={DemoPage} />

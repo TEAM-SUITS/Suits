@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import { resetList, spoqaLarge } from 'styles/common/common.styled';
 import Portal from 'components/Portal/Portal';
 import { useDispatch } from 'react-redux';
-import API from 'api/api';
 import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
+import axios from 'axios';
+import { setError } from 'redux/storage/error/error';
 
 const Container = styled.div`
   button {
@@ -148,16 +149,22 @@ export default function KeywordSelect({ userKeywords, onClose }) {
   };
 
   const submitSelectedKeywords = async () => {
-    if (userKeywords !== selectedKeywords) {
-      await API('/api/user-profile/hashtag', 'patch', {
-        hashTag: selectedKeywords,
-      });
-      await API('/api/user-profile/first-login', 'patch', {
-        firstLogin: false,
-      });
-      dispatch(fetchCurrentUserData());
+    try {
+      if (userKeywords !== selectedKeywords) {
+        await axios.patch('/api/user-profile/hashtag', {
+          hashTag: selectedKeywords,
+        });
+        await axios.patch('/api/user-profile/first-login', {
+          firstLogin: false,
+        });
+        dispatch(fetchCurrentUserData());
+      }
+    } catch (err) {
+      dispatch(setError('관심 키워드를 수정하는 중 문제가 발생했습니다.'));
+      setSelectedKeywords(userKeywords.length ? userKeywords : []);
+    } finally {
+      onClose();
     }
-    onClose();
   };
 
   const cancelKeywordSelect = () => {

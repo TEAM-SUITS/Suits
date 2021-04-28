@@ -2,12 +2,13 @@ import React from 'react';
 import LikeButton from 'components/LikeButton/LikeButton';
 import MiniProfile from 'components/MiniProfile/MiniProfile';
 import styled from 'styled-components';
-import { ellipsis, spoqaMedium, spoqaSmall } from 'styles/common/common.styled';
+import { ellipsis, spoqaMedium } from 'styles/common/common.styled';
 import { object, bool, oneOfType } from 'prop-types';
-import API from 'api/api';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import { useEffect } from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -65,20 +66,24 @@ export default function QnAContent({ answer, isEllipsis = true }) {
   const [$answer, setAnswer] = useState(answer);
   const [isLikeLoading, setLikeLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   const toggleLike = async (e) => {
     e.stopPropagation();
     try {
       setLikeLoading(true);
       // 만약 답변에 이미 좋아요를 표시한 유저라면 좋아요를 해제 하는 요청
       if ($answer.likes.includes(currentUserData[0]._id)) {
-        const answerData = await API(`/api/unlike/${answer._id}`, 'put');
+        const res = await axios.put(`/api/unlike/${answer._id}`);
+        const answerData = res.data;
         setAnswer(answerData);
       } else {
-        const answerData = await API(`/api/like/${answer._id}`, 'put');
+        const res = await axios.put(`/api/like/${answer._id}`);
+        const answerData = res.data;
         setAnswer(answerData);
       }
     } catch (err) {
-      console.error(err);
+      dispatch(setError('좋아요 기능에 문제가 발생했습니다.'));
     } finally {
       setLikeLoading(false);
     }
