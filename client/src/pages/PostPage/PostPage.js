@@ -13,10 +13,19 @@ import { Skeleton } from '@material-ui/lab';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setError } from 'redux/storage/error/error';
-import API from "api/api";
-// TODO: API 말고 그냥 axios로 수정
 
 /* ---------------------------- styled components --------------------------- */
+const HeadingContainer = styled.span`
+  background-color: var(--color-body);
+  width: 100vw;
+  margin-bottom: 3em;
+
+  // 모바일
+  @media screen and (max-width: 480px) {
+    min-width: 100vw;
+  }
+`;
+
 const StyledHeader = styled.h2`
   font-size: 2rem;
   max-width: 50%;
@@ -70,12 +79,6 @@ const SkeletonDivider = styled(Skeleton)`
   }
 `;
 
-const HeadingContainer = styled.div`
-  background-color: var(--color-body);
-  width: 100%;
-  margin-bottom: 3em;
-`;
-
 /* -------------------------------- post page ------------------------------- */
 export default function PostPage({ history, location, match }) {
   // question 정보
@@ -92,7 +95,7 @@ export default function PostPage({ history, location, match }) {
   // post page를 위한 question 정보 받아오기
   const getData = async (id) => {
     try {
-      const res = await axios(`/api/questions/${id}`);
+      const res = await axios.get(`/api/questions/${id}`);
       setData(res.data);
     } catch (err) {
       dispatch(setError('질문을 불러들이는 중 문제가 발생했습니다.'));
@@ -114,7 +117,7 @@ export default function PostPage({ history, location, match }) {
     setIsInputLoading(true);
     const getIsAnswered = async (questionId) => {
       try {
-        const res = await axios('/api/user-profile');
+        const res = await axios.get('/api/user-profile');
         const userData = res.data;
         const check = userData[0].answeredQuestions.find(
           ({ _id }) => _id === questionId
@@ -131,6 +134,11 @@ export default function PostPage({ history, location, match }) {
     };
     if (data._id) {
       getIsAnswered(data._id);
+    }
+
+    return () => {
+      setIsAnswered(false);
+      setIsInputLoading(false);
     }
   }, [qid, data._id]);
   // handlers
@@ -164,12 +172,6 @@ export default function PostPage({ history, location, match }) {
                 </HashtagContainer>
                 <StyledHeader>{data.content}</StyledHeader>
               </HeadingContainer>
-              {/* <Divider
-                width="60%"
-                height="3px"
-                color="var(--color-text)"
-                minWidth="340px"
-              /> */}
               <Answers
                 answersList={data.answers}
                 userId={userData[0]._id}
@@ -186,10 +188,7 @@ export default function PostPage({ history, location, match }) {
             </>
           ) : (
             <>
-              <SkeletonCard variant="rect" height="3em" width="30%" />
-              <SkeletonCard variant="rect" height="3em" width="50%" />
-              <SkeletonDivider variant="rect" height="1px" width="50%" />
-              <SkeletonCard variant="rect" height="5em" width="50%" />
+              <SkeletonCard variant="rect" height="13em" width="90%" />
               <SkeletonCard variant="rect" height="20em" width="60%" />
               <SkeletonCard variant="rect" height="20em" width="60%" />
               <SkeletonCard variant="rect" height="20em" width="60%" />

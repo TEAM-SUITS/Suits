@@ -55,7 +55,6 @@ const MessageContainer = styled.section`
 export default function ProfilePage() {
   const { currentUserData, isLoading } = useSelector((state) => state.currentUser);
 
-  const dispatch = useDispatch();
   const renderAnsweredQuestions = () => {
     if (isLoading) {
       return (

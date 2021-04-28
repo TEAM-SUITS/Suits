@@ -139,6 +139,7 @@ const PageContainer = styled(motion(Container))`
       @media screen and (max-width: 480px) {
         > div {
           max-width: 350px;
+          min-width: 350px;
         }
       }
     `}

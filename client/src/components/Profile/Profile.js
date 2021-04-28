@@ -181,28 +181,57 @@ export default function Profile({ user, $isLoading, ...restProps }) {
   };
 
   const renderHashTag = () => {
-    if (hashtag && hashtag.length !== 0)
-      return (
+    if (hashtag) {
+      return hashtag.length !== 0 ? (
         <div className="hashtags">
           {hashtag.map((tag) => (
             <Hashtag key={tag} type={tag} />
           ))}
         </div>
-      );
-    else if (hashtag.length === 0 && currentUserData[0]._id === _id) {
-      return (
-        <StyledLink className="no-tag" whileHover={{ scale: 1.1 }} whileTap={{ scale: 1.1 }} to="/info/my-info">
-          <Hashtag isButton type="ETC">
-            관심 태그 등록
-          </Hashtag>
-        </StyledLink>
-      );
-    } else
-      return (
-        <p className="no-tag">
-          <em>관심 태그</em>를 등록하지 않은 유저입니다
-        </p>
-      );
+      ) : (
+        <>
+        {currentUserData && currentUserData[0]._id === _id ? (
+          <StyledLink className="no-tag" whileHover={{ scale: 1.1 }} whileTap={{ scale: 1.1 }} to="/info/my-info">
+            <Hashtag isButton type="ETC">
+              관심 태그 등록
+            </Hashtag>
+          </StyledLink>
+        ) : (
+          <p className="no-tag">
+            <em>관심 태그</em>를 등록하지 않은 유저입니다
+          </p>
+        )}
+        </>
+      )
+    }
+
+    return (
+      <p className="no-tag">
+        <em>관심 태그</em>를 등록하지 않은 유저입니다
+      </p>
+    );
+    // if (hashtag && hashtag.length !== 0)
+    //   return (
+    //     <div className="hashtags">
+    //       {hashtag.map((tag) => (
+    //         <Hashtag key={tag} type={tag} />
+    //       ))}
+    //     </div>
+    //   );
+    // else if (hashtag.length === 0 && currentUserData[0]._id === _id) {
+    //   return (
+    //     <StyledLink className="no-tag" whileHover={{ scale: 1.1 }} whileTap={{ scale: 1.1 }} to="/info/my-info">
+    //       <Hashtag isButton type="ETC">
+    //         관심 태그 등록
+    //       </Hashtag>
+    //     </StyledLink>
+    //   );
+    // } else
+    //   return (
+    //     <p className="no-tag">
+    //       <em>관심 태그</em>를 등록하지 않은 유저입니다
+    //     </p>
+    //   );
   };
 
   return !user || $isLoading ? (

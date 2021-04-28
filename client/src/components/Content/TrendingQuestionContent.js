@@ -24,7 +24,13 @@ const QuestionCard = styled(Card)`
   margin-bottom: 1em;
   text-align: center;
 
-  p {
+  h2 {
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    font-weight: 400;
     margin: 0;
     font-size: 1.4rem;
   }
@@ -61,9 +67,13 @@ export default function TrendingQuestionContent({
         {questions.map(({ _id, content }) => {
           return (
             <li key={_id}>
-              <QuestionCard isQuestion={true} onClick={() => handleDialog(_id)}>
-                <p>{content}</p>
-              </QuestionCard>
+              <QuestionCard
+                qId={_id}
+                isQuestion={false}
+                isPreview={true}
+                title={content}
+                noDivider={true}
+              />
             </li>
           );
         })}

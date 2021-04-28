@@ -178,14 +178,14 @@ function CardSection({
         ))}
       </HashtagList>
       <CardList>
-        {cardData ? (
-          isLoading ? (
+        {cardData ? ( // cardData를 정상적으로 전달받았으면.
+          isLoading ? ( // 아직 로딩 중이라면.
             <>
               <SkeletonCard variant="rect" height="20em" />
               <SkeletonCard variant="rect" height="20em" />
               <SkeletonCard variant="rect" height="20em" />
             </>
-          ) : (
+          ) : ( // 로딩이 끝났다면.
             cardData.docs.map((data) => (
               <li key={data._id}>
                 <Card
@@ -284,7 +284,6 @@ export default function FollowingPage() {
               currentTag={currentTag}
               onClick={onClick}
               keywords={keywords}
-              // refreshFollowingData={refreshFollowingData}
             />
             <SpinnerContainer>
               {followingState.isLoadingMore && <Spinner />}

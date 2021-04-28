@@ -18,7 +18,14 @@ const CardList = styled.ul`
     width: 350px;
     margin: 3em auto;
   }
-}
+`;
+
+const StyledCard = styled(Card)`
+  > div {
+    &:last-child {
+      margin-top: 3rem;
+    }
+  }
 `;
 
 const RefreshButton = styled(Button)`
@@ -96,16 +103,14 @@ export default function QNACardSection({
       case 'randomQ':
         return cardData.map((question) => (
           <li key={question._id}>
-            <Card
+            <StyledCard
+              qId={question._id}
               isQuestion={true}
+              isPreview={true}
               title={question.content}
               tags={question.hashTag}
               hasButton
               centerAlign
-              onClick={() => {
-                setIsDialogVisible(true);
-                handleDialog(question._id);
-              }}
             >
               <QnAContent
                 answer={
@@ -122,7 +127,7 @@ export default function QNACardSection({
                 aria-label="새로고침"
                 isMobile={isMobile}
               />
-            </Card>
+            </StyledCard>
           </li>
         ));
       case 'trendingQ':
@@ -139,13 +144,11 @@ export default function QNACardSection({
           <li key={question._id}>
             <Card
               className="question"
+              qId={question._id}
               isQuestion={true}
+              isPreview={true}
               title={question.content}
               tags={question.hashTag}
-              onClick={() => {
-                setIsDialogVisible(true);
-                handleDialog(question._id);
-              }}
             >
               <QnAContent
                 answer={question.answers.find(
