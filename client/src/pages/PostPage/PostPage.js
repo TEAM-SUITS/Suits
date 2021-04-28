@@ -78,8 +78,8 @@ export default function PostPage({ history, location, match }) {
   const { currentUserData: userData } = useSelector(
     (state) => state.currentUser
   );
-  const [isAnswered, setIsAnswered] = useState(null);
-  const [isInputLoading, setIsInputLoading] = useState(null);
+  const [isAnswered, setIsAnswered] = useState(false);
+  const [isInputLoading, setIsInputLoading] = useState(false);
 
   // post page를 위한 question 정보 받아오기
   const getData = async (id) => {
@@ -112,6 +112,8 @@ export default function PostPage({ history, location, match }) {
     if (data._id) {
       getIsAnswered(data._id);
     }
+
+    return () => setIsInputLoading(false);
   }, [qid, data._id]);
 
   // handlers
