@@ -1,18 +1,15 @@
 import React from 'react';
+import styled from 'styled-components';
 import logo from './images/logo512.png';
 import ahn from './images/ahn.jpeg';
 import suh from './images/suh.png';
 import park from './images/park.jpeg';
 import placeholder from './images/placeholder.png';
-import styled from 'styled-components';
-import {
-  boxShadow,
-  spoqaLarge,
-  spoqaMedium,
-  textShadow,
-} from 'styles/common/common.styled';
+import { boxShadow, spoqaLarge, spoqaMedium, textShadow } from 'styles/common/common.styled';
 import Icon from 'components/Icon/Icon';
 import Divider from 'components/Divider/Divider';
+
+/* -------------------------------------------------------------------------- */
 
 const StylesSuits = styled.section`
   display: flex;
@@ -43,36 +40,6 @@ const StylesSuits = styled.section`
     font-size: 1.6rem;
     margin: 0 0 1em;
   }
-  .members__container {
-    display: flex;
-    flex-flow: column nowrap;
-    width: 100%;
-    margin-bottom: 2em;
-    h3 {
-      text-align: center;
-      ${spoqaMedium}
-      margin: 0 0 1em;
-    }
-    .members {
-      display: flex;
-      justify-content: center;
-      figure {
-        width: 110px;
-        margin: 0;
-        text-align: center;
-        img {
-          width: 50px;
-          margin-bottom: 0.6em;
-          border-radius: 50%;
-          ${boxShadow}
-        }
-        figcaption {
-          width: 100%;
-          ${spoqaMedium}
-        }
-      }
-    }
-  }
   .contact {
     display: flex;
     align-items: center;
@@ -96,23 +63,56 @@ const StylesSuits = styled.section`
     p {
       font-size: 1.8rem;
     }
-    .members__container {
-      h3 {
-        font-size: 1.8rem;
+  }
+`;
+
+const StyledMembers = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  margin-bottom: 2em;
+  h3 {
+    text-align: center;
+    ${spoqaMedium}
+    margin: 0 0 1em;
+  }
+  .members {
+    display: flex;
+    justify-content: center;
+    figure {
+      width: 110px;
+      margin: 0;
+      text-align: center;
+      img {
+        width: 50px;
+        margin-bottom: 0.6em;
+        border-radius: 50%;
+        ${boxShadow}
       }
-      .members {
-        figure {
-          width: 150px;
-          img {
-            width: 70px;
-          }
-        }
+      figcaption {
+        width: 100%;
+        ${spoqaMedium}
+      }
+    }
+  }
+
+  h3 {
+    font-size: 1.8rem;
+  }
+  .members {
+    figure {
+      width: 150px;
+      img {
+        width: 70px;
       }
     }
   }
 `;
 
+/* ---------------------------- styled components --------------------------- */
+
 export default function Suits() {
+  // 이미지 로드 시 이미지 소스 url을 변경
   const handleLoaded = (e) => {
     let imgSrc = '';
     switch (e.target.alt) {
@@ -137,12 +137,7 @@ export default function Suits() {
 
   return (
     <StylesSuits>
-      <img
-        src={placeholder}
-        alt="Suits 로고"
-        className="logo"
-        onLoad={handleLoaded}
-      />
+      <img src={placeholder} alt="Suits 로고" className="logo" onLoad={handleLoaded} />
       <h3 className="heading">
         기술 면접을 준비하는 단정한 습관<em>Suits</em>
       </h3>
@@ -155,7 +150,7 @@ export default function Suits() {
         <br />
       </p>
       <Divider />
-      <div className="members__container">
+      <StyledMembers>
         <h3>Made by</h3>
         <div className="members">
           <a href="https://github.com/ahnanne">
@@ -180,7 +175,7 @@ export default function Suits() {
             </figure>
           </a>
         </div>
-      </div>
+      </StyledMembers>
       <div className="contact">
         <Icon type="mail" />
         <address>ahnsuhpark@suits.com</address>

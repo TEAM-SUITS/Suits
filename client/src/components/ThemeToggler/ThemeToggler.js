@@ -1,7 +1,10 @@
-import Icon from 'components/Icon/Icon';
 import React from 'react';
 import styled from 'styled-components';
+import { func } from 'prop-types';
+import Icon from 'components/Icon/Icon';
 import { boxShadow } from 'styles/common/common.styled';
+
+/* -------------------------------------------------------------------------- */
 
 const StyledThemeToggler = styled.button`
   position: fixed;
@@ -31,6 +34,8 @@ const StyledThemeToggler = styled.button`
   }
 `;
 
+/* ---------------------------- styled components --------------------------- */
+
 export default function ThemeToggler({ handleClick }) {
   return (
     <StyledThemeToggler onClick={handleClick}>
@@ -38,3 +43,9 @@ export default function ThemeToggler({ handleClick }) {
     </StyledThemeToggler>
   );
 }
+
+/* ------------------------------- prop types ------------------------------- */
+
+ThemeToggler.propTypes = {
+  handleClick: func,
+};
