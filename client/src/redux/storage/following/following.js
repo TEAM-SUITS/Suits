@@ -1,18 +1,21 @@
-import API from 'api/api';
+import API from "api/api";
+import axios from "axios";
 
 /* ------------------------------ action types ------------------------------ */
-const READ_FOLLOWING_DATA = '현재 사용자의 관심키워드에 해당하는 질문 조회';
-const GET_FOLLOWING_DATA = '현재 사용자의 관심키워드에 해당하는 질문 요청';
-const GET_FOLLOWING_DATA_SUCCESS = '관심키워드에 해당하는 질문 요청 성공';
-const GET_FOLLOWING_DATA_FAILURE = '관심키워드에 해당하는 질문 요청 실패';
+const READ_FOLLOWING_DATA = "현재 사용자의 관심키워드에 해당하는 질문 조회";
+const GET_FOLLOWING_DATA = "현재 사용자의 관심키워드에 해당하는 질문 요청";
+const GET_MORE_FOLLOWING_DATA =
+  "현재 사용자의 관심키워드에 해당하는 질문 더보기";
+const GET_FOLLOWING_DATA_SUCCESS = "관심키워드에 해당하는 질문 요청 성공";
+const GET_FOLLOWING_DATA_FAILURE = "관심키워드에 해당하는 질문 요청 실패";
 
 /* ---------------------------------- thunk --------------------------------- */
 export const fetchFollowingData = (
   hashtags = [],
-  currentTag = '',
-  prevTag = '',
+  currentTag = "",
+  prevTag = "",
   init
-) => async dispatch => {
+) => async (dispatch) => {
   // 팔로잉 중인 키워드가 없는 경우
   if (!hashtags.length) {
     return;
@@ -20,20 +23,19 @@ export const fetchFollowingData = (
 
   // 다른 페이지 갔다가 돌아왔을 경우, 비동기 요청 없이 기존 정보 조회
   if (!init && currentTag === prevTag) {
-
     dispatch({ type: READ_FOLLOWING_DATA });
     return;
   }
-  
+
   // 요청 시작
   dispatch({ type: GET_FOLLOWING_DATA, currentTag });
 
-  const interests = currentTag === 'All' ? hashtags.join('+') : currentTag;
+  const interests = currentTag === "All" ? hashtags.join("+") : currentTag;
 
   try {
     // API 호출
     const followingData = await API(`/api/questions/following/${interests}`);
-
+    console.log("팔로잉 데이터", followingData);
     // 성공했을 때
     dispatch({ type: GET_FOLLOWING_DATA_SUCCESS, followingData });
   } catch (error) {
@@ -42,13 +44,35 @@ export const fetchFollowingData = (
   }
 };
 
+export const loadMoreFollowingData = (hashtags = [], currentTag = "") => async (
+  dispatch,
+  prevState
+) => {
+  const { following } = prevState();
+  if (following.followingData && !following.followingData.hasNextPage) {
+    console.log("데이터가 없어용");
+    return;
+  }
+  const interests = currentTag === "All" ? hashtags.join("+") : currentTag;
+
+  const res = await axios(
+    `/api/questions/following/${interests}?page=${
+      following.followingData.page + 1
+    }`
+  );
+  dispatch({ type: GET_MORE_FOLLOWING_DATA, followingData: res.data });
+};
+
 /* ------------------------- initial state + reducer ------------------------ */
 const initialState = {
   isLoading: false,
   isInitial: true,
-  currentTag: 'All',
+  currentTag: "All",
   followingData: null,
   error: null,
+  hasNextPage: false,
+  // page
+  // nextPage
 };
 
 export const followingReducer = (
@@ -72,6 +96,15 @@ export const followingReducer = (
         ...state,
         isLoading: false,
         followingData,
+      };
+
+    case GET_MORE_FOLLOWING_DATA:
+      return {
+        ...state,
+        followingData: {
+          ...followingData,
+          docs: [...state.followingData.docs, ...followingData.docs],
+        },
       };
 
     case GET_FOLLOWING_DATA_FAILURE:
