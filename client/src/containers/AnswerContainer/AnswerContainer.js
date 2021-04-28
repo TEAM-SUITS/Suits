@@ -93,12 +93,7 @@ const EditorOnlyButton = styled.button.attrs(() => ({
 `;
 
 /* --------------------------------- Answers -------------------------------- */
-export default function Answers({
-  answersList = [],
-  userId = '',
-  handleRefresh,
-  removeAnswer,
-}) {
+export default function Answers({ answersList = [], userId = '', handleRefresh, removeAnswer }) {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
   const [editContent, setEditContent] = useState('');
@@ -150,10 +145,7 @@ export default function Answers({
             <React.Fragment key={answer._id}>
               {editing === answer._id ? (
                 <EditContainer>
-                  <EditArea
-                    value={editContent}
-                    onChange={(e) => handleEditContent(e)}
-                  />
+                  <EditArea value={editContent} onChange={(e) => handleEditContent(e)} />
                   <EditConfirmButton
                     onClick={() => {
                       postContent(answer._id, editContent);
@@ -161,9 +153,7 @@ export default function Answers({
                   >
                     확인
                   </EditConfirmButton>
-                  <EditConfirmButton onClick={() => setEditing(null)}>
-                    취소
-                  </EditConfirmButton>
+                  <EditConfirmButton onClick={() => setEditing(null)}>취소</EditConfirmButton>
                 </EditContainer>
               ) : (
                 <QnAContent answer={answer} isEllipsis={false} />
@@ -172,26 +162,14 @@ export default function Answers({
                 <>
                   {!editing ? (
                     <ButtonContainer>
-                      <EditorOnlyButton
-                        onClick={() => handleEdit(answer._id, answer.content)}
-                      >
-                        수정
-                      </EditorOnlyButton>
-                      <EditorOnlyButton onClick={() => setDeleting(answer._id)}>
-                        삭제
-                      </EditorOnlyButton>
+                      <EditorOnlyButton onClick={() => handleEdit(answer._id, answer.content)}>수정</EditorOnlyButton>
+                      <EditorOnlyButton onClick={() => setDeleting(answer._id)}>삭제</EditorOnlyButton>
                     </ButtonContainer>
                   ) : null}
                 </>
               ) : null}
               <DividerContainer>
-                <Divider
-                  primary={false}
-                  color="gray"
-                  height="2px"
-                  width="56%"
-                  minWidth="320px"
-                />
+                <Divider primary={false} color="gray" height="2px" width="56%" minWidth="320px" />
               </DividerContainer>
             </React.Fragment>
           );
