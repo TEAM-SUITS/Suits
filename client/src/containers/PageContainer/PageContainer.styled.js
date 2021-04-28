@@ -132,12 +132,8 @@ const PageContainer = styled(motion(Container))`
   ${({ page }) =>
     page === 'post' &&
     css`
-      margin: 50px 0;
+      margin: 45px 0;
       justify-content: flex-start;
-
-      > div {
-        margin-top: 3em;
-      }
 
       // mobile
       @media screen and (max-width: 480px) {
