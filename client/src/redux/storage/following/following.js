@@ -1,4 +1,3 @@
-import API from "api/api";
 import axios from "axios";
 
 /* ------------------------------ action types ------------------------------ */
@@ -39,13 +38,25 @@ export const fetchFollowingData = (
 
   try {
     // API 호출
-    const followingData = await API(`/api/questions/following/${interests}`);
-    console.log("팔로잉 데이터", followingData);
+    const res = await axios(`/api/questions/following/${interests}`);
     // 성공했을 때
-    dispatch({ type: GET_FOLLOWING_DATA_SUCCESS, followingData });
+    if (res.statusText === "OK")
+      dispatch({ type: GET_FOLLOWING_DATA_SUCCESS, followingData: res.data });
+    else {
+      dispatch({
+        type: GET_FOLLOWING_DATA_FAILURE,
+        error:
+          res.data.message || "관심 키워드 질문을 불러오는데 실패하였습니다",
+      });
+    }
   } catch (error) {
     // 실패했을 때
-    dispatch({ type: GET_FOLLOWING_DATA_FAILURE, error });
+    dispatch({
+      type: GET_FOLLOWING_DATA_FAILURE,
+      error:
+        error.message ||
+        "관심 키워드 질문을 불러오는데 알 수 없는 오류가 발생했습니다",
+    });
   }
 };
 
@@ -80,7 +91,7 @@ export const loadMoreFollowingData = (hashtags = [], currentTag = "") => async (
     } catch (error) {
       dispatch({
         type: GET_MORE_FOLLOWING_DATA_FAILURE,
-        error: error.message,
+        error: error.message || "더보기 데이터를 불러오는데 실패하였씁니다 ",
       });
     }
   }
