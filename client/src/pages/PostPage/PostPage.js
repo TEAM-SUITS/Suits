@@ -1,22 +1,19 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 // components
-import PageContainer from "containers/PageContainer/PageContainer.styled";
-import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
-import Card from "components/Card/Card";
-import Hashtag from "components/Hashtag/Hashtag";
-import Answers from "containers/AnswerContainer/AnswerContainer";
-import InputArea from "containers/AnswerInput/AnswerInput";
+import PageContainer from 'containers/PageContainer/PageContainer.styled';
+import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
+import Hashtag from 'components/Hashtag/Hashtag';
+import Answers from 'containers/AnswerContainer/AnswerContainer';
+import InputArea from 'containers/AnswerInput/AnswerInput';
 
 // etc.
-import { pageEffect } from "styles/motions/variants";
-import styled, { css } from "styled-components";
-import API from "api/api";
-// TODO: API 말고 그냥 axios로 수정
-import { Skeleton } from "@material-ui/lab";
-import Divider from "components/Divider/Divider";
-
+import { pageEffect } from 'styles/motions/variants';
+import styled, { css } from 'styled-components';
+import { Skeleton } from '@material-ui/lab';
+import Divider from 'components/Divider/Divider';
+import axios from 'axios';
 
 /* ---------------------------- styled components --------------------------- */
 const StyledHeader = styled.h2`
@@ -88,13 +85,21 @@ export default function PostPage({ history, location, match }) {
 
   // post page를 위한 question 정보 받아오기
   const getData = async (id) => {
-    const res = await API(`/api/questions/${id}`, 'get');
-    setData(res);
+    try {
+      const res = await axios(`/api/questions/${id}`);
+      setData(res.data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const removeAnswer = async (answerId) => {
-    const updatedQuestion = await API(`/api/answers/${answerId}`, 'delete');
-    setData(updatedQuestion);
+    try {
+      const updatedQuestion = await axios.delete(`/api/answers/${answerId}`);
+      setData(updatedQuestion);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   // effect
@@ -105,13 +110,19 @@ export default function PostPage({ history, location, match }) {
     setIsAnswered(true);
     setIsInputLoading(true);
     const getIsAnswered = async (questionId) => {
-      const userData = await API("/api/user-profile", "get");
-      const check = userData[0].answeredQuestions.find(
-        ({ _id }) => _id === questionId
-      );
+      try {
+        const res = await axios('/api/user-profile');
+        const userData = res.data;
+        const check = userData[0].answeredQuestions.find(
+          ({ _id }) => _id === questionId
+        );
 
-      check ? setIsAnswered(true) : setIsAnswered(false);
-      setIsInputLoading(false);
+        check ? setIsAnswered(true) : setIsAnswered(false);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsInputLoading(false);
+      }
     };
 
     if (data._id) {
@@ -128,7 +139,7 @@ export default function PostPage({ history, location, match }) {
   const handleRefresh = async () => {
     await getData(qid);
     // history.push(location.pathname);
-    history.push({ pathname: "/" });
+    history.push({ pathname: '/' });
     history.replace({ pathname: location.pathname });
   };
 
@@ -142,46 +153,46 @@ export default function PostPage({ history, location, match }) {
         initial="hidden"
         animate="visible"
       >
-          {Object.keys(data).length && userData ? (
-            <>
-              <HashtagContainer>
-                {data.hashTag.map((keyword, idx) => {
-                  return <Hashtag key={idx} type={keyword} />;
-                })}
-              </HashtagContainer>
-              <StyledHeader>{data.content}</StyledHeader>
-              <Divider
-                width="60%"
-                height="3px"
-                color="var(--color-text)"
-                minWidth="340px"
-              />
-              <Answers
-                answersList={data.answers}
-                userId={userData[0]._id}
-                handleRefresh={handleRefresh}
-                removeAnswer={removeAnswer}
-              />
-              <InputArea
-                isAnswered={isAnswered}
-                isInputLoading={isInputLoading}
-                questionId={data._id}
-                handleIsAnswered={handleIsAnswered}
-                handleRefresh={handleRefresh}
-              />
-            </>
-          ) : (
-            <>
-              <SkeletonCard variant="rect" height="3em" width="30%" />
-              <SkeletonCard variant="rect" height="3em" width="50%" />
-              <SkeletonDivider variant="rect" height="1px" width="50%" />
-              <SkeletonCard variant="rect" height="5em" width="50%" />
-              <SkeletonCard variant="rect" height="20em" width="60%" />
-              <SkeletonCard variant="rect" height="20em" width="60%" />
-              <SkeletonCard variant="rect" height="20em" width="60%" />
-            </>
-          )}
+        {Object.keys(data).length && userData ? (
+          <>
+            <HashtagContainer>
+              {data.hashTag.map((keyword, idx) => {
+                return <Hashtag key={idx} type={keyword} />;
+              })}
+            </HashtagContainer>
+            <StyledHeader>{data.content}</StyledHeader>
+            <Divider
+              width="60%"
+              height="3px"
+              color="var(--color-text)"
+              minWidth="340px"
+            />
+            <Answers
+              answersList={data.answers}
+              userId={userData[0]._id}
+              handleRefresh={handleRefresh}
+              removeAnswer={removeAnswer}
+            />
+            <InputArea
+              isAnswered={isAnswered}
+              isInputLoading={isInputLoading}
+              questionId={data._id}
+              handleIsAnswered={handleIsAnswered}
+              handleRefresh={handleRefresh}
+            />
+          </>
+        ) : (
+          <>
+            <SkeletonCard variant="rect" height="3em" width="30%" />
+            <SkeletonCard variant="rect" height="3em" width="50%" />
+            <SkeletonDivider variant="rect" height="1px" width="50%" />
+            <SkeletonCard variant="rect" height="5em" width="50%" />
+            <SkeletonCard variant="rect" height="20em" width="60%" />
+            <SkeletonCard variant="rect" height="20em" width="60%" />
+            <SkeletonCard variant="rect" height="20em" width="60%" />
+          </>
+        )}
       </PageContainer>
     </>
   );
-};
+}

@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import { resetList, spoqaLarge } from 'styles/common/common.styled';
 import Portal from 'components/Portal/Portal';
 import { useDispatch } from 'react-redux';
-import API from 'api/api';
 import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
+import axios from 'axios';
 
 const Container = styled.div`
   button {
@@ -160,16 +160,21 @@ export default function KeywordSelect({ userKeywords, onClose }) {
   };
 
   const submitSelectedKeywords = async () => {
-    if (userKeywords !== selectedKeywords) {
-      await API('/api/user-profile/hashtag', 'patch', {
-        hashTag: selectedKeywords,
-      });
-      await API('/api/user-profile/first-login', 'patch', {
-        firstLogin: false,
-      });
-      dispatch(fetchCurrentUserData());
+    try {
+      if (userKeywords !== selectedKeywords) {
+        await axios.patch('/api/user-profile/hashtag', {
+          hashTag: selectedKeywords,
+        });
+        await axios.patch('/api/user-profile/first-login', {
+          firstLogin: false,
+        });
+        dispatch(fetchCurrentUserData());
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      onClose();
     }
-    onClose();
   };
 
   const cancelKeywordSelect = () => {
@@ -181,7 +186,7 @@ export default function KeywordSelect({ userKeywords, onClose }) {
     <Portal id={'dialog-container'}>
       <Container ref={dialogRef} label="관심 키워드 선택 다이얼로그">
         <CancelButton onClick={cancelKeywordSelect}>Cancel</CancelButton>
-        <Backdrop $opacity={0.8}  />
+        <Backdrop $opacity={0.8} />
         <DialogContainer>
           <StyledList>
             {keywordArray.map((keyword) => {

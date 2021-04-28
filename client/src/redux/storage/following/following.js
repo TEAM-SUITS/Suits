@@ -1,4 +1,4 @@
-import API from 'api/api';
+import axios from 'axios';
 
 /* ------------------------------ action types ------------------------------ */
 const READ_FOLLOWING_DATA = '현재 사용자의 관심키워드에 해당하는 질문 조회';
@@ -12,7 +12,7 @@ export const fetchFollowingData = (
   currentTag = '',
   prevTag = '',
   init
-) => async dispatch => {
+) => async (dispatch) => {
   // 팔로잉 중인 키워드가 없는 경우
   if (!hashtags.length) {
     return;
@@ -20,11 +20,10 @@ export const fetchFollowingData = (
 
   // 다른 페이지 갔다가 돌아왔을 경우, 비동기 요청 없이 기존 정보 조회
   if (!init && currentTag === prevTag) {
-
     dispatch({ type: READ_FOLLOWING_DATA });
     return;
   }
-  
+
   // 요청 시작
   dispatch({ type: GET_FOLLOWING_DATA, currentTag });
 
@@ -32,7 +31,8 @@ export const fetchFollowingData = (
 
   try {
     // API 호출
-    const followingData = await API(`/api/questions/following/${interests}`);
+    const res = await axios(`/api/questions/following/${interests}`);
+    const followingData = res.data;
 
     // 성공했을 때
     dispatch({ type: GET_FOLLOWING_DATA_SUCCESS, followingData });

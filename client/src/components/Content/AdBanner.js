@@ -20,7 +20,7 @@ const StyledSlider = styled(Slider)`
     margin: 0 auto;
   }
   .slick-prev {
-    z-index: 1000;
+    z-index: 5;
     left: 2%;
     &:before {
       color: var(--color-black);

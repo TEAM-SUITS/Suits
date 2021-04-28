@@ -1,9 +1,13 @@
-import API from 'api/api';
+import axios from 'axios';
 
 const themeToggler = async (theme, setTheme) => {
   const newTheme = theme === 'light' ? 'dark' : 'light';
-  await API('/api/user-profile/theme', 'patch', { theme: newTheme });
-  setTheme(newTheme);
+  try {
+    await axios.patch('/api/user-profile/theme', { theme: newTheme });
+    setTheme(newTheme);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export default themeToggler;
