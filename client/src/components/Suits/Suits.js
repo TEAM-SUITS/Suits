@@ -5,12 +5,7 @@ import suh from './images/suh.png';
 import park from './images/park.jpeg';
 import placeholder from './images/placeholder.png';
 import styled from 'styled-components';
-import {
-  boxShadow,
-  spoqaLarge,
-  spoqaMedium,
-  textShadow,
-} from 'styles/common/common.styled';
+import { boxShadow, spoqaLarge, spoqaMedium, textShadow } from 'styles/common/common.styled';
 import Icon from 'components/Icon/Icon';
 import Divider from 'components/Divider/Divider';
 
@@ -18,7 +13,7 @@ const StylesSuits = styled.section`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  margin-top: 60px;
+  margin-top: 20vh;
   .logo {
     width: 100px;
     display: block;
@@ -137,12 +132,7 @@ export default function Suits() {
 
   return (
     <StylesSuits>
-      <img
-        src={placeholder}
-        alt="Suits 로고"
-        className="logo"
-        onLoad={handleLoaded}
-      />
+      <img src={placeholder} alt="Suits 로고" className="logo" onLoad={handleLoaded} />
       <h3 className="heading">
         기술 면접을 준비하는 단정한 습관<em>Suits</em>
       </h3>

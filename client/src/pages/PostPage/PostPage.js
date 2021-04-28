@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 // components
-import PageContainer from "containers/PageContainer/PageContainer.styled";
-import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
-import Hashtag from "components/Hashtag/Hashtag";
-import Answers from "containers/AnswerContainer/AnswerContainer";
-import InputArea from "containers/AnswerInput/AnswerInput";
+import PageContainer from 'containers/PageContainer/PageContainer.styled';
+import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
+import Hashtag from 'components/Hashtag/Hashtag';
+import Answers from 'containers/AnswerContainer/AnswerContainer';
+import InputArea from 'containers/AnswerInput/AnswerInput';
 // etc.
 import { pageEffect } from 'styles/motions/variants';
 import styled, { css } from 'styled-components';
@@ -13,10 +13,19 @@ import { Skeleton } from '@material-ui/lab';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setError } from 'redux/storage/error/error';
-import API from "api/api";
-// TODO: API 말고 그냥 axios로 수정
 
 /* ---------------------------- styled components --------------------------- */
+const HeadingContainer = styled.span`
+  background-color: var(--color-body);
+  width: 100vw;
+  margin-bottom: 3em;
+
+  // 모바일
+  @media screen and (max-width: 480px) {
+    min-width: 100vw;
+  }
+`;
+
 const StyledHeader = styled.h2`
   font-size: 2rem;
   max-width: 50%;
@@ -56,24 +65,26 @@ const SkeletonCard = styled(Skeleton)`
     min-width: 248px;
     width: 248px;
   }
-  &:first-child {
-    margin-top: 45px;
+`;
+
+const SkeletonHashTag = styled(Skeleton)`
+  & {
+    ${SkeletonStyle}
+    padding: 0.3em 1em;
+    border-radius: 10px;
+    width: 7.2em;
   }
 `;
 
-const SkeletonDivider = styled(Skeleton)`
-  ${SkeletonStyle}
-  // 모바일
-  @media screen and (max-width: 480px) {
-    min-width: 200px;
-    width: 200px;
-  }
+const SkeletonAnswer = styled.div`
+  margin: 0 auto;
+  width: 350px;
 `;
 
-const HeadingContainer = styled.div`
-  background-color: var(--color-body);
-  width: 100%;
-  margin-bottom: 3em;
+const SkeletonProfile = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 `;
 
 /* -------------------------------- post page ------------------------------- */
@@ -82,9 +93,7 @@ export default function PostPage({ history, location, match }) {
   const { qid } = match.params;
   const [data, setData] = useState({}); // question data
   // user 정보
-  const { currentUserData: userData } = useSelector(
-    (state) => state.currentUser
-  );
+  const { currentUserData: userData } = useSelector((state) => state.currentUser);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isInputLoading, setIsInputLoading] = useState(false);
 
@@ -92,7 +101,7 @@ export default function PostPage({ history, location, match }) {
   // post page를 위한 question 정보 받아오기
   const getData = async (id) => {
     try {
-      const res = await axios(`/api/questions/${id}`);
+      const res = await axios.get(`/api/questions/${id}`);
       setData(res.data);
     } catch (err) {
       dispatch(setError('질문을 불러들이는 중 문제가 발생했습니다.'));
@@ -114,17 +123,13 @@ export default function PostPage({ history, location, match }) {
     setIsInputLoading(true);
     const getIsAnswered = async (questionId) => {
       try {
-        const res = await axios('/api/user-profile');
+        const res = await axios.get('/api/user-profile');
         const userData = res.data;
-        const check = userData[0].answeredQuestions.find(
-          ({ _id }) => _id === questionId
-        );
+        const check = userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
 
         check ? setIsAnswered(true) : setIsAnswered(false);
       } catch (err) {
-        dispatch(
-          setError('질문에 대한 답변 기록을 불러오는 데 문제가 발생했습니다.')
-        );
+        dispatch(setError('질문에 대한 답변 기록을 불러오는 데 문제가 발생했습니다.'));
       } finally {
         setIsInputLoading(false);
       }
@@ -132,6 +137,11 @@ export default function PostPage({ history, location, match }) {
     if (data._id) {
       getIsAnswered(data._id);
     }
+
+    return () => {
+      setIsAnswered(false);
+      setIsInputLoading(false);
+    };
   }, [qid, data._id]);
   // handlers
   const handleIsAnswered = () => {
@@ -141,61 +151,64 @@ export default function PostPage({ history, location, match }) {
   const handleRefresh = async () => {
     await getData(qid);
     // history.push(location.pathname);
-    history.push({ pathname: "/" });
+    history.push({ pathname: '/' });
     history.replace({ pathname: location.pathname });
   };
   // data === {} 일 때 로딩 지연 처리 필요
   return (
     <>
       <TextHeaderBar page="home" />
-      <PageContainer
-        page="post"
-        variants={pageEffect}
-        initial="hidden"
-        animate="visible"
-      >
-          {Object.keys(data).length && userData ? (
-            <>
+      <PageContainer page="post" variants={pageEffect} initial="hidden" animate="visible">
+        {Object.keys(data).length && userData ? (
+          <>
             <HeadingContainer>
-                <HashtagContainer>
-                  {data.hashTag.map((keyword, idx) => {
-                    return <Hashtag key={idx} type={keyword} />;
-                  })}
-                </HashtagContainer>
-                <StyledHeader>{data.content}</StyledHeader>
-              </HeadingContainer>
-              {/* <Divider
-                width="60%"
-                height="3px"
-                color="var(--color-text)"
-                minWidth="340px"
-              /> */}
-              <Answers
-                answersList={data.answers}
-                userId={userData[0]._id}
-                handleRefresh={handleRefresh}
-                removeAnswer={removeAnswer}
-              />
-              <InputArea
-                isAnswered={isAnswered}
-                isInputLoading={isInputLoading}
-                questionId={data._id}
-                handleIsAnswered={handleIsAnswered}
-                handleRefresh={handleRefresh}
-              />
-            </>
-          ) : (
-            <>
-              <SkeletonCard variant="rect" height="3em" width="30%" />
-              <SkeletonCard variant="rect" height="3em" width="50%" />
-              <SkeletonDivider variant="rect" height="1px" width="50%" />
-              <SkeletonCard variant="rect" height="5em" width="50%" />
-              <SkeletonCard variant="rect" height="20em" width="60%" />
-              <SkeletonCard variant="rect" height="20em" width="60%" />
-              <SkeletonCard variant="rect" height="20em" width="60%" />
-            </>
-          )}
+              <HashtagContainer>
+                {data.hashTag.map((keyword, idx) => {
+                  return <Hashtag key={idx} type={keyword} />;
+                })}
+              </HashtagContainer>
+              <StyledHeader>{data.content}</StyledHeader>
+            </HeadingContainer>
+            <Answers
+              answersList={data.answers}
+              userId={userData[0]._id}
+              handleRefresh={handleRefresh}
+              removeAnswer={removeAnswer}
+            />
+            <InputArea
+              isAnswered={isAnswered}
+              isInputLoading={isInputLoading}
+              questionId={data._id}
+              handleIsAnswered={handleIsAnswered}
+              handleRefresh={handleRefresh}
+            />
+          </>
+        ) : (
+          <>
+            <HeadingContainer>
+              <HashtagContainer>
+                <SkeletonHashTag variant="text" animation="wave" />
+                <SkeletonHashTag variant="text" animation="wave" />
+              </HashtagContainer>
+
+              <StyledHeader>
+                <SkeletonCard variant="rect" height="2rem" width="100%" animation="wave" />
+                <SkeletonCard variant="rect" height="2rem" width="100%" animation="wave" />
+              </StyledHeader>
+            </HeadingContainer>
+            <SkeletonAnswer>
+              <SkeletonProfile>
+                <Skeleton variant="circle" width="8em" height="8em" animation="wave" />
+                <Skeleton variant="text" width="15em" animation="wave" />
+                <Skeleton variant="text" width="3em" height="5em" animation="wave" />
+              </SkeletonProfile>
+              <SkeletonCard variant="rect" height="20em" animation="wave" width="100%" />
+              <SkeletonCard variant="rect" height="20em" animation="wave" width="100%" />
+              <SkeletonCard variant="rect" height="20em" animation="wave" width="100%" />
+            </SkeletonAnswer>
+          </>
+        )}
       </PageContainer>
     </>
   );
-};
+}

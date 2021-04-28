@@ -13,6 +13,7 @@ const StyledNav = styled.ul`
   display: flex;
   justify-content: space-around;
   background-color: var(--color-body);
+  z-index: 5;
 `;
 
 const StyledNavLink = styled(NavLink)`

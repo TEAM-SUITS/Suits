@@ -78,7 +78,7 @@ const CancelButton = styled.button.attrs(() => ({
 }))`
   background-color: var(--color-body);
   ${spoqaSmallBold}
-  color: var(--color-red);
+  color: var(--color-gray5);
   border: none;
   padding: 0 1em;
 `;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Icon from 'components/Icon/Icon';
 import Portal from 'components/Portal/Portal';
@@ -82,6 +82,16 @@ export default function Dialog({
 }) {
   const dialogRef = React.useRef(null);
 
+  // 모달이 열려있을때는 스크롤 처리가 되지 않도록 설정
+  useEffect(() => {
+    if (visible) {
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [visible]);
+
   // a11y
   React.useEffect(() => {
     if (visible) {
@@ -132,14 +142,15 @@ export default function Dialog({
 
   // 🔴 사용하실 때는 아래와 같이
   // 이 컴포넌트를 Portal 컴포넌트로 감싸주세요!
+
   return (
     <>
       <Portal id={'dialog-container'}>
         {visible ? <Modal onClick={onClick} className="overlay" $opacity={opacity} /> : null}
         {visible && (
           <DialogContainer ref={dialogRef} label={label} type={type}>
-            <CloseButton>
-              <Icon onClick={onClick} type="close" title="닫기" height="1.8em" />
+            <CloseButton onClick={onClick}>
+              <Icon type="close" title="닫기" height="1.8em" />
             </CloseButton>
             <Header>{infoText}</Header>
             {children}

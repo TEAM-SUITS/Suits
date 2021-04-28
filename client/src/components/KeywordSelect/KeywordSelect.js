@@ -2,7 +2,7 @@ import Hashtag from 'components/Hashtag/Hashtag';
 import { array, func } from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { resetList, spoqaLarge } from 'styles/common/common.styled';
+import { resetList, resetBoxModel, spoqaLarge, spoqaMedium } from 'styles/common/common.styled';
 import Portal from 'components/Portal/Portal';
 import { useDispatch } from 'react-redux';
 import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
@@ -64,6 +64,22 @@ const StyledList = styled.ul`
         font-size: 3rem;
       }
     }
+  }
+`;
+
+const InfoTextContainer = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  text-align: center;
+  margin-top: 5rem;
+
+  > p {
+    color: var(--color-white);
+    ${spoqaMedium}
+    ${resetBoxModel}
+    white-space: nowrap;
   }
 `;
 
@@ -194,6 +210,10 @@ export default function KeywordSelect({ userKeywords, onClose }) {
               );
             })}
           </StyledList>
+          <InfoTextContainer>
+            <p>관심 키워드는</p>
+            <p>3개까지 선택하실 수 있어요!</p>
+          </InfoTextContainer>
         </DialogContainer>
         <DoneButton onClick={submitSelectedKeywords}>done</DoneButton>
       </Container>
