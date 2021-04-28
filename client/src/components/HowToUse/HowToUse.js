@@ -166,7 +166,7 @@ export default function HowToUse() {
         <div className="tiers">
           {tierList.map(({ tier, content }) => {
             return (
-              <div>
+              <div key={tier}>
                 <Tier tier={tier} />
                 <span>{content}</span>
               </div>
