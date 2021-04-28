@@ -3,13 +3,7 @@ import Icon from 'components/Icon/Icon';
 import Tier from 'components/Tier/Tier';
 import React from 'react';
 import styled from 'styled-components';
-import {
-  museoLarge,
-  museoMedium,
-  resetList,
-  spoqaLarge,
-  spoqaMedium,
-} from 'styles/common/common.styled';
+import { museoLarge, museoMedium, resetList, spoqaLarge, spoqaMedium } from 'styles/common/common.styled';
 
 const StylesHowToUse = styled.section`
   padding: 0 2em;
@@ -139,8 +133,8 @@ export default function HowToUse() {
           <li>
             <Icon type="home" />
             <span>
-              랜덤 면접 질문, 랜덤 명언, 좋아요를 가장 많이 받은 사용자, 답변이
-              가장 많이 달린 면접 질문을 볼 수 있습니다.
+              랜덤 면접 질문, 랜덤 명언, 좋아요를 가장 많이 받은 사용자, 답변이 가장 많이 달린 면접 질문을 볼 수
+              있습니다.
             </span>
           </li>
           <li>
@@ -149,9 +143,7 @@ export default function HowToUse() {
           </li>
           <li>
             <Icon type="heart" />
-            <span>
-              설정한 관심 키워드에 맞는 면접 질문들을 둘러볼 수 있습니다.
-            </span>
+            <span>설정한 관심 키워드에 맞는 면접 질문들을 둘러볼 수 있습니다.</span>
           </li>
           <li>
             <Icon type="profile" />

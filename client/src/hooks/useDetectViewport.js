@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react'
+import { useReducer, useEffect } from 'react';
 import _ from 'lodash';
 
 /* -------------------------------------------------------------------------- */
@@ -20,9 +20,9 @@ const initialState = {
 // 리듀서
 const reducer = (state, action) => {
   if (action.type === 'update') {
-    return action.payload
+    return action.payload;
   }
-  return state
+  return state;
 };
 
 // 액션 객체 생성 함수
@@ -69,11 +69,12 @@ export default function useDetectViewport(viewports = initialViewports) {
       window.addEventListener('resize', throttledDetection);
     }
 
-    return () => { // clean up function
+    return () => {
+      // clean up function
       mounted = false;
       window.removeEventListener('DOMContentLoaded', throttledDetection);
       window.removeEventListener('resize', throttledDetection);
-    }
+    };
   }, [dispatch, sm, lg]);
 
   return state;

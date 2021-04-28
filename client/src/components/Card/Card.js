@@ -1,19 +1,18 @@
-import React from "react";
-import { bool, string, node, array } from "prop-types";
-import styled, { css } from "styled-components";
-import { boxShadow, resetList, textShadow } from "styles/common/common.styled";
-import Icon from "components/Icon/Icon";
-import Divider from "components/Divider/Divider";
-import { DividerContainer } from "containers/DividerContainer/DividerContainer.styled";
-import Hashtag from "components/Hashtag/Hashtag";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { bool, string, node, array } from 'prop-types';
+import styled, { css } from 'styled-components';
+import { boxShadow, resetList, textShadow } from 'styles/common/common.styled';
+import Icon from 'components/Icon/Icon';
+import Divider from 'components/Divider/Divider';
+import { DividerContainer } from 'containers/DividerContainer/DividerContainer.styled';
+import Hashtag from 'components/Hashtag/Hashtag';
+import { Link } from 'react-router-dom';
 
 /* ---------------------------- styled components ---------------------------- */
 
 const CardBox = styled.div`
   ${boxShadow}
-  cursor: ${(props) =>
-    props.isButton && !props.isDialog ? "pointer" : "initial"};
+  cursor: ${(props) => (props.isButton && !props.isDialog ? 'pointer' : 'initial')};
   position: relative;
   min-width: 305px;
   border-radius: 10px;
@@ -24,7 +23,7 @@ const CardBox = styled.div`
   color: var(--color-gray5);
   max-width: 688px;
   width: 100%;
-  margin: ${({ centerAlign }) => centerAlign && "0 auto"};
+  margin: ${({ centerAlign }) => centerAlign && '0 auto'};
 
   a {
     font-size: 1.6rem;
@@ -71,7 +70,7 @@ export default function Card({
   ...restProps
 }) {
   const handleKeyDown = (e) => {
-    if (e.code === "Space" || e.code === "Enter") {
+    if (e.code === 'Space' || e.code === 'Enter') {
       onClick && onClick();
     }
   };
@@ -83,10 +82,10 @@ export default function Card({
       isDialog={isDialog}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      role={isButton && !isDialog ? "button" : ""}
-      aria-label={isButton && !isDialog ? "자세히 보기" : ""}
+      role={isButton && !isDialog ? 'button' : ''}
+      aria-label={isButton && !isDialog ? '자세히 보기' : ''}
       tabIndex={isButton && 0}
-      title={isButton && !isDialog ? "자세히 보기" : ""}
+      title={isButton && !isDialog ? '자세히 보기' : ''}
       centerAlign={centerAlign}
       {...restProps}
     >
@@ -108,13 +107,7 @@ export default function Card({
                 <Icon type="quote-right" />
               </>
             )}
-            <h2>
-              {isQuestion && isPreview ? (
-                <Link to={`/post/${qId}`}>{title}</Link>
-              ) : (
-                <>{title}</>
-              )}
-            </h2>
+            <h2>{isQuestion && isPreview ? <Link to={`/post/${qId}`}>{title}</Link> : <>{title}</>}</h2>
           </CardBox.Header>
           <DividerContainer>
             <Divider primary width="80%" height="2px" />

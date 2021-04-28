@@ -1,12 +1,14 @@
-import HardWorker from "components/HardWorker/HardWorker";
-import React, { useState } from "react";
-import styled from "styled-components";
-import { resetList } from "styles/common/common.styled";
-import { array, bool } from "prop-types";
-import { Skeleton } from "@material-ui/lab";
-import ProfileDialog from "containers/ProfileDialog/ProfileDialog";
-import API from "api/api";
-import { useEffect } from "react";
+import HardWorker from 'components/HardWorker/HardWorker';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { resetList } from 'styles/common/common.styled';
+import { array, bool } from 'prop-types';
+import { Skeleton } from '@material-ui/lab';
+import ProfileDialog from 'containers/ProfileDialog/ProfileDialog';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 const HardWorkers = styled.ul`
   ${resetList}
@@ -92,15 +94,17 @@ export default function HardWorkersContent({ users, $isLoading }) {
   const [profile, setProfile] = useState({});
   const [isLoading, setLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   const handleClick = (e) => {
-    if (e.target.classList.contains("overlay")) setDialogVisiblity(false);
+    if (e.target.classList.contains('overlay')) setDialogVisiblity(false);
   };
 
   useEffect(() => {
     if (isDialogVisible) {
-      window.addEventListener("click", handleClick);
+      window.addEventListener('click', handleClick);
     }
-    return () => window.removeEventListener("click", handleClick);
+    return () => window.removeEventListener('click', handleClick);
   }, [isDialogVisible]);
 
   const handleDialog = async (id) => {
@@ -108,7 +112,8 @@ export default function HardWorkersContent({ users, $isLoading }) {
     // profile에 맞게 데이터를 전달해주기 위해 가공
     try {
       setLoading(true);
-      const data = await API(`/api/user-profile/${id}`, "get");
+      const res = await axios(`/api/user-profile/${id}`);
+      const { data } = res;
       const {
         _id,
         username,
@@ -130,7 +135,7 @@ export default function HardWorkersContent({ users, $isLoading }) {
         like: likeCount,
       });
     } catch (err) {
-      console.error(err);
+      dispatch(setError('프로필을 불러들이는 중 문제가 발생했습니다.'));
     } finally {
       setLoading(false);
     }

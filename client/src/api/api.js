@@ -1,29 +1,29 @@
 import axios from "axios";
 
 /* -------------------------------------------------------------------------- */
-export default function API(api, method = "get", payload) {
+export default function API(api, method = 'get', payload) {
   let res = {};
 
   const fetchData = async () => {
     try {
       switch (method) {
-        case "get":
+        case 'get':
           res = await axios.get(api);
           break;
 
-        case "post":
+        case 'post':
           res = await axios.post(api, payload);
           break;
 
-        case "put":
+        case 'put':
           res = await axios.put(api, payload);
           break;
 
-        case "patch":
+        case 'patch':
           res = await axios.patch(api, payload);
           break;
 
-        case "delete":
+        case 'delete':
           res = await axios.delete(api);
           break;
 

@@ -1,24 +1,21 @@
-import React, { useEffect, useState, useRef } from "react";
-import Portal from "components/Portal/Portal";
-import Dialog from "components/Dialog/Dialog";
-import Card from "components/Card/Card";
-import QnAContent from "components/Content/QnAContent";
-import Divider from "components/Divider/Divider";
-import Hashtag from "components/Hashtag/Hashtag";
-import styled, { css } from "styled-components";
-import {
-  boxShadow,
-  spoqaSmall,
-  spoqaMedium,
-  spoqaMediumLight,
-} from "styles/common/common.styled";
-import { bool, object } from "prop-types";
-import API from "api/api";
-import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
-import { Skeleton } from "@material-ui/lab";
-import { useSelector } from "react-redux";
-import badwordFliter from "utils/badwordFilter/badwordFilter";
-import { confirmAlert } from "react-confirm-alert";
+import React, { useEffect, useState, useRef } from 'react';
+import Portal from 'components/Portal/Portal';
+import Dialog from 'components/Dialog/Dialog';
+import Card from 'components/Card/Card';
+import QnAContent from 'components/Content/QnAContent';
+import Divider from 'components/Divider/Divider';
+import Hashtag from 'components/Hashtag/Hashtag';
+import styled, { css } from 'styled-components';
+import { boxShadow, spoqaMedium } from 'styles/common/common.styled';
+import { bool, object } from 'prop-types';
+import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
+import { Skeleton } from '@material-ui/lab';
+import { useSelector } from 'react-redux';
+import badwordFliter from 'utils/badwordFilter/badwordFilter';
+import { confirmAlert } from 'react-confirm-alert';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -56,11 +53,11 @@ const AnswerContainer = styled.div`
 `;
 
 const StyledButton = styled.button.attrs((props) => ({
-  type: "button",
+  type: 'button',
   disabled: props.disabled,
 }))`
   background-color: ${({ disabled }) =>
-    disabled ? "var(--color-gray3)" : "var(--color-gray5)"};
+    disabled ? 'var(--color-gray3)' : 'var(--color-gray5)'};
   color: var(--color-gray1);
   border: none;
   border-radius: 5px;
@@ -71,7 +68,7 @@ const StyledButton = styled.button.attrs((props) => ({
   position: absolute;
   bottom: 0.6em;
   right: 0.3em;
-  cursor: ${({ disabled }) => (disabled ? "wait" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'wait' : 'pointer')};
 `;
 
 const SkeletonStyle = css`
@@ -119,7 +116,7 @@ const ButtonContainer = styled.div`
 `;
 
 const EditorOnlyButton = styled.button.attrs(() => ({
-  type: "button",
+  type: 'button',
 }))`
   background-color: var(--color-gray5);
   color: var(--color-gray1);
@@ -155,7 +152,7 @@ const EditArea = styled.textarea`
 `;
 
 const EditConfirmButton = styled.button.attrs(() => ({
-  type: "button",
+  type: 'button',
 }))`
   background-color: var(--color-gray5);
   color: var(--color-gray1);
@@ -225,10 +222,12 @@ const StyledConfirmAlert = styled.div`
 `;
 
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
-const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
+const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
-  const [editContent, setEditContent] = useState("");
+  const [editContent, setEditContent] = useState('');
+
+  const dispatch = useDispatch();
 
   const handleEdit = (answerId, answerContent) => {
     setEditing(answerId);
@@ -240,17 +239,25 @@ const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
   };
 
   const postContent = async (answerId, newContent) => {
-    await API(`/api/answers/${answerId}`, "patch", {
-      content: badwordFliter.filter(newContent, "**"),
-    });
-
-    setEditing(null);
-    handleRefresh();
+    try {
+      await axios.patch(`/api/answers/${answerId}`, {
+        content: badwordFliter.filter(newContent, '**'),
+      });
+    } catch (err) {
+      dispatch(setError('답변 등록 중 문제가 발생했습니다.'));
+    } finally {
+      setEditing(null);
+      handleRefresh();
+    }
   };
 
   const handleRemove = (answerId) => {
     const removeAnswer = async () => {
-      await API(`/api/answers/${answerId}`, "delete");
+      try {
+        await axios.delete(`/api/answers/${answerId}`);
+      } catch (err) {
+        dispatch(setError('답변 삭제 중 문제가 발생했습니다.'));
+      }
     };
 
     confirmAlert({
@@ -337,21 +344,27 @@ const InputArea = ({
   handleIsAnswered,
   handleRefresh,
 }) => {
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
+
+  const dispatch = useDispatch();
 
   const handleContent = (e) => {
     setContent(e.target.value);
   };
 
   const postContent = async () => {
-    await API("/api/answers", "post", {
-      content: badwordFliter.filter(content, "**"),
-      questionId,
-    });
-
-    handleIsAnswered();
-    handleRefresh();
+    try {
+      await axios.post('/api/answers', {
+        content: badwordFliter.filter(content, '**'),
+        questionId,
+      });
+    } catch (err) {
+      dispatch(setError('답변 등록 중 문제가 발생했습니다.'));
+    } finally {
+      handleIsAnswered();
+      handleRefresh();
+    }
   };
 
   if (isInputLoading) {
@@ -366,7 +379,7 @@ const InputArea = ({
       <StyledButton
         disabled={isDisabled}
         onClick={() => {
-          if (content === "") return;
+          if (content === '') return;
 
           setIsDisabled(true);
           postContent();
@@ -394,22 +407,31 @@ export default function QnADialog({
   const [isInputLoading, setIsInputLoading] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState({});
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setCurrentQuestion(question);
     setIsAnswered(true);
     setIsInputLoading(true);
     const getIsAnswered = async (questionId) => {
-      const userData = await API("/api/user-profile", "get");
-      const check = userData[0].answeredQuestions.find(
-        ({ _id }) => _id === questionId
-      );
-      // const getIsAnswered = (questionId) => {
-      //   const check =
-      //     userData &&
-      //     userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
-
-      check ? setIsAnswered(true) : setIsAnswered(false);
-      setIsInputLoading(false);
+      try {
+        const res = await axios('/api/user-profile');
+        const userData = res.data;
+        const check = userData[0].answeredQuestions.find(
+          ({ _id }) => _id === questionId
+        );
+        check ? setIsAnswered(true) : setIsAnswered(false);
+        // const getIsAnswered = (questionId) => {
+        //   const check =
+        //     userData &&
+        //     userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
+      } catch (err) {
+        dispatch(
+          setError('질문에 대한 답변 기록을 불러오는 데 문제가 발생했습니다.')
+        );
+      } finally {
+        setIsInputLoading(false);
+      }
     };
 
     if (question._id) {
@@ -422,7 +444,7 @@ export default function QnADialog({
   };
 
   return (
-    <Portal id={"dialog-container"}>
+    <Portal id={'dialog-container'}>
       <Dialog
         visible={isVisible} // 상위 컴포넌트의 state로 handle
         label="QnA 상세 내용"

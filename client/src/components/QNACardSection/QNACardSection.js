@@ -1,13 +1,15 @@
-import { Skeleton } from "@material-ui/lab";
-import API from "api/api";
-import Button from "components/Button/Button";
-import Card from "components/Card/Card";
-import QnAContent from "components/Content/QnAContent";
-import TrendingQuestionContent from "components/Content/TrendingQuestionContent";
-import QnADialog from "containers/QnADialog/QnADialog";
-import { useState } from "react";
-import styled from "styled-components";
-import { boxShadow, resetList } from "styles/common/common.styled";
+import { Skeleton } from '@material-ui/lab';
+import axios from 'axios';
+import Button from 'components/Button/Button';
+import Card from 'components/Card/Card';
+import QnAContent from 'components/Content/QnAContent';
+import TrendingQuestionContent from 'components/Content/TrendingQuestionContent';
+import QnADialog from 'containers/QnADialog/QnADialog';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
+import styled from 'styled-components';
+import { boxShadow, resetList } from 'styles/common/common.styled';
 
 const CardList = styled.ul`
   ${resetList}
@@ -68,20 +70,30 @@ export default function QNACardSection({
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [question, setQuestion] = useState({});
 
+  const dispatch = useDispatch();
+
   const handleDialog = async (id) => {
-    const res = await API(`/api/questions/${id}`, "get");
-    setQuestion(res);
+    try {
+      const res = await axios(`/api/questions/${id}`);
+      setQuestion(res.data);
+    } catch (err) {
+      dispatch(setError('질문을 불러들이는 중 문제가 발생했습니다.'));
+    }
   };
 
   const refreshQuestion = async () => {
-    const res = await API(`/api/questions/${question._id}`, "get");
-    setQuestion(res);
-    refreshData();
+    try {
+      const res = await axios(`/api/questions/${question._id}`);
+      setQuestion(res.data);
+      refreshData();
+    } catch (err) {
+      dispatch(setError('질문을 새고고침하는 중 문제가 발생했습니다.'));
+    }
   };
 
   const renderCard = () => {
     switch (content) {
-      case "randomQ":
+      case 'randomQ':
         return cardData.map((question) => (
           <li key={question._id}>
             <Card
@@ -113,7 +125,7 @@ export default function QNACardSection({
             </Card>
           </li>
         ));
-      case "trendingQ":
+      case 'trendingQ':
         return (
           <Card title="Trending QnA" centerAlign>
             <TrendingQuestionContent
@@ -122,7 +134,7 @@ export default function QNACardSection({
             />
           </Card>
         );
-      case "answeredQ":
+      case 'answeredQ':
         return cardData.answeredQuestions.map((question) => (
           <li key={question._id}>
             <Card
@@ -151,9 +163,9 @@ export default function QNACardSection({
 
   const renderSkeleton = () => {
     switch (content) {
-      case "randomQ":
+      case 'randomQ':
         return <SkeletonCard variant="rect" animation="wave" height={200} />;
-      case "trendingQ":
+      case 'trendingQ':
         return (
           <CardList>
             <li>

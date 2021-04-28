@@ -20,7 +20,7 @@ const StyledSlider = styled(Slider)`
     margin: 0 auto;
   }
   .slick-prev {
-    z-index: 1000;
+    z-index: 5;
     left: 2%;
     &:before {
       color: var(--color-black);
@@ -77,12 +77,7 @@ const adList = [
 export default function AdBanner() {
   const AdBannerCarousel = adList.map(({ name, src, url }) => (
     <div key={`item-${name}`}>
-      <a
-        href={url}
-        target="external"
-        rel="external"
-        aria-label={`새 탭에서 ${name} 사이트 열기`}
-      >
+      <a href={url} target="external" rel="external" aria-label={`새 탭에서 ${name} 사이트 열기`}>
         <img src={src} alt={name} />
       </a>
     </div>
@@ -100,11 +95,7 @@ export default function AdBanner() {
   return (
     <SliderContainer>
       <StyledSlider {...settings}>
-        {adList.length ? (
-          AdBannerCarousel
-        ) : (
-          <p>여기에 기본 배너를 사용합시다.</p>
-        )}
+        {adList.length ? AdBannerCarousel : <p>여기에 기본 배너를 사용합시다.</p>}
       </StyledSlider>
     </SliderContainer>
   );

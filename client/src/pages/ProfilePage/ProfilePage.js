@@ -1,15 +1,15 @@
-import React from "react";
-import PageContainer from "containers/PageContainer/PageContainer.styled";
-import styled from "styled-components";
-import { spoqaMedium } from "styles/common/common.styled";
-import { pageEffect } from "styles/motions/variants";
-import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
-import { useSelector } from "react-redux";
-import Profile from "components/Profile/Profile";
-import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
-import QNACardSection from "components/QNACardSection/QNACardSection";
-import { fetchCurrentUserData } from "redux/storage/currentUser/currentUser";
-import { useDispatch } from "react-redux";
+import React from 'react';
+import PageContainer from 'containers/PageContainer/PageContainer.styled';
+import styled from 'styled-components';
+import { spoqaMedium } from 'styles/common/common.styled';
+import { pageEffect } from 'styles/motions/variants';
+import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
+import { useSelector } from 'react-redux';
+import Profile from 'components/Profile/Profile';
+import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
+import QNACardSection from 'components/QNACardSection/QNACardSection';
+import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
+import { useDispatch } from 'react-redux';
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -53,9 +53,7 @@ const MessageContainer = styled.section`
 /* -------------------------------------------------------------------------- */
 
 export default function ProfilePage() {
-  const { currentUserData, isLoading } = useSelector(
-    (state) => state.currentUser
-  );
+  const { currentUserData, isLoading } = useSelector((state) => state.currentUser);
 
   const dispatch = useDispatch();
   const renderAnsweredQuestions = () => {
@@ -65,10 +63,7 @@ export default function ProfilePage() {
           <Spinner />
         </SpinnerContainer>
       );
-    } else if (
-      currentUserData &&
-      currentUserData[0].answeredQuestions.length === 0
-    ) {
+    } else if (currentUserData && currentUserData[0].answeredQuestions.length === 0) {
       return (
         <MessageContainer>
           {/* <Alert status="info" message="작성한 답변이 없어요" /> */}
@@ -105,12 +100,7 @@ export default function ProfilePage() {
   return (
     <>
       <TextHeaderBar page="profile" />
-      <PageContainer
-        page="profile"
-        variants={pageEffect}
-        initial="hidden"
-        animate="visible"
-      >
+      <PageContainer page="profile" variants={pageEffect} initial="hidden" animate="visible">
         <ProfileContainer>
           <Profile user={user} $isLoading={isLoading} className="profile" />
         </ProfileContainer>

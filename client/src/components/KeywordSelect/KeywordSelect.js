@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import { resetList, spoqaLarge } from 'styles/common/common.styled';
 import Portal from 'components/Portal/Portal';
 import { useDispatch } from 'react-redux';
-import API from 'api/api';
 import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
+import axios from 'axios';
+import { setError } from 'redux/storage/error/error';
 
 const Container = styled.div`
   button {
@@ -79,18 +80,8 @@ const DoneButton = styled.button`
 /* ---------------------------- styled component ---------------------------- */
 
 export default function KeywordSelect({ userKeywords, onClose }) {
-  const [selectedKeywords, setSelectedKeywords] = useState(
-    userKeywords.length ? userKeywords : []
-  );
-  const keywordArray = [
-    'CSS',
-    'JavaScript',
-    'OS',
-    'Database',
-    'Network',
-    'Front-End',
-    'Back-End',
-  ];
+  const [selectedKeywords, setSelectedKeywords] = useState(userKeywords.length ? userKeywords : []);
+  const keywordArray = ['CSS', 'JavaScript', 'OS', 'Database', 'Network', 'Front-End', 'Back-End'];
 
   const dialogRef = React.useRef(null);
 
@@ -112,9 +103,7 @@ export default function KeywordSelect({ userKeywords, onClose }) {
       // 다이얼로그 노드
       // const dialogNode = dialogRef.current;
       // focusable nodes "inside" dialogNode
-      const focusableNodeList = dialogNode.querySelectorAll(
-        'a, button, input, select, textarea'
-      ); // 참고로 a 태그는 href 속성이나 tabindex 속성이 있으면 focusable함.
+      const focusableNodeList = dialogNode.querySelectorAll('a, button, input, select, textarea'); // 참고로 a 태그는 href 속성이나 tabindex 속성이 있으면 focusable함.
 
       // 첫 번째 포커스 요소와 마지막 포커스 요소를 기억해놓아야
       // 다이얼로그가 닫히지 않는 한 다이얼로그 내에서 포커싱이 순환될 수 있음.
@@ -160,16 +149,22 @@ export default function KeywordSelect({ userKeywords, onClose }) {
   };
 
   const submitSelectedKeywords = async () => {
-    if (userKeywords !== selectedKeywords) {
-      await API('/api/user-profile/hashtag', 'patch', {
-        hashTag: selectedKeywords,
-      });
-      await API('/api/user-profile/first-login', 'patch', {
-        firstLogin: false,
-      });
-      dispatch(fetchCurrentUserData());
+    try {
+      if (userKeywords !== selectedKeywords) {
+        await axios.patch('/api/user-profile/hashtag', {
+          hashTag: selectedKeywords,
+        });
+        await axios.patch('/api/user-profile/first-login', {
+          firstLogin: false,
+        });
+        dispatch(fetchCurrentUserData());
+      }
+    } catch (err) {
+      dispatch(setError('관심 키워드를 수정하는 중 문제가 발생했습니다.'));
+      setSelectedKeywords(userKeywords.length ? userKeywords : []);
+    } finally {
+      onClose();
     }
-    onClose();
   };
 
   const cancelKeywordSelect = () => {
@@ -181,7 +176,7 @@ export default function KeywordSelect({ userKeywords, onClose }) {
     <Portal id={'dialog-container'}>
       <Container ref={dialogRef} label="관심 키워드 선택 다이얼로그">
         <CancelButton onClick={cancelKeywordSelect}>Cancel</CancelButton>
-        <Backdrop $opacity={0.8}  />
+        <Backdrop $opacity={0.8} />
         <DialogContainer>
           <StyledList>
             {keywordArray.map((keyword) => {

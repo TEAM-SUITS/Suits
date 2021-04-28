@@ -1,8 +1,8 @@
-import Icon from "components/Icon/Icon";
-import styled from "styled-components";
-import { bool, string, object } from "prop-types";
-import { oneOf } from "prop-types";
-import { motion } from "framer-motion";
+import Icon from 'components/Icon/Icon';
+import styled from 'styled-components';
+import { bool, string, object } from 'prop-types';
+import { oneOf } from 'prop-types';
+import { motion } from 'framer-motion';
 
 const Button = styled(motion.button)`
   display: inline-flex;
@@ -28,22 +28,22 @@ const Button = styled(motion.button)`
 
 const ColorIcon = styled(Icon)`
   & > path {
-    fill: ${({ color }) => (color ? color : "black")};
+    fill: ${({ color }) => (color ? color : 'black')};
   }
 `;
 
 /* ---------------------------- styled components ---------------------------- */
 
 export default function LikeButton({
-  type = "button",
-  label = "답변",
+  type = 'button',
+  label = '답변',
   isLiked,
   disabled,
   iconProps,
   isLoading,
   ...restProps
 }) {
-  const displayLabel = `${label} ${!isLiked ? "좋아요" : "좋아요 해제"}`;
+  const displayLabel = `${label} ${!isLiked ? '좋아요' : '좋아요 해제'}`;
   const hoverAnimation = () => {
     if (!disabled && !isLiked) {
       return { scale: 1.1 };
@@ -60,11 +60,7 @@ export default function LikeButton({
       disabled={disabled}
       {...restProps}
     >
-      <ColorIcon
-        color={disabled ? "grey" : "red"}
-        type={isLiked ? "heart-active" : "heart"}
-        {...iconProps}
-      ></ColorIcon>
+      <ColorIcon color={disabled ? 'grey' : 'red'} type={isLiked ? 'heart-active' : 'heart'} {...iconProps}></ColorIcon>
     </Button>
   );
 }
@@ -73,7 +69,7 @@ export default function LikeButton({
 
 LikeButton.propTypes = {
   isLiked: bool,
-  type: oneOf(["button", "submit"]),
+  type: oneOf(['button', 'submit']),
   label: string,
   iconProps: object,
 };

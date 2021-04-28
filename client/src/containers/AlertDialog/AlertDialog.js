@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import Portal from "components/Portal/Portal";
-import Dialog from "components/Dialog/Dialog";
-import styled, { css } from "styled-components";
-import { resetBoxModel, spoqaMedium } from "styles/common/common.styled";
+import { useState, useEffect } from 'react';
+import Portal from 'components/Portal/Portal';
+import Dialog from 'components/Dialog/Dialog';
+import styled, { css } from 'styled-components';
+import { resetBoxModel, spoqaMedium } from 'styles/common/common.styled';
 
 /* ---------------------------- styled components --------------------------- */
 const AlertContainer = styled.section`
@@ -27,7 +27,7 @@ const ButtonStyle = css`
   ${resetBoxModel}
   ${spoqaMedium}
   font-weight: 700;
-  padding: .3em .7em;
+  padding: 0.3em 0.7em;
   margin: 1em;
   border-radius: 5px;
 `;
@@ -49,14 +49,16 @@ const CancelButton = styled.button.attrs(() => ({
 /* ------------------------------ Alert Dialog ------------------------------ */
 export default function AlertDialog({ isVisible, onConfirm, onCancel, onClick }) {
   return (
-    <Portal id={"dialog-container"}>
+    <Portal id={'dialog-container'}>
       <Dialog
         visible={isVisible}
         label="삭제 경고"
         onClick={onClick} // 닫기 버튼 제어
       >
         <AlertContainer>
-          <p><em>정말 삭제하시겠습니까?</em></p>
+          <p>
+            <em>정말 삭제하시겠습니까?</em>
+          </p>
           <CancelButton onClick={onCancel}>취소</CancelButton>
           <ConfirmButton onClick={onConfirm}>삭제</ConfirmButton>
         </AlertContainer>

@@ -8,8 +8,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component:
-          'Tier 컴포넌트는 사용자 등급을 나타내는 넥타이 핀 이미지입니다.',
+        component: 'Tier 컴포넌트는 사용자 등급을 나타내는 넥타이 핀 이미지입니다.',
       },
     },
   },

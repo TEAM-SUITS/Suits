@@ -1,24 +1,23 @@
-import TextHeaderBar from "./TextHeaderBar";
+import TextHeaderBar from './TextHeaderBar';
 import { MemoryRouter } from 'react-router-dom';
 
 /* -------------------------------------------------------------------------- */
 
 export default {
-  title: "Container/TextHeaderBar",
+  title: 'Container/TextHeaderBar',
   component: TextHeaderBar,
   parameters: {
     docs: {
       description: {
-        component:
-          "TextHeaderBar 컨테이너 컴포넌트는 home, follow, profile, info 페이지 상단의 헤더 역할을 합니다.",
+        component: 'TextHeaderBar 컨테이너 컴포넌트는 home, follow, profile, info 페이지 상단의 헤더 역할을 합니다.',
       },
     },
   },
   argTypes: {
     page: {
-      description: "헤더바가 어느 페이지에서 쓰일 것인지 지정",
-      type: "select",
-      options: ["home", "follow", "profile", "info", "search"],
+      description: '헤더바가 어느 페이지에서 쓰일 것인지 지정',
+      type: 'select',
+      options: ['home', 'follow', 'profile', 'info', 'search'],
     },
   },
 };
@@ -33,5 +32,5 @@ const Template = (args) => (
 
 export const Primary = Template.bind({});
 Primary.args = {
-  page: "",
+  page: '',
 };
