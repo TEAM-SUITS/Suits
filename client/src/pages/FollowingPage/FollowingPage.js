@@ -22,6 +22,7 @@ import API from "api/api";
 import { Skeleton } from "@material-ui/lab";
 import { useCallback } from "react";
 import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
+import _ from "lodash";
 
 /* ---------------------------- styled components --------------------------- */
 const HashtagList = styled.ul`
@@ -272,15 +273,17 @@ export default function FollowingPage() {
       document.body.scrollTop
     );
     let clientHeight = document.documentElement.clientHeight;
-
     if (scrollTop + clientHeight === scrollHeight) {
       dispatch(loadMoreFollowingData(keywords, currentTag));
     }
   }, [dispatch, keywords, currentTag]);
 
+  // 스크롤 이벤트가 너무 발생하지 않도록 throttle 처리
+  const throttledDetection = _.throttle(onInfiniteScroll, 500);
+
   useEffect(() => {
-    window.addEventListener("scroll", onInfiniteScroll, true);
-    return () => window.removeEventListener("scroll", onInfiniteScroll, true);
+    window.addEventListener("scroll", throttledDetection, true);
+    return () => window.removeEventListener("scroll", throttledDetection, true);
   }, [onInfiniteScroll]);
 
   const onClick = (e) => {
