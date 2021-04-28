@@ -1,13 +1,13 @@
-import Card from "components/Card/Card";
-import React from "react";
-import styled from "styled-components";
-import { resetList } from "styles/common/common.styled";
+import Card from 'components/Card/Card';
+import React from 'react';
+import styled from 'styled-components';
+import { resetList } from 'styles/common/common.styled';
 
-import QnADialog from "containers/QnADialog/QnADialog";
-import { useState } from "react";
-import { fetchTrendingData } from "redux/storage/trendingQ/trendingQ";
-import { useDispatch } from "react-redux";
-import API from "api/api";
+import QnADialog from 'containers/QnADialog/QnADialog';
+import { useState } from 'react';
+import { fetchTrendingData } from 'redux/storage/trendingQ/trendingQ';
+import { useDispatch } from 'react-redux';
+import API from 'api/api';
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -31,11 +31,7 @@ const QuestionCard = styled(Card)`
 
 /* -------------------------------------------------------------------------- */
 
-export default function TrendingQuestionContent({
-  questions,
-  $isLoading,
-  ...restProps
-}) {
+export default function TrendingQuestionContent({ questions, $isLoading, ...restProps }) {
   const [isDialogVisible, setDialogVisiblity] = useState(false);
   const [question, setQuestion] = useState({});
   const dispatch = useDispatch();
@@ -45,7 +41,7 @@ export default function TrendingQuestionContent({
     setDialogVisiblity(true);
     try {
       setLoading(true);
-      const data = await API(`/api/questions/${id}`, "get");
+      const data = await API(`/api/questions/${id}`, 'get');
       setQuestion(data);
     } catch (err) {
       console.error(err);

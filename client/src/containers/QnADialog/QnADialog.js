@@ -1,24 +1,19 @@
-import React, { useEffect, useState, useRef } from "react";
-import Portal from "components/Portal/Portal";
-import Dialog from "components/Dialog/Dialog";
-import Card from "components/Card/Card";
-import QnAContent from "components/Content/QnAContent";
-import Divider from "components/Divider/Divider";
-import Hashtag from "components/Hashtag/Hashtag";
-import styled, { css } from "styled-components";
-import {
-  boxShadow,
-  spoqaSmall,
-  spoqaMedium,
-  spoqaMediumLight,
-} from "styles/common/common.styled";
-import { bool, object } from "prop-types";
-import API from "api/api";
-import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
-import { Skeleton } from "@material-ui/lab";
-import { useSelector } from "react-redux";
-import badwordFliter from "utils/badwordFilter/badwordFilter";
-import { confirmAlert } from "react-confirm-alert";
+import React, { useEffect, useState, useRef } from 'react';
+import Portal from 'components/Portal/Portal';
+import Dialog from 'components/Dialog/Dialog';
+import Card from 'components/Card/Card';
+import QnAContent from 'components/Content/QnAContent';
+import Divider from 'components/Divider/Divider';
+import Hashtag from 'components/Hashtag/Hashtag';
+import styled, { css } from 'styled-components';
+import { boxShadow, spoqaSmall, spoqaMedium, spoqaMediumLight } from 'styles/common/common.styled';
+import { bool, object } from 'prop-types';
+import API from 'api/api';
+import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
+import { Skeleton } from '@material-ui/lab';
+import { useSelector } from 'react-redux';
+import badwordFliter from 'utils/badwordFilter/badwordFilter';
+import { confirmAlert } from 'react-confirm-alert';
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -56,11 +51,10 @@ const AnswerContainer = styled.div`
 `;
 
 const StyledButton = styled.button.attrs((props) => ({
-  type: "button",
+  type: 'button',
   disabled: props.disabled,
 }))`
-  background-color: ${({ disabled }) =>
-    disabled ? "var(--color-gray3)" : "var(--color-gray5)"};
+  background-color: ${({ disabled }) => (disabled ? 'var(--color-gray3)' : 'var(--color-gray5)')};
   color: var(--color-gray1);
   border: none;
   border-radius: 5px;
@@ -71,7 +65,7 @@ const StyledButton = styled.button.attrs((props) => ({
   position: absolute;
   bottom: 0.6em;
   right: 0.3em;
-  cursor: ${({ disabled }) => (disabled ? "wait" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'wait' : 'pointer')};
 `;
 
 const SkeletonStyle = css`
@@ -119,7 +113,7 @@ const ButtonContainer = styled.div`
 `;
 
 const EditorOnlyButton = styled.button.attrs(() => ({
-  type: "button",
+  type: 'button',
 }))`
   background-color: var(--color-gray5);
   color: var(--color-gray1);
@@ -155,7 +149,7 @@ const EditArea = styled.textarea`
 `;
 
 const EditConfirmButton = styled.button.attrs(() => ({
-  type: "button",
+  type: 'button',
 }))`
   background-color: var(--color-gray5);
   color: var(--color-gray1);
@@ -225,10 +219,10 @@ const StyledConfirmAlert = styled.div`
 `;
 
 /* ------------------------------- 답변 영역 분기 처리 ------------------------------ */
-const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
+const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
-  const [editContent, setEditContent] = useState("");
+  const [editContent, setEditContent] = useState('');
 
   const handleEdit = (answerId, answerContent) => {
     setEditing(answerId);
@@ -240,8 +234,8 @@ const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
   };
 
   const postContent = async (answerId, newContent) => {
-    await API(`/api/answers/${answerId}`, "patch", {
-      content: badwordFliter.filter(newContent, "**"),
+    await API(`/api/answers/${answerId}`, 'patch', {
+      content: badwordFliter.filter(newContent, '**'),
     });
 
     setEditing(null);
@@ -250,7 +244,7 @@ const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
 
   const handleRemove = (answerId) => {
     const removeAnswer = async () => {
-      await API(`/api/answers/${answerId}`, "delete");
+      await API(`/api/answers/${answerId}`, 'delete');
     };
 
     confirmAlert({
@@ -288,10 +282,7 @@ const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
         <React.Fragment key={answer._id}>
           {editing === answer._id ? (
             <EditContainer>
-              <EditArea
-                value={editContent}
-                onChange={(e) => handleEditContent(e)}
-              />
+              <EditArea value={editContent} onChange={(e) => handleEditContent(e)} />
               <EditConfirmButton
                 onClick={() => {
                   postContent(answer._id, editContent);
@@ -300,9 +291,7 @@ const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
               >
                 확인
               </EditConfirmButton>
-              <EditConfirmButton onClick={() => setEditing(null)}>
-                취소
-              </EditConfirmButton>
+              <EditConfirmButton onClick={() => setEditing(null)}>취소</EditConfirmButton>
             </EditContainer>
           ) : (
             <QnAContent answer={answer} isEllipsis={false} />
@@ -311,14 +300,8 @@ const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
             <>
               {!editing ? (
                 <ButtonContainer>
-                  <EditorOnlyButton
-                    onClick={() => handleEdit(answer._id, answer.content)}
-                  >
-                    수정
-                  </EditorOnlyButton>
-                  <EditorOnlyButton onClick={() => handleRemove(answer._id)}>
-                    삭제
-                  </EditorOnlyButton>
+                  <EditorOnlyButton onClick={() => handleEdit(answer._id, answer.content)}>수정</EditorOnlyButton>
+                  <EditorOnlyButton onClick={() => handleRemove(answer._id)}>삭제</EditorOnlyButton>
                 </ButtonContainer>
               ) : null}
             </>
@@ -330,14 +313,8 @@ const Answers = ({ answersList = [], userId = "", handleRefresh }) => {
   );
 };
 
-const InputArea = ({
-  isAnswered,
-  isInputLoading,
-  questionId,
-  handleIsAnswered,
-  handleRefresh,
-}) => {
-  const [content, setContent] = useState("");
+const InputArea = ({ isAnswered, isInputLoading, questionId, handleIsAnswered, handleRefresh }) => {
+  const [content, setContent] = useState('');
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
 
   const handleContent = (e) => {
@@ -345,8 +322,8 @@ const InputArea = ({
   };
 
   const postContent = async () => {
-    await API("/api/answers", "post", {
-      content: badwordFliter.filter(content, "**"),
+    await API('/api/answers', 'post', {
+      content: badwordFliter.filter(content, '**'),
       questionId,
     });
 
@@ -366,7 +343,7 @@ const InputArea = ({
       <StyledButton
         disabled={isDisabled}
         onClick={() => {
-          if (content === "") return;
+          if (content === '') return;
 
           setIsDisabled(true);
           postContent();
@@ -386,9 +363,7 @@ export default function QnADialog({
   onClick, // 닫기 버튼 제어
   handleRefresh,
 }) {
-  const { currentUserData: userData } = useSelector(
-    (state) => state.currentUser
-  );
+  const { currentUserData: userData } = useSelector((state) => state.currentUser);
 
   const [isAnswered, setIsAnswered] = useState(null);
   const [isInputLoading, setIsInputLoading] = useState(null);
@@ -399,10 +374,8 @@ export default function QnADialog({
     setIsAnswered(true);
     setIsInputLoading(true);
     const getIsAnswered = async (questionId) => {
-      const userData = await API("/api/user-profile", "get");
-      const check = userData[0].answeredQuestions.find(
-        ({ _id }) => _id === questionId
-      );
+      const userData = await API('/api/user-profile', 'get');
+      const check = userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
       // const getIsAnswered = (questionId) => {
       //   const check =
       //     userData &&
@@ -422,7 +395,7 @@ export default function QnADialog({
   };
 
   return (
-    <Portal id={"dialog-container"}>
+    <Portal id={'dialog-container'}>
       <Dialog
         visible={isVisible} // 상위 컴포넌트의 state로 handle
         label="QnA 상세 내용"
@@ -436,11 +409,7 @@ export default function QnADialog({
                   return <Hashtag key={idx} type={keyword} />;
                 })}
               </HashtagContainer>
-              <Answers
-                answersList={currentQuestion.answers}
-                userId={userData[0]._id}
-                handleRefresh={handleRefresh}
-              />
+              <Answers answersList={currentQuestion.answers} userId={userData[0]._id} handleRefresh={handleRefresh} />
               <InputArea
                 isAnswered={isAnswered}
                 isInputLoading={isInputLoading}

@@ -1,21 +1,20 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 // components
-import PageContainer from "containers/PageContainer/PageContainer.styled";
-import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
-import Card from "components/Card/Card";
-import Hashtag from "components/Hashtag/Hashtag";
-import Answers from "containers/AnswerContainer/AnswerContainer";
-import InputArea from "containers/AnswerInput/AnswerInput";
+import PageContainer from 'containers/PageContainer/PageContainer.styled';
+import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
+import Card from 'components/Card/Card';
+import Hashtag from 'components/Hashtag/Hashtag';
+import Answers from 'containers/AnswerContainer/AnswerContainer';
+import InputArea from 'containers/AnswerInput/AnswerInput';
 
 // etc.
-import { pageEffect } from "styles/motions/variants";
-import styled, { css } from "styled-components";
-import API from "api/api";
+import { pageEffect } from 'styles/motions/variants';
+import styled, { css } from 'styled-components';
+import API from 'api/api';
 // TODO: API 말고 그냥 axios로 수정
-import { Skeleton } from "@material-ui/lab";
-
+import { Skeleton } from '@material-ui/lab';
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -75,9 +74,7 @@ export default function PostPage({ history, location, match }) {
   const [data, setData] = useState({}); // question data
 
   // user 정보
-  const { currentUserData: userData } = useSelector(
-    (state) => state.currentUser
-  );
+  const { currentUserData: userData } = useSelector((state) => state.currentUser);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isInputLoading, setIsInputLoading] = useState(false);
 
@@ -100,10 +97,8 @@ export default function PostPage({ history, location, match }) {
     setIsAnswered(true);
     setIsInputLoading(true);
     const getIsAnswered = async (questionId) => {
-      const userData = await API("/api/user-profile", "get");
-      const check = userData[0].answeredQuestions.find(
-        ({ _id }) => _id === questionId
-      );
+      const userData = await API('/api/user-profile', 'get');
+      const check = userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
 
       check ? setIsAnswered(true) : setIsAnswered(false);
       setIsInputLoading(false);
@@ -125,7 +120,7 @@ export default function PostPage({ history, location, match }) {
   const handleRefresh = async () => {
     await getData(qid);
     // history.push(location.pathname);
-    history.push({ pathname: "/" });
+    history.push({ pathname: '/' });
     history.replace({ pathname: location.pathname });
   };
 
@@ -133,13 +128,8 @@ export default function PostPage({ history, location, match }) {
   return (
     <>
       <TextHeaderBar page="home" />
-      <PageContainer
-        page="post"
-        variants={pageEffect}
-        initial="hidden"
-        animate="visible"
-      >
-      <CardContainer>
+      <PageContainer page="post" variants={pageEffect} initial="hidden" animate="visible">
+        <CardContainer>
           {Object.keys(data).length && userData ? (
             <Card isQuestion title={data.content}>
               <HashtagContainer>
@@ -173,4 +163,4 @@ export default function PostPage({ history, location, match }) {
       </PageContainer>
     </>
   );
-};
+}

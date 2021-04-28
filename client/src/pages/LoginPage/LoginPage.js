@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import PageContainer from "containers/PageContainer/PageContainer.styled";
-import styled from "styled-components";
-import { pageEffect } from "styles/motions/variants";
-import { useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router";
-import Button from "components/Button/Button";
-import Icon from "components/Icon/Icon";
-import { museoLarge } from "styles/common/common.styled";
+import React, { useEffect, useState } from 'react';
+import PageContainer from 'containers/PageContainer/PageContainer.styled';
+import styled from 'styled-components';
+import { pageEffect } from 'styles/motions/variants';
+import { useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router';
+import Button from 'components/Button/Button';
+import Icon from 'components/Icon/Icon';
+import { museoLarge } from 'styles/common/common.styled';
 
 const LoginContent = styled.div`
   display: flex;
@@ -51,7 +51,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthed) {
-      !state?.referrer ? history.push("/") : history.push(state?.referrer);
+      !state?.referrer ? history.push('/') : history.push(state?.referrer);
     } else if (error) {
       setDisabled(false);
     }
@@ -59,16 +59,11 @@ export default function LoginPage() {
 
   const handleGithubLogin = () => {
     setDisabled(true);
-    window.open("/auth/github", "_self");
+    window.open('/auth/github', '_self');
   };
 
   return (
-    <PageContainer
-      page="login"
-      variants={pageEffect}
-      initial="hidden"
-      animate="visible"
-    >
+    <PageContainer page="login" variants={pageEffect} initial="hidden" animate="visible">
       <LoginContent>
         <Icon type="logo" title="Suits" height="10em" />
         <h1>Suits</h1>

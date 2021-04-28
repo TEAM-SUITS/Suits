@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import PageContainer from "containers/PageContainer/PageContainer.styled";
-import { pageEffect } from "styles/motions/variants";
-import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
-import SearchHeaderBar from "containers/SearchHeaderBar/SearchHeaderBar";
-import Card from "components/Card/Card";
-import QnAContent from "components/Content/QnAContent";
-import { fetchSearchData } from "redux/storage/search/search";
-import styled from "styled-components";
-import { spoqaMedium } from "styles/common/common.styled";
-import { array, string } from "prop-types";
-import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PageContainer from 'containers/PageContainer/PageContainer.styled';
+import { pageEffect } from 'styles/motions/variants';
+import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
+import SearchHeaderBar from 'containers/SearchHeaderBar/SearchHeaderBar';
+import Card from 'components/Card/Card';
+import QnAContent from 'components/Content/QnAContent';
+import { fetchSearchData } from 'redux/storage/search/search';
+import styled from 'styled-components';
+import { spoqaMedium } from 'styles/common/common.styled';
+import { array, string } from 'prop-types';
+import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
 
 /* ---------------------------- styled components --------------------------- */
 const InfoImg = styled.img`
@@ -29,18 +29,13 @@ const InfoMsg = styled.p`
 `;
 
 /* ---------------------------------- 검색 영역 --------------------------------- */
-function ResultsSection({
-  result = [],
-  word = "",
-  isLoading,
-  handleRefresh,
-}) {
+function ResultsSection({ result = [], word = '', isLoading, handleRefresh }) {
   // 로딩 중일 때
   if (isLoading) {
     return <Spinner />;
   }
 
-  if (result === null || word === "") {
+  if (result === null || word === '') {
     return (
       <>
         <InfoImg src="/assets/magnifier.png" alt="검색어 입력 안내" />
@@ -60,18 +55,11 @@ function ResultsSection({
   return (
     <>
       {result.map((data, idx) => (
-        <Card
-          key={data._id}
-          qId={data._id}
-          isQuestion={true}
-          isPreview={true}
-          title={data.content}
-          tags={data.hashTag}
-        >
+        <Card key={data._id} qId={data._id} isQuestion={true} isPreview={true} title={data.content} tags={data.hashTag}>
           <QnAContent
             answer={
               // 빈 객체일 경우 false 전달
-              data.answers[0].hasOwnProperty("likes") &&
+              data.answers[0].hasOwnProperty('likes') &&
               data.answers.reduce(
                 (prev, curr) => {
                   if (curr.likes.length >= prev.likes.length) {
@@ -103,7 +91,7 @@ export default function SearchPage() {
   }, [searchWord, dispatch, refresh]);
   const handleSearchWord = (e) => {
     // enter -> setSearchWord
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       const v = e.target.value;
       setPrevSearchWord(searchWord);
       setSearchWord(v);
@@ -112,7 +100,7 @@ export default function SearchPage() {
 
   const handleCancelButton = () => {
     setPrevSearchWord(searchWord);
-    setSearchWord("");
+    setSearchWord('');
   };
 
   const handleRefresh = () => {
@@ -122,17 +110,8 @@ export default function SearchPage() {
   return (
     <>
       <TextHeaderBar page="search" />
-      <PageContainer
-        page="search"
-        variants={pageEffect}
-        initial="hidden"
-        animate="visible"
-      >
-        <SearchHeaderBar
-          onKeyUp={handleSearchWord}
-          onClick={handleCancelButton}
-          initialWord={searchWord}
-        />
+      <PageContainer page="search" variants={pageEffect} initial="hidden" animate="visible">
+        <SearchHeaderBar onKeyUp={handleSearchWord} onClick={handleCancelButton} initialWord={searchWord} />
         <TextHeaderBar page="search" />
         <ResultsSection
           result={searchState.searchData}

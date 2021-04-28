@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { oneOf, number } from "prop-types";
-import tier1 from "./images/tier1.png";
-import tier2 from "./images/tier2.png";
-import tier3 from "./images/tier3.png";
-import tier4 from "./images/tier4.png";
-import tier5 from "./images/tier5.png";
-import tier6 from "./images/tier6.png";
+import React from 'react';
+import styled from 'styled-components';
+import { oneOf, number } from 'prop-types';
+import tier1 from './images/tier1.png';
+import tier2 from './images/tier2.png';
+import tier3 from './images/tier3.png';
+import tier4 from './images/tier4.png';
+import tier5 from './images/tier5.png';
+import tier6 from './images/tier6.png';
 
 const StyledTier = styled.img.attrs((props) => ({
   src: props.$src,
@@ -40,7 +40,7 @@ export default function Tier({ tier = 1, height }) {
       return;
   }
 
-  return <StyledTier $src={src} $alt={"tier" + tier} $height={height} />
+  return <StyledTier $src={src} $alt={'tier' + tier} $height={height} />;
 }
 
 /* -------------------------------- proptypes ------------------------------- */

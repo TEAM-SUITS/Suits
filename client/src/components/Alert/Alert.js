@@ -1,18 +1,14 @@
-import React from "react";
-import Icon from "components/Icon/Icon";
-import styled from "styled-components";
-import {
-  museoMedium,
-  spoqaSmall,
-  spoqaMedium,
-} from "styles/common/common.styled";
-import { string } from "prop-types";
-import { motion } from "framer-motion";
-import Button from "components/Button/Button";
+import React from 'react';
+import Icon from 'components/Icon/Icon';
+import styled from 'styled-components';
+import { museoMedium, spoqaSmall, spoqaMedium } from 'styles/common/common.styled';
+import { string } from 'prop-types';
+import { motion } from 'framer-motion';
+import Button from 'components/Button/Button';
 
 /* ---------------------------- styled components ---------------------------- */
 
-const AlertContainer = styled(motion.div).attrs({ role: "alert" })`
+const AlertContainer = styled(motion.div).attrs({ role: 'alert' })`
   text-align: center;
   display: flex;
   position: fixed;
@@ -23,23 +19,18 @@ const AlertContainer = styled(motion.div).attrs({ role: "alert" })`
   color: var(--color-gray3);
   ${spoqaSmall}
   color: ${({ status }) =>
-    (status === "error" && "#d28c92") ||
-    (status === "success" && "#0d2e14") ||
-    (status === "info" && "black")};
+    (status === 'error' && '#d28c92') || (status === 'success' && '#0d2e14') || (status === 'info' && 'black')};
   background-color: ${({ status }) =>
-    (status === "error" && "#f5d0d3") ||
-    (status === "success" && "#c4e6cc") ||
-    (status === "info" && "var(--color-body)")};
+    (status === 'error' && '#f5d0d3') ||
+    (status === 'success' && '#c4e6cc') ||
+    (status === 'info' && 'var(--color-body)')};
   border-radius: 3px;
-  border: ${({ status }) =>
-    status === "info" ? "none" : "1px solid currentColor"};
+  border: ${({ status }) => (status === 'info' ? 'none' : '1px solid currentColor')};
   padding: 5px;
   width: 100%;
   svg {
     path {
-      fill: ${({ status }) =>
-        (status === "error" && "#7f3c42") ||
-        (status === "success" && "#0d2e14")};
+      fill: ${({ status }) => (status === 'error' && '#7f3c42') || (status === 'success' && '#0d2e14')};
     }
   }
 
@@ -77,8 +68,8 @@ export default function Alert({ status, message, onClick }) {
         y: 46, // navigation + border
       }}
       transition={{
-        type: "tween",
-        ease: "backOut",
+        type: 'tween',
+        ease: 'backOut',
         duration: 0.5,
       }}
     >

@@ -3,11 +3,7 @@ import { useState, useEffect } from 'react';
 
 /* -------------------------------------------------------------------------- */
 
-export default function useFetchState(
-  api,
-  method = 'get',
-  payload
-) {
+export default function useFetchState(api, method = 'get', payload) {
   // 상태
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -22,20 +18,20 @@ export default function useFetchState(
           case 'get':
             res = await axios.get(api);
             break;
-            
+
           case 'post':
             res = await axios.post(api, payload);
             break;
-            
+
           case 'patch':
             res = await axios.patch(api, payload);
             break;
-            
+
           case 'delete':
             res = await axios.delete(api);
             break;
-  
-            default:
+
+          default:
             break;
         }
 

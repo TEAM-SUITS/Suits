@@ -4,14 +4,14 @@ const badwordsData = require('./badwords.json');
 
 module.exports = (() => {
   let badwordsArray = badwordsData.words;
-  const escapedBadwordsArray = badwordsArray.map(badword => {
+  const escapedBadwordsArray = badwordsArray.map((badword) => {
     const specialCharacters = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
     const backSlash = '\\';
-  
+
     if (specialCharacters.test(badword)) {
       return badword.replace(specialCharacters, backSlash + '$&');
     }
-  
+
     return badword;
   });
   const badwordsString = escapedBadwordsArray.join(`+|`).slice(2, -1);
@@ -28,7 +28,7 @@ module.exports = (() => {
         // 인자로 전달한 content가 비속어를 포함하고 있을 경우의 처리를 작성해주세요.
         return '부적절한 단어가 포함되어 있습니다.';
       }
-    
+
       // 비속어를 포함하지 않은 정상적인 경우의 처리를 작성해주세요.
       return content;
     },
@@ -63,8 +63,8 @@ module.exports = (() => {
      * @param {...string} words - 욕설 및 비속어 목록에서 제거할 단어(들)
      */
     removeWords(...words) {
-      words.forEach(word => {
-        badwordsArray = badwordsArray.filter(badword => badword !== word);
+      words.forEach((word) => {
+        badwordsArray = badwordsArray.filter((badword) => badword !== word);
       });
     },
 
@@ -73,6 +73,6 @@ module.exports = (() => {
      */
     removeAllWords() {
       badwordsArray = [];
-    }
-  }
+    },
+  };
 })();

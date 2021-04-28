@@ -12,15 +12,7 @@ const HorizontalLine = styled.div`
 
 /* -------------------------------------------------------------------------- */
 
-export default function Divider({
-  primary,
-  height,
-  width,
-  color,
-  margin,
-  minWidth,
-  ...restProps
-}) {
+export default function Divider({ primary, height, width, color, margin, minWidth, ...restProps }) {
   return (
     <HorizontalLine
       $height={height}

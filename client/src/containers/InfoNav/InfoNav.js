@@ -20,8 +20,7 @@ const StyledNavLink = styled(NavLink)`
   width: 100%;
   text-align: center;
   padding: 1rem 0;
-  border-bottom: ${(props) =>
-    props.active ? '2px solid var(--color-gray5)' : null};
+  border-bottom: ${(props) => (props.active ? '2px solid var(--color-gray5)' : null)};
   font-weight: ${(props) => (props.active ? 700 : 400)};
 `;
 
@@ -40,22 +39,13 @@ export default function InfoNav() {
 
   return (
     <StyledNav>
-      <StyledNavLink
-        to={'/info/suits'}
-        active={pathname === '/info/suits' || pathname === '/info' ? 1 : 0}
-      >
+      <StyledNavLink to={'/info/suits'} active={pathname === '/info/suits' || pathname === '/info' ? 1 : 0}>
         <StyledHeading>Suits</StyledHeading>
       </StyledNavLink>
-      <StyledNavLink
-        to={'/info/my-info'}
-        active={pathname === '/info/my-info' ? 1 : 0}
-      >
+      <StyledNavLink to={'/info/my-info'} active={pathname === '/info/my-info' ? 1 : 0}>
         <StyledHeading>계정 관리</StyledHeading>
       </StyledNavLink>
-      <StyledNavLink
-        to={'/info/how-to-use'}
-        active={pathname === '/info/how-to-use' ? 1 : 0}
-      >
+      <StyledNavLink to={'/info/how-to-use'} active={pathname === '/info/how-to-use' ? 1 : 0}>
         <StyledHeading>이용 안내</StyledHeading>
       </StyledNavLink>
     </StyledNav>

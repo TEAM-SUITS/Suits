@@ -1,15 +1,14 @@
-import ProfileDialog from "./ProfileDialog";
+import ProfileDialog from './ProfileDialog';
 
 /* -------------------------------------------------------------------------- */
 
 export default {
-  title: "Container/ProfileDialog",
+  title: 'Container/ProfileDialog',
   component: ProfileDialog,
   parameters: {
     docs: {
       description: {
-        component:
-          "ProfileDialog 컨테이너 컴포넌트는 다른 사용자의 프로필을 조회할 때 보여지는 다이얼로그입니다.",
+        component: 'ProfileDialog 컨테이너 컴포넌트는 다른 사용자의 프로필을 조회할 때 보여지는 다이얼로그입니다.',
       },
     },
     argTypes: {
@@ -24,19 +23,19 @@ export default {
   },
 };
 
-const Template = (args) => <ProfileDialog {...args} />
+const Template = (args) => <ProfileDialog {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
   isVisible: false,
-  user:{
-    _id: "abcd",
-    username: "aespa",
-    img: "/",
+  user: {
+    _id: 'abcd',
+    username: 'aespa',
+    img: '/',
     tier: 2,
-    hashtag: ["CSS"],
+    hashtag: ['CSS'],
     github: null,
-    bio: "에스파는 나야~",
+    bio: '에스파는 나야~',
     like: 24,
   },
 };

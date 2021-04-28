@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 // comps
-import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
+import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
 
 // styles
-import styled, { css } from "styled-components";
-import { boxShadow, spoqaMedium, spoqaLarge } from "styles/common/common.styled";
+import styled, { css } from 'styled-components';
+import { boxShadow, spoqaMedium, spoqaLarge } from 'styles/common/common.styled';
 
 // etc.
-import API from "api/api";
-import badwordFilter from "utils/badwordFilter/badwordFilter";
+import API from 'api/api';
+import badwordFilter from 'utils/badwordFilter/badwordFilter';
 
 /* ---------------------------- styled components --------------------------- */
 const AnswerContainer = styled.div`
@@ -45,33 +45,26 @@ const StyledTextarea = styled.textarea`
 `;
 
 const StyledButton = styled.button.attrs((props) => ({
-  type: "button",
+  type: 'button',
   disabled: props.disabled,
 }))`
   display: block;
   margin: 2rem auto;
-  background-color: ${({ disabled }) =>
-    disabled ? "var(--color-gray3)" : "var(--color-gray5)"};
+  background-color: ${({ disabled }) => (disabled ? 'var(--color-gray3)' : 'var(--color-gray5)')};
   border: none;
   border-radius: 5px;
   width: 60px;
   ${boxShadow}
   ${spoqaLarge}
   padding: 0 3px;
-  cursor: ${({ disabled }) => (disabled ? "wait" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? 'wait' : 'pointer')};
   color: var(--color-gray1);
   font-size: 1.6rem;
 `;
 
 /* ------------------------------- input area ------------------------------- */
-export default function InputArea({
-  isAnswered,
-  isInputLoading,
-  questionId,
-  handleIsAnswered,
-  handleRefresh,
-}) {
-  const [content, setContent] = useState("");
+export default function InputArea({ isAnswered, isInputLoading, questionId, handleIsAnswered, handleRefresh }) {
+  const [content, setContent] = useState('');
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
 
   const handleContent = (e) => {
@@ -79,8 +72,8 @@ export default function InputArea({
   };
 
   const postContent = async () => {
-    await API("/api/answers", "post", {
-      content: badwordFilter.filter(content, "**"),
+    await API('/api/answers', 'post', {
+      content: badwordFilter.filter(content, '**'),
       questionId,
     });
 
@@ -100,7 +93,7 @@ export default function InputArea({
       <StyledButton
         disabled={isDisabled}
         onClick={() => {
-          if (content === "") return;
+          if (content === '') return;
 
           setIsDisabled(true);
           postContent();
@@ -111,4 +104,4 @@ export default function InputArea({
       </StyledButton>
     </AnswerContainer>
   );
-};
+}

@@ -4,12 +4,7 @@ import ahn from './images/ahn.jpeg';
 import suh from './images/suh.png';
 import park from './images/park.jpeg';
 import styled from 'styled-components';
-import {
-  boxShadow,
-  spoqaLarge,
-  spoqaMedium,
-  textShadow,
-} from 'styles/common/common.styled';
+import { boxShadow, spoqaLarge, spoqaMedium, textShadow } from 'styles/common/common.styled';
 import Icon from 'components/Icon/Icon';
 import Divider from 'components/Divider/Divider';
 
@@ -134,17 +129,11 @@ export default function Suits() {
     e.target.src = imgSrc;
   };
 
-  const placeHolder =
-    'https://via.placeholder.com/150x150.png?text=Place+Holder';
+  const placeHolder = 'https://via.placeholder.com/150x150.png?text=Place+Holder';
 
   return (
     <StylesSuits>
-      <img
-        src={placeHolder}
-        alt="Suits 로고"
-        className="logo"
-        onLoad={handleLoaded}
-      />
+      <img src={placeHolder} alt="Suits 로고" className="logo" onLoad={handleLoaded} />
       <h3 className="heading">
         기술 면접을 준비하는 단정한 습관<em>Suits</em>
       </h3>

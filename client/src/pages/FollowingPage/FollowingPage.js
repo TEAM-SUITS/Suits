@@ -1,22 +1,18 @@
-import { useEffect, useState, useRef } from "react";
-import styled, { css } from "styled-components";
-import {
-  resetList,
-  spoqaMedium,
-  spoqaLarge,
-} from "styles/common/common.styled";
-import { Link } from "react-router-dom";
-import PageContainer from "containers/PageContainer/PageContainer.styled";
-import { pageEffect } from "styles/motions/variants";
-import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
-import Hashtag from "components/Hashtag/Hashtag";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchFollowingData } from "redux/storage/following/following";
-import Card from "components/Card/Card";
-import QnAContent from "components/Content/QnAContent";
-import QnADialog from "containers/QnADialog/QnADialog";
-import API from "api/api";
-import { Skeleton } from "@material-ui/lab";
+import { useEffect, useState, useRef } from 'react';
+import styled, { css } from 'styled-components';
+import { resetList, spoqaMedium, spoqaLarge } from 'styles/common/common.styled';
+import { Link } from 'react-router-dom';
+import PageContainer from 'containers/PageContainer/PageContainer.styled';
+import { pageEffect } from 'styles/motions/variants';
+import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
+import Hashtag from 'components/Hashtag/Hashtag';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFollowingData } from 'redux/storage/following/following';
+import Card from 'components/Card/Card';
+import QnAContent from 'components/Content/QnAContent';
+import QnADialog from 'containers/QnADialog/QnADialog';
+import API from 'api/api';
+import { Skeleton } from '@material-ui/lab';
 
 /* ---------------------------- styled components --------------------------- */
 const HashtagList = styled.ul`
@@ -48,8 +44,8 @@ const CardList = styled.ul`
 `;
 
 const ImageSection = styled.img.attrs(() => ({
-  src: "/assets/suity.png",
-  alt: "관심 키워드 설정 안내하는 슈티",
+  src: '/assets/suity.png',
+  alt: '관심 키워드 설정 안내하는 슈티',
 }))`
   width: 300px;
 
@@ -124,7 +120,7 @@ const SkeletonTitle = styled(Skeleton)`
 function CardSection({
   isLoading,
   cardData = {},
-  currentTag = "",
+  currentTag = '',
   onClick,
   keywords = [],
   // refreshFollowingData,
@@ -136,7 +132,7 @@ function CardSection({
 
     return () => {
       isMounted.current = false;
-    }
+    };
   }, []);
 
   if (!isLoading && !keywords.length) {
@@ -156,21 +152,11 @@ function CardSection({
     <>
       <HashtagList>
         <li>
-          <Hashtag
-            type="All"
-            isSelected={currentTag === "All" ? true : false}
-            isButton={true}
-            clicked={onClick}
-          />
+          <Hashtag type="All" isSelected={currentTag === 'All' ? true : false} isButton={true} clicked={onClick} />
         </li>
         {keywords.map((tag) => (
           <li key={tag}>
-            <Hashtag
-              type={tag}
-              isSelected={currentTag === tag ? true : false}
-              isButton={true}
-              clicked={onClick}
-            />
+            <Hashtag type={tag} isSelected={currentTag === tag ? true : false} isButton={true} clicked={onClick} />
           </li>
         ))}
       </HashtagList>
@@ -230,7 +216,7 @@ export default function FollowingPage() {
   const userState = useSelector((state) => state.currentUser);
   const followingState = useSelector((state) => state.following);
   const [currentTag, setCurrentTag] = useState(followingState.currentTag);
-  const [prevTag, setPrevTag] = useState("All");
+  const [prevTag, setPrevTag] = useState('All');
   const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
@@ -238,14 +224,7 @@ export default function FollowingPage() {
     // 에러를 방지하기 위해 분기 처리
     if (userState.currentUserData) setKeywords(userState.currentUserData[0].hashTag);
     setPrevTag(currentTag);
-    dispatch(
-      fetchFollowingData(
-        keywords,
-        currentTag,
-        prevTag,
-        followingState.isInitial
-      )
-    );
+    dispatch(fetchFollowingData(keywords, currentTag, prevTag, followingState.isInitial));
   }, [dispatch, keywords, currentTag, userState.currentUserData]);
 
   const onClick = (e) => {
@@ -255,12 +234,7 @@ export default function FollowingPage() {
   return (
     <>
       <TextHeaderBar page="follow" />
-      <PageContainer
-        page="follow"
-        variants={pageEffect}
-        initial="hidden"
-        animate="visible"
-      >
+      <PageContainer page="follow" variants={pageEffect} initial="hidden" animate="visible">
         {userState.currentUserData ? (
           <CardSection
             isLoading={followingState.isLoading}

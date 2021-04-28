@@ -28,8 +28,7 @@ User.args = {
   user: {
     id: 'user1',
     username: 'Frontendkid',
-    img:
-      'https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg',
+    img: 'https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg',
     tier: 6,
   },
 };

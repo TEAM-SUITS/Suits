@@ -1,13 +1,13 @@
-import React from "react";
-import LikeButton from "components/LikeButton/LikeButton";
-import MiniProfile from "components/MiniProfile/MiniProfile";
-import styled from "styled-components";
-import { ellipsis, spoqaMedium, spoqaSmall } from "styles/common/common.styled";
-import { object, bool, oneOfType } from "prop-types";
-import API from "api/api";
-import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import { useEffect } from "react";
+import React from 'react';
+import LikeButton from 'components/LikeButton/LikeButton';
+import MiniProfile from 'components/MiniProfile/MiniProfile';
+import styled from 'styled-components';
+import { ellipsis, spoqaMedium, spoqaSmall } from 'styles/common/common.styled';
+import { object, bool, oneOfType } from 'prop-types';
+import API from 'api/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -50,11 +50,11 @@ const NoAnswerYet = styled.div`
 
 /* -------------------------------- mockdata -------------------------------- */
 const mockdata = {
-  _id: "607d40dfc0fe755dc815f9c2",
-  username: "N/A",
-  avatar: "/assets/suity.png",
-  bio: "해당 유저는 탈퇴한 유저입니다.",
-  githubRepo: "https://github.com/TEAM-SUITS/Suits",
+  _id: '607d40dfc0fe755dc815f9c2',
+  username: 'N/A',
+  avatar: '/assets/suity.png',
+  bio: '해당 유저는 탈퇴한 유저입니다.',
+  githubRepo: 'https://github.com/TEAM-SUITS/Suits',
   tier: 1,
 };
 /* -------------------------------------------------------------------------- */
@@ -71,10 +71,10 @@ export default function QnAContent({ answer, isEllipsis = true }) {
       setLikeLoading(true);
       // 만약 답변에 이미 좋아요를 표시한 유저라면 좋아요를 해제 하는 요청
       if ($answer.likes.includes(currentUserData[0]._id)) {
-        const answerData = await API(`/api/unlike/${answer._id}`, "put");
+        const answerData = await API(`/api/unlike/${answer._id}`, 'put');
         setAnswer(answerData);
       } else {
-        const answerData = await API(`/api/like/${answer._id}`, "put");
+        const answerData = await API(`/api/like/${answer._id}`, 'put');
         setAnswer(answerData);
       }
     } catch (err) {

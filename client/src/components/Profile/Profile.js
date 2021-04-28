@@ -1,19 +1,14 @@
-import React from "react";
-import styled from "styled-components";
-import { object, bool } from "prop-types";
-import Tier from "components/Tier/Tier";
-import Hashtag from "components/Hashtag/Hashtag";
-import {
-  museoLarge,
-  spoqaMedium,
-  spoqaMediumLight,
-  spoqaSmall,
-} from "styles/common/common.styled";
-import Icon from "components/Icon/Icon";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Skeleton } from "@material-ui/lab";
-import { useSelector } from "react-redux";
+import React from 'react';
+import styled from 'styled-components';
+import { object, bool } from 'prop-types';
+import Tier from 'components/Tier/Tier';
+import Hashtag from 'components/Hashtag/Hashtag';
+import { museoLarge, spoqaMedium, spoqaMediumLight, spoqaSmall } from 'styles/common/common.styled';
+import Icon from 'components/Icon/Icon';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Skeleton } from '@material-ui/lab';
+import { useSelector } from 'react-redux';
 
 const StyledProfile = styled.div`
   display: flex;
@@ -172,11 +167,7 @@ export default function Profile({ user, $isLoading, ...restProps }) {
     if (bio) return <p>{bio}</p>;
     else if (!bio && currentUserData && currentUserData[0]._id === _id) {
       return (
-        <StyledLink
-          className="no-bio"
-          whileHover={{ scale: 1.1 }}
-          to="/info/my-info"
-        >
+        <StyledLink className="no-bio" whileHover={{ scale: 1.1 }} to="/info/my-info">
           소개말 등록
         </StyledLink>
       );
@@ -200,12 +191,7 @@ export default function Profile({ user, $isLoading, ...restProps }) {
       );
     else if (hashtag.length === 0 && currentUserData[0]._id === _id) {
       return (
-        <StyledLink
-          className="no-tag"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 1.1 }}
-          to="/info/my-info"
-        >
+        <StyledLink className="no-tag" whileHover={{ scale: 1.1 }} whileTap={{ scale: 1.1 }} to="/info/my-info">
           <Hashtag isButton type="ETC">
             관심 태그 등록
           </Hashtag>

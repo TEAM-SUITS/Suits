@@ -1,12 +1,12 @@
-import HardWorker from "components/HardWorker/HardWorker";
-import React, { useState } from "react";
-import styled from "styled-components";
-import { resetList } from "styles/common/common.styled";
-import { array, bool } from "prop-types";
-import { Skeleton } from "@material-ui/lab";
-import ProfileDialog from "containers/ProfileDialog/ProfileDialog";
-import API from "api/api";
-import { useEffect } from "react";
+import HardWorker from 'components/HardWorker/HardWorker';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { resetList } from 'styles/common/common.styled';
+import { array, bool } from 'prop-types';
+import { Skeleton } from '@material-ui/lab';
+import ProfileDialog from 'containers/ProfileDialog/ProfileDialog';
+import API from 'api/api';
+import { useEffect } from 'react';
 
 const HardWorkers = styled.ul`
   ${resetList}
@@ -93,14 +93,14 @@ export default function HardWorkersContent({ users, $isLoading }) {
   const [isLoading, setLoading] = useState(false);
 
   const handleClick = (e) => {
-    if (e.target.classList.contains("overlay")) setDialogVisiblity(false);
+    if (e.target.classList.contains('overlay')) setDialogVisiblity(false);
   };
 
   useEffect(() => {
     if (isDialogVisible) {
-      window.addEventListener("click", handleClick);
+      window.addEventListener('click', handleClick);
     }
-    return () => window.removeEventListener("click", handleClick);
+    return () => window.removeEventListener('click', handleClick);
   }, [isDialogVisible]);
 
   const handleDialog = async (id) => {
@@ -108,17 +108,8 @@ export default function HardWorkersContent({ users, $isLoading }) {
     // profile에 맞게 데이터를 전달해주기 위해 가공
     try {
       setLoading(true);
-      const data = await API(`/api/user-profile/${id}`, "get");
-      const {
-        _id,
-        username,
-        avatar,
-        tier,
-        hashTag,
-        githubRepo,
-        bio,
-        likeCount,
-      } = data[0];
+      const data = await API(`/api/user-profile/${id}`, 'get');
+      const { _id, username, avatar, tier, hashTag, githubRepo, bio, likeCount } = data[0];
       setProfile({
         _id,
         username,

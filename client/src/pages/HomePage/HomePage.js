@@ -49,21 +49,13 @@ export default function HomePage() {
 
   const { currentUserData } = useSelector((state) => state.currentUser);
 
-  const { randomQData, isLoading: isRandomQLoading } = useSelector(
-    (state) => state.randomQ
-  );
+  const { randomQData, isLoading: isRandomQLoading } = useSelector((state) => state.randomQ);
 
-  const { quoteData, isLoading: isQuoteLoading } = useSelector(
-    (state) => state.quote
-  );
+  const { quoteData, isLoading: isQuoteLoading } = useSelector((state) => state.quote);
 
-  const { workersData, isLoading: isWorkerLoading } = useSelector(
-    (state) => state.hardWorkers
-  );
+  const { workersData, isLoading: isWorkerLoading } = useSelector((state) => state.hardWorkers);
 
-  const { trendingQData, isLoading: isTrendingLoading } = useSelector(
-    (state) => state.trendingQ
-  );
+  const { trendingQData, isLoading: isTrendingLoading } = useSelector((state) => state.trendingQ);
 
   useEffect(() => {
     if (needRefresh) {
@@ -83,8 +75,7 @@ export default function HomePage() {
 
   // 처음 앱에 가입한 유저인 경우 키워드 설정하는 모달이 나오도록 설정
   useEffect(() => {
-    if (currentUserData && currentUserData[0].firstLogin)
-      setIsSelectingKeywords(true);
+    if (currentUserData && currentUserData[0].firstLogin) setIsSelectingKeywords(true);
   }, [currentUserData]);
 
   // 페이지내에서 사용될 랜덤 질문 미리보기 로직 (좋아요 순)
@@ -103,19 +94,11 @@ export default function HomePage() {
   return (
     <>
       {isSelectingKeywords && (
-        <KeywordSelect
-          userKeywords={currentUserData[0].hashTag}
-          onClose={() => setIsSelectingKeywords(false)}
-        />
+        <KeywordSelect userKeywords={currentUserData[0].hashTag} onClose={() => setIsSelectingKeywords(false)} />
       )}
 
       <TextHeaderBar page="home" />
-      <PageContainer
-        page="home"
-        variants={pageEffect}
-        initial="hidden"
-        animate="visible"
-      >
+      <PageContainer page="home" variants={pageEffect} initial="hidden" animate="visible">
         <AdBanner />
 
         {/* 랜덤 QnA 카드 섹션 */}
@@ -132,31 +115,12 @@ export default function HomePage() {
 
         {/* 명언 카드 섹션 */}
         <Card title="Wisdom Of The Day">
-          {
-            <QuotesContent
-              textCenter
-              quote={quoteData}
-              lang={quoteLanguage}
-              $isLoading={isQuoteLoading}
-            />
-          }
-          <StyledButtonGroup
-            exclusive
-            value={quoteLanguage}
-            onChange={(_, value) => setQuoteLanguage(value)}
-          >
-            <ToggleButton
-              value="ko"
-              aria-label="번역된 명언 보기"
-              disabled={quoteLanguage === 'ko'}
-            >
+          {<QuotesContent textCenter quote={quoteData} lang={quoteLanguage} $isLoading={isQuoteLoading} />}
+          <StyledButtonGroup exclusive value={quoteLanguage} onChange={(_, value) => setQuoteLanguage(value)}>
+            <ToggleButton value="ko" aria-label="번역된 명언 보기" disabled={quoteLanguage === 'ko'}>
               ko
             </ToggleButton>
-            <ToggleButton
-              value="en"
-              aria-label="원문 명언 보기"
-              disabled={quoteLanguage === 'en'}
-            >
+            <ToggleButton value="en" aria-label="원문 명언 보기" disabled={quoteLanguage === 'en'}>
               en
             </ToggleButton>
           </StyledButtonGroup>
@@ -164,18 +128,11 @@ export default function HomePage() {
         {/* 누적 좋아요 순위 섹션 */}
 
         <Card title="Hard Workers">
-          <HardWorkersContent
-            users={workersData}
-            $isLoading={isWorkerLoading}
-          />
+          <HardWorkersContent users={workersData} $isLoading={isWorkerLoading} />
         </Card>
 
         {/* 급상승 질문 탑3 */}
-        <QNACardSection
-          content="trendingQ"
-          cardData={trendingQData}
-          isLoading={isTrendingLoading}
-        />
+        <QNACardSection content="trendingQ" cardData={trendingQData} isLoading={isTrendingLoading} />
       </PageContainer>
     </>
   );
