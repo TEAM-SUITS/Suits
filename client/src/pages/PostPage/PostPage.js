@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 // components
 import PageContainer from "containers/PageContainer/PageContainer.styled";
 import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
-import Card from "components/Card/Card";
 import Hashtag from "components/Hashtag/Hashtag";
 import Answers from "containers/AnswerContainer/AnswerContainer";
 import InputArea from "containers/AnswerInput/AnswerInput";
@@ -13,7 +12,6 @@ import styled, { css } from "styled-components";
 import API from "api/api";
 // TODO: API 말고 그냥 axios로 수정
 import { Skeleton } from "@material-ui/lab";
-import Divider from "components/Divider/Divider";
 
 
 /* ---------------------------- styled components --------------------------- */
