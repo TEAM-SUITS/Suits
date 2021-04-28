@@ -141,7 +141,7 @@ export default function QnAContent({ answer, isEllipsis = true }) {
   };
 
   const handleKeyDown = (e) => {
-    if (e.code === "Enter") handleDialog();
+    if (e.code === "Enter") handleDialog($answer.postedby._id);
   };
 
   return (

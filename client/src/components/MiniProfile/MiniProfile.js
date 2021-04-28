@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { object } from "prop-types";
+import { object, bool, func } from "prop-types";
 import Tier from "components/Tier/Tier";
 import { museoMedium } from "styles/common/common.styled";
 import { motion } from "framer-motion";
@@ -50,7 +50,7 @@ const StyledMiniProfile = styled(motion.div)`
 /* ---------------------------- styled components --------------------------- */
 
 export default function MiniProfile({ user, isButton, onClick, onKeyDown }) {
-  const { _id, username, avatar, tier } = user;
+  const { username, avatar, tier } = user;
   return (
     <StyledMiniProfile
       whileHover={isButton && { scale: 1.1 }}
@@ -75,4 +75,7 @@ export default function MiniProfile({ user, isButton, onClick, onKeyDown }) {
 
 MiniProfile.propTypes = {
   user: object.isRequired,
+  isButton: bool,
+  onClick: func,
+  onKeyDown: func,
 };
