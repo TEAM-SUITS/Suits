@@ -1,7 +1,7 @@
-const passport = require("passport");
-const GitHubStrategy = require("passport-github").Strategy;
-const User = require("../model/user");
-const dotenv = require("dotenv");
+const passport = require('passport');
+const GitHubStrategy = require('passport-github').Strategy;
+const User = require('../model/user');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
@@ -20,7 +20,7 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_SECRET_ID,
-      callbackURL: "/auth/github/callback",
+      callbackURL: '/auth/github/callback',
       proxy: true,
     },
     (_, __, profile, cb) => {
