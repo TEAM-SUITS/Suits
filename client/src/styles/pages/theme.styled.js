@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 /* 전역 스타일--------------------------------------------------------- */
 
@@ -111,7 +111,6 @@ export const GlobalStyle = createGlobalStyle`
     max-width: 100vw;
   }
 `;
-
 
 /* for Storybook --------------------------------------------------------- */
 

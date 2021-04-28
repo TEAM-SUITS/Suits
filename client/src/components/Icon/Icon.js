@@ -23,12 +23,7 @@ import { ReactComponent as Night } from './images/night.svg';
 
 /* -------------------------------------------------------------------------- */
 
-export default function Icon({
-  type,
-  title = type,
-  height = '25px',
-  ...restProps
-}) {
+export default function Icon({ type, title = type, height = '25px', ...restProps }) {
   let COMP = null;
   switch (type) {
     case 'logo':

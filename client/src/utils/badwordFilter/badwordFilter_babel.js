@@ -1,10 +1,9 @@
-"use strict";
+'use strict';
 
 var badwordsData = require('./badwords.json');
 /* -------------------------------------------------------------------------- */
 
-
-module.exports = function () {
+module.exports = (function () {
   var badwordsArray = badwordsData.words;
   var escapedBadwordsArray = badwordsArray.map(function (badword) {
     var specialCharacters = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
@@ -16,7 +15,7 @@ module.exports = function () {
 
     return badword;
   });
-  var badwordsString = escapedBadwordsArray.join("+|").slice(2, -1);
+  var badwordsString = escapedBadwordsArray.join('+|').slice(2, -1);
   var badwordsRegEx = new RegExp(badwordsString, 'g');
   return {
     /**
@@ -31,7 +30,6 @@ module.exports = function () {
         // 인자로 전달한 content가 비속어를 포함하고 있을 경우의 처리를 작성해주세요.
         return '부적절한 단어가 포함되어 있습니다.';
       } // 비속어를 포함하지 않은 정상적인 경우의 처리를 작성해주세요.
-
 
       return content;
     },
@@ -51,7 +49,6 @@ module.exports = function () {
       if (badwordsRegEx.test(content)) {
         return content.replace(badwordsRegEx, placeholder);
       } // 비속어가 포함되지 않은 경우
-
 
       return content;
     },
@@ -87,6 +84,6 @@ module.exports = function () {
      */
     removeAllWords: function removeAllWords() {
       badwordsArray = [];
-    }
+    },
   };
-}();
+})();

@@ -8,8 +8,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component:
-          'Hard Workers 컨텐츠에 들어갈 각각의 Hard Worker 정보입니다.',
+        component: 'Hard Workers 컨텐츠에 들어갈 각각의 Hard Worker 정보입니다.',
       },
     },
   },
@@ -21,8 +20,7 @@ export default {
     img: {
       control: 'text',
       description: '프로필 이미지 소스 URL',
-      defaultValue:
-        'https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg',
+      defaultValue: 'https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg',
     },
     username: {
       control: 'text',
@@ -57,8 +55,7 @@ User1.args = {
 export const User2 = Template.bind({});
 User2.args = {
   id: 'user2',
-  img:
-    'https://cdn.pixabay.com/photo/2021/02/23/11/06/mountains-6043079_1280.jpg',
+  img: 'https://cdn.pixabay.com/photo/2021/02/23/11/06/mountains-6043079_1280.jpg',
   username: 'mountaingod',
   tier: 6,
 };

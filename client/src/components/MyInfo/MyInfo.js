@@ -235,9 +235,7 @@ export default function MyInfo() {
 
   let user = null;
 
-  const { currentUserData, isLoading } = useSelector(
-    (state) => state.currentUser
-  );
+  const { currentUserData, isLoading } = useSelector((state) => state.currentUser);
 
   useEffect(() => {
     if (user) setEnteredBio(user.bio);
@@ -295,12 +293,7 @@ export default function MyInfo() {
 
   return (
     <>
-      {isSelectingKeywords && (
-        <KeywordSelect
-          userKeywords={user.hashTag}
-          onClose={handleCloseHashtagChange}
-        />
-      )}
+      {isSelectingKeywords && <KeywordSelect userKeywords={user.hashTag} onClose={handleCloseHashtagChange} />}
       <AlertDialog
         isVisible={isDeleting}
         onCancel={() => setIsDeleting(false)}
@@ -324,9 +317,7 @@ export default function MyInfo() {
         <StyledBio>
           <StyledBioHeading>
             <h3>자기소개</h3>
-            <button onClick={handleClickBioButton}>
-              {isBioActive ? '완료' : '수정'}
-            </button>
+            <button onClick={handleClickBioButton}>{isBioActive ? '완료' : '수정'}</button>
           </StyledBioHeading>
           <textarea
             disabled={!isBioActive}
@@ -348,20 +339,13 @@ export default function MyInfo() {
                 return <Hashtag key={ht} type={ht} />;
               })
             ) : (
-              <img
-                src="/assets/keyword.png"
-                alt="슈티 : 관심 키워드를 설정해보세요"
-              />
+              <img src="/assets/keyword.png" alt="슈티 : 관심 키워드를 설정해보세요" />
             )}
           </StyledHashtags>
         </StyledHashtagContainer>
         <StyledButtonContainer>
-          <StyledSignoutButton onClick={handleSignOut}>
-            로그아웃
-          </StyledSignoutButton>
-          <StyledDeleteButton onClick={() => setIsDeleting(true)}>
-            회원탈퇴
-          </StyledDeleteButton>
+          <StyledSignoutButton onClick={handleSignOut}>로그아웃</StyledSignoutButton>
+          <StyledDeleteButton onClick={() => setIsDeleting(true)}>회원탈퇴</StyledDeleteButton>
         </StyledButtonContainer>
       </StyledMyInfo>
     </>

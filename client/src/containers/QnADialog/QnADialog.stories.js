@@ -48,8 +48,7 @@ QnA.args = {
         author: {
           id: 'user2',
           username: 'frontendkid',
-          img:
-            'https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg',
+          img: 'https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg',
           tier: 3,
         },
         content:

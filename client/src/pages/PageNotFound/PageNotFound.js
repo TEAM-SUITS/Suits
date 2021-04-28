@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import PageContainer from "containers/PageContainer/PageContainer.styled";
-import { pageEffect } from "styles/motions/variants";
-import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
-import { spoqaMedium, spoqaLarge } from "styles/common/common.styled";
+import React from 'react';
+import styled from 'styled-components';
+import PageContainer from 'containers/PageContainer/PageContainer.styled';
+import { pageEffect } from 'styles/motions/variants';
+import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
+import { spoqaMedium, spoqaLarge } from 'styles/common/common.styled';
 
 /* -------------------------------------------------------------------------- */
 const StyledSection = styled.section`

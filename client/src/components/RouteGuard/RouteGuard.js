@@ -1,5 +1,5 @@
-import { Redirect, Route, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Redirect, Route, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function RouteGuard(props) {
   const { isAuthed } = useSelector((state) => state.auth);
@@ -11,7 +11,7 @@ export default function RouteGuard(props) {
     return (
       <Redirect
         to={{
-          pathname: "/login",
+          pathname: '/login',
           state: { referrer: currentLocation },
         }}
       />

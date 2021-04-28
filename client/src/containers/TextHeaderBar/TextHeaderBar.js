@@ -1,8 +1,8 @@
-import HeaderBar from "../HeaderBar/HeaderBar";
-import { Link } from "react-router-dom";
-import { string } from "prop-types";
-import styled from "styled-components";
-import { museoLarge, museoMedium } from "styles/common/common.styled";
+import HeaderBar from '../HeaderBar/HeaderBar';
+import { Link } from 'react-router-dom';
+import { string } from 'prop-types';
+import styled from 'styled-components';
+import { museoLarge, museoMedium } from 'styles/common/common.styled';
 
 /* ---------------------------- styled components --------------------------- */
 export const BoldSpan = styled.span`
@@ -19,7 +19,7 @@ const LightSpan = styled.span`
 /* -------------------------------------------------------------------------- */
 export default function TextHeaderBar({ page }) {
   switch (page) {
-    case "home":
+    case 'home':
       return (
         <HeaderBar>
           <Link to="/">
@@ -28,21 +28,21 @@ export default function TextHeaderBar({ page }) {
         </HeaderBar>
       );
 
-    case "follow":
+    case 'follow':
       return (
         <HeaderBar>
           <LightSpan>Following</LightSpan>
         </HeaderBar>
       );
 
-    case "profile":
+    case 'profile':
       return (
         <HeaderBar>
           <LightSpan>Profile</LightSpan>
         </HeaderBar>
       );
 
-    case "search":
+    case 'search':
       return (
         <HeaderBar>
           <LightSpan>Search</LightSpan>

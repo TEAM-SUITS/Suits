@@ -1,10 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import {
-  museoSmall,
-  textShadow,
-  spoqaSmallBold,
-} from 'styles/common/common.styled';
+import { museoSmall, textShadow, spoqaSmallBold } from 'styles/common/common.styled';
 import { string, number } from 'prop-types';
 import Tier from 'components/Tier/Tier';
 import { motion } from 'framer-motion';
@@ -116,12 +112,7 @@ export default function HardWorker({
   $onClick,
 }) {
   return (
-    <StyledHardWorker
-      initial="rest"
-      whileHover="hover"
-      animate="rest"
-      onClick={$onClick}
-    >
+    <StyledHardWorker initial="rest" whileHover="hover" animate="rest" onClick={$onClick}>
       <StyledHardWorker.ImageContainer>
         <StyledHardWorker.Image img={img} role="img" aria-label={username} />
         <StyledHardWorker.ImageOverlay variants={hoverMotion}>

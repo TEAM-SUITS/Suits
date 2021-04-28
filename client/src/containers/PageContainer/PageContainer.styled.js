@@ -11,8 +11,7 @@ const PageContainer = styled(motion(Container))`
   flex-flow: column wrap;
   align-items: center;
   justify-content: center;
-  margin: ${({ margin }) =>
-    margin ? margin : '7.5em 0'}; //4.5em(네비게이션) + 3em 마진(기본)
+  margin: ${({ margin }) => (margin ? margin : '7.5em 0')}; //4.5em(네비게이션) + 3em 마진(기본)
 
   // HeaderBar와 AdBanner를 딱 붙도록 수정
   margin-top: 45px;
@@ -131,7 +130,7 @@ const PageContainer = styled(motion(Container))`
     `}
 
   ${({ page }) =>
-    page === "post" &&
+    page === 'post' &&
     css`
       margin: 50px 0;
       justify-content: flex-start;

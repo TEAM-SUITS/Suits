@@ -5,7 +5,7 @@ import QnAContent from 'components/Content/QnAContent';
 import Divider from 'components/Divider/Divider';
 import { DividerContainer } from 'containers/DividerContainer/DividerContainer.styled';
 // styles
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { boxShadow, spoqaMedium } from 'styles/common/common.styled';
 
 // etc.

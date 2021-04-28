@@ -54,8 +54,8 @@ const CardList = styled.ul`
 `;
 
 const ImageSection = styled.img.attrs(() => ({
-  src: "/assets/suity.png",
-  alt: "관심 키워드 설정 안내하는 슈티",
+  src: '/assets/suity.png',
+  alt: '관심 키워드 설정 안내하는 슈티',
 }))`
   width: 300px;
 
@@ -137,7 +137,7 @@ const SpinnerContainer = styled.div`
 function CardSection({
   isLoading,
   cardData = {},
-  currentTag = "",
+  currentTag = '',
   onClick,
   keywords = [],
   // refreshFollowingData,
@@ -169,21 +169,11 @@ function CardSection({
     <>
       <HashtagList>
         <li>
-          <Hashtag
-            type="All"
-            isSelected={currentTag === "All" ? true : false}
-            isButton={true}
-            clicked={onClick}
-          />
+          <Hashtag type="All" isSelected={currentTag === 'All' ? true : false} isButton={true} clicked={onClick} />
         </li>
         {keywords.map((tag) => (
           <li key={tag}>
-            <Hashtag
-              type={tag}
-              isSelected={currentTag === tag ? true : false}
-              isButton={true}
-              clicked={onClick}
-            />
+            <Hashtag type={tag} isSelected={currentTag === tag ? true : false} isButton={true} clicked={onClick} />
           </li>
         ))}
       </HashtagList>
@@ -243,7 +233,7 @@ export default function FollowingPage() {
   const userState = useSelector((state) => state.currentUser);
   const followingState = useSelector((state) => state.following);
   const [currentTag, setCurrentTag] = useState(followingState.currentTag);
-  const [prevTag, setPrevTag] = useState("All");
+  const [prevTag, setPrevTag] = useState('All');
   const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
@@ -252,14 +242,7 @@ export default function FollowingPage() {
     if (userState.currentUserData)
       setKeywords(userState.currentUserData[0].hashTag);
     setPrevTag(currentTag);
-    dispatch(
-      fetchFollowingData(
-        keywords,
-        currentTag,
-        prevTag,
-        followingState.isInitial
-      )
-    );
+    dispatch(fetchFollowingData(keywords, currentTag, prevTag, followingState.isInitial));
   }, [dispatch, keywords, currentTag, userState.currentUserData]);
 
   // 무한스크롤 로직
@@ -292,12 +275,7 @@ export default function FollowingPage() {
   return (
     <>
       <TextHeaderBar page="follow" />
-      <PageContainer
-        page="follow"
-        variants={pageEffect}
-        initial="hidden"
-        animate="visible"
-      >
+      <PageContainer page="follow" variants={pageEffect} initial="hidden" animate="visible">
         {userState.currentUserData ? (
           <>
             <CardSection

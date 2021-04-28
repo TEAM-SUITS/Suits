@@ -80,18 +80,8 @@ const DoneButton = styled.button`
 /* ---------------------------- styled component ---------------------------- */
 
 export default function KeywordSelect({ userKeywords, onClose }) {
-  const [selectedKeywords, setSelectedKeywords] = useState(
-    userKeywords.length ? userKeywords : []
-  );
-  const keywordArray = [
-    'CSS',
-    'JavaScript',
-    'OS',
-    'Database',
-    'Network',
-    'Front-End',
-    'Back-End',
-  ];
+  const [selectedKeywords, setSelectedKeywords] = useState(userKeywords.length ? userKeywords : []);
+  const keywordArray = ['CSS', 'JavaScript', 'OS', 'Database', 'Network', 'Front-End', 'Back-End'];
 
   const dialogRef = React.useRef(null);
 
@@ -113,9 +103,7 @@ export default function KeywordSelect({ userKeywords, onClose }) {
       // 다이얼로그 노드
       // const dialogNode = dialogRef.current;
       // focusable nodes "inside" dialogNode
-      const focusableNodeList = dialogNode.querySelectorAll(
-        'a, button, input, select, textarea'
-      ); // 참고로 a 태그는 href 속성이나 tabindex 속성이 있으면 focusable함.
+      const focusableNodeList = dialogNode.querySelectorAll('a, button, input, select, textarea'); // 참고로 a 태그는 href 속성이나 tabindex 속성이 있으면 focusable함.
 
       // 첫 번째 포커스 요소와 마지막 포커스 요소를 기억해놓아야
       // 다이얼로그가 닫히지 않는 한 다이얼로그 내에서 포커싱이 순환될 수 있음.

@@ -33,12 +33,7 @@ const FontSizeContainer = styled.div`
 `;
 
 /* -------------------------------------------------------------------------- */
-export default function ProfileDialog({
-  isVisible,
-  user,
-  $onClick,
-  $isLoading,
-}) {
+export default function ProfileDialog({ isVisible, user, $onClick, $isLoading }) {
   return (
     <Portal id={'dialog-container'}>
       <Dialog

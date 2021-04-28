@@ -4,11 +4,7 @@ import { fetchSearchData } from 'redux/storage/search/search';
 import styled from 'styled-components';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import Icon from 'components/Icon/Icon';
-import {
-  museoSmall,
-  spoqaSmallBold,
-  spoqaSmall,
-} from 'styles/common/common.styled';
+import { museoSmall, spoqaSmallBold, spoqaSmall } from 'styles/common/common.styled';
 import { func, string } from 'prop-types';
 
 /* ------------------------------- 검색 중이 아닐 떄 ------------------------------- */
@@ -88,11 +84,7 @@ const CancelButton = styled.button.attrs(() => ({
 `;
 
 /* -------------------------------------------------------------------------- */
-export default function SearchHeaderBar({
-  onKeyUp,
-  initialWord = '',
-  onClick,
-}) {
+export default function SearchHeaderBar({ onKeyUp, initialWord = '', onClick }) {
   const [isSearching, setIsSearching] = useState(false);
   const [keyword, setKeyword] = useState(initialWord);
   const ref = useRef(null);
@@ -134,13 +126,7 @@ export default function SearchHeaderBar({
     <HeaderBar>
       <FlexBox>
         <Icon type="search" title="검색 버튼" height="18px" />
-        <input
-          type="text"
-          onChange={handleInput}
-          ref={ref}
-          value={keyword}
-          onKeyUp={onKeyUp}
-        />
+        <input type="text" onChange={handleInput} ref={ref} value={keyword} onKeyUp={onKeyUp} />
         <CancelButton
           onClick={() => {
             onClick();

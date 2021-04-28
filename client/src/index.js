@@ -1,11 +1,11 @@
-import "react-app-polyfill/ie11";
-import "react-app-polyfill/stable";
-import { BrowserRouter } from "react-router-dom";
-import { StrictMode } from "react";
-import { render } from "react-dom";
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
+import { BrowserRouter } from 'react-router-dom';
+import { StrictMode } from 'react';
+import { render } from 'react-dom';
 
-import App from "./app/App";
-import { StoreProvider } from "redux/store";
+import App from './app/App';
+import { StoreProvider } from 'redux/store';
 
 render(
   <StrictMode>
@@ -15,5 +15,5 @@ render(
       </BrowserRouter>
     </StoreProvider>
   </StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );

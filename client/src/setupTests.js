@@ -2,4 +2,4 @@
 // 다음과 같은 작업을 수행 할 수 있습니다.
 // expect (element).toHaveTextContent(/react/i)
 // 자세히 알아보기 : https://github.com/testing-library/jest-dom
-import "@testing-library/jest-dom";
+import '@testing-library/jest-dom';

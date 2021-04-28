@@ -1,19 +1,19 @@
-import React from "react";
-import styled from "styled-components";
-import { museoSmall, spoqaSmall } from "styles/common/common.styled";
-import { string, bool, object } from "prop-types";
-import { Skeleton } from "@material-ui/lab";
+import React from 'react';
+import styled from 'styled-components';
+import { museoSmall, spoqaSmall } from 'styles/common/common.styled';
+import { string, bool, object } from 'prop-types';
+import { Skeleton } from '@material-ui/lab';
 
 /* ---------------------------- styled component ---------------------------- */
 
 const Quote = styled.q`
-  ${({ lang }) => (lang === "en" ? museoSmall : spoqaSmall)}
+  ${({ lang }) => (lang === 'en' ? museoSmall : spoqaSmall)}
   display: block;
   max-width: 20em;
   padding: 0 0.5em;
   color: var(--color-text);
   quotes: none;
-  text-align: ${({ textCenter }) => (textCenter ? "center" : "left")};
+  text-align: ${({ textCenter }) => (textCenter ? 'center' : 'left')};
   margin: 0 auto;
   margin-top: 2em;
 `;
@@ -41,19 +41,13 @@ const QuoteBySkeleton = styled(Skeleton)`
 
 /* -------------------------------------------------------------------------- */
 
-export default function QuotesContent({
-  quote,
-  textCenter = false,
-  lang,
-  $isLoading,
-  ...restProps
-}) {
+export default function QuotesContent({ quote, textCenter = false, lang, $isLoading, ...restProps }) {
   return (
     <article {...restProps}>
       {quote && !$isLoading ? (
         <>
           <Quote cite={quote.author} textCenter lang={lang}>
-            {lang === "ko" ? quote.content.translated : quote.content.original}
+            {lang === 'ko' ? quote.content.translated : quote.content.original}
           </Quote>
           <QuoteBy>{quote.author}</QuoteBy>
         </>
