@@ -3,6 +3,7 @@ import logo from './images/logo512.png';
 import ahn from './images/ahn.jpeg';
 import suh from './images/suh.png';
 import park from './images/park.jpeg';
+import placeholder from './images/placeholder.png';
 import styled from 'styled-components';
 import {
   boxShadow,
@@ -134,13 +135,10 @@ export default function Suits() {
     e.target.src = imgSrc;
   };
 
-  const placeHolder =
-    'https://via.placeholder.com/150x150.png?text=Place+Holder';
-
   return (
     <StylesSuits>
       <img
-        src={placeHolder}
+        src={placeholder}
         alt="Suits 로고"
         className="logo"
         onLoad={handleLoaded}
@@ -162,21 +160,21 @@ export default function Suits() {
         <div className="members">
           <a href="https://github.com/ahnanne">
             <figure>
-              <img src={placeHolder} alt="안예인" onLoad={handleLoaded} />
+              <img src={placeholder} alt="안예인" onLoad={handleLoaded} />
 
               <figcaption>Ahn Yein</figcaption>
             </figure>
           </a>
           <a href="https://github.com/minki607">
             <figure>
-              <img src={placeHolder} alt="서민기" onLoad={handleLoaded} />
+              <img src={placeholder} alt="서민기" onLoad={handleLoaded} />
 
               <figcaption>Suh Mingee</figcaption>
             </figure>
           </a>
           <a href="https://github.com/fe-kid">
             <figure>
-              <img src={placeHolder} alt="박재운" onLoad={handleLoaded} />
+              <img src={placeholder} alt="박재운" onLoad={handleLoaded} />
 
               <figcaption>Park Jaewoon</figcaption>
             </figure>
