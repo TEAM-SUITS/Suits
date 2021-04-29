@@ -1,9 +1,11 @@
+import React from 'react';
+import styled from 'styled-components';
+import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import React from 'react';
-import Slider from 'react-slick';
-import styled from 'styled-components';
 import { boxShadow } from 'styles/common/common.styled';
+
+/* -------------------------------------------------------------------------- */
 
 const SliderContainer = styled.div`
   background-color: var(--color-white);
@@ -100,7 +102,3 @@ export default function AdBanner() {
     </SliderContainer>
   );
 }
-
-// 캐러셀 접근성 레퍼런스
-// https://nuli.navercorp.com/community/article/1133097
-// 가려진 이미지 링크에 초점 이동 가지 않게 수정할 필요 있음.

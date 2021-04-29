@@ -4,6 +4,7 @@ import PageContainer from 'containers/PageContainer/PageContainer.styled';
 import { pageEffect } from 'styles/motions/variants';
 import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
 import { spoqaMedium, spoqaLarge } from 'styles/common/common.styled';
+import { SuityContainer } from 'containers/SuityContainer/SuityContainer.styled';
 
 /* -------------------------------------------------------------------------- */
 const StyledSection = styled.section`
@@ -14,6 +15,7 @@ const StyledSection = styled.section`
   justify-content: space-evenly;
   align-items: center;
   flex-flow: nowrap;
+  margin-top: -45px;
 
   > p {
     /* flex-basis: 200px; */
@@ -51,10 +53,12 @@ export default function PageNotFound() {
     <>
       <TextHeaderBar page="home" />
       <PageContainer variants={pageEffect} initial="hidden" animate="visible">
-        <StyledSection>
-          <img src="/assets/404.png" alt="page not found" />
-          <p>이런... 찾으시는 페이지가 없습니다.</p>
-        </StyledSection>
+        <SuityContainer>
+          <StyledSection>
+            <img src="/assets/404.png" alt="page not found" />
+            <p>이런... 찾으시는 페이지가 없습니다.</p>
+          </StyledSection>
+        </SuityContainer>
       </PageContainer>
     </>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { GlobalStyle } from 'styles/pages/theme.styled';
 import {
@@ -12,7 +12,6 @@ import {
   PostPage,
 } from 'pages/Pages';
 import Navigation from 'containers/Nav/Navigation';
-import DemoPage from 'pages/DemoPage/DemoPage';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import RouteGuard from 'components/RouteGuard/RouteGuard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -68,14 +67,12 @@ function App() {
         {isOpen && error && <Alert status="error" message={error} onClick={handleErrorClose} />}
         <Switch>
           <RouteGuard path="/" exact component={HomePage} />
-          <RouteGuard path="/demo" exact component={DemoPage} />
           <RouteGuard path="/search" component={SearchPage} />
           <RouteGuard path="/follow" component={FollowingPage} />
           <RouteGuard path="/profile" component={ProfilePage} />
           <RouteGuard path="/info" component={InfoPage} />
           <RouteGuard path="user/my-info" component={UserPage} />
           <RouteGuard path="/post/:qid" component={PostPage} />
-          {/* <RouteGuard path="/post/:qid" render={(props) => <PostPage {...props} key={Date.now()} />} /> */}
           <Route path="/login" exact component={LoginPage} />
           <Route path="/page-not-found" component={PageNotFound} />
           <Redirect to="/page-not-found" />

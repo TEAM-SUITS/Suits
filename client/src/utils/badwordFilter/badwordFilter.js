@@ -1,3 +1,4 @@
+/* eslint-disable */
 const badwordsData = require('./badwords.json');
 
 /* -------------------------------------------------------------------------- */
