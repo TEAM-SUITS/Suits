@@ -9,6 +9,7 @@ import { useState } from 'react';
 import ProfileDialog from 'containers/ProfileDialog/ProfileDialog';
 import { setError } from 'redux/storage/error/error';
 import axios from 'axios';
+import Icon from 'components/Icon/Icon';
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -60,7 +61,7 @@ const mockdata = {
 };
 /* -------------------------------------------------------------------------- */
 
-export default function QnAContent({ answer, isEllipsis = true }) {
+export default function QnAContent({ answer, isEllipsis = true, page }) {
   const { currentUserData } = useSelector((state) => state.currentUser);
   // 전체 refresh를 하지 않고 각각의 포스트만 refresh 하기 위해 따로 상태 관리
   const [$answer, setAnswer] = useState(answer);
@@ -142,12 +143,16 @@ export default function QnAContent({ answer, isEllipsis = true }) {
           onClick={() => handleDialog($answer.postedby._id)}
           onKeyDown={handleKeyDown}
         />
-        <LikeButton
-          isLiked={$answer.likes.includes(currentUserData[0]._id)}
-          disabled={$answer.postedby?._id === currentUserData[0]?._id}
-          isLoading={isLikeLoading}
-          onClick={toggleLike}
-        />
+        {page === 'post' ? (
+          <LikeButton
+            isLiked={$answer.likes.includes(currentUserData[0]._id)}
+            disabled={$answer.postedby?._id === currentUserData[0]?._id}
+            isLoading={isLikeLoading}
+            onClick={toggleLike}
+          />
+        ) : (
+          <Icon title="좋아요 수 " type="heart-active" />
+        )}
         {$answer.likes.length}
       </AnswerInfo>
       <AnswerDetail isEllipsis={isEllipsis}>{$answer.content}</AnswerDetail>
