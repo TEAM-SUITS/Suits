@@ -1,8 +1,7 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { bool, oneOf } from 'prop-types';
 import { boxShadow, spoqaSmallBold } from 'styles/common/common.styled';
-import { useSelector } from 'react-redux';
 
 /* ---------------------------- styled components --------------------------- */
 const handleButtonTheme = (type, isSelected, theme) => {
@@ -39,8 +38,6 @@ const StyledHashtag = styled.div`
 
 /* -------------------------------------------------------------------------- */
 export default function Hashtag({ type, isSelected, isButton, children, clicked }) {
-  const userState = useSelector((state) => state.currentUser);
-
   let theme = '';
 
   switch (type) {

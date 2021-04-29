@@ -8,8 +8,6 @@ import { useSelector } from 'react-redux';
 import Profile from 'components/Profile/Profile';
 import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
 import QNACardSection from 'components/QNACardSection/QNACardSection';
-import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
-import { useDispatch } from 'react-redux';
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -65,20 +63,12 @@ export default function ProfilePage() {
     } else if (currentUserData && currentUserData[0].answeredQuestions.length === 0) {
       return (
         <MessageContainer>
-          {/* <Alert status="info" message="작성한 답변이 없어요" /> */}
           <img src="/assets/whistle.png" alt="휘파람 부는 슈티" />
           <p>아직 작성한 답변이 없어요.</p>
         </MessageContainer>
       );
     } else if (currentUserData && currentUserData[0].answeredQuestions) {
-      return (
-        <QNACardSection
-          content="answeredQ"
-          isLoading={isLoading}
-          cardData={currentUserData[0]}
-          // refreshData={() => dispatch(fetchCurrentUserData())}
-        />
-      );
+      return <QNACardSection content="answeredQ" isLoading={isLoading} cardData={currentUserData[0]} />;
     }
   };
 

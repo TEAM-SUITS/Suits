@@ -1,6 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchSearchData } from 'redux/storage/search/search';
 import styled from 'styled-components';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import Icon from 'components/Icon/Icon';

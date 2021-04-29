@@ -4,18 +4,8 @@ import Dialog from 'components/Dialog/Dialog';
 import Profile from 'components/Profile/Profile';
 import { bool } from 'prop-types';
 
-/* -------------------------------- mock data ------------------------------- */
-const mockUser = {
-  username: 'Frontendkid',
-  img: 'https://cdn.pixabay.com/photo/2021/03/25/14/00/horse-6123173_1280.jpg',
-  tier: 6,
-  github: 'https://github.com/fe-kid',
-  bio: '안녕하세요. 뛰어난 실력과 선한 인품을 가진 프론트엔드 개발자입니다.',
-  like: 20,
-  hashtag: ['CSS', 'JavaScript', 'Front-End'],
-};
-
 /* ---------------------------- styled components --------------------------- */
+
 const FontSizeContainer = styled.div`
   @media screen and (max-width: 480px) {
     h2 {

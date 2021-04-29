@@ -5,16 +5,11 @@ import QnAContent from 'components/Content/QnAContent';
 import Divider from 'components/Divider/Divider';
 import { DividerContainer } from 'containers/DividerContainer/DividerContainer.styled';
 // styles
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { boxShadow, spoqaMedium, spoqaMediumLight } from 'styles/common/common.styled';
 
 // etc.
-import badwordFilter from 'utils/badwordFilter/badwordFilter';
 import AlertDialog from 'containers/AlertDialog/AlertDialog';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setError } from 'redux/storage/error/error';
-import { fetchCurrentQuestion } from 'redux/storage/post/post';
 
 /* ---------------------------- styled components --------------------------- */
 const EditContainer = styled.div`
@@ -75,7 +70,6 @@ const EditConfirmButton = styled.button.attrs(() => ({
 
 const ButtonContainer = styled.div`
   text-align: right;
-  /* background-color: pink; */
   width: 50%;
   margin: 0 auto;
 
@@ -103,21 +97,12 @@ const EditorOnlyButton = styled.button.attrs(() => ({
 `;
 
 /* --------------------------------- Answers -------------------------------- */
-export default function Answers({
-  answersList = [],
-  userId = '',
-  handleRefresh,
-  removeAnswer,
-  questionId,
-  patchAnswer,
-}) {
+export default function Answers({ answersList = [], userId = '', removeAnswer, patchAnswer }) {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
   const [editContent, setEditContent] = useState('');
   const [deleting, setDeleting] = useState(null);
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
-
-  const dispatch = useDispatch();
 
   const handleEdit = (answerId, answerContent) => {
     setEditing(answerId);
@@ -135,18 +120,6 @@ export default function Answers({
   const handleEditing = () => {
     setEditing(null);
   };
-  // const postContent = async (answerId, newContent) => {
-  //   try {
-  //     await axios.patch(`/api/answers/${answerId}`, {
-  //       content: badwordFilter.filter(newContent, '**'),
-  //     });
-  //     dispatch(fetchCurrentQuestion(questionId));
-  //   } catch (err) {
-  //     dispatch(setError('답변 등록 중에 문제가 발생했습니다.'));
-  //   }
-  //   setEditing(null);
-  //   // handleRefresh();
-  // };
 
   if (!answersList.length) {
     return <QnAContent answer={false} isEllipsis={false} />;

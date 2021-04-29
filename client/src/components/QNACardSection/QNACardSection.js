@@ -66,27 +66,11 @@ const QuestionCardSkeleton = styled(Skeleton)`
   min-height: 4em;
 `;
 
-export default function QNACardSection({
-  content,
-  isLoading,
-  cardData = {},
-  refreshData,
-  previewAnswer,
-  isMobile,
-}) {
+export default function QNACardSection({ content, isLoading, cardData = {}, refreshData, previewAnswer, isMobile }) {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [question, setQuestion] = useState({});
 
   const dispatch = useDispatch();
-
-  const handleDialog = async (id) => {
-    try {
-      const res = await axios(`/api/questions/${id}`);
-      setQuestion(res.data);
-    } catch (err) {
-      dispatch(setError('질문을 불러들이는 중 문제가 발생했습니다.'));
-    }
-  };
 
   const refreshQuestion = async () => {
     try {
@@ -112,11 +96,7 @@ export default function QNACardSection({
               hasButton
               centerAlign
             >
-              <QnAContent
-                answer={
-                  !!question.answers.length && previewAnswer(question.answers)
-                }
-              />
+              <QnAContent answer={!!question.answers.length && previewAnswer(question.answers)} />
               <RefreshButton
                 outline
                 icon="refresh"
@@ -133,10 +113,7 @@ export default function QNACardSection({
       case 'trendingQ':
         return (
           <Card title="Trending QnA" centerAlign>
-            <TrendingQuestionContent
-              questions={cardData}
-              $isLoading={isLoading}
-            />
+            <TrendingQuestionContent questions={cardData} $isLoading={isLoading} />
           </Card>
         );
       case 'answeredQ':
@@ -150,11 +127,7 @@ export default function QNACardSection({
               title={question.content}
               tags={question.hashTag}
             >
-              <QnAContent
-                answer={question.answers.find(
-                  (answer) => answer.postedby?._id === cardData._id
-                )}
-              />
+              <QnAContent answer={question.answers.find((answer) => answer.postedby?._id === cardData._id)} />
             </Card>
           </li>
         ));
@@ -198,11 +171,7 @@ export default function QNACardSection({
         refreshQuestion={refreshQuestion}
       />
 
-      {!cardData || isLoading ? (
-        <Card>{renderSkeleton()}</Card>
-      ) : (
-        <CardList>{renderCard()}</CardList>
-      )}
+      {!cardData || isLoading ? <Card>{renderSkeleton()}</Card> : <CardList>{renderCard()}</CardList>}
     </>
   );
 }
