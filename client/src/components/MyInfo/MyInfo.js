@@ -59,7 +59,7 @@ const StyledBio = styled.div`
     bottom: 1em;
     right: 1em;
     ${spoqaSmall}
-    color: var(--color-gray5)
+    color: var(--color-black)
   }
 `;
 
@@ -322,7 +322,7 @@ export default function MyInfo() {
             onChange={(e) => handleBioChange(e)}
             maxLength="120"
           />
-          {isBioActive && <span>{enteredBio.length}/120</span>}
+          {isBioActive && <span>{enteredBio ? enteredBio.length : 0}/120</span>}
         </StyledBio>
 
         <StyledHashtagContainer>

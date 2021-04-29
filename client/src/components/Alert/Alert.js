@@ -1,7 +1,6 @@
 import React from 'react';
-import Icon from 'components/Icon/Icon';
 import styled from 'styled-components';
-import { museoMedium, spoqaSmall, spoqaMedium } from 'styles/common/common.styled';
+import { spoqaSmall, spoqaMedium } from 'styles/common/common.styled';
 import { string } from 'prop-types';
 import { motion } from 'framer-motion';
 import Button from 'components/Button/Button';

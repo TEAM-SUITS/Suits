@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { GlobalStyle } from 'styles/pages/theme.styled';
 import {
@@ -73,7 +73,6 @@ function App() {
           <RouteGuard path="/info" component={InfoPage} />
           <RouteGuard path="user/my-info" component={UserPage} />
           <RouteGuard path="/post/:qid" component={PostPage} />
-          {/* <RouteGuard path="/post/:qid" render={(props) => <PostPage {...props} key={Date.now()} />} /> */}
           <Route path="/login" exact component={LoginPage} />
           <Route path="/page-not-found" component={PageNotFound} />
           <Redirect to="/page-not-found" />

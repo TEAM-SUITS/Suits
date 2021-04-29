@@ -5,10 +5,6 @@ import { resetList } from 'styles/common/common.styled';
 
 import QnADialog from 'containers/QnADialog/QnADialog';
 import { useState } from 'react';
-import { fetchTrendingData } from 'redux/storage/trendingQ/trendingQ';
-import { useDispatch } from 'react-redux';
-import axios from 'axios';
-import { setError } from 'redux/storage/error/error';
 
 /* ---------------------------- styled component ---------------------------- */
 
@@ -38,28 +34,9 @@ const QuestionCard = styled(Card)`
 
 /* -------------------------------------------------------------------------- */
 
-export default function TrendingQuestionContent({
-  questions,
-  $isLoading,
-  ...restProps
-}) {
+export default function TrendingQuestionContent({ questions, $isLoading, ...restProps }) {
   const [isDialogVisible, setDialogVisiblity] = useState(false);
   const [question, setQuestion] = useState({});
-  const dispatch = useDispatch();
-  const [isLoading, setLoading] = useState(); //TODO: 로딩처리
-
-  const handleDialog = async (id) => {
-    setDialogVisiblity(true);
-    try {
-      setLoading(true);
-      const res = await axios(`/api/questions/${id}`);
-      setQuestion(res.data);
-    } catch (err) {
-      dispatch(setError('질문을 불러들이는 중 문제가 발생했습니다.'));
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <article {...restProps}>
@@ -67,13 +44,7 @@ export default function TrendingQuestionContent({
         {questions.map(({ _id, content }) => {
           return (
             <li key={_id}>
-              <QuestionCard
-                qId={_id}
-                isQuestion={false}
-                isPreview={true}
-                title={content}
-                noDivider={true}
-              />
+              <QuestionCard qId={_id} isQuestion={false} isPreview={true} title={content} noDivider={true} />
             </li>
           );
         })}
@@ -85,7 +56,6 @@ export default function TrendingQuestionContent({
           setQuestion({});
         }}
         question={question}
-        // refreshQuestion={() => dispatch(fetchTrendingData())}
       />
     </article>
   );

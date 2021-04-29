@@ -5,23 +5,20 @@ import QnAContent from 'components/Content/QnAContent';
 import Divider from 'components/Divider/Divider';
 import { DividerContainer } from 'containers/DividerContainer/DividerContainer.styled';
 // styles
-import styled, { css } from 'styled-components';
-import { boxShadow, spoqaMedium } from 'styles/common/common.styled';
+import styled from 'styled-components';
+import { boxShadow, spoqaMedium, spoqaMediumLight } from 'styles/common/common.styled';
 
 // etc.
-import badwordFilter from 'utils/badwordFilter/badwordFilter';
 import AlertDialog from 'containers/AlertDialog/AlertDialog';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setError } from 'redux/storage/error/error';
-import { fetchCurrentQuestion } from 'redux/storage/post/post';
 
 /* ---------------------------- styled components --------------------------- */
 const EditContainer = styled.div`
   position: relative;
-  height: 10rem;
+  height: 18rem;
   width: 70vw;
   max-width: 500px;
+  background-color: var(--color-gray2);
+  border-radius: 5px;
 
   // 모바일
   @media screen and (max-width: 480px) {
@@ -34,19 +31,27 @@ const EditArea = styled.textarea`
   top: 0;
   left: 0;
   width: 100%;
-  height: 10rem;
+  height: 14rem;
   resize: none;
-  border-radius: 5px;
   ${spoqaMedium}
   background-color: var(--color-gray2);
-  padding: 1em;
-  border: solid 1px var(--color-gray3);
+  padding: 1em 1em 0.4em;
+  border: none;
+`;
+
+const EditContentLength = styled.span`
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  ${spoqaMediumLight};
+  color: var(--color-black);
 `;
 
 const EditConfirmButton = styled.button.attrs(() => ({
   type: 'button',
 }))`
-  background-color: var(--color-gray5);
+  background-color: ${({ disabled }) => (disabled ? 'var(--color-gray3)' : 'var(--color-gray5)')};
+  cursor: ${({ disabled }) => (disabled ? 'wait' : 'pointer')};
   color: var(--color-gray1);
   border: none;
   border-radius: 5px;
@@ -65,7 +70,6 @@ const EditConfirmButton = styled.button.attrs(() => ({
 
 const ButtonContainer = styled.div`
   text-align: right;
-  /* background-color: pink; */
   width: 50%;
   margin: 0 auto;
 
@@ -93,20 +97,12 @@ const EditorOnlyButton = styled.button.attrs(() => ({
 `;
 
 /* --------------------------------- Answers -------------------------------- */
-export default function Answers({
-    answersList = [],
-    userId = '',
-    handleRefresh,
-    removeAnswer,
-    questionId,
-    patchAnswer,
-}) {
+export default function Answers({ answersList = [], userId = '', removeAnswer, patchAnswer }) {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
   const [editContent, setEditContent] = useState('');
   const [deleting, setDeleting] = useState(null);
-
-  const dispatch = useDispatch();
+  const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
 
   const handleEdit = (answerId, answerContent) => {
     setEditing(answerId);
@@ -117,18 +113,13 @@ export default function Answers({
     setEditContent(e.target.value);
   };
 
-  // const postContent = async (answerId, newContent) => {
-  //   try {
-  //     await axios.patch(`/api/answers/${answerId}`, {
-  //       content: badwordFilter.filter(newContent, '**'),
-  //     });
-  //     dispatch(fetchCurrentQuestion(questionId));
-  //   } catch (err) {
-  //     dispatch(setError('답변 등록 중에 문제가 발생했습니다.'));
-  //   }
-  //   setEditing(null);
-  //   // handleRefresh();
-  // };
+  const handleDisabled = () => {
+    setIsDisabled((prev) => !prev);
+  };
+
+  const handleEditing = () => {
+    setEditing(null);
+  };
 
   if (!answersList.length) {
     return <QnAContent answer={false} isEllipsis={false} />;
@@ -152,16 +143,15 @@ export default function Answers({
             <React.Fragment key={answer._id}>
               {editing === answer._id ? (
                 <EditContainer>
-                  <EditArea value={editContent} onChange={(e) => handleEditContent(e)} />
+                  <EditArea value={editContent} onChange={(e) => handleEditContent(e)} maxLength="200" />
+                  {editing && <EditContentLength>{editContent ? editContent.length : 0}/200</EditContentLength>}
                   <EditConfirmButton
-                    onClick={async () => {
-                      await patchAnswer(answer._id, editContent);
-                      setEditing(null);
-                    }}
+                    disabled={isDisabled}
+                    onClick={() => patchAnswer(answer._id, editContent, handleDisabled, handleEditing)}
                   >
                     확인
                   </EditConfirmButton>
-                  <EditConfirmButton onClick={() => setEditing(null)}>취소</EditConfirmButton>
+                  <EditConfirmButton onClick={handleEditing}>취소</EditConfirmButton>
                 </EditContainer>
               ) : (
                 <QnAContent answer={answer} isEllipsis={false} />
@@ -176,9 +166,11 @@ export default function Answers({
                   ) : null}
                 </>
               ) : null}
-              <DividerContainer>
-                <Divider primary={false} color="gray" height="2px" width="56%" minWidth="320px" />
-              </DividerContainer>
+              {!editing && (
+                <DividerContainer>
+                  <Divider primary={false} color="gray" height="2px" width="56%" minWidth="320px" />
+                </DividerContainer>
+              )}
             </React.Fragment>
           );
         })}

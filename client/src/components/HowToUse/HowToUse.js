@@ -39,7 +39,7 @@ const StylesHowToUse = styled.section`
 `;
 const StyledFeatureBox = styled.div`
   margin-bottom: 2em;
-  ul {
+  ol {
     ${resetList}
     display: flex;
     flex-flow: column nowrap;
@@ -56,7 +56,7 @@ const StyledFeatureBox = styled.div`
   }
   @media screen and (max-height: 667px) {
     margin-bottom: 0.6em;
-    ul {
+    ol {
       li {
         svg {
           width: 20px;
@@ -83,7 +83,8 @@ const StyledTierContainer = styled.div`
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    div {
+    ${resetList};
+    li {
       display: flex;
       align-items: center;
       &:not(:last-child) {
@@ -103,7 +104,7 @@ const StyledTierContainer = styled.div`
   }
   @media screen and (min-width: 480px) {
     .tiers {
-      div {
+      li {
         &:not(:last-child) {
           margin-bottom: 0.4em;
         }
@@ -124,12 +125,12 @@ const howToUseList = [
   {
     icon: 'home',
     content:
-      '랜덤 면접 질문, 랜덤 명언, 좋아요를 가장 많이 받은 사용자, 답변이 가장 많이 달린 면접 질문을 볼 수 있습니다.',
+      '랜덤 면접 질문, 랜덤 명언, 좋아요를 가장 많이 받은 사용자, 한 주간 답변이 가장 많이 달린 면접 질문을 볼 수 있습니다.',
   },
   { icon: 'search', content: '원하는 키워드로 면접 질문을 검색할 수 있습니다.' },
   { icon: 'heart', content: '설정한 관심 키워드에 맞는 면접 질문들을 둘러볼 수 있습니다.' },
   { icon: 'profile', content: '나의 프로필과 내가 작성한 답변을 확인할 수 있습니다.' },
-  { icon: 'info', content: '서비스 소개, 계정 관리, 이용 안내를 볼 수 있습니다.' },
+  { icon: 'info', content: '서비스 소개, 계정 관리, 이용 안내 탭을 볼 수 있습니다.' },
 ];
 
 const tierList = [
@@ -149,7 +150,7 @@ export default function HowToUse() {
       <StyledFeatureBox className="box">
         <h3>주요 기능 소개</h3>
         <Divider width="40%" margin="0.5em auto" />
-        <ul>
+        <ol>
           {howToUseList.map(({ icon, content }) => {
             return (
               <li key={icon}>
@@ -158,21 +159,21 @@ export default function HowToUse() {
               </li>
             );
           })}
-        </ul>
+        </ol>
       </StyledFeatureBox>
       <StyledTierContainer className="box">
         <h3>회원 등급</h3>
         <Divider width="40%" margin="0.5em auto" />
-        <div className="tiers">
+        <ol className="tiers">
           {tierList.map(({ tier, content }) => {
             return (
-              <div key={tier}>
+              <li key={tier}>
                 <Tier tier={tier} />
                 <span>{content}</span>
-              </div>
+              </li>
             );
           })}
-        </div>
+        </ol>
       </StyledTierContainer>
     </StylesHowToUse>
   );

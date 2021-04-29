@@ -10,8 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchFollowingData, loadMoreFollowingData } from 'redux/storage/following/following';
 import Card from 'components/Card/Card';
 import QnAContent from 'components/Content/QnAContent';
-import QnADialog from 'containers/QnADialog/QnADialog';
-import API from 'api/api';
 import { Skeleton } from '@material-ui/lab';
 import { useCallback } from 'react';
 import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
@@ -127,14 +125,7 @@ const SpinnerContainer = styled.div`
 `;
 
 /* ------------------------------ card section ------------------------------ */
-function CardSection({
-  isLoading,
-  cardData = {},
-  currentTag = '',
-  onClick,
-  keywords = [],
-  // refreshFollowingData,
-}) {
+function CardSection({ isLoading, cardData = {}, currentTag = '', onClick, keywords = [] }) {
   const isMounted = useRef(null);
 
   useEffect(() => {
