@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { pageEffect } from 'styles/motions/variants';

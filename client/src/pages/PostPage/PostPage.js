@@ -14,6 +14,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setError } from 'redux/storage/error/error';
 import { fetchCurrentQuestion } from 'redux/storage/post/post';
+import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 import badwordFilter from 'utils/badwordFilter/badwordFilter';
 
 /* ---------------------------- styled components --------------------------- */
@@ -121,6 +122,7 @@ export default function PostPage({ history, location, match }) {
         questionId: qid,
       });
       dispatch(fetchCurrentQuestion(qid));
+      dispatch(fetchCurrentUserData());
 
       handleDisabled();
       handleEmptyContent();
@@ -134,6 +136,7 @@ export default function PostPage({ history, location, match }) {
     try {
       await axios.delete(`/api/answers/${answerId}`);
       dispatch(fetchCurrentQuestion(qid));
+      dispatch(fetchCurrentUserData());
     } catch (err) {
       dispatch(setError('답변 삭제 중 문제가 발생했습니다.'));
     }
@@ -152,6 +155,7 @@ export default function PostPage({ history, location, match }) {
         content: badwordFilter.filter(newContent, '**'),
       });
       await dispatch(fetchCurrentQuestion(qid));
+      dispatch(fetchCurrentUserData());
 
       handleDisabled();
       handleEditing();

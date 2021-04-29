@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { useEffect, useState, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { resetList, spoqaMedium, spoqaLarge } from 'styles/common/common.styled';
