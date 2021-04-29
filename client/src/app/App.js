@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { GlobalStyle } from 'styles/pages/theme.styled';
 import {
@@ -12,7 +12,6 @@ import {
   PostPage,
 } from 'pages/Pages';
 import Navigation from 'containers/Nav/Navigation';
-import DemoPage from 'pages/DemoPage/DemoPage';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import RouteGuard from 'components/RouteGuard/RouteGuard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,10 +31,7 @@ function App() {
   const { currentUserData } = useSelector((state) => state.currentUser);
   // theme state (dark mode)
   const [theme, setTheme] = useState(() => {
-    return window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
 
   const displayError = (message) => {
@@ -66,16 +62,11 @@ function App() {
       <div className="App">
         <GlobalStyle />
         {location.pathname === '/login' ? null : (
-          <ThemeToggler
-            handleClick={() => themeToggler(theme, setTheme, displayError)}
-          />
+          <ThemeToggler handleClick={() => themeToggler(theme, setTheme, displayError)} />
         )}
-        {isOpen && error && (
-          <Alert status="error" message={error} onClick={handleErrorClose} />
-        )}
+        {isOpen && error && <Alert status="error" message={error} onClick={handleErrorClose} />}
         <Switch>
           <RouteGuard path="/" exact component={HomePage} />
-          <RouteGuard path="/demo" exact component={DemoPage} />
           <RouteGuard path="/search" component={SearchPage} />
           <RouteGuard path="/follow" component={FollowingPage} />
           <RouteGuard path="/profile" component={ProfilePage} />
