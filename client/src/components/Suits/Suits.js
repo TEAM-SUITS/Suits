@@ -15,7 +15,7 @@ const StylesSuits = styled.section`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  margin-top: 20vh;
+  margin-top: 70px;
   .logo {
     width: 100px;
     display: block;
