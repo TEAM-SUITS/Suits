@@ -13,7 +13,6 @@ import API from "api/api";
 // TODO: API 말고 그냥 axios로 수정
 import { Skeleton } from "@material-ui/lab";
 
-
 /* ---------------------------- styled components --------------------------- */
 const StyledHeader = styled.h2`
   font-size: 2rem;
@@ -143,12 +142,6 @@ export default function PostPage({ history, location, match }) {
                 </HashtagContainer>
                 <StyledHeader>{data.content}</StyledHeader>
               </HeadingContainer>
-              {/* <Divider
-                width="60%"
-                height="3px"
-                color="var(--color-text)"
-                minWidth="340px"
-              /> */}
               <Answers
                 answersList={data.answers}
                 userId={userData[0]._id}

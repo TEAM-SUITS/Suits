@@ -12,7 +12,6 @@ import {
   PostPage,
 } from 'pages/Pages';
 import Navigation from 'containers/Nav/Navigation';
-import DemoPage from 'pages/DemoPage/DemoPage';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import RouteGuard from 'components/RouteGuard/RouteGuard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -62,7 +61,6 @@ function App() {
         {isOpen && error && <Alert status="error" message={error} onClick={handleErrorClose} />}
         <Switch>
           <RouteGuard path="/" exact component={HomePage} />
-          <RouteGuard path="/demo" exact component={DemoPage} />
           <RouteGuard path="/search" component={SearchPage} />
           <RouteGuard path="/follow" component={FollowingPage} />
           <RouteGuard path="/profile" component={ProfilePage} />
