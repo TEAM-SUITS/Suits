@@ -2,6 +2,7 @@ import axios from 'axios';
 
 /* ------------------------------ action types ------------------------------ */
 const READ_CURRENT_QUESTION = '포스트페이지 질문 정보 조회';
+const SET_INIT = '포스트페이지 정보 초기화';
 const GET_CURRENT_QUESTION = '포스트페이지 질문 정보 요청';
 const GET_CURRENT_QUESTION_SUCCESS = '포스트페이지 질문 정보 요청 성공';
 const GET_CURRENT_QUESTION_FAILURE = '포스트페이지 질문 정보 요청 실패';
@@ -11,9 +12,14 @@ export const fetchCurrentQuestion = (qId) => async (dispatch) => {
   // 요청 시작
   dispatch({ type: GET_CURRENT_QUESTION });
 
+  if (!qId) {
+    dispatch({ type: SET_INIT });
+
+    return;
+  }
+
   // API 호출
   try {
-    // 실패했을 때
     const res = await axios.get(`/api/questions/${qId}`);
     if (res.statusText !== 'OK') {
       dispatch({
@@ -22,7 +28,6 @@ export const fetchCurrentQuestion = (qId) => async (dispatch) => {
       });
     }
 
-    // 성공했을 때
     dispatch({ type: GET_CURRENT_QUESTION_SUCCESS, currentQuestion: res.data });
   } catch (error) {
     dispatch({
@@ -43,6 +48,9 @@ export const currentQuestionReducer = (state = initialState, { type, currentQues
   switch (type) {
     case READ_CURRENT_QUESTION:
       return state;
+
+    case SET_INIT:
+      return initialState;
 
     case GET_CURRENT_QUESTION:
       return {

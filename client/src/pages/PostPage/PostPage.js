@@ -95,7 +95,10 @@ export default function PostPage({ history, location, match }) {
   // question 정보
   const { qid } = match.params;
   // const [data, setData] = useState({}); // question data
-  const { currentQuestion: questionData } = useSelector((state) => state.currentQuestion);
+  const {
+    currentQuestion: questionData,
+    isLoading
+  } = useSelector((state) => state.currentQuestion);
   // user 정보
   const { currentUserData: userData } = useSelector((state) => state.currentUser);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -165,6 +168,10 @@ export default function PostPage({ history, location, match }) {
   };
 
   // effect
+  useEffect(() => {
+    return () => dispatch(fetchCurrentQuestion()); // to set questionData null
+  }, [dispatch]);
+
   useEffect(() => {
     if (!questionData) dispatch(fetchCurrentQuestion(qid));
     // answer 입력창 렌더링 여부 판별
