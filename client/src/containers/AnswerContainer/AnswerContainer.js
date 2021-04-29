@@ -10,9 +10,11 @@ import { boxShadow, spoqaMedium } from 'styles/common/common.styled';
 
 // etc.
 import badwordFilter from 'utils/badwordFilter/badwordFilter';
-import API from 'api/api';
 // import { confirmAlert } from 'react-confirm-alert';
 import AlertDialog from 'containers/AlertDialog/AlertDialog';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 /* ---------------------------- styled components --------------------------- */
 const EditContainer = styled.div`
@@ -97,6 +99,8 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
   const [editContent, setEditContent] = useState('');
   const [deleting, setDeleting] = useState(null);
 
+  const dispatch = useDispatch();
+
   const handleEdit = (answerId, answerContent) => {
     setEditing(answerId);
     setEditContent(answerContent);
@@ -107,10 +111,13 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
   };
 
   const postContent = async (answerId, newContent) => {
-    await API(`/api/answers/${answerId}`, 'patch', {
-      content: badwordFilter.filter(newContent, '**'),
-    });
-
+    try {
+      await axios.patch(`/api/answers/${answerId}`, {
+        content: badwordFilter.filter(newContent, '**'),
+      });
+    } catch (err) {
+      dispatch(setError('답변 등록 중에 문제가 발생했습니다.'));
+    }
     setEditing(null);
     handleRefresh();
   };

@@ -41,6 +41,7 @@ export default function ProfileDialog({ isVisible, user, $onClick, $isLoading })
         infoText="User Profile"
         label="다른 사용자 프로필 조회"
         onClick={$onClick}
+        type="profile"
       >
         <FontSizeContainer>
           <Profile

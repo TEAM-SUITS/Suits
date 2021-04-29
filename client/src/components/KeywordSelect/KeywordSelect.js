@@ -1,12 +1,15 @@
-import Hashtag from 'components/Hashtag/Hashtag';
-import { array, func } from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { resetList, spoqaLarge } from 'styles/common/common.styled';
-import Portal from 'components/Portal/Portal';
+import { array, func } from 'prop-types';
 import { useDispatch } from 'react-redux';
-import API from 'api/api';
 import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
+import { setError } from 'redux/storage/error/error';
+import Portal from 'components/Portal/Portal';
+import axios from 'axios';
+import Hashtag from 'components/Hashtag/Hashtag';
+import { resetList, resetBoxModel, spoqaLarge, spoqaMedium } from 'styles/common/common.styled';
+
+/* -------------------------------------------------------------------------- */
 
 const Container = styled.div`
   button {
@@ -66,6 +69,22 @@ const StyledList = styled.ul`
   }
 `;
 
+const InfoTextContainer = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  text-align: center;
+  margin-top: 5rem;
+
+  > p {
+    color: var(--color-white);
+    ${spoqaMedium}
+    ${resetBoxModel}
+    white-space: nowrap;
+  }
+`;
+
 const CancelButton = styled.button`
   color: var(--color-gray4);
   left: 1.5em;
@@ -76,7 +95,7 @@ const DoneButton = styled.button`
   right: 1.5em;
 `;
 
-/* ---------------------------- styled component ---------------------------- */
+/* ---------------------------- styled components ---------------------------- */
 
 export default function KeywordSelect({ userKeywords, onClose }) {
   const [selectedKeywords, setSelectedKeywords] = useState(userKeywords.length ? userKeywords : []);
@@ -148,16 +167,22 @@ export default function KeywordSelect({ userKeywords, onClose }) {
   };
 
   const submitSelectedKeywords = async () => {
-    if (userKeywords !== selectedKeywords) {
-      await API('/api/user-profile/hashtag', 'patch', {
-        hashTag: selectedKeywords,
-      });
-      await API('/api/user-profile/first-login', 'patch', {
-        firstLogin: false,
-      });
-      dispatch(fetchCurrentUserData());
+    try {
+      if (userKeywords !== selectedKeywords) {
+        await axios.patch('/api/user-profile/hashtag', {
+          hashTag: selectedKeywords,
+        });
+        await axios.patch('/api/user-profile/first-login', {
+          firstLogin: false,
+        });
+        dispatch(fetchCurrentUserData());
+      }
+    } catch (err) {
+      dispatch(setError('관심 키워드를 수정하는 중 문제가 발생했습니다.'));
+      setSelectedKeywords(userKeywords.length ? userKeywords : []);
+    } finally {
+      onClose();
     }
-    onClose();
   };
 
   const cancelKeywordSelect = () => {
@@ -187,6 +212,10 @@ export default function KeywordSelect({ userKeywords, onClose }) {
               );
             })}
           </StyledList>
+          <InfoTextContainer>
+            <p>관심 키워드는</p>
+            <p>3개까지 선택하실 수 있어요!</p>
+          </InfoTextContainer>
         </DialogContainer>
         <DoneButton onClick={submitSelectedKeywords}>done</DoneButton>
       </Container>

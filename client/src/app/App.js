@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { GlobalStyle } from 'styles/pages/theme.styled';
 import {
@@ -22,7 +22,7 @@ import ThemeToggler from '../components/ThemeToggler/ThemeToggler';
 import { darkTheme, lightTheme } from 'styles/pages/Themes';
 import themeToggler from 'utils/themeToggler/themeToggler';
 import Alert from 'components/Alert/Alert';
-import { hideError } from 'redux/storage/error/error';
+import { hideError, setError } from 'redux/storage/error/error';
 
 /* -------------------------------------------------------------------------- */
 function App() {
@@ -33,6 +33,10 @@ function App() {
   const [theme, setTheme] = useState(() => {
     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
+
+  const displayError = (message) => {
+    dispatch(setError(message));
+  };
 
   const { error, isOpen } = useSelector((state) => state.error);
   const handleErrorClose = () => {
@@ -57,7 +61,9 @@ function App() {
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <div className="App">
         <GlobalStyle />
-        {location.pathname === '/login' ? null : <ThemeToggler handleClick={() => themeToggler(theme, setTheme)} />}
+        {location.pathname === '/login' ? null : (
+          <ThemeToggler handleClick={() => themeToggler(theme, setTheme, displayError)} />
+        )}
         {isOpen && error && <Alert status="error" message={error} onClick={handleErrorClose} />}
         <Switch>
           <RouteGuard path="/" exact component={HomePage} />

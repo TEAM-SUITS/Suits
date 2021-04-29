@@ -6,14 +6,16 @@ import QnAContent from 'components/Content/QnAContent';
 import Divider from 'components/Divider/Divider';
 import Hashtag from 'components/Hashtag/Hashtag';
 import styled, { css } from 'styled-components';
-import { boxShadow, spoqaSmall, spoqaMedium, spoqaMediumLight } from 'styles/common/common.styled';
+import { boxShadow, spoqaMedium } from 'styles/common/common.styled';
 import { bool, object } from 'prop-types';
-import API from 'api/api';
 import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
 import { Skeleton } from '@material-ui/lab';
 import { useSelector } from 'react-redux';
 import badwordFliter from 'utils/badwordFilter/badwordFilter';
 import { confirmAlert } from 'react-confirm-alert';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 /* ---------------------------- styled components --------------------------- */
 const CardContainer = styled.div`
@@ -54,7 +56,8 @@ const StyledButton = styled.button.attrs((props) => ({
   type: 'button',
   disabled: props.disabled,
 }))`
-  background-color: ${({ disabled }) => (disabled ? 'var(--color-gray3)' : 'var(--color-gray5)')};
+  background-color: ${({ disabled }) =>
+    disabled ? 'var(--color-gray3)' : 'var(--color-gray5)'};
   color: var(--color-gray1);
   border: none;
   border-radius: 5px;
@@ -224,6 +227,8 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
   const [editing, setEditing] = useState(null);
   const [editContent, setEditContent] = useState('');
 
+  const dispatch = useDispatch();
+
   const handleEdit = (answerId, answerContent) => {
     setEditing(answerId);
     setEditContent(answerContent);
@@ -234,17 +239,25 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
   };
 
   const postContent = async (answerId, newContent) => {
-    await API(`/api/answers/${answerId}`, 'patch', {
-      content: badwordFliter.filter(newContent, '**'),
-    });
-
-    setEditing(null);
-    handleRefresh();
+    try {
+      await axios.patch(`/api/answers/${answerId}`, {
+        content: badwordFliter.filter(newContent, '**'),
+      });
+    } catch (err) {
+      dispatch(setError('답변 등록 중 문제가 발생했습니다.'));
+    } finally {
+      setEditing(null);
+      handleRefresh();
+    }
   };
 
   const handleRemove = (answerId) => {
     const removeAnswer = async () => {
-      await API(`/api/answers/${answerId}`, 'delete');
+      try {
+        await axios.delete(`/api/answers/${answerId}`);
+      } catch (err) {
+        dispatch(setError('답변 삭제 중 문제가 발생했습니다.'));
+      }
     };
 
     confirmAlert({
@@ -282,7 +295,10 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
         <React.Fragment key={answer._id}>
           {editing === answer._id ? (
             <EditContainer>
-              <EditArea value={editContent} onChange={(e) => handleEditContent(e)} />
+              <EditArea
+                value={editContent}
+                onChange={(e) => handleEditContent(e)}
+              />
               <EditConfirmButton
                 onClick={() => {
                   postContent(answer._id, editContent);
@@ -291,7 +307,9 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
               >
                 확인
               </EditConfirmButton>
-              <EditConfirmButton onClick={() => setEditing(null)}>취소</EditConfirmButton>
+              <EditConfirmButton onClick={() => setEditing(null)}>
+                취소
+              </EditConfirmButton>
             </EditContainer>
           ) : (
             <QnAContent answer={answer} isEllipsis={false} />
@@ -300,8 +318,14 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
             <>
               {!editing ? (
                 <ButtonContainer>
-                  <EditorOnlyButton onClick={() => handleEdit(answer._id, answer.content)}>수정</EditorOnlyButton>
-                  <EditorOnlyButton onClick={() => handleRemove(answer._id)}>삭제</EditorOnlyButton>
+                  <EditorOnlyButton
+                    onClick={() => handleEdit(answer._id, answer.content)}
+                  >
+                    수정
+                  </EditorOnlyButton>
+                  <EditorOnlyButton onClick={() => handleRemove(answer._id)}>
+                    삭제
+                  </EditorOnlyButton>
                 </ButtonContainer>
               ) : null}
             </>
@@ -313,22 +337,34 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
   );
 };
 
-const InputArea = ({ isAnswered, isInputLoading, questionId, handleIsAnswered, handleRefresh }) => {
+const InputArea = ({
+  isAnswered,
+  isInputLoading,
+  questionId,
+  handleIsAnswered,
+  handleRefresh,
+}) => {
   const [content, setContent] = useState('');
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
+
+  const dispatch = useDispatch();
 
   const handleContent = (e) => {
     setContent(e.target.value);
   };
 
   const postContent = async () => {
-    await API('/api/answers', 'post', {
-      content: badwordFliter.filter(content, '**'),
-      questionId,
-    });
-
-    handleIsAnswered();
-    handleRefresh();
+    try {
+      await axios.post('/api/answers', {
+        content: badwordFliter.filter(content, '**'),
+        questionId,
+      });
+    } catch (err) {
+      dispatch(setError('답변 등록 중 문제가 발생했습니다.'));
+    } finally {
+      handleIsAnswered();
+      handleRefresh();
+    }
   };
 
   if (isInputLoading) {
@@ -363,26 +399,39 @@ export default function QnADialog({
   onClick, // 닫기 버튼 제어
   handleRefresh,
 }) {
-  const { currentUserData: userData } = useSelector((state) => state.currentUser);
+  const { currentUserData: userData } = useSelector(
+    (state) => state.currentUser
+  );
 
   const [isAnswered, setIsAnswered] = useState(null);
   const [isInputLoading, setIsInputLoading] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState({});
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setCurrentQuestion(question);
     setIsAnswered(true);
     setIsInputLoading(true);
     const getIsAnswered = async (questionId) => {
-      const userData = await API('/api/user-profile', 'get');
-      const check = userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
-      // const getIsAnswered = (questionId) => {
-      //   const check =
-      //     userData &&
-      //     userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
-
-      check ? setIsAnswered(true) : setIsAnswered(false);
-      setIsInputLoading(false);
+      try {
+        const res = await axios('/api/user-profile');
+        const userData = res.data;
+        const check = userData[0].answeredQuestions.find(
+          ({ _id }) => _id === questionId
+        );
+        check ? setIsAnswered(true) : setIsAnswered(false);
+        // const getIsAnswered = (questionId) => {
+        //   const check =
+        //     userData &&
+        //     userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
+      } catch (err) {
+        dispatch(
+          setError('질문에 대한 답변 기록을 불러오는 데 문제가 발생했습니다.')
+        );
+      } finally {
+        setIsInputLoading(false);
+      }
     };
 
     if (question._id) {
@@ -409,7 +458,11 @@ export default function QnADialog({
                   return <Hashtag key={idx} type={keyword} />;
                 })}
               </HashtagContainer>
-              <Answers answersList={currentQuestion.answers} userId={userData[0]._id} handleRefresh={handleRefresh} />
+              <Answers
+                answersList={currentQuestion.answers}
+                userId={userData[0]._id}
+                handleRefresh={handleRefresh}
+              />
               <InputArea
                 isAnswered={isAnswered}
                 isInputLoading={isInputLoading}

@@ -1,11 +1,13 @@
 import { Skeleton } from '@material-ui/lab';
-import API from 'api/api';
+import axios from 'axios';
 import Button from 'components/Button/Button';
 import Card from 'components/Card/Card';
 import QnAContent from 'components/Content/QnAContent';
 import TrendingQuestionContent from 'components/Content/TrendingQuestionContent';
 import QnADialog from 'containers/QnADialog/QnADialog';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 import styled from 'styled-components';
 import { boxShadow, resetList } from 'styles/common/common.styled';
 
@@ -16,7 +18,14 @@ const CardList = styled.ul`
     width: 350px;
     margin: 3em auto;
   }
-}
+`;
+
+const StyledCard = styled(Card)`
+  > div {
+    &:last-child {
+      margin-top: 3rem;
+    }
+  }
 `;
 
 const RefreshButton = styled(Button)`
@@ -57,19 +66,36 @@ const QuestionCardSkeleton = styled(Skeleton)`
   min-height: 4em;
 `;
 
-export default function QNACardSection({ content, isLoading, cardData = {}, refreshData, previewAnswer, isMobile }) {
+export default function QNACardSection({
+  content,
+  isLoading,
+  cardData = {},
+  refreshData,
+  previewAnswer,
+  isMobile,
+}) {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [question, setQuestion] = useState({});
 
+  const dispatch = useDispatch();
+
   const handleDialog = async (id) => {
-    const res = await API(`/api/questions/${id}`, 'get');
-    setQuestion(res);
+    try {
+      const res = await axios(`/api/questions/${id}`);
+      setQuestion(res.data);
+    } catch (err) {
+      dispatch(setError('질문을 불러들이는 중 문제가 발생했습니다.'));
+    }
   };
 
   const refreshQuestion = async () => {
-    const res = await API(`/api/questions/${question._id}`, 'get');
-    setQuestion(res);
-    refreshData();
+    try {
+      const res = await axios(`/api/questions/${question._id}`);
+      setQuestion(res.data);
+      refreshData();
+    } catch (err) {
+      dispatch(setError('질문을 새고고침하는 중 문제가 발생했습니다.'));
+    }
   };
 
   const renderCard = () => {
@@ -77,18 +103,20 @@ export default function QNACardSection({ content, isLoading, cardData = {}, refr
       case 'randomQ':
         return cardData.map((question) => (
           <li key={question._id}>
-            <Card
+            <StyledCard
+              qId={question._id}
               isQuestion={true}
+              isPreview={true}
               title={question.content}
               tags={question.hashTag}
               hasButton
               centerAlign
-              onClick={() => {
-                setIsDialogVisible(true);
-                handleDialog(question._id);
-              }}
             >
-              <QnAContent answer={!!question.answers.length && previewAnswer(question.answers)} />
+              <QnAContent
+                answer={
+                  !!question.answers.length && previewAnswer(question.answers)
+                }
+              />
               <RefreshButton
                 outline
                 icon="refresh"
@@ -99,13 +127,16 @@ export default function QNACardSection({ content, isLoading, cardData = {}, refr
                 aria-label="새로고침"
                 isMobile={isMobile}
               />
-            </Card>
+            </StyledCard>
           </li>
         ));
       case 'trendingQ':
         return (
           <Card title="Trending QnA" centerAlign>
-            <TrendingQuestionContent questions={cardData} $isLoading={isLoading} />
+            <TrendingQuestionContent
+              questions={cardData}
+              $isLoading={isLoading}
+            />
           </Card>
         );
       case 'answeredQ':
@@ -113,15 +144,17 @@ export default function QNACardSection({ content, isLoading, cardData = {}, refr
           <li key={question._id}>
             <Card
               className="question"
+              qId={question._id}
               isQuestion={true}
+              isPreview={true}
               title={question.content}
               tags={question.hashTag}
-              onClick={() => {
-                setIsDialogVisible(true);
-                handleDialog(question._id);
-              }}
             >
-              <QnAContent answer={question.answers.find((answer) => answer.postedby?._id === cardData._id)} />
+              <QnAContent
+                answer={question.answers.find(
+                  (answer) => answer.postedby?._id === cardData._id
+                )}
+              />
             </Card>
           </li>
         ));
@@ -165,7 +198,11 @@ export default function QNACardSection({ content, isLoading, cardData = {}, refr
         refreshQuestion={refreshQuestion}
       />
 
-      {!cardData || isLoading ? <Card>{renderSkeleton()}</Card> : <CardList>{renderCard()}</CardList>}
+      {!cardData || isLoading ? (
+        <Card>{renderSkeleton()}</Card>
+      ) : (
+        <CardList>{renderCard()}</CardList>
+      )}
     </>
   );
 }

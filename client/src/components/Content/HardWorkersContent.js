@@ -5,8 +5,10 @@ import { resetList } from 'styles/common/common.styled';
 import { array, bool } from 'prop-types';
 import { Skeleton } from '@material-ui/lab';
 import ProfileDialog from 'containers/ProfileDialog/ProfileDialog';
-import API from 'api/api';
 import { useEffect } from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setError } from 'redux/storage/error/error';
 
 const HardWorkers = styled.ul`
   ${resetList}
@@ -92,6 +94,8 @@ export default function HardWorkersContent({ users, $isLoading }) {
   const [profile, setProfile] = useState({});
   const [isLoading, setLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   const handleClick = (e) => {
     if (e.target.classList.contains('overlay')) setDialogVisiblity(false);
   };
@@ -108,8 +112,18 @@ export default function HardWorkersContent({ users, $isLoading }) {
     // profile에 맞게 데이터를 전달해주기 위해 가공
     try {
       setLoading(true);
-      const data = await API(`/api/user-profile/${id}`, 'get');
-      const { _id, username, avatar, tier, hashTag, githubRepo, bio, likeCount } = data[0];
+      const res = await axios(`/api/user-profile/${id}`);
+      const { data } = res;
+      const {
+        _id,
+        username,
+        avatar,
+        tier,
+        hashTag,
+        githubRepo,
+        bio,
+        likeCount,
+      } = data[0];
       setProfile({
         _id,
         username,
@@ -121,7 +135,7 @@ export default function HardWorkersContent({ users, $isLoading }) {
         like: likeCount,
       });
     } catch (err) {
-      console.error(err);
+      dispatch(setError('프로필을 불러들이는 중 문제가 발생했습니다.'));
     } finally {
       setLoading(false);
     }
