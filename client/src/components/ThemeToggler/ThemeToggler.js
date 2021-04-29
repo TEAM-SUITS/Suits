@@ -1,7 +1,8 @@
-import Icon from 'components/Icon/Icon';
 import { motion } from 'framer-motion';
 import React from 'react';
 import styled from 'styled-components';
+import { func } from 'prop-types';
+import Icon from 'components/Icon/Icon';
 import { boxShadow } from 'styles/common/common.styled';
 
 const StyledThemeToggler = styled(motion.button)`
@@ -32,6 +33,8 @@ const StyledThemeToggler = styled(motion.button)`
   }
 `;
 
+/* ---------------------------- styled components --------------------------- */
+
 export default function ThemeToggler({ handleClick }) {
   return (
     <StyledThemeToggler drag="y" dragConstraints={{ top: 5, bottom: 5 }} onClick={handleClick}>
@@ -39,3 +42,9 @@ export default function ThemeToggler({ handleClick }) {
     </StyledThemeToggler>
   );
 }
+
+/* ------------------------------- prop types ------------------------------- */
+
+ThemeToggler.propTypes = {
+  handleClick: func,
+};

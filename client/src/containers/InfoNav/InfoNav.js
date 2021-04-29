@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import { resetList, spoqaMediumLight } from 'styles/common/common.styled';
 import { useLocation } from 'react-router';
-import { resetBoxModel } from 'styles/common/common.styled';
+import { NavLink } from 'react-router-dom';
+import { resetList, resetBoxModel, spoqaMediumLight } from 'styles/common/common.styled';
+
+/* -------------------------------------------------------------------------- */
 
 const StyledNav = styled.ul`
   ${resetList}
@@ -33,6 +34,8 @@ const StyledHeading = styled.h2`
     font-size: 2rem;
   }
 `;
+
+/* ---------------------------- styled components --------------------------- */
 
 export default function InfoNav() {
   const location = useLocation();
