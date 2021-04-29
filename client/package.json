@@ -3,19 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.1",
     "framer-motion": "^4.1.2",
+    "http-proxy-middleware": "^1.1.1",
+    "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-app-polyfill": "^2.0.0",
+    "react-confirm-alert": "^2.7.0",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-slick": "^0.28.1",
     "redux": "^4.0.5",
-    "reselect": "^4.0.0",
+    "redux-thunk": "^2.3.0",
+    "slick-carousel": "^1.8.1",
     "styled-components": "^5.2.3"
   },
   "scripts": {
@@ -85,6 +93,8 @@
     "@storybook/react": "^6.2.4",
     "classnames": "^2.3.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-logger": "^3.0.6",
     "sass": "^1.32.8",
     "serve": "^11.3.2"
   }

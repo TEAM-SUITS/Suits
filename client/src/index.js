@@ -1,17 +1,19 @@
-import 'react-app-polyfill/ie11'
-import 'react-app-polyfill/stable'
-import { BrowserRouter } from 'react-router-dom'
-import { StrictMode } from 'react'
-import { render } from 'react-dom'
-import './styles/index.scss'
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
+import { BrowserRouter } from 'react-router-dom';
+import { StrictMode } from 'react';
+import { render } from 'react-dom';
 
-import App from './app/App'
+import App from './app/App';
+import { StoreProvider } from 'redux/store';
 
 render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <StoreProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </StoreProvider>
   </StrictMode>,
   document.getElementById('root')
-)
+);
