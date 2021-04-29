@@ -6,7 +6,7 @@ import Divider from 'components/Divider/Divider';
 import { DividerContainer } from 'containers/DividerContainer/DividerContainer.styled';
 // styles
 import styled, { css } from 'styled-components';
-import { boxShadow, spoqaMedium } from 'styles/common/common.styled';
+import { boxShadow, spoqaMedium, spoqaMediumLight } from 'styles/common/common.styled';
 
 // etc.
 import badwordFilter from 'utils/badwordFilter/badwordFilter';
@@ -19,9 +19,11 @@ import { setError } from 'redux/storage/error/error';
 /* ---------------------------- styled components --------------------------- */
 const EditContainer = styled.div`
   position: relative;
-  height: 10rem;
+  height: 18rem;
   width: 70vw;
   max-width: 500px;
+  background-color: var(--color-gray2);
+  border-radius: 5px;
 
   // 모바일
   @media screen and (max-width: 480px) {
@@ -34,13 +36,20 @@ const EditArea = styled.textarea`
   top: 0;
   left: 0;
   width: 100%;
-  height: 10rem;
+  height: 14rem;
   resize: none;
-  border-radius: 5px;
   ${spoqaMedium}
   background-color: var(--color-gray2);
-  padding: 1em;
-  border: solid 1px var(--color-gray3);
+  padding: 1em 1em 0.4em;
+  border: none;
+`;
+
+const EditContentLength = styled.span`
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  ${spoqaMediumLight};
+  color: var(--color-black);
 `;
 
 const EditConfirmButton = styled.button.attrs(() => ({
@@ -144,7 +153,8 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
             <React.Fragment key={answer._id}>
               {editing === answer._id ? (
                 <EditContainer>
-                  <EditArea value={editContent} onChange={(e) => handleEditContent(e)} />
+                  <EditArea value={editContent} onChange={(e) => handleEditContent(e)} maxLength="200" />
+                  {editing && <EditContentLength>{editContent ? editContent.length : 0}/200</EditContentLength>}
                   <EditConfirmButton
                     onClick={() => {
                       postContent(answer._id, editContent);
@@ -167,9 +177,11 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
                   ) : null}
                 </>
               ) : null}
-              <DividerContainer>
-                <Divider primary={false} color="gray" height="2px" width="56%" minWidth="320px" />
-              </DividerContainer>
+              {!editing && (
+                <DividerContainer>
+                  <Divider primary={false} color="gray" height="2px" width="56%" minWidth="320px" />
+                </DividerContainer>
+              )}
             </React.Fragment>
           );
         })}
