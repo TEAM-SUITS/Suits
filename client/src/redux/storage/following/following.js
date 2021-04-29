@@ -3,23 +3,15 @@ import axios from 'axios';
 /* ------------------------------ action types ------------------------------ */
 const READ_FOLLOWING_DATA = '현재 사용자의 관심키워드에 해당하는 질문 조회';
 const GET_FOLLOWING_DATA = '현재 사용자의 관심키워드에 해당하는 질문 요청';
-const GET_MORE_FOLLOWING_DATA =
-  '현재 사용자의 관심키워드에 해당하는 질문 더보기 요청';
-const GET_MORE_FOLLOWING_DATA_SUCCESS =
-  '현재 사용자의 관심키워드에 해당하는 질문 더보기 성공';
-const GET_MORE_FOLLOWING_DATA_FAILURE =
-  '현재 사용자의 관심키워드에 해당하는 질문 더보기 실패';
+const GET_MORE_FOLLOWING_DATA = '현재 사용자의 관심키워드에 해당하는 질문 더보기 요청';
+const GET_MORE_FOLLOWING_DATA_SUCCESS = '현재 사용자의 관심키워드에 해당하는 질문 더보기 성공';
+const GET_MORE_FOLLOWING_DATA_FAILURE = '현재 사용자의 관심키워드에 해당하는 질문 더보기 실패';
 
 const GET_FOLLOWING_DATA_SUCCESS = '관심키워드에 해당하는 질문 요청 성공';
 const GET_FOLLOWING_DATA_FAILURE = '관심키워드에 해당하는 질문 요청 실패';
 
 /* ---------------------------------- thunk --------------------------------- */
-export const fetchFollowingData = (
-  hashtags = [],
-  currentTag = '',
-  prevTag = '',
-  init
-) => async (dispatch) => {
+export const fetchFollowingData = (hashtags = [], currentTag = '', prevTag = '', init) => async (dispatch) => {
   // 팔로잉 중인 키워드가 없는 경우
   if (!hashtags.length) {
     return;
@@ -41,36 +33,28 @@ export const fetchFollowingData = (
     const res = await axios(`/api/questions/following/${interests}`);
 
     // 성공했을 때
-    if (res.statusText === 'OK')
-      dispatch({ type: GET_FOLLOWING_DATA_SUCCESS, followingData: res.data });
+    if (res.statusText === 'OK') dispatch({ type: GET_FOLLOWING_DATA_SUCCESS, followingData: res.data });
     else {
       dispatch({
         type: GET_FOLLOWING_DATA_FAILURE,
-        error:
-          res.data.message || '관심 키워드 질문을 불러오는데 실패하였습니다',
+        error: res.data.message || '관심 키워드 질문을 불러오는데 실패하였습니다',
       });
     }
   } catch (error) {
     // 실패했을 때
     dispatch({
       type: GET_FOLLOWING_DATA_FAILURE,
-      error:
-        error.message ||
-        '관심 키워드 질문을 불러오는데 알 수 없는 오류가 발생했습니다',
+      error: error.message || '관심 키워드 질문을 불러오는데 알 수 없는 오류가 발생했습니다',
     });
   }
 };
 
 // 정보를 더 요청할시 사용할 액셕함수
-export const loadMoreFollowingData = (hashtags = [], currentTag = '') => async (
-  dispatch,
-  prevState
-) => {
+export const loadMoreFollowingData = (hashtags = [], currentTag = '') => async (dispatch, prevState) => {
   // 리덕스 상태의 팔로잉 데이터 추출
   const { following } = prevState();
   // 다음페이지가 없다면 요청을 보내지않음.
   if (following.followingData && !following.followingData.hasNextPage) {
-    console.log('데이터가 없어용');
     return;
   }
 
@@ -80,11 +64,7 @@ export const loadMoreFollowingData = (hashtags = [], currentTag = '') => async (
   if (following.followingData && following.followingData.page) {
     try {
       dispatch({ type: GET_MORE_FOLLOWING_DATA });
-      const res = await axios(
-        `/api/questions/following/${interests}?page=${
-          following.followingData.page + 1
-        }`
-      );
+      const res = await axios(`/api/questions/following/${interests}?page=${following.followingData.page + 1}`);
       dispatch({
         type: GET_MORE_FOLLOWING_DATA_SUCCESS,
         followingData: res.data,
@@ -110,10 +90,7 @@ const initialState = {
   // nextPage
 };
 
-export const followingReducer = (
-  state = initialState,
-  { type, followingData, error, currentTag }
-) => {
+export const followingReducer = (state = initialState, { type, followingData, error, currentTag }) => {
   switch (type) {
     case READ_FOLLOWING_DATA:
       return state;
