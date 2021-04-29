@@ -159,7 +159,7 @@ export default function Answers({ answersList = [], userId = '', removeAnswer, p
                   <EditConfirmButton onClick={handleEditing}>취소</EditConfirmButton>
                 </EditContainer>
               ) : (
-                <QnAContent answer={answer} isEllipsis={false} />
+                <QnAContent answer={answer} isEllipsis={false} page="post" />
               )}
               {answer.postedby && answer.postedby._id === userId ? (
                 <>
