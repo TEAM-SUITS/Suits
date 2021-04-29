@@ -1,13 +1,15 @@
-import Hashtag from 'components/Hashtag/Hashtag';
-import { array, func } from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { resetList, resetBoxModel, spoqaLarge, spoqaMedium } from 'styles/common/common.styled';
-import Portal from 'components/Portal/Portal';
+import { array, func } from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
-import axios from 'axios';
 import { setError } from 'redux/storage/error/error';
+import Portal from 'components/Portal/Portal';
+import axios from 'axios';
+import Hashtag from 'components/Hashtag/Hashtag';
+import { resetList, resetBoxModel, spoqaLarge, spoqaMedium } from 'styles/common/common.styled';
+
+/* -------------------------------------------------------------------------- */
 
 const Container = styled.div`
   button {
@@ -93,7 +95,7 @@ const DoneButton = styled.button`
   right: 1.5em;
 `;
 
-/* ---------------------------- styled component ---------------------------- */
+/* ---------------------------- styled components ---------------------------- */
 
 export default function KeywordSelect({ userKeywords, onClose }) {
   const [selectedKeywords, setSelectedKeywords] = useState(userKeywords.length ? userKeywords : []);
