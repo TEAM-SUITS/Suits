@@ -326,7 +326,7 @@ export default function MyInfo() {
             onChange={(e) => handleBioChange(e)}
             maxLength="119"
           />
-          {isBioActive && <span>{enteredBio.length}/120</span>}
+          {isBioActive && <span>{enteredBio ? enteredBio.length : 0}/120</span>}
         </StyledBio>
         <StyledHashtagContainer>
           <StyledHashtagHeadingContainer>

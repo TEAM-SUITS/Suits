@@ -5,8 +5,8 @@ module.exports = (app) => {
   app.get(
     '/auth/github/callback',
     passport.authenticate('github', {
-      failureRedirect: 'http://localhost:3000/login',
-      successRedirect: 'http://localhost:3000/login',
+      failureRedirect: `${process.env.CLIENT_ADDRESS}/login`,
+      successRedirect: `${process.env.CLIENT_ADDRESS}/login`,
     }),
     function (req, res) {
       res.sendStatus(200);
@@ -24,7 +24,6 @@ module.exports = (app) => {
   app.get('/auth/logout', (req, res) => {
     if (req.user) {
       req.logout();
-      // res.redirect("http://localhost:3000/login");
       res.redirect('/');
     } else {
       res.send({

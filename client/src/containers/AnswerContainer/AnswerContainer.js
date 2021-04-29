@@ -155,7 +155,7 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
                   <EditConfirmButton onClick={() => setEditing(null)}>취소</EditConfirmButton>
                 </EditContainer>
               ) : (
-                <QnAContent answer={answer} isEllipsis={false} />
+                <QnAContent answer={answer} isEllipsis={false} page="post" />
               )}
               {answer.postedby && answer.postedby._id === userId ? (
                 <>

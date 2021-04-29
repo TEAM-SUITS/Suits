@@ -13,7 +13,7 @@ import { Skeleton } from '@material-ui/lab';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setError } from 'redux/storage/error/error';
-import { fetchCurrentQuestion } from "redux/storage/post/post";
+import { fetchCurrentQuestion } from 'redux/storage/post/post';
 
 /* ---------------------------- styled components --------------------------- */
 const HeadingContainer = styled.span`
