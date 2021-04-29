@@ -6,6 +6,7 @@ import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
 import SearchHeaderBar from 'containers/SearchHeaderBar/SearchHeaderBar';
 import Card from 'components/Card/Card';
 import QnAContent from 'components/Content/QnAContent';
+import { SuityContainer } from 'containers/SuityContainer/SuityContainer.styled';
 import { fetchSearchData } from 'redux/storage/search/search';
 import styled from 'styled-components';
 import { spoqaMedium } from 'styles/common/common.styled';
@@ -37,19 +38,19 @@ function ResultsSection({ result = [], word = '', isLoading, handleRefresh }) {
 
   if (result === null || word === '') {
     return (
-      <>
+      <SuityContainer>
         <InfoImg src="/assets/magnifier.png" alt="검색어 입력 안내" />
         <InfoMsg>검색하실 단어를 입력해주세요.</InfoMsg>
-      </>
+      </SuityContainer>
     );
   }
   // 검색 결과가 존재하지 않을 경우
   if (!isLoading && !result.length) {
     return (
-      <>
+      <SuityContainer>
         <InfoImg src="/assets/empty.png" alt="검색 결과 없음" />
         <InfoMsg>{`"${word}"에 대한 검색 결과가 없습니다.`}</InfoMsg>
-      </>
+      </SuityContainer>
     );
   }
   return (

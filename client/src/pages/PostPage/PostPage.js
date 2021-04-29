@@ -131,7 +131,6 @@ export default function PostPage({ history, location, match }) {
 
   const patchAnswer = async (answerId, newContent) => {
     try {
-      
       await axios.patch(`/api/answers/${answerId}`, {
         content: badwordFilter.filter(newContent, '**'),
       });
@@ -216,7 +215,10 @@ export default function PostPage({ history, location, match }) {
             <SkeletonAnswer>
               <SkeletonProfile>
                 <Skeleton variant="circle" width="8em" height="8em" animation="wave" />
+                <div>
                 <Skeleton variant="text" width="15em" animation="wave" />
+                <Skeleton variant="text" width="15em" animation="wave" />
+                </div>
                 <Skeleton variant="text" width="3em" height="5em" animation="wave" />
               </SkeletonProfile>
               <SkeletonCard variant="rect" height="20em" animation="wave" width="100%" />
