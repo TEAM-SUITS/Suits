@@ -10,11 +10,11 @@ import { boxShadow, spoqaMedium, spoqaMediumLight } from 'styles/common/common.s
 
 // etc.
 import badwordFilter from 'utils/badwordFilter/badwordFilter';
-// import { confirmAlert } from 'react-confirm-alert';
 import AlertDialog from 'containers/AlertDialog/AlertDialog';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setError } from 'redux/storage/error/error';
+import { fetchCurrentQuestion } from 'redux/storage/post/post';
 
 /* ---------------------------- styled components --------------------------- */
 const EditContainer = styled.div`
@@ -102,7 +102,14 @@ const EditorOnlyButton = styled.button.attrs(() => ({
 `;
 
 /* --------------------------------- Answers -------------------------------- */
-export default function Answers({ answersList = [], userId = '', handleRefresh, removeAnswer }) {
+export default function Answers({
+    answersList = [],
+    userId = '',
+    handleRefresh,
+    removeAnswer,
+    questionId,
+    patchAnswer,
+}) {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
   const [editContent, setEditContent] = useState('');
@@ -119,17 +126,18 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
     setEditContent(e.target.value);
   };
 
-  const postContent = async (answerId, newContent) => {
-    try {
-      await axios.patch(`/api/answers/${answerId}`, {
-        content: badwordFilter.filter(newContent, '**'),
-      });
-    } catch (err) {
-      dispatch(setError('답변 등록 중에 문제가 발생했습니다.'));
-    }
-    setEditing(null);
-    handleRefresh();
-  };
+  // const postContent = async (answerId, newContent) => {
+  //   try {
+  //     await axios.patch(`/api/answers/${answerId}`, {
+  //       content: badwordFilter.filter(newContent, '**'),
+  //     });
+  //     dispatch(fetchCurrentQuestion(questionId));
+  //   } catch (err) {
+  //     dispatch(setError('답변 등록 중에 문제가 발생했습니다.'));
+  //   }
+  //   setEditing(null);
+  //   // handleRefresh();
+  // };
 
   if (!answersList.length) {
     return <QnAContent answer={false} isEllipsis={false} />;
@@ -142,7 +150,7 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
         onConfirm={() => {
           setDeleting(null);
           removeAnswer(deleting);
-          handleRefresh();
+          // handleRefresh();
         }}
         onCancel={() => setDeleting(null)}
         onClick={() => setDeleting(null)}
@@ -156,8 +164,9 @@ export default function Answers({ answersList = [], userId = '', handleRefresh, 
                   <EditArea value={editContent} onChange={(e) => handleEditContent(e)} maxLength="200" />
                   {editing && <EditContentLength>{editContent ? editContent.length : 0}/200</EditContentLength>}
                   <EditConfirmButton
-                    onClick={() => {
-                      postContent(answer._id, editContent);
+                    onClick={async () => {
+                      await patchAnswer(answer._id, editContent);
+                      setEditing(null);
                     }}
                   >
                     확인

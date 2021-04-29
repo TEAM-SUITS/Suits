@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // comps
 import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
@@ -12,6 +12,7 @@ import badwordFilter from 'utils/badwordFilter/badwordFilter';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setError } from 'redux/storage/error/error';
+import { fetchCurrentQuestion } from 'redux/storage/post/post';
 
 /* ---------------------------- styled components --------------------------- */
 const AnswerContainer = styled.div`
@@ -80,28 +81,12 @@ const StyledButton = styled.button.attrs((props) => ({
 `;
 
 /* ------------------------------- input area ------------------------------- */
-export default function InputArea({ isAnswered, isInputLoading, questionId, handleIsAnswered, handleRefresh }) {
+export default function InputArea({ isAnswered, isInputLoading, questionId, handleIsAnswered, postAnswer }) {
   const [content, setContent] = useState('');
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
 
-  const dispatch = useDispatch();
-
   const handleContent = (e) => {
     setContent(e.target.value);
-  };
-
-  const postContent = async () => {
-    try {
-      await axios.post('/api/answers', {
-        content: badwordFilter.filter(content, '**'),
-        questionId,
-      });
-    } catch (err) {
-      dispatch(setError('답변 등록 중 문제가 발생했습니다.'));
-    } finally {
-      handleIsAnswered();
-      handleRefresh();
-    }
   };
 
   if (isInputLoading) {
@@ -118,12 +103,11 @@ export default function InputArea({ isAnswered, isInputLoading, questionId, hand
       </StyledTextAreaContainer>
       <StyledButton
         disabled={isDisabled}
-        onClick={() => {
+        onClick={async () => {
           if (content === '') return;
 
+          await postAnswer(content);
           setIsDisabled(true);
-          postContent();
-          // handleRefresh();
         }}
       >
         등록
