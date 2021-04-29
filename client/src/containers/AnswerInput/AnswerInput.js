@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 // comps
 import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
@@ -6,13 +6,6 @@ import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
 // styles
 import styled from 'styled-components';
 import { boxShadow, spoqaMedium, spoqaLarge, spoqaMediumLight } from 'styles/common/common.styled';
-
-// etc.
-import badwordFilter from 'utils/badwordFilter/badwordFilter';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setError } from 'redux/storage/error/error';
-import { fetchCurrentQuestion } from 'redux/storage/post/post';
 
 /* ---------------------------- styled components --------------------------- */
 const AnswerContainer = styled.div`
@@ -89,6 +82,14 @@ export default function InputArea({ isAnswered, isInputLoading, questionId, hand
     setContent(e.target.value);
   };
 
+  const handleDisabled = () => {
+    setIsDisabled((prev) => !prev);
+  };
+
+  const handleEmptyContent = () => {
+    setContent('');
+  };
+
   if (isInputLoading) {
     return <Spinner />;
   }
@@ -101,15 +102,7 @@ export default function InputArea({ isAnswered, isInputLoading, questionId, hand
         <StyledTextarea onChange={(e) => handleContent(e)} maxLength="200" />
         <StyledContentLength>{content ? content.length : 0}/200</StyledContentLength>
       </StyledTextAreaContainer>
-      <StyledButton
-        disabled={isDisabled}
-        onClick={async () => {
-          if (content === '') return;
-
-          await postAnswer(content);
-          setIsDisabled(true);
-        }}
-      >
+      <StyledButton disabled={isDisabled} onClick={() => postAnswer(content, handleDisabled, handleEmptyContent)}>
         등록
       </StyledButton>
     </AnswerContainer>

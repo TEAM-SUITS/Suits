@@ -55,7 +55,8 @@ const EditContentLength = styled.span`
 const EditConfirmButton = styled.button.attrs(() => ({
   type: 'button',
 }))`
-  background-color: var(--color-gray5);
+  background-color: ${({ disabled }) => (disabled ? 'var(--color-gray3)' : 'var(--color-gray5)')};
+  cursor: ${({ disabled }) => (disabled ? 'wait' : 'pointer')};
   color: var(--color-gray1);
   border: none;
   border-radius: 5px;
@@ -103,17 +104,18 @@ const EditorOnlyButton = styled.button.attrs(() => ({
 
 /* --------------------------------- Answers -------------------------------- */
 export default function Answers({
-    answersList = [],
-    userId = '',
-    handleRefresh,
-    removeAnswer,
-    questionId,
-    patchAnswer,
+  answersList = [],
+  userId = '',
+  handleRefresh,
+  removeAnswer,
+  questionId,
+  patchAnswer,
 }) {
   // 사용자가 답변을 수정하는 중인지
   const [editing, setEditing] = useState(null);
   const [editContent, setEditContent] = useState('');
   const [deleting, setDeleting] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
 
   const dispatch = useDispatch();
 
@@ -126,6 +128,13 @@ export default function Answers({
     setEditContent(e.target.value);
   };
 
+  const handleDisabled = () => {
+    setIsDisabled((prev) => !prev);
+  };
+
+  const handleEditing = () => {
+    setEditing(null);
+  };
   // const postContent = async (answerId, newContent) => {
   //   try {
   //     await axios.patch(`/api/answers/${answerId}`, {
@@ -164,14 +173,12 @@ export default function Answers({
                   <EditArea value={editContent} onChange={(e) => handleEditContent(e)} maxLength="200" />
                   {editing && <EditContentLength>{editContent ? editContent.length : 0}/200</EditContentLength>}
                   <EditConfirmButton
-                    onClick={async () => {
-                      await patchAnswer(answer._id, editContent);
-                      setEditing(null);
-                    }}
+                    disabled={isDisabled}
+                    onClick={() => patchAnswer(answer._id, editContent, handleDisabled, handleEditing)}
                   >
                     확인
                   </EditConfirmButton>
-                  <EditConfirmButton onClick={() => setEditing(null)}>취소</EditConfirmButton>
+                  <EditConfirmButton onClick={handleEditing}>취소</EditConfirmButton>
                 </EditContainer>
               ) : (
                 <QnAContent answer={answer} isEllipsis={false} />

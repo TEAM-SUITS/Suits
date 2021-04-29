@@ -107,13 +107,23 @@ export default function PostPage({ history, location, match }) {
     setIsAnswered(true);
   };
 
-  const postAnswer = async (content) => {
+  const postAnswer = async (content, handleDisabled, handleEmptyContent) => {
     try {
+      if (content.length < 10) {
+        dispatch(setError('답변은 10자 이상 입력하셔야 합니다.'));
+        return;
+      }
+
+      handleDisabled();
+
       await axios.post('/api/answers', {
         content: badwordFilter.filter(content, '**'),
         questionId: qid,
       });
       dispatch(fetchCurrentQuestion(qid));
+
+      handleDisabled();
+      handleEmptyContent();
       handleIsAnswered();
     } catch (err) {
       dispatch(setError('답변 등록 중 문제가 발생했습니다.'));
@@ -129,13 +139,22 @@ export default function PostPage({ history, location, match }) {
     }
   };
 
-  const patchAnswer = async (answerId, newContent) => {
+  const patchAnswer = async (answerId, newContent, handleDisabled, handleEditing) => {
     try {
-      
+      if (newContent.length < 10) {
+        dispatch(setError('답변은 10자 이상 입력하셔야 합니다.'));
+        return;
+      }
+
+      handleDisabled();
+
       await axios.patch(`/api/answers/${answerId}`, {
         content: badwordFilter.filter(newContent, '**'),
       });
       await dispatch(fetchCurrentQuestion(qid));
+
+      handleDisabled();
+      handleEditing();
     } catch (err) {
       dispatch(setError('답변 등록 중에 문제가 발생했습니다.'));
     }
