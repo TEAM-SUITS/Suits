@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import Portal from 'components/Portal/Portal';
 import Dialog from 'components/Dialog/Dialog';
 import styled, { css } from 'styled-components';

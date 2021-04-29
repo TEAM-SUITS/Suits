@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import Portal from 'components/Portal/Portal';
 import Dialog from 'components/Dialog/Dialog';
 import Card from 'components/Card/Card';
@@ -56,8 +56,7 @@ const StyledButton = styled.button.attrs((props) => ({
   type: 'button',
   disabled: props.disabled,
 }))`
-  background-color: ${({ disabled }) =>
-    disabled ? 'var(--color-gray3)' : 'var(--color-gray5)'};
+  background-color: ${({ disabled }) => (disabled ? 'var(--color-gray3)' : 'var(--color-gray5)')};
   color: var(--color-gray1);
   border: none;
   border-radius: 5px;
@@ -295,10 +294,7 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
         <React.Fragment key={answer._id}>
           {editing === answer._id ? (
             <EditContainer>
-              <EditArea
-                value={editContent}
-                onChange={(e) => handleEditContent(e)}
-              />
+              <EditArea value={editContent} onChange={(e) => handleEditContent(e)} />
               <EditConfirmButton
                 onClick={() => {
                   postContent(answer._id, editContent);
@@ -307,9 +303,7 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
               >
                 확인
               </EditConfirmButton>
-              <EditConfirmButton onClick={() => setEditing(null)}>
-                취소
-              </EditConfirmButton>
+              <EditConfirmButton onClick={() => setEditing(null)}>취소</EditConfirmButton>
             </EditContainer>
           ) : (
             <QnAContent answer={answer} isEllipsis={false} />
@@ -318,14 +312,8 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
             <>
               {!editing ? (
                 <ButtonContainer>
-                  <EditorOnlyButton
-                    onClick={() => handleEdit(answer._id, answer.content)}
-                  >
-                    수정
-                  </EditorOnlyButton>
-                  <EditorOnlyButton onClick={() => handleRemove(answer._id)}>
-                    삭제
-                  </EditorOnlyButton>
+                  <EditorOnlyButton onClick={() => handleEdit(answer._id, answer.content)}>수정</EditorOnlyButton>
+                  <EditorOnlyButton onClick={() => handleRemove(answer._id)}>삭제</EditorOnlyButton>
                 </ButtonContainer>
               ) : null}
             </>
@@ -337,13 +325,7 @@ const Answers = ({ answersList = [], userId = '', handleRefresh }) => {
   );
 };
 
-const InputArea = ({
-  isAnswered,
-  isInputLoading,
-  questionId,
-  handleIsAnswered,
-  handleRefresh,
-}) => {
+const InputArea = ({ isAnswered, isInputLoading, questionId, handleIsAnswered, handleRefresh }) => {
   const [content, setContent] = useState('');
   const [isDisabled, setIsDisabled] = useState(false); // Post 버튼 비활성화 여부
 
@@ -399,9 +381,7 @@ export default function QnADialog({
   onClick, // 닫기 버튼 제어
   handleRefresh,
 }) {
-  const { currentUserData: userData } = useSelector(
-    (state) => state.currentUser
-  );
+  const { currentUserData: userData } = useSelector((state) => state.currentUser);
 
   const [isAnswered, setIsAnswered] = useState(null);
   const [isInputLoading, setIsInputLoading] = useState(null);
@@ -417,18 +397,10 @@ export default function QnADialog({
       try {
         const res = await axios('/api/user-profile');
         const userData = res.data;
-        const check = userData[0].answeredQuestions.find(
-          ({ _id }) => _id === questionId
-        );
+        const check = userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
         check ? setIsAnswered(true) : setIsAnswered(false);
-        // const getIsAnswered = (questionId) => {
-        //   const check =
-        //     userData &&
-        //     userData[0].answeredQuestions.find(({ _id }) => _id === questionId);
       } catch (err) {
-        dispatch(
-          setError('질문에 대한 답변 기록을 불러오는 데 문제가 발생했습니다.')
-        );
+        dispatch(setError('질문에 대한 답변 기록을 불러오는 데 문제가 발생했습니다.'));
       } finally {
         setIsInputLoading(false);
       }
@@ -458,11 +430,7 @@ export default function QnADialog({
                   return <Hashtag key={idx} type={keyword} />;
                 })}
               </HashtagContainer>
-              <Answers
-                answersList={currentQuestion.answers}
-                userId={userData[0]._id}
-                handleRefresh={handleRefresh}
-              />
+              <Answers answersList={currentQuestion.answers} userId={userData[0]._id} handleRefresh={handleRefresh} />
               <InputArea
                 isAnswered={isAnswered}
                 isInputLoading={isInputLoading}
