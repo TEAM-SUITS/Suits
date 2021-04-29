@@ -99,7 +99,11 @@ export default function InputArea({ isAnswered, isInputLoading, questionId, hand
   return (
     <AnswerContainer>
       <StyledTextAreaContainer>
-        <StyledTextarea onChange={(e) => handleContent(e)} maxLength="200" />
+        <StyledTextarea
+          onChange={(e) => handleContent(e)}
+          maxLength="200"
+          placeholder="답변을 10자 이상 입력해주세요."
+        />
         <StyledContentLength>{content ? content.length : 0}/200</StyledContentLength>
       </StyledTextAreaContainer>
       <StyledButton disabled={isDisabled} onClick={() => postAnswer(content, handleDisabled, handleEmptyContent)}>

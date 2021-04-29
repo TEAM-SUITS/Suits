@@ -143,7 +143,12 @@ export default function Answers({ answersList = [], userId = '', removeAnswer, p
             <React.Fragment key={answer._id}>
               {editing === answer._id ? (
                 <EditContainer>
-                  <EditArea value={editContent} onChange={(e) => handleEditContent(e)} maxLength="200" />
+                  <EditArea
+                    value={editContent}
+                    onChange={(e) => handleEditContent(e)}
+                    maxLength="200"
+                    placeholder="답변을 10자 이상 입력해주세요."
+                  />
                   {editing && <EditContentLength>{editContent ? editContent.length : 0}/200</EditContentLength>}
                   <EditConfirmButton
                     disabled={isDisabled}
