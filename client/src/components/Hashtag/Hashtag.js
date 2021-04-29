@@ -85,7 +85,7 @@ export default function Hashtag({ type, isSelected, isButton, children, clicked 
       title={isButton ? type : ''}
       tabIndex={isButton ? 0 : -1}
       onClick={clicked}
-      onKeyUp={(e) => e.code === 'Space' && clicked()}
+      onKeyUp={(e) => e.code === 'Space' && clicked(e)}
     >
       {type !== 'ETC' ? type : children}
     </StyledHashtag>

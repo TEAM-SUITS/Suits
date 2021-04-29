@@ -96,14 +96,16 @@ const StyledMembers = styled.div`
     }
   }
 
-  h3 {
-    font-size: 1.8rem;
-  }
-  .members {
-    figure {
-      width: 150px;
-      img {
-        width: 70px;
+  @media screen and (min-width: 480px) {
+    h3 {
+      font-size: 1.8rem;
+    }
+    .members {
+      figure {
+        width: 150px;
+        img {
+          width: 70px;
+        }
       }
     }
   }
