@@ -6,22 +6,15 @@ import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
 import Hashtag from 'components/Hashtag/Hashtag';
 import Answers from 'containers/AnswerContainer/AnswerContainer';
 import InputArea from 'containers/AnswerInput/AnswerInput';
+import { Skeleton } from '@material-ui/lab';
 // etc.
-<<<<<<< HEAD
-import { pageEffect } from "styles/motions/variants";
-import styled, { css } from "styled-components";
-import API from "api/api";
-// TODO: API 말고 그냥 axios로 수정
-import { Skeleton } from "@material-ui/lab";
-=======
 import { pageEffect } from 'styles/motions/variants';
 import styled, { css } from 'styled-components';
-import { Skeleton } from '@material-ui/lab';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setError } from 'redux/storage/error/error';
-import { fetchCurrentQuestion } from "redux/storage/post/post";
->>>>>>> d6f880475bd27fab5fe3c762fde16c8366e6df4e
+import { fetchCurrentQuestion } from 'redux/storage/post/post';
+import badwordFilter from 'utils/badwordFilter/badwordFilter';
 
 /* ---------------------------- styled components --------------------------- */
 const HeadingContainer = styled.span`
@@ -100,7 +93,8 @@ const SkeletonProfile = styled.div`
 export default function PostPage({ history, location, match }) {
   // question 정보
   const { qid } = match.params;
-  const [data, setData] = useState({}); // question data
+  // const [data, setData] = useState({}); // question data
+  const { currentQuestion: questionData } = useSelector((state) => state.currentQuestion);
   // user 정보
   const { currentUserData: userData } = useSelector((state) => state.currentUser);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -108,29 +102,48 @@ export default function PostPage({ history, location, match }) {
 
   const dispatch = useDispatch();
 
-  // post page를 위한 question 정보 받아오기
-  const getData = async (id) => {
+  // handlers
+  const handleIsAnswered = () => {
+    setIsAnswered(true);
+  };
+
+  const postAnswer = async (content) => {
     try {
-      const res = await axios.get(`/api/questions/${id}`);
-      setData(res.data);
+      await axios.post('/api/answers', {
+        content: badwordFilter.filter(content, '**'),
+        questionId: qid,
+      });
+      dispatch(fetchCurrentQuestion(qid));
+      handleIsAnswered();
     } catch (err) {
-      dispatch(setError('질문을 불러들이는 중 문제가 발생했습니다.'));
+      dispatch(setError('답변 등록 중 문제가 발생했습니다.'));
     }
   };
 
   const removeAnswer = async (answerId) => {
     try {
-      const updatedQuestion = await axios.delete(`/api/answers/${answerId}`);
-      setData(updatedQuestion);
+      await axios.delete(`/api/answers/${answerId}`);
+      dispatch(fetchCurrentQuestion(qid));
     } catch (err) {
       dispatch(setError('답변 삭제 중 문제가 발생했습니다.'));
     }
   };
 
+  const patchAnswer = async (answerId, newContent) => {
+    try {
+      
+      await axios.patch(`/api/answers/${answerId}`, {
+        content: badwordFilter.filter(newContent, '**'),
+      });
+      await dispatch(fetchCurrentQuestion(qid));
+    } catch (err) {
+      dispatch(setError('답변 등록 중에 문제가 발생했습니다.'));
+    }
+  };
+
   // effect
   useEffect(() => {
-    dispatch(fetchCurrentQuestion(qid));
-    getData(qid);
+    if (!questionData) dispatch(fetchCurrentQuestion(qid));
     // answer 입력창 렌더링 여부 판별
     setIsAnswered(true);
     setIsInputLoading(true);
@@ -147,53 +160,44 @@ export default function PostPage({ history, location, match }) {
         setIsInputLoading(false);
       }
     };
-    if (data._id) {
-      getIsAnswered(data._id);
+
+    if (questionData) {
+      getIsAnswered(qid);
     }
 
     return () => {
       setIsAnswered(false);
       setIsInputLoading(false);
     };
-  }, [qid, data._id]);
-  // handlers
-  const handleIsAnswered = () => {
-    setIsAnswered(true);
-  };
-  // 새로고침
-  const handleRefresh = async () => {
-    await getData(qid);
-    // history.push(location.pathname);
-    history.push({ pathname: '/' });
-    history.replace({ pathname: location.pathname });
-  };
-  // data === {} 일 때 로딩 지연 처리 필요
+  }, [dispatch, questionData, qid]);
+
   return (
     <>
       <TextHeaderBar page="home" />
       <PageContainer page="post" variants={pageEffect} initial="hidden" animate="visible">
-        {Object.keys(data).length && userData ? (
+        {questionData && userData ? (
           <>
             <HeadingContainer>
               <HashtagContainer>
-                {data.hashTag.map((keyword, idx) => {
+                {questionData.hashTag.map((keyword, idx) => {
                   return <Hashtag key={idx} type={keyword} />;
                 })}
               </HashtagContainer>
-              <StyledHeader>{data.content}</StyledHeader>
+              <StyledHeader>{questionData.content}</StyledHeader>
             </HeadingContainer>
             <Answers
-              answersList={data.answers}
+              answersList={questionData.answers}
               userId={userData[0]._id}
-              handleRefresh={handleRefresh}
+              questionId={qid}
               removeAnswer={removeAnswer}
+              patchAnswer={patchAnswer}
             />
             <InputArea
               isAnswered={isAnswered}
               isInputLoading={isInputLoading}
-              questionId={data._id}
+              questionId={qid}
               handleIsAnswered={handleIsAnswered}
-              handleRefresh={handleRefresh}
+              postAnswer={postAnswer}
             />
           </>
         ) : (
