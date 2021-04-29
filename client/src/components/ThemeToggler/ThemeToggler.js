@@ -1,12 +1,11 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 import styled from 'styled-components';
 import { func } from 'prop-types';
 import Icon from 'components/Icon/Icon';
 import { boxShadow } from 'styles/common/common.styled';
 
-/* -------------------------------------------------------------------------- */
-
-const StyledThemeToggler = styled.button`
+const StyledThemeToggler = styled(motion.button)`
   position: fixed;
   display: flex;
   justify-content: center;
@@ -38,7 +37,7 @@ const StyledThemeToggler = styled.button`
 
 export default function ThemeToggler({ handleClick }) {
   return (
-    <StyledThemeToggler onClick={handleClick}>
+    <StyledThemeToggler drag="y" dragConstraints={{ top: 5, bottom: 5 }} onClick={handleClick}>
       <Icon type="night" />
     </StyledThemeToggler>
   );

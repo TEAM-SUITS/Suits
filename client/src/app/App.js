@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { GlobalStyle } from 'styles/pages/theme.styled';
 import {
@@ -32,10 +32,7 @@ function App() {
   const { currentUserData } = useSelector((state) => state.currentUser);
   // theme state (dark mode)
   const [theme, setTheme] = useState(() => {
-    return window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
 
   const displayError = (message) => {
@@ -66,13 +63,9 @@ function App() {
       <div className="App">
         <GlobalStyle />
         {location.pathname === '/login' ? null : (
-          <ThemeToggler
-            handleClick={() => themeToggler(theme, setTheme, displayError)}
-          />
+          <ThemeToggler handleClick={() => themeToggler(theme, setTheme, displayError)} />
         )}
-        {isOpen && error && (
-          <Alert status="error" message={error} onClick={handleErrorClose} />
-        )}
+        {isOpen && error && <Alert status="error" message={error} onClick={handleErrorClose} />}
         <Switch>
           <RouteGuard path="/" exact component={HomePage} />
           <RouteGuard path="/demo" exact component={DemoPage} />

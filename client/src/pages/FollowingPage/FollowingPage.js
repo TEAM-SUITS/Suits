@@ -1,28 +1,21 @@
-import { useEffect, useState, useRef } from "react";
-import styled, { css } from "styled-components";
-import {
-  resetList,
-  spoqaMedium,
-  spoqaLarge,
-} from "styles/common/common.styled";
-import { Link } from "react-router-dom";
-import PageContainer from "containers/PageContainer/PageContainer.styled";
-import { pageEffect } from "styles/motions/variants";
-import TextHeaderBar from "containers/TextHeaderBar/TextHeaderBar";
-import Hashtag from "components/Hashtag/Hashtag";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchFollowingData,
-  loadMoreFollowingData,
-} from "redux/storage/following/following";
-import Card from "components/Card/Card";
-import QnAContent from "components/Content/QnAContent";
-import QnADialog from "containers/QnADialog/QnADialog";
-import API from "api/api";
-import { Skeleton } from "@material-ui/lab";
-import { useCallback } from "react";
-import { ReactComponent as Spinner } from "components/Spinner/Spinner.svg";
-import _ from "lodash";
+import { useEffect, useState, useRef } from 'react';
+import styled, { css } from 'styled-components';
+import { resetList, spoqaMedium, spoqaLarge } from 'styles/common/common.styled';
+import { Link } from 'react-router-dom';
+import PageContainer from 'containers/PageContainer/PageContainer.styled';
+import { pageEffect } from 'styles/motions/variants';
+import TextHeaderBar from 'containers/TextHeaderBar/TextHeaderBar';
+import Hashtag from 'components/Hashtag/Hashtag';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFollowingData, loadMoreFollowingData } from 'redux/storage/following/following';
+import Card from 'components/Card/Card';
+import QnAContent from 'components/Content/QnAContent';
+import QnADialog from 'containers/QnADialog/QnADialog';
+import API from 'api/api';
+import { Skeleton } from '@material-ui/lab';
+import { useCallback } from 'react';
+import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
+import _ from 'lodash';
 
 /* ---------------------------- styled components --------------------------- */
 const HashtagList = styled.ul`
@@ -185,7 +178,8 @@ function CardSection({
               <SkeletonCard variant="rect" height="20em" />
               <SkeletonCard variant="rect" height="20em" />
             </>
-          ) : ( // 로딩이 끝났다면.
+          ) : (
+            // 로딩이 끝났다면.
             cardData.docs.map((data) => (
               <li key={data._id}>
                 <Card
@@ -239,24 +233,17 @@ export default function FollowingPage() {
   useEffect(() => {
     // App이 userState를 받아오기 전 바로 팔로잉페이지로 접근할 경우의
     // 에러를 방지하기 위해 분기 처리
-    if (userState.currentUserData)
-      setKeywords(userState.currentUserData[0].hashTag);
+    if (userState.currentUserData) setKeywords(userState.currentUserData[0].hashTag);
     setPrevTag(currentTag);
     dispatch(fetchFollowingData(keywords, currentTag, prevTag, followingState.isInitial));
   }, [dispatch, keywords, currentTag, userState.currentUserData]);
 
   // 무한스크롤 로직
   const onInfiniteScroll = useCallback(() => {
-    let scrollHeight = Math.max(
-      document.documentElement.scrollHeight,
-      document.body.scrollHeight
-    );
-    let scrollTop = Math.max(
-      document.documentElement.scrollTop,
-      document.body.scrollTop
-    );
+    let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
     let clientHeight = document.documentElement.clientHeight;
-    if (scrollTop + clientHeight === scrollHeight) {
+    if (scrollTop + clientHeight >= scrollHeight) {
       dispatch(loadMoreFollowingData(keywords, currentTag));
     }
   }, [dispatch, keywords, currentTag]);
@@ -265,9 +252,9 @@ export default function FollowingPage() {
   const throttledDetection = _.throttle(onInfiniteScroll, 500);
 
   useEffect(() => {
-    window.addEventListener("scroll", throttledDetection, true);
-    return () => window.removeEventListener("scroll", throttledDetection, true);
-  }, [onInfiniteScroll]);
+    window.addEventListener('scroll', throttledDetection, true);
+    return () => window.removeEventListener('scroll', throttledDetection, true);
+  }, [throttledDetection]);
 
   const onClick = (e) => {
     setCurrentTag(e.target.title);
@@ -288,11 +275,9 @@ export default function FollowingPage() {
             <SpinnerContainer>
               {followingState.isLoadingMore && <Spinner />}
 
-              {followingState &&
-                followingState.followingData &&
-                !followingState.followingData.hasNextPage && (
-                  <p>더 이상 불러올 정보가 없어요</p>
-                )}
+              {followingState && followingState.followingData && !followingState.followingData.hasNextPage && (
+                <p>더 이상 불러올 정보가 없어요</p>
+              )}
             </SpinnerContainer>
           </>
         ) : (
