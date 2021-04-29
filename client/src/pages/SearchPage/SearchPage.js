@@ -86,7 +86,6 @@ export default function SearchPage() {
   const [searchWord, setSearchWord] = useState(searchState.searchWord);
   const [prevSearchWord, setPrevSearchWord] = useState(searchWord);
   const [refresh, setRefresh] = useState(false);
-  console.log(refresh);
 
   useEffect(() => {
     dispatch(fetchSearchData(searchWord, prevSearchWord));
