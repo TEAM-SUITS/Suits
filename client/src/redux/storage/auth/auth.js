@@ -1,29 +1,29 @@
-import axios from "axios";
+import axios from 'axios';
 
-const FETCH_USER = "유저 정보 요청";
-const FETCH_USER_SUCCESS = "유저 정보 요청 성공";
-const FETCH_USER_FAILURE = "유저 정보 요청 실패";
+const FETCH_USER = '유저 정보 요청';
+const FETCH_USER_SUCCESS = '유저 정보 요청 성공';
+const FETCH_USER_FAILURE = '유저 정보 요청 실패';
 
-const SIGN_OUT = "로그아웃 요청";
-const SIGN_OUT_SUCCESS = "로그아웃 요청 성공";
-const SIGN_OUT_FAILURE = "로그아웃 요청 실패";
+const SIGN_OUT = '로그아웃 요청';
+const SIGN_OUT_SUCCESS = '로그아웃 요청 성공';
+const SIGN_OUT_FAILURE = '로그아웃 요청 실패';
 
 export const fetchUserAction = () => async (dispatch) => {
   dispatch({ type: FETCH_USER });
   try {
-    const res = await axios.get("/auth/user");
-    if (res.statusText === "OK") {
+    const res = await axios.get('/auth/user');
+    if (res.statusText === 'OK') {
       dispatch({ type: FETCH_USER_SUCCESS, authUser: res.data.user });
     } else {
       dispatch({
         type: FETCH_USER_FAILURE,
-        error: res.data.message || "인증 정보를 요청하는도중 에러 발생",
+        error: res.data.message || '인증 정보를 요청하는도중 에러 발생',
       });
     }
   } catch (err) {
     dispatch({
       type: FETCH_USER_FAILURE,
-      error: err.message || "인증 정보를 요청하는중 에러가 발생했습니다",
+      error: err.message || '인증 정보를 요청하는중 에러가 발생했습니다',
     });
   }
 };
@@ -31,18 +31,18 @@ export const fetchUserAction = () => async (dispatch) => {
 export const signOutAction = () => async (dispatch) => {
   dispatch({ type: SIGN_OUT });
   try {
-    const res = await axios.get("/auth/logout");
-    if (res.statusText === "OK") dispatch({ type: SIGN_OUT_SUCCESS });
+    const res = await axios.get('/auth/logout');
+    if (res.statusText === 'OK') dispatch({ type: SIGN_OUT_SUCCESS });
     else {
       dispatch({
         type: SIGN_OUT_FAILURE,
-        error: res.data.message || "로그아웃하는중 에러발생",
+        error: res.data.message || '로그아웃하는중 에러발생',
       });
     }
   } catch (err) {
     dispatch({
       type: SIGN_OUT_FAILURE,
-      error: "로그아웃하는중 알수 없는에러가 발생하였습니다",
+      error: '로그아웃하는중 알수 없는에러가 발생하였습니다',
     });
   }
 };
@@ -54,10 +54,7 @@ const initialState = {
   error: null,
 };
 
-export const authReducer = (
-  state = initialState,
-  { type, authUser, error }
-) => {
+export const authReducer = (state = initialState, { type, authUser, error }) => {
   switch (type) {
     case FETCH_USER:
     case SIGN_OUT:

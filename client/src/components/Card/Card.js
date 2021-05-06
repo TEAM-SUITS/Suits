@@ -26,7 +26,6 @@ const CardBox = styled.div`
   max-width: 688px;
   width: 100%;
   margin: ${({ centerAlign }) => centerAlign && '0 auto'};
-
   a {
     font-size: 1.6rem;
   }
@@ -38,11 +37,9 @@ const TagList = styled.ul`
   justify-content: center;
   max-width: 300px;
   margin: 1em auto;
-
   && li {
     margin: 0 5px;
   }
-
   @media screen and (max-width: 480px) {
     ${({ hasButton }) =>
       hasButton &&
@@ -50,7 +47,6 @@ const TagList = styled.ul`
         margin-top: 4em;
       `}
   }
-
   li {
     margin: 0 auto;
   }
@@ -111,9 +107,15 @@ export default function Card({
                 <Icon type="quote-right" />
               </>
             )}
-            <h2>{isPreview
-              ? <Link to={`/post/${qId}`} onClick={() => dispatch(fetchCurrentQuestion(qId))}>{title}</Link>
-              : <>{title}</>}</h2>
+            <h2>
+              {isPreview ? (
+                <Link to={`/post/${qId}`} onClick={() => dispatch(fetchCurrentQuestion(qId))}>
+                  {title}
+                </Link>
+              ) : (
+                <>{title}</>
+              )}
+            </h2>
           </CardBox.Header>
           {noDivider ? null : (
             <DividerContainer>

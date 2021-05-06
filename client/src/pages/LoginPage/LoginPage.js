@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
 import React, { useEffect, useState } from 'react';
 import PageContainer from 'containers/PageContainer/PageContainer.styled';
 import styled from 'styled-components';
