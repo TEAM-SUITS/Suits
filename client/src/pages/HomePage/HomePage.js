@@ -50,7 +50,6 @@ export default function HomePage() {
   const dispatch = useDispatch();
 
   const state = useSelector((state) => state.currentQuestion);
-  console.log(state);
 
   const { currentUserData } = useSelector((state) => state.currentUser);
 
