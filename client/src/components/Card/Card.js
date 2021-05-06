@@ -7,8 +7,6 @@ import Divider from 'components/Divider/Divider';
 import { DividerContainer } from 'containers/DividerContainer/DividerContainer.styled';
 import Hashtag from 'components/Hashtag/Hashtag';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { fetchCurrentQuestion } from 'redux/storage/post/post';
 
 /* ---------------------------- styled components ---------------------------- */
 
@@ -69,10 +67,8 @@ export default function Card({
   children,
   hasButton,
   centerAlign,
-  noDivider,
   ...restProps
 }) {
-  const dispatch = useDispatch();
   const handleKeyDown = (e) => {
     if (e.code === 'Space' || e.code === 'Enter') {
       onClick && onClick();
@@ -111,15 +107,11 @@ export default function Card({
                 <Icon type="quote-right" />
               </>
             )}
-            <h2>{isPreview
-              ? <Link to={`/post/${qId}`} onClick={() => dispatch(fetchCurrentQuestion(qId))}>{title}</Link>
-              : <>{title}</>}</h2>
+            <h2>{isQuestion && isPreview ? <Link to={`/post/${qId}`}>{title}</Link> : <>{title}</>}</h2>
           </CardBox.Header>
-          {noDivider ? null : (
-            <DividerContainer>
-              <Divider primary width="80%" height="2px" />
-            </DividerContainer>
-          )}
+          <DividerContainer>
+            <Divider primary width="80%" height="2px" />
+          </DividerContainer>
         </>
       )}
       <CardBox.Content>{children}</CardBox.Content>

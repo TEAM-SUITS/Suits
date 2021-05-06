@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
 import React, { useEffect, useState } from 'react';
 import PageContainer from 'containers/PageContainer/PageContainer.styled';
 import styled from 'styled-components';
@@ -48,10 +46,6 @@ export default function HomePage() {
   const { isMobile } = useDetectViewport();
 
   const dispatch = useDispatch();
-
-  const state = useSelector((state) => state.currentQuestion);
-  console.log(state);
-
   const { currentUserData } = useSelector((state) => state.currentUser);
 
   const { randomQData, isLoading: isRandomQLoading } = useSelector((state) => state.randomQ);

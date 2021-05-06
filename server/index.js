@@ -58,6 +58,6 @@ require('./routes/likeRoutes')(app);
 
 /* ----------------------------------- 서버 시작 ---------------------------------- */
 
-app.listen(process.env.PORT || 4000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log('Server Started');
 });
