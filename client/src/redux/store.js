@@ -1,13 +1,13 @@
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './storage';
 
 /* ------------------------------- middlewares ------------------------------ */
 
-const middlewares = [logger, thunk];
+const middlewares = [thunk];
 
 /* ---------------------------------- store --------------------------------- */
 
