@@ -97,7 +97,7 @@ export default function PostPage({ history, location, match }) {
   // const [data, setData] = useState({}); // question data
   const {
     currentQuestion: questionData,
-    isLoading
+    // isLoading
   } = useSelector((state) => state.currentQuestion);
   // user 정보
   const { currentUserData: userData } = useSelector((state) => state.currentUser);

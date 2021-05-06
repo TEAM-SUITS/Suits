@@ -180,7 +180,7 @@ export default function Suits() {
       </StyledMembers>
       <div className="contact">
         <Icon type="mail" />
-        <address>ahnsuhpark@suits.com</address>
+        <address>ahnanne93@gmail.com</address>
       </div>
     </StylesSuits>
   );
