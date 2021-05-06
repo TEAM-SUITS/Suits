@@ -7,6 +7,8 @@ import Divider from 'components/Divider/Divider';
 import { DividerContainer } from 'containers/DividerContainer/DividerContainer.styled';
 import Hashtag from 'components/Hashtag/Hashtag';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchCurrentQuestion } from 'redux/storage/post/post';
 
 /* ---------------------------- styled components ---------------------------- */
 
@@ -24,7 +26,6 @@ const CardBox = styled.div`
   max-width: 688px;
   width: 100%;
   margin: ${({ centerAlign }) => centerAlign && '0 auto'};
-
   a {
     font-size: 1.6rem;
   }
@@ -36,11 +37,9 @@ const TagList = styled.ul`
   justify-content: center;
   max-width: 300px;
   margin: 1em auto;
-
   && li {
     margin: 0 5px;
   }
-
   @media screen and (max-width: 480px) {
     ${({ hasButton }) =>
       hasButton &&
@@ -48,7 +47,6 @@ const TagList = styled.ul`
         margin-top: 4em;
       `}
   }
-
   li {
     margin: 0 auto;
   }
@@ -67,8 +65,10 @@ export default function Card({
   children,
   hasButton,
   centerAlign,
+  noDivider,
   ...restProps
 }) {
+  const dispatch = useDispatch();
   const handleKeyDown = (e) => {
     if (e.code === 'Space' || e.code === 'Enter') {
       onClick && onClick();
@@ -107,11 +107,21 @@ export default function Card({
                 <Icon type="quote-right" />
               </>
             )}
-            <h2>{isQuestion && isPreview ? <Link to={`/post/${qId}`}>{title}</Link> : <>{title}</>}</h2>
+            <h2>
+              {isPreview ? (
+                <Link to={`/post/${qId}`} onClick={() => dispatch(fetchCurrentQuestion(qId))}>
+                  {title}
+                </Link>
+              ) : (
+                <>{title}</>
+              )}
+            </h2>
           </CardBox.Header>
-          <DividerContainer>
-            <Divider primary width="80%" height="2px" />
-          </DividerContainer>
+          {noDivider ? null : (
+            <DividerContainer>
+              <Divider primary width="80%" height="2px" />
+            </DividerContainer>
+          )}
         </>
       )}
       <CardBox.Content>{children}</CardBox.Content>
