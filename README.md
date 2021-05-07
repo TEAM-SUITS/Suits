@@ -40,6 +40,3 @@ ___
 - 서버: **NodeJS (Express 프레임워크)**
 - DB: **MongoDB Atlas**
 - 배포: **Amazon EC2 (Nginx)**
-
-## 프로젝트 사용 방법
-> 프로젝트 완성 후 추가할 예정입니다.
