@@ -34,6 +34,8 @@ export default {
         'swap',
         'mail',
         'refresh',
+        'night',
+        'arrow',
       ],
       defaultValue: 'home',
     },
