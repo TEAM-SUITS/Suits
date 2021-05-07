@@ -20,6 +20,7 @@ import { ReactComponent as Logo } from './images/logo.svg';
 import { ReactComponent as Mail } from './images/mail.svg';
 import { ReactComponent as Refresh } from './images/refresh.svg';
 import { ReactComponent as Night } from './images/night.svg';
+import { ReactComponent as Arrow } from './images/arrow.svg';
 
 /* -------------------------------------------------------------------------- */
 
@@ -86,6 +87,9 @@ export default function Icon({ type, title = type, height = '25px', ...restProps
     case 'night':
       COMP = Night;
       break;
+    case 'arrow':
+      COMP = Arrow;
+      break;
     default:
       throw new Error('아이콘을 찾을수없습니다');
   }
@@ -115,6 +119,7 @@ Icon.propTypes = {
     'mail',
     'refresh',
     'night',
+    'arrow',
   ]).isRequired,
   title: string,
   height: string,
