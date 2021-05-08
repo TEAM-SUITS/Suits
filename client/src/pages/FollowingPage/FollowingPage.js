@@ -17,6 +17,10 @@ import { useCallback } from 'react';
 import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
 import _ from 'lodash';
 
+// scroll to top button
+import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
+import handleScroll from 'utils/handleScroll/handleScroll';
+
 /* ---------------------------- styled components --------------------------- */
 const HashtagList = styled.ul`
   ${resetList}
@@ -256,6 +260,7 @@ export default function FollowingPage() {
     <>
       <TextHeaderBar page="follow" />
       <PageContainer page="follow" variants={pageEffect} initial="hidden" animate="visible">
+        <ScrollToTop handleClick={handleScroll} />
         {userState.currentUserData ? (
           <>
             <CardSection

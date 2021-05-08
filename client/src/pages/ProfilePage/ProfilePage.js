@@ -9,6 +9,10 @@ import Profile from 'components/Profile/Profile';
 import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
 import QNACardSection from 'components/QNACardSection/QNACardSection';
 
+// scroll to top button
+import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
+import handleScroll from 'utils/handleScroll/handleScroll';
+
 /* ---------------------------- styled component ---------------------------- */
 
 const SpinnerContainer = styled.div`
@@ -90,6 +94,7 @@ export default function ProfilePage() {
     <>
       <TextHeaderBar page="profile" />
       <PageContainer page="profile" variants={pageEffect} initial="hidden" animate="visible">
+        <ScrollToTop handleClick={handleScroll} />
         <ProfileContainer>
           <Profile user={user} $isLoading={isLoading} className="profile" />
         </ProfileContainer>
