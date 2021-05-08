@@ -15,6 +15,10 @@ import { spoqaMedium } from 'styles/common/common.styled';
 import { array, string } from 'prop-types';
 import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
 
+// scroll to top button
+import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
+import handleScroll from 'utils/handleScroll/handleScroll';
+
 /* ---------------------------- styled components --------------------------- */
 const InfoImg = styled.img`
   display: block;
@@ -112,6 +116,7 @@ export default function SearchPage() {
   return (
     <>
       <TextHeaderBar page="search" />
+      <ScrollToTop handleClick={handleScroll} />
       <PageContainer page="search" variants={pageEffect} initial="hidden" animate="visible">
         <SearchHeaderBar onKeyUp={handleSearchWord} onClick={handleCancelButton} initialWord={searchWord} />
         <TextHeaderBar page="search" />
