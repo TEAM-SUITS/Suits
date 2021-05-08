@@ -8,7 +8,6 @@ const PositionContainer = styled.div`
   width: 100%;
   top: 80px;
   z-index: 1000;
-  /* opacity: ${(props) => props.isVisible ? 1 : 0}; */
 `;
 
 const TopButton = styled.button.attrs(() => ({
@@ -41,7 +40,7 @@ const TopButton = styled.button.attrs(() => ({
 export default function ScrollToTop({ handleClick }) {
   return (
     <PositionContainer>
-      <TopButton handleClick={handleClick}>
+      <TopButton onClick={handleClick}>
         <Icon type="arrow" height="40px" />
       </TopButton>
     </PositionContainer>
