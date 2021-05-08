@@ -6,13 +6,19 @@ import { func } from 'prop-types';
 const PositionContainer = styled.div`
   position: fixed;
   width: 100%;
-  top: 80px;
+  top: 90px;
   z-index: 1000;
+
+  // 데스크탑
+  @media screen and (min-width: 480px) {
+    right: 5%;
+  }
 `;
 
 const TopButton = styled.button.attrs(() => ({
   type: 'button',
-  title: '맨 위로 가기'
+  title: '맨 위로 가기',
+  'aria-label': '맨 위로 가기'
 }))`
   position: absolute;
   top: 0;
@@ -23,14 +29,15 @@ const TopButton = styled.button.attrs(() => ({
   // 아이콘 스타일링
   svg {
     opacity: .7;
+    filter: drop-shadow(2px 2px 10px var(--color-gray2));
 
     rect {
-      fill: var(--color-text);
+      fill: var(--color-body);
     }
 
     line {
       fill: none;
-      stroke: var(--color-gray1);
+      stroke: var(--color-text);
       opacity: 1;
     }
   }
