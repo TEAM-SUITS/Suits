@@ -2,25 +2,49 @@ import styled from 'styled-components';
 import Icon from 'components/Icon/Icon';
 import { func } from 'prop-types';
 
-const TopButton = styled.button`
+/* ---------------------------- styled components --------------------------- */
+const PositionContainer = styled.div`
   position: fixed;
+  width: 100%;
   top: 80px;
-  right: 5%;
+  z-index: 1000;
+  /* opacity: ${(props) => props.isVisible ? 1 : 0}; */
+`;
+
+const TopButton = styled.button.attrs(() => ({
+  type: 'button',
+  title: '맨 위로 가기'
+}))`
+  position: absolute;
+  top: 0;
+  right: 0;
   border: none;
   background-color: transparent;
-  z-index: 1000;
 
-  path {
-    fill: var(--color-text);
-    opacity: 30%;
+  // 아이콘 스타일링
+  svg {
+    opacity: .7;
+
+    rect {
+      fill: var(--color-text);
+    }
+
+    line {
+      fill: none;
+      stroke: var(--color-gray1);
+      opacity: 1;
+    }
   }
 `;
 
+/* ------------------------------ scroll to top ----------------------------- */
 export default function ScrollToTop({ handleClick }) {
   return (
-    <TopButton>
-      <Icon type="arrow" height="40px" />
-    </TopButton>
+    <PositionContainer>
+      <TopButton handleClick={handleClick}>
+        <Icon type="arrow" height="40px" />
+      </TopButton>
+    </PositionContainer>
   );
 }
 

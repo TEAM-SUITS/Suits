@@ -16,6 +16,7 @@ import { Skeleton } from '@material-ui/lab';
 import { useCallback } from 'react';
 import { ReactComponent as Spinner } from 'components/Spinner/Spinner.svg';
 import _ from 'lodash';
+import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
 
 /* ---------------------------- styled components --------------------------- */
 const HashtagList = styled.ul`
@@ -256,6 +257,7 @@ export default function FollowingPage() {
     <>
       <TextHeaderBar page="follow" />
       <PageContainer page="follow" variants={pageEffect} initial="hidden" animate="visible">
+        <ScrollToTop />
         {userState.currentUserData ? (
           <>
             <CardSection
