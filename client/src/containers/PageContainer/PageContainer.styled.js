@@ -132,7 +132,7 @@ const PageContainer = styled(motion(Container))`
   ${({ page }) =>
     page === 'post' &&
     css`
-      margin: 45px 0;
+      margin: 240px 0; // navbar + title header
       justify-content: flex-start;
 
       // mobile

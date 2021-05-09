@@ -5,9 +5,10 @@ export default function useScrollDetect() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const detectScroll = () => {
-    const scrollY = window.pageYOffset;
-    console.log(scrollY);
-    if (scrollY > 0) {
+    let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+
+    console.log(scrollTop);
+    if (scrollTop > 45) {
       setIsScrolled(true);
     } else {
       setIsScrolled(false);

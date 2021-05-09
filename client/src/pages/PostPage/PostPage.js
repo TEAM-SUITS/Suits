@@ -25,20 +25,20 @@ const HeadingContainer = styled.div`
   background-color: var(--color-body);
   width: 100vw;
   margin-bottom: 3em;
-  position: sticky;
-  top: 4.5em;
   display: flex;
+  position: fixed;
+  top: 4.5em;
   align-items: center;
   justify-content: center;
-  min-height: 15em;
-  transition: min-height 0.2s ease-out;
+  height: 15em;
+  transition: height 0.2s ease-out;
 
   // 스크롤된 상태일때 높이 변화
   ${({ isScrolled }) =>
     isScrolled &&
     css`
       flex-flow: column;
-      min-height: 5em;
+      height: 5em;
 
       div {
         display: flex;
