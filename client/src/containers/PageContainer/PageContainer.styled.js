@@ -136,12 +136,6 @@ const PageContainer = styled(motion(Container))`
       justify-content: flex-start;
 
       // mobile
-      @media screen and (max-width: 480px) {
-        > div {
-          max-width: 350px;
-          min-width: 350px;
-        }
-      }
     `}
 `;
 export default PageContainer;

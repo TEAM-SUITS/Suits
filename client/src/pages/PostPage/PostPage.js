@@ -16,16 +16,49 @@ import { setError } from 'redux/storage/error/error';
 import { fetchCurrentQuestion } from 'redux/storage/post/post';
 import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 import badwordFilter from 'utils/badwordFilter/badwordFilter';
+import useScrollDetect from 'hooks/useScrollDetect';
+import getHashTagColor from 'utils/getHashTagColor/getHashTagColor';
 
 /* ---------------------------- styled components --------------------------- */
-const HeadingContainer = styled.span`
+const HeadingContainer = styled.div`
+  z-index: 100;
   background-color: var(--color-body);
   width: 100vw;
   margin-bottom: 3em;
+  position: sticky;
+  top: 4.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 15em;
+  transition: min-height 0.2s ease-out;
+
+  // 스크롤된 상태일때 높이 변화
+  ${({ isScrolled }) =>
+    isScrolled &&
+    css`
+      flex-flow: column;
+      min-height: 5em;
+
+      div {
+        display: flex;
+        align-items: center;
+      }
+    `}
+
+  // 스크롤된 상태 + 화면이 640 보다 작을때 태그가 보이지 않기 때문에 배경화면으로 대체
+  ${({ isScrolled, bgColor }) =>
+    isScrolled &&
+    bgColor &&
+    css`
+      @media screen and (max-width: 640px) {
+        background-color: var(${bgColor});
+      }
+    `};
 
   // 모바일
   @media screen and (max-width: 480px) {
-    min-width: 100vw;
+    min-width: 100%;
   }
 `;
 
@@ -36,6 +69,12 @@ const StyledHeader = styled.h2`
   text-align: center;
   margin: 0 auto;
   padding-bottom: 1.4em;
+  ${({ isScrolled }) =>
+    isScrolled &&
+    css`
+      padding: 0.5em;
+      font-size: 1.4rem;
+    `}
 `;
 
 const HashtagContainer = styled.div`
@@ -43,8 +82,16 @@ const HashtagContainer = styled.div`
   display: flex;
   margin: 2em auto;
   justify-content: space-evenly;
-  > div {
-  }
+
+  ${({ isScrolled }) =>
+    isScrolled &&
+    css`
+      && {
+        @media screen and (max-width: 640px) {
+          display: none;
+        }
+      }
+    `}
 `;
 
 // 💀 skeleton ui
@@ -103,9 +150,8 @@ export default function PostPage({ history, location, match }) {
   const { currentUserData: userData } = useSelector((state) => state.currentUser);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isInputLoading, setIsInputLoading] = useState(false);
-
+  const isScrolled = useScrollDetect();
   const dispatch = useDispatch();
-
   // handlers
   const handleIsAnswered = () => {
     setIsAnswered(true);
@@ -200,21 +246,23 @@ export default function PostPage({ history, location, match }) {
       setIsInputLoading(false);
     };
   }, [dispatch, questionData, qid]);
-
   return (
     <>
       <TextHeaderBar page="home" />
       <PageContainer page="post" variants={pageEffect} initial="hidden" animate="visible">
         {questionData && userData ? (
           <>
-            <HeadingContainer>
-              <HashtagContainer>
-                {questionData.hashTag.map((keyword, idx) => {
-                  return <Hashtag key={idx} type={keyword} />;
-                })}
-              </HashtagContainer>
-              <StyledHeader>{questionData.content}</StyledHeader>
+            <HeadingContainer isScrolled={isScrolled} bgColor={getHashTagColor(questionData?.hashTag[0])}>
+              <div>
+                <HashtagContainer isScrolled={isScrolled}>
+                  {questionData.hashTag.map((keyword, idx) => {
+                    return <Hashtag key={idx} type={keyword} />;
+                  })}
+                </HashtagContainer>
+                <StyledHeader isScrolled={isScrolled}>{questionData.content}</StyledHeader>
+              </div>
             </HeadingContainer>
+
             <Answers
               answersList={questionData.answers}
               userId={userData[0]._id}
@@ -233,15 +281,16 @@ export default function PostPage({ history, location, match }) {
         ) : (
           <>
             <HeadingContainer>
-              <HashtagContainer>
-                <SkeletonHashTag variant="text" animation="wave" />
-                <SkeletonHashTag variant="text" animation="wave" />
-              </HashtagContainer>
-
-              <StyledHeader>
-                <SkeletonCard variant="rect" height="2rem" width="100%" animation="wave" />
-                <SkeletonCard variant="rect" height="2rem" width="100%" animation="wave" />
-              </StyledHeader>
+              <div>
+                <HashtagContainer>
+                  <SkeletonHashTag variant="text" animation="wave" />
+                  <SkeletonHashTag variant="text" animation="wave" />
+                </HashtagContainer>
+                <StyledHeader>
+                  <SkeletonCard variant="rect" height="2rem" width="100%" animation="wave" />
+                  <SkeletonCard variant="rect" height="2rem" width="100%" animation="wave" />
+                </StyledHeader>
+              </div>
             </HeadingContainer>
             <SkeletonAnswer>
               <SkeletonProfile>
