@@ -55,7 +55,7 @@ export default function LoginPage() {
     } else if (error) {
       setDisabled(false);
     }
-  }, [history, isAuthed, error]);
+  }, [history, isAuthed, error, state]);
 
   const handleGithubLogin = () => {
     setDisabled(true);

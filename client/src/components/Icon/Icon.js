@@ -94,11 +94,7 @@ export default function Icon({ type, title = type, height = '25px', ...restProps
       throw new Error('아이콘을 찾을수없습니다');
   }
 
-  return <COMP
-    title={type === 'arrow' ? '맨 위로 가기' : title}
-    height={height}
-    {...restProps}
-  />;
+  return <COMP title={type === title} height={height} {...restProps} />;
 }
 
 Icon.propTypes = {

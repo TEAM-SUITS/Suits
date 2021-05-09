@@ -61,7 +61,7 @@ export default function HomePage() {
       dispatch(fetchRandomQData('refresh', currentQId));
       setNeedRefresh(false);
     }
-  }, [dispatch, needRefresh]);
+  }, [dispatch, currentQId, needRefresh]);
 
   useEffect(() => {
     dispatch(fetchRandomQData('init'));
@@ -70,7 +70,7 @@ export default function HomePage() {
     dispatch(fetchHardWorkersData('init'));
 
     if (randomQData) setCurrentQId(randomQData[0]._id);
-  }, [dispatch]);
+  }, [dispatch, randomQData]);
 
   // 처음 앱에 가입한 유저인 경우 키워드 설정하는 모달이 나오도록 설정
   useEffect(() => {

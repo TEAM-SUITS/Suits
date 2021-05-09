@@ -18,10 +18,13 @@ import { fetchCurrentUserData } from 'redux/storage/currentUser/currentUser';
 import badwordFilter from 'utils/badwordFilter/badwordFilter';
 import useScrollDetect from 'hooks/useScrollDetect';
 import getHashTagColor from 'utils/getHashTagColor/getHashTagColor';
+import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
+import handleScroll from 'utils/handleScroll/handleScroll';
+import Button from 'components/Button/Button';
 
 /* ---------------------------- styled components --------------------------- */
 const HeadingContainer = styled.div`
-  z-index: 100;
+  z-index: 20;
   background-color: var(--color-body);
   width: 100vw;
   margin-bottom: 3em;
@@ -64,8 +67,7 @@ const HeadingContainer = styled.div`
 
 const StyledHeader = styled.h2`
   font-size: 2rem;
-  max-width: 50%;
-  min-width: 350px;
+  max-width: 350px;
   text-align: center;
   margin: 0 auto;
   padding-bottom: 1.4em;
@@ -94,16 +96,23 @@ const HashtagContainer = styled.div`
     `}
 `;
 
+const GoBackButton = styled(Button)`
+  position: absolute;
+  left: 2.5em;
+
+  @media screen and (max-width: 480px) {
+    left: 0;
+    bottom: -30px;
+  }
+
+  svg {
+    transform: rotate(270deg);
+  }
+`;
 // 💀 skeleton ui
 const SkeletonStyle = css`
-  /* min-width: 305px;
-  max-width: 688px; */
-  width: ${(props) => props.width};
-  margin: 1.6rem;
+  margin: 1.6rem 0;
   background-color: #e6e6e6;
-  @media screen and (max-width: 480px) {
-    margin: 1.6rem auto;
-  }
 `;
 
 const SkeletonCard = styled(Skeleton)`
@@ -119,10 +128,10 @@ const SkeletonCard = styled(Skeleton)`
 
 const SkeletonHashTag = styled(Skeleton)`
   & {
-    ${SkeletonStyle}
-    padding: 0.3em 1em;
+    margin: 0 2em;
+    padding: 1.2em 0;
     border-radius: 10px;
-    width: 7.2em;
+    width: 244px;
   }
 `;
 
@@ -138,7 +147,7 @@ const SkeletonProfile = styled.div`
 `;
 
 /* -------------------------------- post page ------------------------------- */
-export default function PostPage({ history, location, match }) {
+export default function PostPage({ history, match }) {
   // question 정보
   const { qid } = match.params;
   // const [data, setData] = useState({}); // question data
@@ -248,11 +257,19 @@ export default function PostPage({ history, location, match }) {
   }, [dispatch, questionData, qid]);
   return (
     <>
-      <TextHeaderBar page="home" />
+      <TextHeaderBar />
+      <ScrollToTop handleClick={handleScroll} />
       <PageContainer page="post" variants={pageEffect} initial="hidden" animate="visible">
         {questionData && userData ? (
           <>
             <HeadingContainer isScrolled={isScrolled} bgColor={getHashTagColor(questionData?.hashTag[0])}>
+              <GoBackButton
+                onClick={() => history.goBack()}
+                icon="arrow"
+                title="뒤로 가기"
+                aria-label="뒤로 가기"
+                isScrolled={isScrolled}
+              />
               <div>
                 <HashtagContainer isScrolled={isScrolled}>
                   {questionData.hashTag.map((keyword, idx) => {
@@ -287,8 +304,8 @@ export default function PostPage({ history, location, match }) {
                   <SkeletonHashTag variant="text" animation="wave" />
                 </HashtagContainer>
                 <StyledHeader>
-                  <SkeletonCard variant="rect" height="2rem" width="100%" animation="wave" />
-                  <SkeletonCard variant="rect" height="2rem" width="100%" animation="wave" />
+                  <SkeletonCard variant="rect" height="2rem" width={350} animation="wave" />
+                  <SkeletonCard variant="rect" height="2rem" width={350} animation="wave" />
                 </StyledHeader>
               </div>
             </HeadingContainer>

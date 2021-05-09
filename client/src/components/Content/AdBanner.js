@@ -43,6 +43,7 @@ const StyledSlider = styled(Slider)`
     }
   }
   .slick-dots {
+    bottom: -35px;
     button:before {
       color: var(--color-text);
     }
@@ -55,12 +56,12 @@ const adList = [
   {
     name: '데브폴리오',
     src: '/assets/ad-devfolio.png',
-    url: 'https://github.com/Devfolio-team/Devfolio-Client',
+    url: 'http://devfolio.world/',
   },
   {
     name: '산타',
     src: '/assets/ad-santa.png',
-    url: 'https://github.com/Santa-Application/App',
+    url: 'http://www.santa-application.com/',
   },
   {
     name: '우연히, 식단',
@@ -70,7 +71,7 @@ const adList = [
   {
     name: '살롱',
     src: '/assets/ad-salon.png',
-    url: 'https://github.com/riding-bom/salon',
+    url: 'https://salon-riding-bom.web.app/',
   },
 ];
 

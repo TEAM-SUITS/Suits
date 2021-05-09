@@ -31,7 +31,7 @@ const PageContainer = styled(motion(Container))`
       > div {
         margin-bottom: 3em;
         &:first-of-type {
-          @media screen and (max-width: 375px) {
+          @media screen and (max-width: 480px) {
             margin-bottom: 1em;
           }
         }

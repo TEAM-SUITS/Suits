@@ -32,7 +32,7 @@ const StyledTextAreaContainer = styled.div`
 
   // 모바일
   @media screen and (max-width: 480px) {
-    width: 80%;
+    width: 100%;
   }
 `;
 
@@ -71,6 +71,11 @@ const StyledButton = styled.button.attrs((props) => ({
   cursor: ${({ disabled }) => (disabled ? 'wait' : 'pointer')};
   color: var(--color-gray1);
   font-size: 1.6rem;
+  padding: 0.5em;
+
+  @media screen and (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 /* ------------------------------- input area ------------------------------- */
