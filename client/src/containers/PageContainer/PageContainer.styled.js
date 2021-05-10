@@ -31,7 +31,7 @@ const PageContainer = styled(motion(Container))`
       > div {
         margin-bottom: 3em;
         &:first-of-type {
-          @media screen and (max-width: 375px) {
+          @media screen and (max-width: 480px) {
             margin-bottom: 1em;
           }
         }
@@ -132,16 +132,10 @@ const PageContainer = styled(motion(Container))`
   ${({ page }) =>
     page === 'post' &&
     css`
-      margin: 45px 0;
+      margin: 240px 0; // navbar + title header
       justify-content: flex-start;
 
       // mobile
-      @media screen and (max-width: 480px) {
-        > div {
-          max-width: 350px;
-          min-width: 350px;
-        }
-      }
     `}
 `;
 export default PageContainer;
