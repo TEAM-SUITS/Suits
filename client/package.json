@@ -38,6 +38,8 @@
     "build-storybook": "build-storybook -s public",
     "deploy-storybook": "storybook-to-aws-s3 --bucket-path=suits-storybook"
   },
+  "author": "Suits",
+  "license": "MIT",
   "eslintConfig": {
     "extends": [
       "react-app",
